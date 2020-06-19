@@ -27,8 +27,6 @@
     ],
     "contribute": [
       "contribute/latest:latest"
-    ],
-    "team": [
     ]
   },
   "shared_assets": "template/assets",
