@@ -1,7 +1,14 @@
 ## Dockware
 
+[![MIT licensed](https://img.shields.io/github/license/dockware/dockware.svg?style=flat-square)](https://github.com/dockware/dockware/blob/master/LICENSE)
+
+
+![Shopware 6 Preview](./header.jpg)
+
+
 Hi guys,
 thanks for visiting the dockware project (www.dockware.io)
+
 
 
 ## What is dockware?
@@ -11,6 +18,19 @@ Run and explore any Shopware 6 version within minutes locally in Docker.
 No more hassle and blazing fast!
 With dockware it's easy to explore Shopware and start developing in a smooth and seamless environment!
 
+
+## Quick reference
+Where to get help: https://www.dockware.io
+
+Where to file issues: https://www.dockware.io
+
+Documentation: https://dockware.io/docs/
+
+Maintained by: dasistweb GmbH (https://www.dasistweb.de)
+
+More about Shopware: https://www.shopware.com
+
+Shopware Platform on Github: https://github.com/shopware/platform
 
 
 ## How to contribute?
@@ -24,6 +44,14 @@ your modifications.
 
 If you want to create features for all images and tags, then use the global template.
 Otherwise please add your changes in either the corresponding image or even on a "tag" level.
+
+
+## When will it be built and available?
+At the moment rollouts of official existing as well as new images is done on our side.
+
+Such an open source docker project is indeed new (for us), so we have to figure out a good
+way for releases and probably changelogs.
+Drop us a line if you have an idea ;)
 
 
 
