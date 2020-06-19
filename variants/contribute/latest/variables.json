@@ -1,0 +1,12 @@
+{
+  "shopware": {
+    "dev": {
+      "branch": "master"
+    },
+    "platform": {
+      "branch": "master"
+    }
+  }
+}
+
+

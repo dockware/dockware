@@ -1,0 +1,7 @@
+
+RUN mkdir -p {{ directory }} \
+    && rm -rf {{ directory }}/id_rsa; true  \
+    && rm -rf {{ directory }}/id_rsa.pub; true  \
+    && ssh-keygen -t rsa -b 4096 -f {{ directory }}/id_rsa -C "{{ comment }}" -P ""  \
+    && chown -R {{ user }}:{{ group }} {{ directory }} \
+    && chmod 0700 {{ directory }}

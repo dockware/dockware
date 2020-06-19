@@ -1,0 +1,18 @@
+## ***********************************************************************
+## creates a new user as www-data alias and adds it to the sudo group
+## along with privileges to run sudo without password
+## params:
+#       - string user
+#       - string pwd
+#       - bool sudo
+## ***********************************************************************
+RUN adduser --disabled-password --uid 5577 --gecos "" {{ user }} \
+    && usermod -a -G www-data {{ user }} \
+    && usermod -a -G sudo {{ user }} \
+    && usermod -m -d /var/www {{ user }} \
+    && echo "{{ user }}:{{ pwd }}" | chpasswd \
+    && sed -i 's/{{ user }}:x:5577:5577:/{{ user }}:x:33:33:/g' /etc/passwd {% if sudo == true %} \
+    # allow sudo without pwd and dont require tty (for entrypoint commands)
+    && echo "{{ user }} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+    && echo "Defaults:{{ user }} !requiretty" >> /etc/sudoers
+    {% endif %}

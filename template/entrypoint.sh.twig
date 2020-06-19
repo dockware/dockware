@@ -1,0 +1,120 @@
+#!/bin/bash
+echo ""
+echo " _____   ____   _____ _  ____          __     _____  ______ "
+echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
+echo "| |  | | |  | | |    | ' /  \ \  /\  / /  \  | |__) | |__   "
+echo "| |  | | |  | | |    |  <    \ \/  \/ / /\ \ |  _  /|  __|  "
+echo "| |__| | |__| | |____| . \    \  /\  / ____ \| | \ \| |____ "
+echo "|_____/ \____/ \_____|_|\_\    \/  \/_/    \_\_|  \_\______|"
+echo ""
+echo "68 69 20 64 65 76 65 6C 6F 70 65 72 2C 20 6E 69 63 65 20 74 6F 20 6D 65 65 74 20 79 6F 75"
+echo "6c 6f 6f 6b 69 6e 67 20 66 6f 72 20 61 20 6a 6f 62 3f 20 77 72 69 74 65 20 75 73 20 61 74 20 6a 6f 62 73 40 64 61 73 69 73 74 77 65 62 2e 64 65"
+echo ""
+echo "*******************************************************"
+echo "** DOCKWARE IMAGE: {{ orca.image }}"
+echo "** Tag: {{ orca.tag }}"
+echo "** Built: $(cat /build-date.txt)"
+echo "** Copyright 2020 dasistweb GmbH"
+echo "*******************************************************"
+echo ""
+echo "launching dockware...please wait..."
+echo ""
+
+
+set -e
+
+source /etc/apache2/envvars
+
+# set the default time zone of the server
+sudo ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+
+
+{% block php_version %}
+echo ">> switching to PHP ${PHP_VERSION}..."
+echo ""
+sudo a2enmod php{$PHP_VERSION} > /dev/null 2>&1 &
+sudo update-alternatives --set php /usr/bin/php$PHP_VERSION > /dev/null 2>&1 &
+{% endblock %}
+
+
+{% block components %}
+
+{% block components_xdebug %}
+if [ $XDEBUG_ENABLED = 1 ]; then
+   echo "Starting with Xdebug..."
+   sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-xdebug.ini
+   sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
+ else
+   # disable xdebug
+   echo "Starting without Xdebug..."
+   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-xdebug.ini
+fi
+{% endblock %}
+
+{% block components_ssh %}
+# start the SSH service with the latest setup
+sudo service ssh restart
+{% endblock %}
+
+{% block components_mysql %}
+# somehow its necessary to set permissions, because
+# sometimes they get lost :)
+sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+sudo service mysql start;
+{% endblock %}
+
+{% block components_mailcatcher %}
+sudo /usr/bin/env $(which mailcatcher) --ip=0.0.0.0
+{% endblock %}
+
+{% block components_cron %}
+# start our cron service to enable
+# cronjobs in our image
+echo "Starting cron service..."
+sudo service cron start
+{% endblock %}
+
+{% endblock %}
+
+
+{% block setup_shopware %}
+
+if [ $SW_CURRENCY != "not-set" ]; then
+  echo "Switching Shopware default currency..."
+  php /var/www/files/shopware/set_currency.php $SW_CURRENCY
+fi
+
+{% endblock %}
+
+
+
+
+# sometimes the internal docker structure leaves
+# some pid files existing. the container will be recreated....but
+# in reality it's not! thus there might be the problem
+# that an older pid file exists, which leads to the following error:
+#   - "httpd (pid 13) already running"
+# to avoid this, we simple remove an existing file
+sudo rm -f /var/run/apache2/apache2.pid
+
+# start apache
+sudo service apache2 start
+
+
+{% block instructions %}
+echo ""
+echo "WOHOOO, SHOPWARE IS READY :) - let's get started"
+echo "-----------------------------------------------------"
+echo "PHP: $(php -v | grep cli)"
+echo "SHOP URL: {{ shopware.url }}"
+echo "ADMIN URL: {{ shopware.url }}/admin"
+echo "ADMINER URL: {{ shopware.url }}/adminer.php"
+echo "MAILCATCHER URL: {{ shopware.url }}/mailcatcher"
+echo "PIMPMYLOG URL: {{ shopware.url }}/logs"
+echo ""
+echo "What's new in this version? see the changelog for further details"
+echo "https://www.shopware.com/de/changelog/"
+echo ""
+{% endblock %}
+
+tail -f /dev/null

@@ -1,0 +1,349 @@
+# Official Dockware Image
+# Tag: {{ orca.tag }}
+# Copyright 2020 dasistweb GmbH
+#
+FROM ubuntu:18.04
+LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
+      version="1.0" \
+      maintainer="dasistweb GmbH"
+
+# remember build-date
+RUN date >/build-date.txt
+
+
+{% block image_variables %}
+## ***********************************************************************
+##  IMAGE VARIABLES
+## ***********************************************************************
+ENV PHP_VERSION 7.4
+RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
+
+ENV SW_CURRENCY 'not-set'
+RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
+
+ENV XDEBUG_ENABLED 0
+RUN echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile
+
+ENV XDEBUG_REMOTE_HOST "host.docker.internal"
+RUN echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile
+
+ENV XDEBUG_CONFIG "idekey=PHPSTORM"
+RUN echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile
+
+ENV PHP_IDE_CONFIG "serverName=localhost"
+RUN echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile
+
+{% endblock %}
+
+
+## ***********************************************************************
+##  BASE REQUIREMENTS
+## ***********************************************************************
+RUN apt-get update \
+    && apt-get install -y gosu \
+    && apt-get install -y sudo \
+    && apt-get install -y wget \
+    && apt-get install -y curl \
+    && apt-get install -y mysql-client \
+    && apt-get install -y unzip \
+    && apt-get install -y bzip2 \
+    && apt-get install -y ssmtp \
+    && apt-get install -y lsof \
+    && apt-get install -y openssh-server \
+    && mkdir /var/run/sshd \
+    # TIMEZONE SETTINGS
+    # otherwise we would have an interactive input dialog
+    && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+    && apt-get install -y tzdata \
+    && dpkg-reconfigure --frontend noninteractive tzdata  \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+
+{% block users %}
+## ***********************************************************************
+##  USER MANAGEMENT
+## ***********************************************************************
+{% block users_setup %}
+# set easy root pwd for dev purpose
+RUN echo "root:root" | chpasswd \
+    # set password for www-data, and also
+    # avoid shell login (we have a separate user for that)
+    && echo 'www-data:www-data' | chpasswd \
+    && usermod -s /usr/sbin/nologin www-data \
+    # this option makes sure to avoid root SSH login
+    # we just replace our lines with nothing
+    && sed -i 's/PermitRootLogin without-password//' /etc/ssh/sshd_config \
+    && sed -i 's/PermitRootLogin prohibit-password//' /etc/ssh/sshd_config \
+    # allow root and sudo group to run sudo without password
+    && sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' \
+    && sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' \
+    # remove include directory
+    && sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g'
+{% endblock %}
+
+{% block users_ssh_add %}
+{% include 'template/components/ssh/add_user.sh.twig' with {'user': ssh.user.name, 'pwd' : ssh.user.pwd, 'sudo' : true } %}
+{% endblock %}
+
+{% block users_ssh_connection %}
+RUN echo 'AllowUsers {{ ssh.user.name }}' >> /etc/ssh/sshd_config
+{% endblock %}
+
+{% endblock %}
+
+
+{% block apache %}
+## ***********************************************************************
+##  APACHE INSTALLATION
+## ***********************************************************************
+{% include 'template/components/apache2/install.sh.twig' %}
+
+ADD ./config/apache/apache2.conf /etc/apache2/apache2.conf
+ADD ./config/apache/ports.conf /etc/apache2/ports.conf
+ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
+{% endblock %}
+
+# create a new id_rsa for the www-data dockeruser.
+# thus we have a SSH Key for connections out of the box
+{% set id_rsa_vars = { 'user' : 'www-data', 'group' : 'www-data', 'directory': '/var/www/.ssh', 'comment' : 'Dockware 6 Container'} %}
+{% include 'template/components/ssh/create_key.sh.twig' with id_rsa_vars %}
+
+
+
+{% block php %}
+## ***********************************************************************
+##  PHP INSTALLATION
+## ***********************************************************************
+{% for version in php.versions %}
+{% include "template/components/php/#{ version.name }/install.sh.twig" %}
+
+COPY ./config/php/general.ini /etc/php/{{ version.name }}/apache2/conf.d/01-general.ini
+COPY ./config/php/general.ini /etc/php/{{ version.name }}/cli/conf.d/01-general.ini
+
+{% endfor %}
+{% endblock %}
+
+# remove the standard apache index file
+RUN mkdir -p /var/www/html \
+    && rm -rf /var/www/html/index.html \
+    && mkdir -p /var/www/html/public
+
+
+{% block permissions %}
+RUN chmod -R 0777 /var/www \
+    && chgrp -R www-data /var/log/apache2 \
+    && mkdir -p /var/log/mysql \
+    && chgrp -R www-data /var/log/mysql
+{% endblock %}
+
+{% block ssl %}
+## ***********************************************************************
+##  MOD_SSL
+##  create SSL certificate
+## ***********************************************************************
+RUN apt-get update \
+    && apt-get install -y openssl \
+    && a2enmod ssl \
+    && mkdir /etc/apache2/ssl \
+    && openssl req -new -x509 -days 365 -sha1 -newkey rsa:1024 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+{% endblock %}
+
+
+
+{% block components %}
+
+{% block components_dev_tools %}
+RUN apt-get update \
+    && apt-get install -y vim \
+    && apt-get -y install rsync \
+    && apt-get install -y sshpass \
+    && apt-get install -y jpegoptim \
+    && apt-get install -y screen \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+{% endblock %}
+
+{% block components_npm %}
+RUN apt-get update \
+    && apt-get install -y git \
+    && apt-get update \
+    && apt-get install -y npm \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+{% endblock %}
+
+
+{% block components_node %}
+RUN apt-get update \
+    && apt install -y gpg-agent \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+{% endblock %}
+
+
+{% block components_xdebug %}
+{% include 'template/components/xdebug/install.sh.twig' %}
+
+{% for version in php.versions %}
+{% include 'template/components/xdebug/install_php_ext.sh.twig' with { "version" : version.name, "folder_id" : version.folder_id } %}
+{% endfor %}
+{% endblock %}
+
+
+{% block components_packagers %}
+RUN apt-get update \
+    # install composer
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    # prepare "global" composer directory for www-data
+    && mkdir -p /var/www/.composer \
+    && export COMPOSER_HOME="/var/www/.composer" \
+    # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
+    && cd /var/www/.composer && composer require hirak/prestissimo \
+    # install yarn
+    && npm install -g yarn \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+{% endblock %}
+
+
+{% block components_mysql %}
+{% include 'template/components/mysql/5.7/install.sh.twig' with { 'pwd' : db.pwd } %}
+
+RUN service mysql start && \
+    mysql --user={{ db.user }} --password={{ db.pwd }} -e "use mysql; update user set host='%' where host='localhost';" && \
+    service mysql restart
+{% endblock %}
+
+
+{% block components_adminer %}
+{% include 'template/components/adminer/install.sh.twig' %}
+{% endblock %}
+
+
+{% block components_mailcatcher %}
+{% include 'template/components/mailcatcher/install.sh.twig' %}
+
+RUN {% for version in php.versions %}
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ version.name }}/mods-available/mailcatcher.ini && \
+{% endfor %}
+    echo ""
+{% endblock %}
+
+{% block components_pimpmylog %}
+RUN mkdir -p /var/www/pimpmylog && \
+    wget -O - https://github.com/potsky/PimpMyLog/tarball/master | tar xzf - && \
+    mv potsky-PimpMyLog-* /var/www/pimpmylog && \
+    mv /var/www/pimpmylog/potsky-PimpMyLog-2fed8c1/* /var/www/pimpmylog && \
+    rm -rf /var/www/pimpmylog/potsky-PimpMyLog-*
+
+COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
+COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
+{% endblock %}
+
+{% endblock %}
+
+
+
+{% block assets_install %}
+# add our setup makefile
+COPY ./assets/makefile /var/www/makefile
+COPY ./assets/files /var/www/files
+{% endblock %}
+
+
+
+{% block shopware %}
+
+{% block shopware_install %}
+## ***********************************************************************
+##  INSTALL SHOPWARE
+## ***********************************************************************
+RUN rm -rf /var/www/html/* \
+    && wget {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
+    && unzip -q /var/www/shopware.zip -d /var/www/html \
+    && rm -rf /var/www/shopware.zip
+{% endblock %}
+
+{% block shopware_prepare %}
+
+{% block shopware_prepare_env %}
+RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
+    echo "APP_SECRET=1" >> /var/www/html/.env && \
+    echo "INSTANCE_ID=1" >> /var/www/html/.env && \
+    echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
+    echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env && \
+    echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
+    echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
+{% endblock %}
+
+RUN cd /var/www/files/shopware && php create_jwt.php && \
+    cd /var/www/html/config/jwt && chown www-data:www-data *
+
+RUN service mysql start && \
+    cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
+    # make sure assets like logos are ready
+    cd /var/www/html && php bin/console assets:install && \
+    # add some demo data
+    cd /var/www/html && APP_ENV=prod php bin/console framework:demodata && \
+    # clear cache and refresh dal index to show the new demo data
+    cd /var/www/html && php bin/console cache:clear && \
+    cd /var/www/html && php bin/console dal:refresh:index && \
+    rm -rf /var/www/html/var/cache/* && \
+    mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
+    service mysql stop
+{% endblock %}
+
+
+
+{% block shopware_dev %}
+
+{% block shopware_dev_install %}
+RUN service mysql start && \
+    # fix weird problem with invalid phpunit file
+    # without this, it cannot find an autoload and thus it
+    # always says "please install composer dependencies"
+    rm -rf /var/www/html/vendor/bin/phpunit && \
+    cd /var/www/html/ && composer install && \
+    cd /var/www/html/ && composer update && \
+    # install and pre-build our admin and storefront
+    cd /var/www/html && ./bin/build.sh && \
+    service mysql stop
+{% endblock %}
+
+{% block shopware_dev_plugin %}
+COPY ./assets/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+
+RUN service mysql start && \
+    cd /var/www/html && php bin/console plugin:refresh && \
+    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
+    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+    rm -rf /var/www/html/var/cache/* && \
+    service mysql stop
+{% endblock %}
+
+{% endblock %}
+
+{% endblock %}
+
+
+
+# change apache user permissions again
+RUN chown www-data:www-data /var/www/html -R \
+    # some images dont have that folder. make sure its there
+    && mkdir -p /var/www/.composer \
+    && chown www-data:www-data /var/www/.composer -R
+
+
+## ***********************************************************************
+##  CLEAN UP / POST BUILD
+## ***********************************************************************
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
+# switch to non root user
+USER {{ ssh.user.name }}
+
+CMD ["/entrypoint.sh"]

@@ -1,0 +1,12 @@
+RUN apt-get update \
+    && apt-get install -y apache2 \
+    && apt-get install -y software-properties-common \
+    && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
+    && a2enmod headers \
+    && a2enmod rewrite \
+    && a2enmod expires \
+    && a2enmod proxy \
+    && a2enmod proxy_http \
+    && a2enmod proxy_wstunnel \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+

@@ -1,0 +1,27 @@
+{% extends "template/Dockerfile.sh.twig" %}
+
+
+{# simply dont allow ssh user, but we still need it #}
+{% block ssh_user_allow %}
+{% endblock %}
+
+{% block components_dev_tools %}
+{% endblock %}
+
+{% block components_npm %}
+{% endblock %}
+
+{% block components_node %}
+{% endblock %}
+
+{% block components_xdebug %}
+{% endblock %}
+
+{% block components_packagers %}
+{% endblock %}
+
+{% block shopware_dev %}
+{% endblock %}
+
+
+

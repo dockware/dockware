@@ -1,0 +1,27 @@
+{% extends "template/assets/README.md.twig" %}
+
+{% block features_xdebug %}
+
+{% endblock %}
+
+
+{% block compose_template %}
+shopware:
+    image: dockware/{{ orca.image }}:{{ orca.tag }}
+    container_name: shopware
+    ports:
+        - "80:80"
+        - "443:443"
+        - "22:22"
+    volumes:
+      - "dockware_db_volume:/var/lib/mysql"
+      - "dockware_shop_volume:/var/www/html"
+    environment:
+        - PHP_VERSION={{ php.versions[0].name }}
+
+volumes:
+  dockware_db_volume:
+    driver: local
+  dockware_shop_volume:
+    driver: local
+{% endblock %}
