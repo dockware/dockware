@@ -2,7 +2,6 @@
 
 [![MIT licensed](https://img.shields.io/github/license/dockware/dockware.svg?style=flat-square)](https://github.com/dockware/dockware/blob/master/LICENSE)
 
-
 ![Shopware 6 Preview](./header.jpg)
 
 
@@ -34,7 +33,7 @@ Shopware Platform on Github: https://github.com/shopware/platform
 
 
 ## How to contribute?
-Dockware is an ORCA project (www.orca-build.io).
+Dockware is built with Orca (www.orca-build.io).
 
 Please use the provided `makefile` to install dependencies, and to generate
 the Dockerfiles for building and testing.
