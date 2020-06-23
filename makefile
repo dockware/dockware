@@ -12,7 +12,7 @@ help:
 # ----------------------------------------------------------------------------------------------------------------
 
 install: ## Installs all dependencies
-	curl -O https://orca:Z3ssZaDmE7vK@orca-build.io/downloads/orca.zip
+	curl -O https://orca-build.io/downloads/orca.zip
 	unzip -o orca.zip
 	rm -f orca.zip
 
