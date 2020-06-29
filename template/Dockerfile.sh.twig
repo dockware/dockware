@@ -163,11 +163,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
 
-{% block components_npm %}
+{% block components_git %}
 RUN apt-get update \
     && apt-get install -y git \
-    && apt-get update \
-    && apt-get install -y npm \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
 
