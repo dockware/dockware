@@ -1,0 +1,25 @@
+{% extends "template/assets/README.md.twig" %}
+
+
+{% block features_shopware %}{% endblock %}
+
+{% block quick_start_tag %}
+Use the tag `latest` to get your dockware essentials.
+There is no additional version, because that depends on your personal Shopware setup.
+{% endblock %}
+
+{% block compose_template %}
+shopware:
+    image: dockware/{{ orca.image }}:{{ orca.tag }}
+    container_name: shopware
+    ports:
+        - "80:80"
+        - "22:22"
+        # Admin Watcher Port
+        - "8888:8888"
+        # Storefront Watcher Port
+        - "9999:9999"
+    environment:
+        - PHP_VERSION={{ php.versions[0].name }}
+        - XDEBUG_ENABLED=1
+{% endblock %}

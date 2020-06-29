@@ -35,7 +35,10 @@ With dockware it's easy to explore Shopware and start developing in a smooth and
 If you want to start the image and give it a try, simply
 use the following command.
 
+{% block quick_start_tag %}
 For the latest Shopware version use the tag `latest`, or use any other existing Shopware 6 version like `6.1.3`.
+{% endblock %}
+
 You can also switch to another PHP version by providing the ENV variable.
 
 ```ruby
@@ -64,7 +67,8 @@ This image comes with different features that can be set with the ENV variables.
 | XDEBUG_CONFIG  | idekey=PHPSTORM | IDE Key identifier for XDebug |
 | PHP_IDE_CONFIG  | serverName=localhost | used for the serverName export for XDebug usage on CLI |
 {% endblock %}
-| SW_CURRENCY  | not-set | Switch to a different default currency for the system, like GBP. This will be used in the administration. |
+{% block features_shopware %}| SW_CURRENCY  | not-set | Switch to a different default currency for the system, like GBP. This will be used in the administration. |
+{% endblock %}
 
 ### Container Access
 You can access the container either by using the docker exec command, or by using a ssh command.

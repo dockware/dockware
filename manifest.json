@@ -27,6 +27,9 @@
     ],
     "contribute": [
       "contribute/latest:latest"
+    ],
+    "essentials": [
+      "essentials/latest:latest"
     ]
   },
   "shared_assets": "template/assets",
