@@ -1,9 +1,0 @@
-# make sure we have a ready to use .env
-echo "APP_ENV=prod" >> {{ file }}
-echo "APP_SECRET=1" >> {{ file }}
-echo "INSTANCE_ID=1" >> {{ file }}
-echo "DATABASE_URL=mysql://{{ db_user }}:{{ db_pwd }}@{{ db_host }}:{{ db_port }}/{{ db_database }}" >> {{ file }}
-echo "APP_URL=https://localhost" >> {{ file }}
-echo "MAILER_URL=smtp://localhost:1025" >> {{ file }}
-echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> {{ file }}
-echo "SHOPWARE_ES_ENABLED=0" >> {{ file }}

@@ -107,7 +107,9 @@ echo "WOHOOO, SHOPWARE IS READY :) - let's get started"
 echo "-----------------------------------------------------"
 echo "PHP: $(php -v | grep cli)"
 echo "SHOP URL: {{ shopware.url }}"
+{% block instructions_admin %}
 echo "ADMIN URL: {{ shopware.url }}/admin"
+{% endblock %}
 echo "ADMINER URL: {{ shopware.url }}/adminer.php"
 echo "MAILCATCHER URL: {{ shopware.url }}/mailcatcher"
 echo "PIMPMYLOG URL: {{ shopware.url }}/logs"

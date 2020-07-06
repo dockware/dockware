@@ -15,12 +15,17 @@ RUN date >/build-date.txt
 ## ***********************************************************************
 ##  IMAGE VARIABLES
 ## ***********************************************************************
+{% block image_variables_php %}
 ENV PHP_VERSION 7.4
 RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
+{% endblock %}
 
+{% block image_variables_sw_currency %}
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
+{% endblock %}
 
+{% block image_variables_xdebug %}
 ENV XDEBUG_ENABLED 0
 RUN echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile
 
@@ -32,6 +37,7 @@ RUN echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile
 
 ENV PHP_IDE_CONFIG "serverName=localhost"
 RUN echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile
+{% endblock %}
 
 {% endblock %}
 
@@ -105,7 +111,7 @@ ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
 
 # create a new id_rsa for the www-data dockeruser.
 # thus we have a SSH Key for connections out of the box
-{% set id_rsa_vars = { 'user' : 'www-data', 'group' : 'www-data', 'directory': '/var/www/.ssh', 'comment' : 'Dockware 6 Container'} %}
+{% set id_rsa_vars = { 'user' : 'www-data', 'group' : 'www-data', 'directory': '/var/www/.ssh', 'comment' : 'Dockware Container'} %}
 {% include 'template/components/ssh/create_key.sh.twig' with id_rsa_vars %}
 
 
@@ -242,9 +248,11 @@ COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 
 
 {% block assets_install %}
+{% block assets_install_shopware6 %}
 # add our setup makefile
-COPY ./assets/makefile /var/www/makefile
-COPY ./assets/files /var/www/files
+COPY ./assets/shopware6/makefile /var/www/makefile
+COPY ./assets/shopware6/files /var/www/files
+{% endblock %}
 {% endblock %}
 
 

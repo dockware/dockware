@@ -1,35 +1,38 @@
 {
-  "db": {
-    "host": "localhost",
-    "port": "3306",
-    "database": "shopware",
-    "user": "root",
-    "pwd": "root"
-  },
-  "ssh": {
-    "user": {
-      "name": "dockware",
-      "pwd": "dockware"
+    "db": {
+        "host": "localhost",
+        "port": "3306",
+        "database": "shopware",
+        "user": "root",
+        "pwd": "root"
+    },
+    "ssh": {
+        "user": {
+            "name": "dockware",
+            "pwd": "dockware"
+        }
+    },
+    "php": {
+        "versions": [
+            {
+                "name": "7.4",
+                "folder_id": "20190902"
+            },
+            {
+                "name": "7.3",
+                "folder_id": ""
+            },
+            {
+                "name": "7.2",
+                "folder_id": "20170718"
+            }
+        ]
+    },
+    "shopware": {
+        "env": "prod",
+        "url": "http://localhost"
+    },
+    "apache": {
+        "docroot": "/var/www/html/public"
     }
-  },
-  "php": {
-    "versions": [
-      {
-        "name": "7.4",
-        "folder_id": "20190902"
-      },
-      {
-        "name": "7.3",
-        "folder_id": ""
-      },
-      {
-        "name": "7.2",
-        "folder_id": "20170718"
-      }
-    ]
-  },
-  "shopware": {
-    "env": "prod",
-    "url" : "http://localhost"
-  }
 }
