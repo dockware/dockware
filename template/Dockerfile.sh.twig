@@ -317,7 +317,7 @@ RUN service mysql start && \
 {% endblock %}
 
 {% block shopware_dev_plugin %}
-COPY ./assets/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN service mysql start && \
     cd /var/www/html && php bin/console plugin:refresh && \
