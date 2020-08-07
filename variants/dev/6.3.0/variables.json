@@ -1,8 +1,8 @@
 {
   "shopware": {
     "env": "dev",
-    "download_url": "https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.0.0_06f83c91b1c72099392ed37c88c931c7b19739b2.zip"
-  }
+    "version" : "6.3.0",
+    "download_url": "using-github-zip-is-broken" }
 }
 
 

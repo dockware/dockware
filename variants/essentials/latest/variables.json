@@ -1,5 +1,6 @@
 {
   "shopware": {
+    "version" : "",
     "env": "dev"
   }
 }
