@@ -56,6 +56,7 @@ RUN apt-get update \
     && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
+    && apt-get install -y xdg-utils \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
@@ -313,6 +314,7 @@ RUN service mysql start && \
     cd /var/www/html/ && composer update && \
     # install and pre-build our admin and storefront
     cd /var/www/html && ./bin/build.sh && \
+    cd /var/www/html && php bin/console theme:compile && \
     service mysql stop
 {% endblock %}
 
