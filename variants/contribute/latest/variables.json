@@ -1,11 +1,21 @@
 {
   "shopware": {
-    "version" : "",
+    "version": "",
     "dev": {
       "branch": "master"
     },
     "platform": {
       "branch": "master"
+    }
+  },
+  "php": {
+    "versions": {
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
     }
   }
 }

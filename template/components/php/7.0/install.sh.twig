@@ -1,0 +1,27 @@
+RUN apt-get update \
+    && apt-get install -y libapache2-mod-php7.0 \
+    && apt-get install -y php7.0 \
+    && apt-get install -y php7.0-apcu \
+    && apt-get install -y php7.0-curl \
+    && apt-get install -y php7.0-cli \
+    && apt-get install -y php7.0-gd \
+    && apt-get install -y php7.0-json \
+    && apt-get install -y php7.0-ldap \
+    && apt-get install -y php7.0-mysql \
+    && apt-get install -y php7.0-pgsql \
+    && apt-get install -y php7.0-gettext \
+    && apt-get install -y php7.0-intl \
+    && apt-get install -y php7.0-xml \
+    && apt-get install -y php7.0-mysql \
+    && apt-get install -y php7.0-mbstring \
+    && apt-get install -y php7.0-zip \
+    && apt-get install -y php7.0-soap \
+    && apt-get install -y php7.0-memcached \
+    && apt-get install -y php7.0-redis \
+    && apt-get install -y php7.0-bcmath \
+    && apt-get install -y dh-php \
+    && apt-get install -y php-geoip \
+    && apt-get install -y php-ssh2 \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

@@ -1,5 +1,14 @@
 {
-    "images": {
+    "images": { 
+        "flex": [
+            "flex/latest:latest"
+        ],
+        "essentials": [
+            "essentials/latest:latest"
+        ],
+        "contribute": [
+            "contribute/latest:latest"
+        ],
         "play": [
             "play/6.3.2:latest",
             "play/6.3.2:6.3.2",
@@ -46,16 +55,9 @@
             "dev/5.6.7:5.6.7",
             "dev/5.6.6:5.6.6",
             "dev/5.6.4:5.6.4"
-        ],
-        "contribute": [
-            "contribute/latest:latest"
-        ],
-        "essentials": [
-            "essentials/latest:latest"
         ]
     },
     "shared_assets": "template/assets",
     "shared_variables": "template/variables.json",
     "plugin_directory": ""
 }
-

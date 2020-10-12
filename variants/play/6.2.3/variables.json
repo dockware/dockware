@@ -1,7 +1,17 @@
 {
   "shopware": {
-    "version" : "6.2.3",
+    "version": "6.2.3",
     "download_url": "https://www.shopware.com/en/Download/redirect/version/sw6/file/install_6.2.3_1594641397.zip"
+  },
+  "php": {
+    "versions": {
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
+    }
   }
 }
 

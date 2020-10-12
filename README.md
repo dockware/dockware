@@ -23,7 +23,7 @@ Where to get help: https://www.dockware.io
 
 Where to file issues: https://www.dockware.io
 
-Documentation: https://dockware.io/docs/
+Documentation: https://dockware.io/docs
 
 Maintained by: dasistweb GmbH (https://www.dasistweb.de)
 

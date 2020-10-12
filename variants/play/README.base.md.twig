@@ -1,8 +1,17 @@
 {% extends "template/assets/README.md.twig" %}
 
-{% block features_xdebug %}
 
-{% endblock %}
+{% block env_apache_docroot %}{% endblock %}
+
+{% block env_ssh_user %}{% endblock %}
+
+{% block env_mysql %}{% endblock %}
+
+{% block env_xdebug %}{% endblock %}
+
+{% block env_tideways %}{% endblock %}
+
+{% block env_filebeat %}{% endblock %}
 
 
 {% block compose_template %}
@@ -13,15 +22,10 @@ shopware:
         - "80:80"
         - "443:443"
         - "22:22"
-    volumes:
-      - "dockware_db_volume:/var/lib/mysql"
-      - "dockware_shop_volume:/var/www/html"
     environment:
-        - PHP_VERSION={{ php.versions[0].name }}
+        - PHP_VERSION={{ php.versions | keys | first }}
+{% endblock %}
 
-volumes:
-  dockware_db_volume:
-    driver: local
-  dockware_shop_volume:
-    driver: local
+
+{% block configuration %}
 {% endblock %}

@@ -1,38 +1,48 @@
 {
-    "db": {
-        "host": "localhost",
-        "port": "3306",
-        "database": "shopware",
-        "user": "root",
-        "pwd": "root"
-    },
-    "ssh": {
-        "user": {
-            "name": "dockware",
-            "pwd": "dockware"
-        }
-    },
-    "php": {
-        "versions": [
-            {
-                "name": "7.4",
-                "folder_id": "20190902"
-            },
-            {
-                "name": "7.3",
-                "folder_id": ""
-            },
-            {
-                "name": "7.2",
-                "folder_id": "20170718"
-            }
-        ]
-    },
-    "shopware": {
-        "env": "prod",
-        "url": "http://localhost"
-    },
-    "apache": {
-        "docroot": "/var/www/html/public"
+  "version" : "1.3.0",
+  "base_image": "ubuntu:18.04",
+  "db": {
+    "host": "localhost",
+    "port": "3306",
+    "database": "shopware",
+    "user": "root",
+    "pwd": "root"
+  },
+  "ssh": {
+    "user": {
+      "name": "dockware",
+      "pwd": "dockware"
     }
+  },
+  "php": {
+    "versions": {
+      "7.4": {
+        "active": true,
+        "folder_id": "20190902"
+      },
+      "7.3": {
+        "active": true,
+        "folder_id": "20180731"
+      },
+      "7.2": {
+        "active": true,
+        "folder_id": "20170718"
+      },
+      "7.1": {
+        "active": true,
+        "folder_id": "20160303"
+      },
+      "7.0": {
+        "active": true,
+        "folder_id": "20151012"
+      }
+    }
+  },
+  "shopware": {
+    "env": "prod",
+    "url": "http://localhost"
+  },
+  "apache": {
+    "docroot": "/var/www/html/public"
+  }
 }

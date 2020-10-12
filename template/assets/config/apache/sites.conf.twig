@@ -5,10 +5,10 @@
     ErrorLog /var/log/apache2/error.log
     AccessFileName .htaccess.watch .htaccess
 
-    DocumentRoot {{ apache.docroot }}
+    DocumentRoot __dockware_apache_docroot__
 
-    <Directory /var/www/html>
-        Options Indexes FollowSymLinks MultiViews
+    <Directory __dockware_apache_docroot__>
+        Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -29,7 +29,7 @@
 
     Alias /logs /var/www/pimpmylog/
     <Directory "/var/www/pimpmylog/">
-        Options Indexes FollowSymLinks MultiViews
+        Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -44,14 +44,14 @@
     ErrorLog /var/log/apache2/error.log
     AccessFileName .htaccess.watch .htaccess
 
-    DocumentRoot {{ apache.docroot }}
-
     SSLEngine On
     SSLCertificateFile /etc/apache2/ssl/server.crt
     SSLCertificateKeyFile /etc/apache2/ssl/server.key
-
-    <Directory /var/www/html>
-        Options Indexes FollowSymLinks MultiViews
+    
+    DocumentRoot __dockware_apache_docroot__
+    
+    <Directory __dockware_apache_docroot__>
+        Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -72,7 +72,7 @@
 
     Alias /logs /var/www/pimpmylog/
     <Directory "/var/www/pimpmylog/">
-        Options Indexes FollowSymLinks MultiViews
+        Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>

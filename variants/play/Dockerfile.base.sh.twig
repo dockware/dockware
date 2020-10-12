@@ -1,4 +1,20 @@
-{% extends "template/Dockerfile.sh.twig" %}
+{% extends "template/Dockerfile.global.sh.twig" %}
+
+
+{% block image_variables_mysql %}
+{% endblock %}
+
+{% block image_variables_ssh %}
+{% endblock %}
+
+{% block image_variables_xdebug %}
+{% endblock %}
+
+{% block image_variables_filebeat %}
+{% endblock %}
+
+{% block image_variables_tideways %}
+{% endblock %}
 
 
 {# simply dont allow ssh user, but we still need it #}
@@ -14,10 +30,19 @@
 {% block components_node %}
 {% endblock %}
 
+{% block components_grunt %}
+{% endblock %}
+
 {% block components_xdebug %}
 {% endblock %}
 
 {% block components_packagers %}
+{% endblock %}
+
+{% block components_filebeat %}
+{% endblock %}
+
+{% block components_tideways %}
 {% endblock %}
 
 {% block shopware_dev %}

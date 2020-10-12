@@ -1,0 +1,207 @@
+#!/bin/bash
+echo ""
+echo " _____   ____   _____ _  ____          __     _____  ______ "
+echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
+echo "| |  | | |  | | |    | ' /  \ \  /\  / /  \  | |__) | |__   "
+echo "| |  | | |  | | |    |  <    \ \/  \/ / /\ \ |  _  /|  __|  "
+echo "| |__| | |__| | |____| . \    \  /\  / ____ \| | \ \| |____ "
+echo "|_____/ \____/ \_____|_|\_\    \/  \/_/    \_\_|  \_\______|"
+echo ""
+echo "68 69 20 64 65 76 65 6C 6F 70 65 72 2C 20 6E 69 63 65 20 74 6F 20 6D 65 65 74 20 79 6F 75"
+echo "6c 6f 6f 6b 69 6e 67 20 66 6f 72 20 61 20 6a 6f 62 3f 20 77 72 69 74 65 20 75 73 20 61 74 20 6a 6f 62 73 40 64 61 73 69 73 74 77 65 62 2e 64 65"
+echo ""
+echo "*******************************************************"
+echo "** DOCKWARE IMAGE: {{ orca.image }}"
+echo "** Tag: {{ orca.tag }}"
+echo "** Version: {{ version }}"
+echo "** Built: $(cat /build-date.txt)"
+echo "** Copyright 2020 dasistweb GmbH"
+echo "*******************************************************"
+echo ""
+echo "launching dockware...please wait..."
+echo ""
+
+
+set -e
+
+source /etc/apache2/envvars
+
+
+{% block tz %}
+echo "DOCKWARE: setting timezone to ${TZ}..."
+sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
+sudo dpkg-reconfigure -f noninteractive tzdata
+echo "-----------------------------------------------------------"
+{% endblock %}
+
+
+{% block php_version %}
+echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
+sudo a2enmod php{$PHP_VERSION} > /dev/null 2>&1 &
+sudo update-alternatives --set php /usr/bin/php$PHP_VERSION > /dev/null 2>&1 &
+echo "-----------------------------------------------------------"
+{% endblock %}
+
+
+{% block components %}
+
+{% block components_xdebug %}
+if [ $XDEBUG_ENABLED = 1 ]; then
+   echo "DOCKWARE: activating Xdebug..."
+   sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-xdebug.ini
+   sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
+   echo "-----------------------------------------------------------"
+ else
+   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-xdebug.ini
+fi
+{% endblock %}
+
+{% block components_filebeat %}
+if [ $FILEBEAT_ENABLED = 1 ]; then
+   echo "DOCKWARE: activating Filebeat..."
+   sudo service filebeat start --strict.perms=false
+   echo "-----------------------------------------------------------"
+fi
+{% endblock %}
+
+{% block components_tideways %}
+if [ $TIDEWAYS_KEY != "not-set" ]; then
+    echo "DOCKWARE: activating Tideways...."
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+    sudo service tideways-daemon start
+    echo "-----------------------------------------------------------"
+fi
+{% endblock %}
+
+{% block components_ssh %}
+if [ $SSH_USER != "not-set" ]; then
+    echo "DOCKWARE: creating additional SSH user...."
+    # create a custom ssh user for our provided settings
+    # and add it as www-data alias (uid 33) to our system
+    sudo adduser --disabled-password --uid 8888 --gecos "" $SSH_USER
+    sudo usermod -a -G www-data $SSH_USER
+    sudo usermod -m -d /var/www $SSH_USER | true
+    sudo echo "${SSH_USER}:${SSH_PWD}" | sudo chpasswd
+    sudo sed -i "s/${SSH_USER}:x:8888:8888:/${SSH_USER}:x:33:33:/g" /etc/passwd
+    # disable original ssh access
+    sudo usermod -s /bin/false {{ ssh.user.name }}
+    # allow ssh in sshd_config
+    sudo sed -i "s/AllowUsers {{ ssh.user.name }}/AllowUsers ${SSH_USER}/g" /etc/ssh/sshd_config
+    echo "-----------------------------------------------------------"
+fi
+
+# start the SSH service with the latest setup
+echo "DOCKWARE: restarting SSH service...."
+sudo service ssh restart
+echo "-----------------------------------------------------------"
+{% endblock %}
+
+{% block components_mysql %}
+echo "DOCKWARE: starting MySQL...."
+# somehow its necessary to set permissions, because
+# sometimes they get lost :)
+sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+sudo service mysql start;
+
+{% block components_mysql_credentials %}
+if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
+    echo "DOCKWARE: creating new MySQL user...."
+    # -----------------------------------
+    sudo mysql --user=root --password=root -e "UPDATE mysql.user SET Host='localhost' WHERE User='root' AND Host='%';";
+    sudo mysql --user=root --password=root -e "CREATE USER IF NOT EXISTS '"$MYSQL_USER"'@'%' IDENTIFIED BY '"$MYSQL_PWD"';";
+    sudo mysql --user=root --password=root -e "use mysql; update user set host='%' where user='$MYSQL_USER';";
+    sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON *.* TO '"$MYSQL_USER"'@'%' IDENTIFIED BY '$MYSQL_PWD';";
+    sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;";
+    echo "-----------------------------------------------------------"
+fi
+{% endblock %}
+echo "-----------------------------------------------------------"
+{% endblock %}
+
+{% block components_mailcatcher %}
+echo "DOCKWARE: starting mailcatcher...."
+sudo /usr/bin/env $(which mailcatcher) --ip=0.0.0.0
+echo "-----------------------------------------------------------"
+{% endblock %}
+
+{% block components_cron %}
+echo "DOCKWARE: starting cron service...."
+sudo service cron start
+echo "-----------------------------------------------------------"
+{% endblock %}
+
+{% endblock %}
+
+
+{% block setup_shopware %}
+
+if [ $SW_CURRENCY != "not-set" ]; then
+  echo "DOCKWARE: Switching Shopware default currency..."
+  php /var/www/files/shopware/set_currency.php $SW_CURRENCY
+  echo "-----------------------------------------------------------"
+fi
+
+{% endblock %}
+
+
+# --------------------------------------------------
+# APACHE
+sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
+
+
+# sometimes the internal docker structure leaves
+# some pid files existing. the container will be recreated....but
+# in reality it's not! thus there might be the problem
+# that an older pid file exists, which leads to the following error:
+#   - "httpd (pid 13) already running"
+# to avoid this, we simple remove an existing file
+sudo rm -f /var/run/apache2/apache2.pid
+
+# start test and start apache
+echo "DOCKWARE: testing and starting Apache..."
+sudo apache2ctl configtest
+sudo service apache2 start
+echo "-----------------------------------------------------------"
+# --------------------------------------------------
+
+
+
+{% block instructions %}
+echo ""
+echo "WOHOOO, dockware/{{ orca.image }}:{{ orca.tag }} IS READY :) - let's get started"
+echo "-----------------------------------------------------"
+echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
+echo "PHP: $(php -v | grep cli)"
+echo "Apache DocRoot: ${APACHE_DOCROOT}"
+
+{% block instructions_adminer %}
+echo "ADMINER URL: {{ shopware.url }}/adminer.php"
+{% endblock %}
+
+{% block instructions_mailcatcher %}
+echo "MAILCATCHER URL: {{ shopware.url }}/mailcatcher"
+{% endblock %}
+
+{% block instructions_pimpmylog %}
+echo "PIMPMYLOG URL: {{ shopware.url }}/logs"
+{% endblock %}
+
+{% block instructions_shopware %}
+echo "SHOP URL: {{ shopware.url }}"
+{% block instructions_shopware_admin %}
+echo "ADMIN URL: {{ shopware.url }}/admin"
+{% endblock %}
+
+echo ""
+echo "What's new in this version? see the changelog for further details"
+echo "https://www.shopware.com/de/changelog/"
+echo ""
+{% endblock %}
+
+{% endblock %}
+
+tail -f /dev/null

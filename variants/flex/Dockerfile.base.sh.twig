@@ -1,0 +1,28 @@
+{% extends "template/Dockerfile.global.sh.twig" %}
+
+{% block image_variables_sw_currency %}
+{% endblock %}
+
+{% block image_variables_mysql %}
+{% endblock %}
+
+{% block base_xdg %}
+{% endblock %}
+    
+{% block components_mysql %}
+{% endblock %}
+
+{% block components_adminer %}
+{% endblock %}
+
+{% block components_mailcatcher %}
+{% endblock %}
+
+{% block components_pimpmylog %}
+{% endblock %}
+
+{% block assets_install_shopware6 %}
+{% endblock %}
+
+{% block shopware %}
+{% endblock %}

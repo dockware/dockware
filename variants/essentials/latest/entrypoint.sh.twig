@@ -1,15 +1,1 @@
-{% extends "template/entrypoint.sh.twig" %}
-
-
-{% block setup_shopware %}
-
-{% endblock %}
-
-
-{% block instructions %}
-{{ parent() }}
-echo ""
-echo "ATTENTION, THIS IMAGE COMES WITHOUT SHOPWARE!"
-echo "IT OFFERS A FULL ENVIRONMENT FOR YOUR PERSONAL SHOPWARE 6 SETUP"
-echo ""
-{% endblock %}
+{% extends "variants/essentials/entrypoint.base.sh.twig" %}

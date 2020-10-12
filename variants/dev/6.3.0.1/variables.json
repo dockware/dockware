@@ -1,8 +1,18 @@
 {
   "shopware": {
     "env": "dev",
-    "version" : "6.3.0.1",
+    "version": "6.3.0.1",
     "download_url": "using-github-zip-is-broken"
+  },
+  "php": {
+    "versions": {
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
+    }
   }
 }
 

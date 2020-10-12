@@ -2,41 +2,81 @@
 # Tag: {{ orca.tag }}
 # Copyright 2020 dasistweb GmbH
 #
-FROM ubuntu:18.04
+FROM {{ base_image }}
 LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
       version="1.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
-RUN date >/build-date.txt
+RUN date >/build-date.txt && \
+    mkdir -p /var/www
+
+# add our changelog to the containers
+ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
+
 
 
 {% block image_variables %}
 ## ***********************************************************************
 ##  IMAGE VARIABLES
 ## ***********************************************************************
+{% block image_variables_tz %}
+ENV TZ Europe/Berlin
+RUN echo "export TZ=${TZ}" >> /etc/profile
+{% endblock %}
+
 {% block image_variables_php %}
 ENV PHP_VERSION 7.4
 RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
 {% endblock %}
 
-{% block image_variables_sw_currency %}
-ENV SW_CURRENCY 'not-set'
-RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
+{% block image_variables_apache %}
+ENV APACHE_DOCROOT {{ apache.docroot }}
+RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
+{% endblock %}
+
+{% block image_variables_mysql %}
+ENV MYSQL_USER not-set
+RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile
+ENV MYSQL_PWD not-set
+RUN echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
+{% endblock %}
+
+{% block image_variables_ssh %}
+ENV SSH_USER not-set
+RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile
+ENV SSH_PWD not-set
+RUN echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_xdebug %}
 ENV XDEBUG_ENABLED 0
 RUN echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile
-
 ENV XDEBUG_REMOTE_HOST "host.docker.internal"
 RUN echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile
-
 ENV XDEBUG_CONFIG "idekey=PHPSTORM"
 RUN echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile
-
 ENV PHP_IDE_CONFIG "serverName=localhost"
 RUN echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile
+{% endblock %}
+
+{% block image_variables_filebeat %}
+ENV FILEBEAT_ENABLED 0
+RUN echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile
+{% endblock %}
+
+{% block image_variables_tideways %}
+ENV TIDEWAYS_KEY not-set
+RUN echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile
+ENV TIDEWAYS_ENV production
+RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
+ENV TIDEWAYS_SERVICE web
+RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
+{% endblock %}
+
+{% block image_variables_sw_currency %}
+ENV SW_CURRENCY 'not-set'
+RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 {% endblock %}
 
 {% endblock %}
@@ -50,19 +90,23 @@ RUN apt-get update \
     && apt-get install -y sudo \
     && apt-get install -y wget \
     && apt-get install -y curl \
-    && apt-get install -y mysql-client \
     && apt-get install -y unzip \
     && apt-get install -y bzip2 \
     && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
+    {% block base_xdg %}
     && apt-get install -y xdg-utils \
+    {% endblock %}
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
     && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+    {% block base_tzdata %}
     && apt-get install -y tzdata \
     && dpkg-reconfigure --frontend noninteractive tzdata  \
+    {% endblock %} \
+    && apt-get install -y cron \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 
@@ -121,12 +165,13 @@ ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
 ## ***********************************************************************
 ##  PHP INSTALLATION
 ## ***********************************************************************
-{% for version in php.versions %}
-{% include "template/components/php/#{ version.name }/install.sh.twig" %}
+{% for key,value in php.versions %}
+{% if value.active == true %}
+{% include "template/components/php/#{ key }/install.sh.twig" %}
 
-COPY ./config/php/general.ini /etc/php/{{ version.name }}/apache2/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/{{ version.name }}/cli/conf.d/01-general.ini
-
+COPY ./config/php/general.ini /etc/php/{{ key }}/apache2/conf.d/01-general.ini
+COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
+{% endif %}
 {% endfor %}
 {% endblock %}
 
@@ -152,7 +197,7 @@ RUN apt-get update \
     && apt-get install -y openssl \
     && a2enmod ssl \
     && mkdir /etc/apache2/ssl \
-    && openssl req -new -x509 -days 365 -sha1 -newkey rsa:1024 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
+    && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
 
@@ -160,43 +205,33 @@ RUN apt-get update \
 
 {% block components %}
 
-{% block components_dev_tools %}
 RUN apt-get update \
+
+{% block components_dev_tools %}
     && apt-get install -y vim \
-    && apt-get -y install rsync \
+    && apt-get install -y rsync \
     && apt-get install -y sshpass \
     && apt-get install -y jpegoptim \
     && apt-get install -y screen \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && apt-get install -y mysql-client \
 {% endblock %}
 
 {% block components_git %}
-RUN apt-get update \
     && apt-get install -y git \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
 
-
 {% block components_node %}
-RUN apt-get update \
     && apt install -y gpg-agent \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y nodejs \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
 
-
-{% block components_xdebug %}
-{% include 'template/components/xdebug/install.sh.twig' %}
-
-{% for version in php.versions %}
-{% include 'template/components/xdebug/install_php_ext.sh.twig' with { "version" : version.name, "folder_id" : version.folder_id } %}
-{% endfor %}
+{% block components_grunt %}
+    && npm install -g grunt-cli \
+    && npm install grunt --save-dev \
 {% endblock %}
-
 
 {% block components_packagers %}
-RUN apt-get update \
     # install composer
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     # prepare "global" composer directory for www-data
@@ -206,8 +241,17 @@ RUN apt-get update \
     && cd /var/www/.composer && composer require hirak/prestissimo \
     # install yarn
     && npm install -g yarn \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+{% block components_xdebug %}
+{% include 'template/components/xdebug/install.sh.twig' %}
+
+{% for key, value in php.versions %}
+{% include 'template/components/xdebug/install_php_ext.sh.twig' with { "version" : key, "folder_id" : value.folder_id } %}
+{% endfor %}
+{% endblock %}
+
 
 
 {% block components_mysql %}
@@ -227,8 +271,8 @@ RUN service mysql start && \
 {% block components_mailcatcher %}
 {% include 'template/components/mailcatcher/install.sh.twig' %}
 
-RUN {% for version in php.versions %}
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ version.name }}/mods-available/mailcatcher.ini && \
+RUN {% for key,value in php.versions %}
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ key }}/mods-available/mailcatcher.ini && \
 {% endfor %}
     echo ""
 {% endblock %}
@@ -244,6 +288,29 @@ COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
 COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 {% endblock %}
 
+{% block components_filebeat %}
+RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-amd64.deb \
+    && sudo dpkg -i filebeat-7.4.2-amd64.deb \
+    && rm -f /filebeat-7.4.2-amd64.deb
+{% endblock %}
+
+{% block components_tideways %}
+RUN echo 'deb http://s3-eu-west-1.amazonaws.com/tideways/packages debian main' > /etc/apt/sources.list.d/tideways.list  \
+    && wget -qO - https://s3-eu-west-1.amazonaws.com/tideways/packages/EEB5E8F4.gpg | sudo apt-key add -  \
+    && sudo apt-get -y update  \
+    && sudo apt-get -y install tideways-php tideways-daemon  \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+ADD ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+
+{% for key,value in php.versions %}
+ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/apache2/conf.d/20-tideways.ini
+ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
+{% endfor %}
+
+{% endblock %}
+
+    
 {% endblock %}
 
 
@@ -310,8 +377,8 @@ RUN service mysql start && \
     # without this, it cannot find an autoload and thus it
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
+    cat /var/www/html/composer.json && \
     cd /var/www/html/ && composer install && \
-    cd /var/www/html/ && composer update && \
     # install and pre-build our admin and storefront
     cd /var/www/html && ./bin/build.sh && \
     cd /var/www/html && php bin/console theme:compile && \

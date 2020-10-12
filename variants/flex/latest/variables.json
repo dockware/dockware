@@ -1,0 +1,9 @@
+{
+  "base_image" : "ubuntu:20.04",
+  "shopware": {
+    "version" : "",
+    "env": "dev"
+  }
+}
+
+
