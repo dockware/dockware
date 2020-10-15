@@ -4,6 +4,14 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
+## [1.3.1] - 2020-10-15
+
+### Fixes
+- Fix broken Storefront Watcher due to wrong Apache Document directory
+- Fix broken Storefront Watcher script in dockware/contribution due to missing second request header.
+
+
+
 ## [1.3.0] - 2020-10-08
 
 ### Added
