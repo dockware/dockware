@@ -147,11 +147,15 @@ RUN echo 'AllowUsers {{ ssh.user.name }}' >> /etc/ssh/sshd_config
 ## ***********************************************************************
 ##  APACHE INSTALLATION
 ## ***********************************************************************
+#this conf is needed for enconf command ...
+ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
+
 {% include 'template/components/apache2/install.sh.twig' %}
 
 ADD ./config/apache/apache2.conf /etc/apache2/apache2.conf
 ADD ./config/apache/ports.conf /etc/apache2/ports.conf
 ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
+
 {% endblock %}
 
 # create a new id_rsa for the www-data dockeruser.
@@ -169,7 +173,7 @@ ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
 {% if value.active == true %}
 {% include "template/components/php/#{ key }/install.sh.twig" %}
 
-COPY ./config/php/general.ini /etc/php/{{ key }}/apache2/conf.d/01-general.ini
+COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
 {% endif %}
 {% endfor %}
@@ -304,7 +308,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/tideways/packages debian main' >
 ADD ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 
 {% for key,value in php.versions %}
-ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/apache2/conf.d/20-tideways.ini
+ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
 ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
 {% endfor %}
 

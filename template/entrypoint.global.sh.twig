@@ -36,9 +36,12 @@ echo "-----------------------------------------------------------"
 
 
 {% block php_version %}
+
+
 echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-sudo a2enmod php{$PHP_VERSION} > /dev/null 2>&1 &
-sudo update-alternatives --set php /usr/bin/php$PHP_VERSION > /dev/null 2>&1 &
+sudo sed -i 's/__dockware_php_version__/'${PHP_VERSION}'/g' /etc/apache2/sites-enabled/000-default.conf &
+sudo service php${PHP_VERSION}-fpm start &
+sudo update-alternatives --set php /usr/bin/php${PHP_VERSION}-fpm > /dev/null 2>&1 &
 echo "-----------------------------------------------------------"
 {% endblock %}
 
@@ -48,11 +51,13 @@ echo "-----------------------------------------------------------"
 {% block components_xdebug %}
 if [ $XDEBUG_ENABLED = 1 ]; then
    echo "DOCKWARE: activating Xdebug..."
-   sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-xdebug.ini
+   sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini
    sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
    echo "-----------------------------------------------------------"
  else
-   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-xdebug.ini
+   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini
+   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
+
 fi
 {% endblock %}
 
@@ -68,8 +73,8 @@ fi
 if [ $TIDEWAYS_KEY != "not-set" ]; then
     echo "DOCKWARE: activating Tideways...."
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/apache2/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
     sudo service tideways-daemon start

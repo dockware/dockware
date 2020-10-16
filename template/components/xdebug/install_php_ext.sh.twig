@@ -1,9 +1,9 @@
-{% set filename_apache = "/etc/php/" ~ version ~ "/apache2/conf.d/20-xdebug.ini"  %}
+{% set filename_fpm = "/etc/php/" ~ version ~ "/fpm/conf.d/20-xdebug.ini"  %}
 {% set filename_cli = "/etc/php/" ~ version ~ "/cli/conf.d/20-xdebug.ini"  %}
 
-COPY ./config/php/xdebug.ini /etc/php/{{ version }}/apache2/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug.ini /etc/php/{{ version }}/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug.ini /etc/php/{{ version }}/cli/conf.d/20-xdebug.ini
 
-RUN sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_apache }} \
+RUN sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_fpm }} \
     && sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_cli }}
 

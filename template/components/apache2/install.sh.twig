@@ -1,5 +1,6 @@
 RUN apt-get update \
     && apt-get install -y apache2 \
+    && apt-get install -y libapache2-mod-fcgid \
     && apt-get install -y software-properties-common \
     && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
     && a2enmod headers \
@@ -8,5 +9,13 @@ RUN apt-get update \
     && a2enmod proxy \
     && a2enmod proxy_http \
     && a2enmod proxy_wstunnel \
+    && a2enmod actions \
+    && a2enmod fcgid \
+    && a2enmod alias \
+    && a2enmod proxy_fcgi \
+    && a2enmod http2 \
+    && sudo a2enconf http2 \
+    && sudo a2dismod mpm_prefork > /dev/null 2>&1 \
+    && sudo a2enmod mpm_event > /dev/null 2>&1 \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
