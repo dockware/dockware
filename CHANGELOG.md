@@ -4,8 +4,16 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
-## [1.3.1] - 2020-10-15
+## [1.3.1] - 2020-10-16
 
+### Added
+- Add php-fpm
+- Add mpm_event
+
+### Removed
+- Add mod_php
+- Add mpm_prefork 
+ 
 ### Fixes
 - Fix broken Storefront Watcher due to wrong Apache Document directory
 - Fix broken Storefront Watcher script in dockware/contribution due to missing second request header.
