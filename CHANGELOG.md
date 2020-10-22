@@ -3,6 +3,14 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [1.3.2] - 2020-10-22
+### Added
+ - Shopware 5.5.10 dev image
+ - Big perfromance boost if xdebug is off
+ 
+### Fixes
+ - Make sure xdebug is safly disabled
+ 
 
 ## [1.3.1] - 2020-10-16
 
