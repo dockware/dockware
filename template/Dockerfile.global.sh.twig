@@ -26,7 +26,7 @@ RUN echo "export TZ=${TZ}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_php %}
-ENV PHP_VERSION 7.4
+ENV PHP_VERSION {{php.default_version}}
 RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
 {% endblock %}
 
@@ -290,6 +290,7 @@ RUN mkdir -p /var/www/pimpmylog && \
 
 COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
 COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
+RUN chown -R www-data:www-data /var/www/pimpmylog/
 {% endblock %}
 
 {% block components_filebeat %}
