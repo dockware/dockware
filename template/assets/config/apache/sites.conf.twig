@@ -18,6 +18,7 @@
         SetHandler "proxy:unix:/var/run/php/php__dockware_php_version__-fpm.sock|fcgi://localhost"
     </FilesMatch>
 
+    {% block http_mailcatcher %}
     <Location /mailcatcher>
         ProxyPass http://localhost:1080
         ProxyPassReverse http://localhost:1080
@@ -31,13 +32,16 @@
         ProxyPass http://localhost:1080/messages
         ProxyPassReverse ws://localhost:1080/messages
     </Location>
+    {% endblock %}
 
+    {% block http_pimpmylog %}
     Alias /logs /var/www/pimpmylog/
     <Directory "/var/www/pimpmylog/">
         Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>
+    {% endblock %}
 
 </VirtualHost>
 
@@ -61,13 +65,14 @@
         # 2.4.10+ can proxy to unix socket
         SetHandler "proxy:unix:/var/run/php/php__dockware_php_version__-fpm.sock|fcgi://localhost"
     </FilesMatch>
-    
-    <Directory __dockware_apache_docroot__>
+
+    <Directory /var/www/html>
         Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>
 
+    {% block https_mailcatcher %}
     <Location /mailcatcher>
         ProxyPass http://localhost:1080
         ProxyPassReverse http://localhost:1080
@@ -81,12 +86,15 @@
         ProxyPass http://localhost:1080/messages
         ProxyPassReverse ws://localhost:1080/messages
      </Location>
+    {% endblock %}
 
+    {% block https_pimpmylog %}
     Alias /logs /var/www/pimpmylog/
     <Directory "/var/www/pimpmylog/">
         Options -Indexes
         AllowOverride All
         Require all granted
     </Directory>
+    {% endblock %}
 
 </VirtualHost>

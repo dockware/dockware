@@ -51,17 +51,19 @@ echo "-----------------------------------------------------------"
 {% block components_xdebug %}
 if [ $XDEBUG_ENABLED = 1 ]; then
    echo "DOCKWARE: activating Xdebug..."
+
+   sudo mv /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini_disabled /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini  > /dev/null 2>&1 &
+   sudo mv /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini_disabled /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini  > /dev/null 2>&1 &
+
    sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini
    sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
    echo "-----------------------------------------------------------"
  else
    echo "DOCKWARE: deactivating Xdebug..."
 
-   sudo sed -i 's?zend_extension = "/usr/lib/php/?#zend_extension = "/usr/lib/php/?g' /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini
-   sudo sed -i 's?zend_extension = "/usr/lib/php/?#zend_extension = "/usr/lib/php/?g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
-   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini
-   sudo sed -i 's/xdebug.remote_enable = 1/xdebug.remote_enable = 0/g' /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini
-
+   sudo mv /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini /etc/php/$PHP_VERSION/fpm/conf.d/20-xdebug.ini_dsiabled  > /dev/null 2>&1 &
+   sudo mv /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini /etc/php/$PHP_VERSION/cli/conf.d/20-xdebug.ini_disabled  > /dev/null 2>&1 &
+   echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
