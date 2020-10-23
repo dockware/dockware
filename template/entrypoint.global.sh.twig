@@ -35,16 +35,6 @@ echo "-----------------------------------------------------------"
 {% endblock %}
 
 
-{% block php_version %}
-
-
-echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-sudo sed -i 's/__dockware_php_version__/'${PHP_VERSION}'/g' /etc/apache2/sites-enabled/000-default.conf &
-sudo service php${PHP_VERSION}-fpm start &
-sudo update-alternatives --set php /usr/bin/php${PHP_VERSION} > /dev/null 2>&1 &
-echo "-----------------------------------------------------------"
-{% endblock %}
-
 
 {% block components %}
 
@@ -111,6 +101,8 @@ sudo service ssh restart
 echo "-----------------------------------------------------------"
 {% endblock %}
 
+
+
 {% block components_mysql %}
 echo "DOCKWARE: starting MySQL...."
 # somehow its necessary to set permissions, because
@@ -145,6 +137,15 @@ sudo service cron start
 echo "-----------------------------------------------------------"
 {% endblock %}
 
+{% endblock %}
+
+{% block php_version %}
+
+echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
+sudo sed -i 's/__dockware_php_version__/'${PHP_VERSION}'/g' /etc/apache2/sites-enabled/000-default.conf &
+sudo service php${PHP_VERSION}-fpm start &
+sudo update-alternatives --set php /usr/bin/php${PHP_VERSION} > /dev/null 2>&1 &
+echo "-----------------------------------------------------------"
 {% endblock %}
 
 
