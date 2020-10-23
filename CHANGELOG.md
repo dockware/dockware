@@ -7,6 +7,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 ### Added
  - Shopware 5.5.10 dev image
  - Big perfromance boost if xdebug is off
+ - make commands for en/disable xdebug without restart can be found in **var/www/scripts**
  
 ### Fixes
  - Make sure xdebug is safly disabled

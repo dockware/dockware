@@ -9,7 +9,8 @@ LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
 
 # remember build-date
 RUN date >/build-date.txt && \
-    mkdir -p /var/www
+    mkdir -p /var/www && \
+    mkdir -p /var/www/scripts
 
 # add our changelog to the containers
 ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
@@ -321,12 +322,16 @@ ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
 
 
 {% block assets_install %}
+COPY ./assets/scripts/makefile /var/www/scripts/makefile
+COPY ./assets/scripts/bin /var/www/scripts/bin
+
 {% block assets_install_shopware6 %}
-# add our setup makefile
-COPY ./assets/shopware6/makefile /var/www/makefile
-COPY ./assets/shopware6/files /var/www/files
+COPY ./assets/shopware6/files /var/www/scripts/shopware6
 {% endblock %}
+
 {% endblock %}
+RUN chown www-data:www-data -R /var/www/scripts
+
 
 
 
@@ -355,7 +360,7 @@ RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
     echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 {% endblock %}
 
-RUN cd /var/www/files/shopware && php create_jwt.php && \
+RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
     cd /var/www/html/config/jwt && chown www-data:www-data *
 
 RUN service mysql start && \
@@ -404,6 +409,7 @@ RUN service mysql start && \
 {% endblock %}
 
 {% endblock %}
+
 
 
 

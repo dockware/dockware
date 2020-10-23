@@ -5,6 +5,18 @@
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+
+{% block basics %}
+status: ## status infos
+	sh /var/www/scripts/bin/status.sh
+
+xdebug-on: ## enables xdebug
+	sh /var/www/scripts/bin/xdebug_enable.sh
+
+xdebug-off: ## disables xdebug
+	sh /var/www/scripts/bin/xdebug_disable.sh
+{% endblock %}
+
 # ---------------------------------------------------------------------------------------------
 {% block watcher_storefront %}
 watch-storefront: ## starts watcher for storefront at {{ shopware.url }}
@@ -39,3 +51,5 @@ build-admin: ## builds the admin
 
 {% block contribute_pull %}
 {% endblock %}
+
+
