@@ -178,6 +178,8 @@ COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
 {% endif %}
 {% endfor %}
+#make sure the installation runs also in default php version
+RUN update-alternatives --set php /usr/bin/php${php.default_version} > /dev/null 2>&1 &
 {% endblock %}
 
 # remove the standard apache index file
@@ -237,11 +239,13 @@ RUN apt-get update \
 {% endblock %}
 
 {% block components_packagers %}
-    # install composer
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    # install composer (with the commit hash we make sure that we don't install composer 2.0.0 which does not work for all sw6 installations)
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16 \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
+     # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
+    && cd /var/www/.composer && composer require hirak/prestissimo \
     # install yarn
     && npm install -g yarn \
 {% endblock %}
