@@ -8,10 +8,13 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
  - Shopware 5.5.10 dev image
  - Big perfromance boost if xdebug is off
  - make commands for en/disable xdebug without restart can be found in **var/www/scripts**
+ - composer 2.0
  
 ### Fixes
  - Make sure xdebug is safly disabled
  
+ ### removed
+ - hirak/prestissimo (not lomger needed as we have now composer 2.0)
 
 ## [1.3.1] - 2020-10-16
 
