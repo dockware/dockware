@@ -129,7 +129,6 @@ echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block php_version %}
-
 echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
 sudo sed -i 's/__dockware_php_version__/'${PHP_VERSION}'/g' /etc/apache2/sites-enabled/000-default.conf
 sudo service php${PHP_VERSION}-fpm stop > /dev/null 2>&1

@@ -180,6 +180,9 @@ COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
 {% endfor %}
 #make sure the installation runs also in default php version
 RUN update-alternatives --set php /usr/bin/php${php.default_version} > /dev/null 2>&1 &
+
+# make sure our php user has rights on the session
+RUN chown www-data:www-data -R /var/lib/php/sessions
 {% endblock %}
 
 # remove the standard apache index file
