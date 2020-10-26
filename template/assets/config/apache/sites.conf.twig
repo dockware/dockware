@@ -11,6 +11,7 @@
         Options -Indexes
         AllowOverride All
         Require all granted
+        CGIPassAuth On
     </Directory>
 
     <FilesMatch \.php$>
@@ -40,6 +41,7 @@
         Options -Indexes
         AllowOverride All
         Require all granted
+        CGIPassAuth On
     </Directory>
     {% endblock %}
 
@@ -70,6 +72,7 @@
         Options -Indexes
         AllowOverride All
         Require all granted
+        CGIPassAuth On
     </Directory>
 
     {% block https_mailcatcher %}
@@ -94,6 +97,7 @@
         Options -Indexes
         AllowOverride All
         Require all granted
+        CGIPassAuth On
     </Directory>
     {% endblock %}
 
