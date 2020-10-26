@@ -36,7 +36,7 @@ RUN echo "APP_ENV=dev" >> {{ env_file }} && \
     echo '     DB_NAME: "{{ db.database }}"' >> {{ psh_override_file }} && \
     echo '     DB_USER: "{{ db.user }}"' >> {{ psh_override_file }} && \
     echo '     DB_PASSWORD: "{{ db.pwd }}"' >> {{ psh_override_file }} && \
-    cd /var/www/files/shopware && php create_jwt.php && \
+    cd /var/www/scripts/shopware6 && php create_jwt.php && \
     chown www-data:www-data /var/www/html/config/jwt/*
 
 RUN service mysql start && \
