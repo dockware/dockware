@@ -242,8 +242,6 @@ RUN apt-get update \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
-    # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
-    && cd /var/www/.composer && composer require hirak/prestissimo \
     # install yarn
     && npm install -g yarn \
 {% endblock %}
