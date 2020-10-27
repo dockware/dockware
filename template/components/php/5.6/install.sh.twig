@@ -1,8 +1,6 @@
 RUN apt-get update \
-    && apt-get install -y libapache2-mod-php5.6 \
-    && apt-get install -y php5.6 \
+    && apt-get install -y php5.6-fpm \
     && apt-get install -y php5.6-apcu \
-    && apt-get install -y php5.6-mcrypt \
     && apt-get install -y php5.6-curl \
     && apt-get install -y php5.6-cli \
     && apt-get install -y php5.6-gd \
@@ -16,13 +14,13 @@ RUN apt-get update \
     && apt-get install -y php5.6-mysql \
     && apt-get install -y php5.6-mbstring \
     && apt-get install -y php5.6-zip \
-    && apt-get install -y php5.6-sqlite \
-    && apt-get install -y php5.6-memcached \
     && apt-get install -y php5.6-soap \
+    && apt-get install -y php5.6-memcached \
     && apt-get install -y php5.6-redis \
     && apt-get install -y php5.6-bcmath \
+    && apt-get install -y dh-php \
+    && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
-    && a2enmod php5.6 \
-    && a2enmod rewrite \
+    # remove pecl again
+    && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
