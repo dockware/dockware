@@ -68,7 +68,8 @@ fi
 {% endblock %}
 
 {% block components_ssh %}
-if [ $SSH_USER != "not-set" ]; then
+# checks if a different username is set in ENV and create if its not existing yet
+if [ $SSH_USER != "not-set"] && [! id "$1" &>/dev/null]; then
     echo "DOCKWARE: creating additional SSH user...."
     # create a custom ssh user for our provided settings
     # and add it as www-data alias (uid 33) to our system
