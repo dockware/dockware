@@ -78,6 +78,9 @@ if [ $SSH_USER != "not-set"] && [! id "$1" &>/dev/null]; then
     sudo usermod -m -d /var/www $SSH_USER | true
     sudo echo "${SSH_USER}:${SSH_PWD}" | sudo chpasswd
     sudo sed -i "s/${SSH_USER}:x:8888:8888:/${SSH_USER}:x:33:33:/g" /etc/passwd
+    # add sudo without password
+    sudo echo "${SSH_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    sudo echo "Defaults:${SSH_USER} !requiretty" >> /etc/sudoers
     # disable original ssh access
     sudo usermod -s /bin/false {{ ssh.user.name }}
     # allow ssh in sshd_config
