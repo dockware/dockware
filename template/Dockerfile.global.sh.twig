@@ -340,6 +340,8 @@ COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
 {% endblock %}
 RUN chown www-data:www-data -R /var/www/scripts
+#make sure for the whole isntallation xdebug is off for performance
+RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
 
 
@@ -352,7 +354,7 @@ RUN chown www-data:www-data -R /var/www/scripts
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
     && wget {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
-    && unzip -q /var/www/shopware.zip -d /var/www/html \
+    && sudo -u www-data unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 {% endblock %}
 
@@ -366,21 +368,22 @@ RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
     echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env && \
+    chown www-data:www-data /var/www/html/.env
 {% endblock %}
 
 RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
     cd /var/www/html/config/jwt && chown www-data:www-data *
 
 RUN service mysql start && \
-    cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
+    cd /var/www/html && sudo -u www-data php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
-    cd /var/www/html && php bin/console assets:install && \
+    cd /var/www/html && sudo -u www-data php bin/console assets:install && \
     # add some demo data
-    cd /var/www/html && APP_ENV=prod php bin/console framework:demodata && \
+    cd /var/www/html && APP_ENV=prod sudo -u www-data php bin/console framework:demodata && \
     # clear cache and refresh dal index to show the new demo data
-    cd /var/www/html && php bin/console cache:clear && \
-    cd /var/www/html && php bin/console dal:refresh:index && \
+    cd /var/www/html && sudo -u www-data php bin/console cache:clear && \
+    cd /var/www/html && sudo -u www-data php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
     mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     service mysql stop
@@ -396,11 +399,14 @@ RUN service mysql start && \
     # without this, it cannot find an autoload and thus it
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
-    cat /var/www/html/composer.json && \
-    cd /var/www/html/ && composer install && \
+    sudo -u www-data cat /var/www/html/composer.json && \
+    cd /var/www/html/ && sudo -u www-data composer install && \
     # install and pre-build our admin and storefront
+
     cd /var/www/html && ./bin/build.sh && \
-    cd /var/www/html && php bin/console theme:compile && \
+    sudo chown -R 33:33 /root/.npm  && \
+    cd /var/www/html && php bin/console theme:compile  && \
+    sudo chown -R www-data:www-data /var/www/html/public/theme && \
     service mysql stop
 {% endblock %}
 
@@ -420,12 +426,8 @@ RUN service mysql start && \
 {% endblock %}
 
 
-
-
-# change apache user permissions again
-RUN chown www-data:www-data /var/www/html -R \
-    # some images dont have that folder. make sure its there
-    && mkdir -p /var/www/.composer \
+# some images dont have that folder. make sure its there
+RUN mkdir -p /var/www/.composer \
     && chown www-data:www-data /var/www/.composer -R
 
 
