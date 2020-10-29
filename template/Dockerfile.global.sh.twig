@@ -176,6 +176,7 @@ ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
 
 COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
+COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
 {% endif %}
 {% endfor %}
 #make sure the installation runs also in default php version
@@ -306,8 +307,8 @@ RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.
 {% endblock %}
 
 {% block components_tideways %}
-RUN echo 'deb http://s3-eu-west-1.amazonaws.com/tideways/packages debian main' > /etc/apt/sources.list.d/tideways.list  \
-    && wget -qO - https://s3-eu-west-1.amazonaws.com/tideways/packages/EEB5E8F4.gpg | sudo apt-key add -  \
+RUN sudo echo 'deb https://packages.tideways.com/apt-packages debian main' | sudo tee /etc/apt/sources.list.d/tideways.list \
+    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -327,7 +328,7 @@ ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
 
 
 {% block assets_install %}
-COPY ./assets/scripts/makefile /var/www/scripts/makefile
+COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 
 {% block assets_install_shopware6 %}
