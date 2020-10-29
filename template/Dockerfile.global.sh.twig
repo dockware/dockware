@@ -178,6 +178,14 @@ ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
+
+# make sure the configured log folder exists and is writeable
+RUN mkdir /var/log/php -p && \
+    touch /var/log/php/cli_errors.log && \
+    touch /var/log/php/fpm_errors.log && \
+    chown -R www-data:www-data /var/log/php && \
+    chmod 0755 /var/log/php
+
 {% endif %}
 {% endfor %}
 #make sure the installation runs also in default php version
