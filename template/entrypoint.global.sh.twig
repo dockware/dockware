@@ -69,18 +69,18 @@ fi
 
 {% block components_ssh %}
 # checks if a different username is set in ENV and create if its not existing yet
-if [ $SSH_USER != "not-set"] && [! id "$1" &>/dev/null]; then
+if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
     echo "DOCKWARE: creating additional SSH user...."
     # create a custom ssh user for our provided settings
-    # and add it as www-data alias (uid 33) to our system
-    sudo adduser --disabled-password --uid 8888 --gecos "" $SSH_USER
-    sudo usermod -a -G www-data $SSH_USER
-    sudo usermod -m -d /var/www $SSH_USER | true
+    sudo adduser --disabled-password --gecos "" --ingroup www-data $SSH_USER
+    sudo usermod -a -G sudo $SSH_USER
+    sudo usermod -m -d /home/$SSH_USER $SSH_USER | true
     sudo echo "${SSH_USER}:${SSH_PWD}" | sudo chpasswd
-    sudo sed -i "s/${SSH_USER}:x:8888:8888:/${SSH_USER}:x:33:33:/g" /etc/passwd
     # add sudo without password
-    sudo echo "${SSH_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-    sudo echo "Defaults:${SSH_USER} !requiretty" >> /etc/sudoers
+    # write user to file cause we loos the var as we executing as root and get a new shell
+    sudo echo "${SSH_USER}" >> /tmp/user.name
+    sudo -u root sh -c 'echo "Defaults:$(cat /tmp/user.name) !requiretty" >> /etc/sudoers'
+    sudo rm -rf /tmp/user.name
     # disable original ssh access
     sudo usermod -s /bin/false {{ ssh.user.name }}
     # allow ssh in sshd_config

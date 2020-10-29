@@ -96,6 +96,7 @@ RUN apt-get update \
     && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
+    && apt-get install -y acl \
     {% block base_xdg %}
     && apt-get install -y xdg-utils \
     {% endblock %}
@@ -188,7 +189,9 @@ RUN chown www-data:www-data -R /var/lib/php/sessions
 
 # remove the standard apache index file
 RUN mkdir -p /var/www/html \
-    && rm -rf /var/www/html/index.html \
+    && rm -rf /var/www/html/* \
+    && setfacl -R -d -m u::rwx -m g::rwx -m o::r-x /var/www/html/ \
+    && chown -R www-data:www-data /var/www/html \
     && mkdir -p /var/www/html/public
 
 

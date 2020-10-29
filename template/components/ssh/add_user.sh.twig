@@ -6,13 +6,11 @@
 #       - string pwd
 #       - bool sudo
 ## ***********************************************************************
-RUN adduser --disabled-password --uid 5577 --gecos "" {{ user }} \
-    && usermod -a -G www-data {{ user }} \
-    && usermod -a -G sudo {{ user }} \
-    && usermod -m -d /var/www {{ user }} | true \
+RUN adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data {{ user }} \
+    && usermod -m -d /home/{{ user }} {{ user }} | true \
     && echo "{{ user }}:{{ pwd }}" | chpasswd \
-    && sed -i 's/{{ user }}:x:5577:5577:/{{ user }}:x:33:33:/g' /etc/passwd {% if sudo == true %} \
+    {% if sudo == true %}
+    && usermod -a -G sudo {{ user }} \
     # allow sudo without pwd and dont require tty (for entrypoint commands)
-    && echo "{{ user }} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
     && echo "Defaults:{{ user }} !requiretty" >> /etc/sudoers
     {% endif %}
