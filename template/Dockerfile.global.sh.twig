@@ -406,11 +406,11 @@ RUN service mysql start && \
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
     sudo -u www-data cat /var/www/html/composer.json && \
+    chown -R 33:33 /root/.composer && \
     cd /var/www/html/ && sudo -u www-data sh -c 'composer install' && \
     # install and pre-build our admin and storefront
-
-    cd /var/www/html && sudo -u www-data sh -c '/var/www/html/bin/build.sh' && \
-    sudo chown -R 33:33 /root/.npm  && \
+    chown -R 33:33 /root/.npm  && \
+    cd /var/www/html && ./bin/build.sh && \
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console theme:compile'  && \
     service mysql stop
 {% endblock %}
@@ -434,7 +434,10 @@ RUN service mysql start && \
 
 # some images dont have that folder. make sure its there
 RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer -R
+    && chown www-data:www-data /var/www/.composer -R \
+    #find all files and fodlers owend by root and chwon to www-data
+    && find /var/www/html -group root -exec chown www-data:www-data {} \; \
+    && find /var/www/html -user root -exec chown www-data:www-data {} \;
 
 
 ## ***********************************************************************
