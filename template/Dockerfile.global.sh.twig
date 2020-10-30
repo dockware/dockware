@@ -200,7 +200,7 @@ RUN mkdir -p /var/www/html \
     && rm -rf /var/www/html/* \
     && setfacl -R -d -m u::rwx -m g::rwx -m o::r-x /var/www/html/ \
     && chown -R www-data:www-data /var/www/html \
-    && mkdir -p /var/www/html/public
+    && sudo -u www-data mkdir -p /var/www/html/public
 
 
 {% block permissions %}
