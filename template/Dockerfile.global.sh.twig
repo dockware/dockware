@@ -409,10 +409,9 @@ RUN service mysql start && \
     cd /var/www/html/ && sudo -u www-data sh -c 'composer install' && \
     # install and pre-build our admin and storefront
 
-    cd /var/www/html &&  ./bin/build.sh && \
+    cd /var/www/html && sudo -u www-data sh -c '/var/www/html/bin/build.sh' && \
     sudo chown -R 33:33 /root/.npm  && \
-    cd /var/www/html && php bin/console theme:compile  && \
-    sudo chown -R www-data:www-data /var/www/html/public/theme && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console theme:compile'  && \
     service mysql stop
 {% endblock %}
 
