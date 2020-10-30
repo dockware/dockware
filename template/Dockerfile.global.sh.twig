@@ -96,7 +96,6 @@ RUN apt-get update \
     && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
-    && apt-get install -y acl \
     {% block base_xdg %}
     && apt-get install -y xdg-utils \
     {% endblock %}
@@ -179,12 +178,6 @@ COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
 
-# make sure the configured log folder exists and is writeable
-RUN mkdir /var/log/php -p && \
-    touch /var/log/php/cli_errors.log && \
-    touch /var/log/php/fpm_errors.log && \
-    chown -R www-data:www-data /var/log/php && \
-    chmod 0755 /var/log/php
 
 {% endif %}
 {% endfor %}
@@ -198,16 +191,21 @@ RUN chown www-data:www-data -R /var/lib/php/sessions
 # remove the standard apache index file
 RUN mkdir -p /var/www/html \
     && rm -rf /var/www/html/* \
-    && setfacl -R -d -m u::rwx -m g::rwx -m o::r-x /var/www/html/ \
     && chown -R www-data:www-data /var/www/html \
-    && sudo -u www-data mkdir -p /var/www/html/public
+    && sudo -u www-data sh -c 'mkdir -p /var/www/html/public'
 
 
 {% block permissions %}
+# make sure the configured log folder exists and is writeable
 RUN chmod -R 0777 /var/www \
     && chgrp -R www-data /var/log/apache2 \
     && mkdir -p /var/log/mysql \
-    && chgrp -R www-data /var/log/mysql
+    && chgrp -R www-data /var/log/mysql\
+    && mkdir /var/log/php -p  \
+    && touch /var/log/php/cli_errors.log  \
+    && touch /var/log/php/fpm_errors.log  \
+    && chown -R www-data:www-data /var/log/php  \
+    && chmod 0755 /var/log/php
 {% endblock %}
 
 {% block ssl %}
@@ -362,7 +360,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
     && wget {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
-    && sudo -u www-data unzip -q /var/www/shopware.zip -d /var/www/html \
+    && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
     && rm -rf /var/www/shopware.zip
 {% endblock %}
 
@@ -384,14 +382,14 @@ RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
     cd /var/www/html/config/jwt && chown www-data:www-data *
 
 RUN service mysql start && \
-    cd /var/www/html && sudo -u www-data php bin/console system:install --create-database --basic-setup && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
     # make sure assets like logos are ready
-    cd /var/www/html && sudo -u www-data php bin/console assets:install && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \
     # add some demo data
-    cd /var/www/html && APP_ENV=prod sudo -u www-data php bin/console framework:demodata && \
+    cd /var/www/html && APP_ENV=prod sudo -u www-data sh -c 'php bin/console framework:demodata' && \
     # clear cache and refresh dal index to show the new demo data
-    cd /var/www/html && sudo -u www-data php bin/console cache:clear && \
-    cd /var/www/html && sudo -u www-data php bin/console dal:refresh:index && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console cache:clear' && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console dal:refresh:index' && \
     rm -rf /var/www/html/var/cache/* && \
     mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     service mysql stop
@@ -408,10 +406,10 @@ RUN service mysql start && \
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
     sudo -u www-data cat /var/www/html/composer.json && \
-    cd /var/www/html/ && sudo -u www-data composer install && \
+    cd /var/www/html/ && sudo -u www-data sh -c 'composer install' && \
     # install and pre-build our admin and storefront
 
-    cd /var/www/html && ./bin/build.sh && \
+    cd /var/www/html &&  ./bin/build.sh && \
     sudo chown -R 33:33 /root/.npm  && \
     cd /var/www/html && php bin/console theme:compile  && \
     sudo chown -R www-data:www-data /var/www/html/public/theme && \
@@ -422,9 +420,10 @@ RUN service mysql start && \
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN service mysql start && \
-    cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+    chown -R www-data:www-data /var/www/html/custom/plugins/DockwareSamplePlugin && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console plugin:refresh' && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console plugin:install DockwareSamplePlugin' && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console plugin:activate DockwareSamplePlugin' && \
     rm -rf /var/www/html/var/cache/* && \
     service mysql stop
 {% endblock %}
