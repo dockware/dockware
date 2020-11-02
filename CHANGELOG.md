@@ -3,6 +3,23 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [1.3.3] - 2020-11-02
+### Added
+ - made logging from cli & fpm constistent 
+ - made images smaller
+ - ebalbed opcache per default
+ - custom ssh dosen't require sudo pwd anymore
+ - 
+ 
+### Fixed
+  - CLI Logging now works 
+  - located makefile again under /var/wwww
+  - fixed switching xdebug
+  - fixed restarting with custom ssh user
+  - fixed makefule essentials (watch commands)
+  - fixed session permissions on /etc/..
+
+
 ## [1.3.2] - 2020-10-22
 ### Added
  - Shopware 5.5.10 dev image

@@ -4,7 +4,7 @@
 #
 FROM {{ base_image }}
 LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
-      version="1.0" \
+      version="{{version}}" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
