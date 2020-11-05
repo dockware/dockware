@@ -101,6 +101,13 @@ echo "-----------------------------------------------------------"
 echo "DOCKWARE: starting MySQL...."
 # somehow its necessary to set permissions, because
 # sometimes they get lost :)
+# make sure that it is no longer present from the last run
+file = "/var/run/mysqld/mysqld.sock.lock"
+if [ -fe file ]
+then
+    sudo rm -f  file
+fi
+
 sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
 sudo service mysql start;
 
