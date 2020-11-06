@@ -3,6 +3,13 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+
+## Unreleased
+
+### Fixed
+  - Remove wrong "/" path in Shopware 5 images
+  
+  
 ## [1.3.3] - 2020-11-02
 ### Added
  - made logging from cli & fpm constistent 
