@@ -45,12 +45,41 @@ If you want to create features for all images and tags, then use the global temp
 Otherwise please add your changes in either the corresponding image or even on a "tag" level.
 
 
-## When will it be built and available?
-At the moment rollouts of official existing as well as new images is done on our side.
+## How do releases work?!
+Dockware is indeed a new type of project...and we finally figured out a way to manage releases for you.
 
-Such an open source docker project is indeed new (for us), so we have to figure out a good
-way for releases and probably changelogs.
-Drop us a line if you have an idea ;)
+New dockware releases work almost the same as traditional projects.
+The only difference is, that a support for a new Shopware version is not in the scope of a release.
+
+So what is a release then?
+
+A dockware release consists of new features, fixes and improvements across the full set of
+tags of all image or specific images.
+
+> Example:
+>
+> We add a new logging application to all dockware/dev tags, that's a new release.
+>
+> We add a new Shopware 6.x version...thats not a new release!
+
+
+All changes can be found in the CHANGELOG.md file.
+
+This file is also embedded within the image, when we build it (/var/www)
+
+When you launch your dockware container, it should also output its `version` number in "docker logs"
+so you can verify what features and fixes you should have.
+
+In addition to this, GitHub users can search for tags and releases in our repository.
+The GitHub releases will also included the built ORCA distribution files, which are
+not included in the repository, to avoid divergent versions.
+
+## When will a release be available?
+As soon as we create a new official release, we trigger our building pipelines.
+
+The current building pipelines can be seen at https://dockware.io/builds
+
+All official images including their last publishing date can be found at https://dockware.io/images
 
 
 
