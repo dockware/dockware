@@ -74,7 +74,7 @@ if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
     # create a custom ssh user for our provided settings
     sudo adduser --disabled-password --uid 8888 --gecos "" --ingroup www-data $SSH_USER
     sudo usermod -a -G sudo $SSH_USER
-    sudo usermod -m -d /home/$SSH_USER $SSH_USER | true
+    sudo usermod -m -d /var/www $SSH_USER | true
     sudo echo "${SSH_USER}:${SSH_PWD}" | sudo chpasswd
     sudo sed -i "s/${SSH_USER}:x:8888:33:/${SSH_USER}:x:33:33:/g" /etc/passwd
     # add sudo without password

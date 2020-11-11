@@ -436,8 +436,8 @@ RUN service mysql start && \
 RUN mkdir -p /var/www/.composer \
     && chown www-data:www-data /var/www/.composer -R \
     # find all files and folders owned by root and chwon to www-data
-    && find /var/www/html -group root -exec chown www-data:www-data {} \; \
-    && find /var/www/html -user root -exec chown www-data:www-data {} \;
+    && find /var/www -group root -exec chown www-data:www-data {} \; \
+    && find /var/www -user root -exec chown www-data:www-data {} \;
 
 
 ## ***********************************************************************

@@ -4,10 +4,11 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
-## Unreleased
+## [1.3.4] - 2020-11-12
 
 ### Fixed
   - Remove wrong "/" path in Shopware 5 images
+  - set home dir for users to /var/www to avoid watcher permission bugs
   
   
 ## [1.3.3] - 2020-11-02
