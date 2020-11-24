@@ -248,20 +248,25 @@ RUN apt-get update \
 
 {% block components_grunt %}
     && npm install -g grunt-cli \
-    && npm install grunt --save-dev \
+    && npm install grunt --save-dev
 {% endblock %}
-
 {% block components_packagers %}
+    USER www-data
     # install composer (with the commit hash we make sure that we don't install composer 2.0.0 which does not work for all sw6 installations)
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16 \
+    RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=1.10.16 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
+    && chmod 755 /tmp/composer.phar
+    USER root
+    RUN  mv /tmp/composer.phar /usr/local/bin/composer \
      # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
     && cd /var/www/.composer && composer require hirak/prestissimo \
     # install yarn
     && npm install -g yarn \
+    && chown -R www-data:www-data /var/www/.composer \
 {% endblock %}
+
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 {% block components_xdebug %}
@@ -406,7 +411,6 @@ RUN service mysql start && \
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
     sudo -u www-data cat /var/www/html/composer.json && \
-    chown -R 33:33 /root/.composer && \
     cd /var/www/html/ && sudo -u www-data sh -c 'composer install' && \
     # install and pre-build our admin and storefront
     chown -R 33:33 /root/.npm  && \
