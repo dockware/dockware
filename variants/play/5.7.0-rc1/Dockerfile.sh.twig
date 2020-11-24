@@ -1,5 +1,4 @@
-{% extends "variants/dev/Dockerfile.base.sh.twig" %}
-
+{% extends "variants/play/Dockerfile.base.sh.twig" %}
 
 {% block image_variables_sw_currency %}
 {% endblock %}
@@ -15,7 +14,7 @@ RUN rm -rf /var/www/html/* \
     && sudo -u www-data unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
-{% include 'template/components/shopware/shopware5/install.sh.twig' with {'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
+{% include 'template/components/shopware/shopware5/install.sh.twig' with {'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : false } %}
 
 {% endblock %}
 
