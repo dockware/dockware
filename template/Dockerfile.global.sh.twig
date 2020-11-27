@@ -387,6 +387,8 @@ RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
     cd /var/www/html/config/jwt && chown www-data:www-data *
 
 RUN service mysql start && \
+    # switch to default PHP before installing
+    update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
     # make sure assets like logos are ready
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \

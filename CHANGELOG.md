@@ -4,6 +4,12 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
+## [UNRELEASED]
+
+### Added
+  - Add PHP 8.0 (experimental, Default is still 7.4)
+  
+  
 ## [1.3.4] - 2020-11-12
 
 ### Fixed

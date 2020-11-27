@@ -1,5 +1,5 @@
 {
-  "version" : "1.3.4",
+  "version": "1.3.5-beta",
   "base_image": "ubuntu:18.04",
   "db": {
     "host": "localhost",
@@ -17,6 +17,10 @@
   "php": {
     "default_version": "7.4",
     "versions": {
+      "8.0": {
+        "active": true,
+        "folder_id": "20200930"
+      },
       "7.4": {
         "active": true,
         "folder_id": "20190902"
