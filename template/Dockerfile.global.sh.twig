@@ -413,11 +413,11 @@ RUN service mysql start && \
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
     sudo -u www-data cat /var/www/html/composer.json && \
-    cd /var/www/html/ && sudo -u www-data sh -c 'composer install' && \
+    cd /var/www/html/ && composer install && \
     # install and pre-build our admin and storefront
     chown -R 33:33 /root/.npm  && \
     cd /var/www/html && ./bin/build.sh && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console theme:compile'  && \
+    cd /var/www/html && php bin/console theme:compile  && \
     service mysql stop
 {% endblock %}
 
