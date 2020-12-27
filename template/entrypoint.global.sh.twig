@@ -103,7 +103,7 @@ echo "DOCKWARE: starting MySQL...."
 # sometimes they get lost :)
 # make sure that it is no longer present from the last run
 file = "/var/run/mysqld/mysqld.sock.lock"
-if [ -fe file ]
+if [ -f file ]
 then
     sudo rm -f  file
 fi
