@@ -1,14 +1,14 @@
 ; =============================================================
 ; XDEBUG
 ; =============================================================
-zend_extension = "/usr/lib/php/20190902/xdebug.so"
+zend_extension = "/usr/lib/php/__PHP__FOLDER__ID/xdebug.so"
 xdebug.idekey = "PHPSTORM"
 
 xdebug.mode = debug
 
 xdebug.client_port = 9000
 xdebug.remote_handler = dbgp
-xdebug.client_host = host.docker.internal
+xdebug.client_host = __dockware_host__
 xdebug.var_display_max_depth = 9999
 xdebug.var_display_max_data = 99999
 xdebug.max_nesting_level = 1500
