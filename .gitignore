@@ -4,3 +4,4 @@
 /orca.phar
 
 dist
+/docker-compose.yml
