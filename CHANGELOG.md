@@ -8,8 +8,15 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ### Added
   - Add PHP 8.0 (experimental, Default is still 7.4)
+  - Add Xdebug 3
+
+### Fixed
+  - Fix broken database permissions on used triggers if a custom database user is used.
+    This led to problems when creating e.g. products in the Administration.
+  - Fix problem where mysqld.sock.lock file was not correctly deleted on bootup, which could 
+    lead to the issue that the MySQL fails when starting.
   
-  
+
 ## [1.3.4] - 2020-11-12
 
 ### Fixed
