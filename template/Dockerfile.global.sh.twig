@@ -183,6 +183,11 @@ COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
 {% endfor %}
 #make sure the installation runs also in default php version
 RUN update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 &
+# make sure the installation runs using our default php version
+RUN service php{{ php.default_version }}-fpm stop > /dev/null 2>&1 && \
+    service php{{ php.default_version }}-fpm start && \
+    update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1
+
 
 # make sure our php user has rights on the session
 RUN chown www-data:www-data -R /var/lib/php/sessions
