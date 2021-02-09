@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+
+  shop:
+    container_name: shop
+    image: dockware/dev:6.3.5.1
+    ports:
+      - "80:80"
+      - "443:443"
+      - "22:22"
+      - "3306:3306"
+      - "8888:8888"
+      - "9999:9999"
+    environment:
+      - PHP_VERSION=7.4
+      - XDEBUG_ENABLED=1
