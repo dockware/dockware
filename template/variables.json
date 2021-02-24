@@ -19,27 +19,33 @@
     "versions": {
       "8.0": {
         "active": true,
-        "folder_id": "20200930"
+        "folder_id": "20200930",
+        "xdebug_version": "3"
       },
       "7.4": {
         "active": true,
-        "folder_id": "20190902"
+        "folder_id": "20190902",
+        "xdebug_version": "3"
       },
       "7.3": {
         "active": true,
-        "folder_id": "20180731"
+        "folder_id": "20180731",
+        "xdebug_version": "3"
       },
       "7.2": {
         "active": true,
-        "folder_id": "20170718"
+        "folder_id": "20170718",
+        "xdebug_version": "3"
       },
       "7.1": {
         "active": true,
-        "folder_id": "20160303"
+        "folder_id": "20160303",
+        "xdebug_version": "2"
       },
       "7.0": {
         "active": true,
-        "folder_id": "20151012"
+        "folder_id": "20151012",
+        "xdebug_version": "2"
       }
     }
   },

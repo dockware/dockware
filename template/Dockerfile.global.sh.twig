@@ -278,7 +278,7 @@ RUN apt-get update \
 {% include 'template/components/xdebug/install.sh.twig' %}
 
 {% for key, value in php.versions %}
-{% include 'template/components/xdebug/install_php_ext.sh.twig' with { "version" : key, "folder_id" : value.folder_id } %}
+{% include 'template/components/xdebug/install_php_ext.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
 {% endfor %}
 {% endblock %}
 
