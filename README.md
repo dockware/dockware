@@ -31,6 +31,12 @@ More about Shopware: https://www.shopware.com
 
 Shopware Platform on Github: https://github.com/shopware/platform
 
+## Where to get support?
+If you have a issue or a feature Request, pls use Github.
+
+If you need help and have general questions please use our slack channel in the Shopware Community Slack.
+https://slack.shopware.com use the channel #dockware.
+[Shopware Slack #dockware](https://slack.shopware.com/client/T011TTK0DMK/C014X8HE8U8) to the Channel
 
 ## How to contribute?
 Dockware is built with Orca (www.orca-build.io).
