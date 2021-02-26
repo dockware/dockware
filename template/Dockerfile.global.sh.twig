@@ -281,7 +281,7 @@ RUN apt-get update \
     && sudo git fetch --all \
     && sudo apt-get update \
 {% for key, value in php.versions %}
-{% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_branch":value.xdebug_branch} %}
+{% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_tag":value.xdebug_tag} %}
 {% endfor %}
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \

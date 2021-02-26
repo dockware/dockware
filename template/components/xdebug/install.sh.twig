@@ -2,7 +2,7 @@
     && sudo apt-get install -y php{{ php_version }}-dev \
     && cd /var/www/xdebug \
     && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git switch -f {{xdebug_branch}} \
+    && sudo git checkout -f tags/{{xdebug_tag}} \
     && sudo phpize{{ php_version }} --clean \
     && sudo phpize{{ php_version }} \
     && sudo ./configure --with-php-config=/usr/bin/php-config{{php_version}} \

@@ -21,37 +21,38 @@
         "active": true,
         "folder_id": "20200930",
         "xdebug_version": "3",
-        "xdebug_branch": "xdebug_3_0"
+        "xdebug_tag": "3.0.3"
       },
       "7.4": {
         "active": true,
         "folder_id": "20190902",
         "xdebug_version": "3",
-        "xdebug_branch": "xdebug_3_0"
+        "xdebug_tag": "3.0.3"
       },
       "7.3": {
         "active": true,
         "folder_id": "20180731",
         "xdebug_version": "3",
-        "xdebug_branch": "xdebug_3_0"
+        "xdebug_tag": "3.0.3"
       },
       "7.2": {
         "active": true,
         "folder_id": "20170718",
-        "xdebug_version": "3",
-        "xdebug_branch": "xdebug_3_0"
+        "xdebug_version": "2",
+        "xdebug_tag": "2.9.8",
+        "__comment__": "//3.X will produce a zend_mm_heap corrupted error, therefor we use 2.9"
       },
       "7.1": {
         "active": true,
         "folder_id": "20160303",
         "xdebug_version": "2",
-        "xdebug_branch": "xdebug_2_7"
+        "xdebug_tag": "2.7.2"
       },
       "7.0": {
         "active": true,
         "folder_id": "20151012",
         "xdebug_version": "2",
-        "xdebug_branch": "xdebug_2_7"
+        "xdebug_tag": "2.7.2"
       }
     }
   },
