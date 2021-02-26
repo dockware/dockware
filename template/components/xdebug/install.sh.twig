@@ -1,4 +1,10 @@
-RUN apt-get update \
-    && apt-get install -y php-xdebug \
-    && apt-get install -y zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    # install xdebug for php {{ php_version }}
+    && sudo apt-get install -y php{{ php_version }}-dev \
+    && cd /var/www/xdebug \
+    && sudo rm -rf /var/www/xdebug/modules/* \
+    && sudo git switch -f {{xdebug_branch}} \
+    && sudo phpize{{ php_version }} --clean \
+    && sudo phpize{{ php_version }} \
+    && sudo ./configure --with-php-config=/usr/bin/php-config{{php_version}} \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/{{folder_id}}/xdebug_{{ php_version }}.so \

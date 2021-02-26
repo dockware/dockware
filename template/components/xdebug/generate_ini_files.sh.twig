@@ -3,7 +3,3 @@
 
 COPY ./config/php/xdebug-{{ xdebug_version }}.ini /etc/php/{{ version }}/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-{{ xdebug_version }}.ini /etc/php/{{ version }}/cli/conf.d/20-xdebug.ini
-
-RUN sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_fpm }} \
-    && sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_cli }}
-

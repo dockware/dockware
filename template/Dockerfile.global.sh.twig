@@ -182,11 +182,11 @@ COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
 {% endif %}
 {% endfor %}
 #make sure the installation runs also in default php version
-RUN update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
 RUN service php{{ php.default_version }}-fpm stop > /dev/null 2>&1 && \
     service php{{ php.default_version }}-fpm start && \
-    update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1
+    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1
 
 
 # make sure our php user has rights on the session
@@ -275,11 +275,31 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 {% block components_xdebug %}
-{% include 'template/components/xdebug/install.sh.twig' %}
-
+    RUN cd /var/www \
+    && sudo git clone git://github.com/xdebug/xdebug.git \
+    && cd /var/www/xdebug \
+    && sudo git fetch --all \
+    && sudo apt-get update \
 {% for key, value in php.versions %}
-{% include 'template/components/xdebug/install_php_ext.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
+{% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_branch":value.xdebug_branch} %}
 {% endfor %}
+&& sudo apt-get install -y zlib1g-dev \
+&& sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+&& sudo rm -rf /var/www/xdebug
+
+
+
+#generate xddebug ini files
+{% for key, value in php.versions %}
+{% include 'template/components/xdebug/generate_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
+{% endfor %}
+
+#fille the xddebug ini files with correct informations
+RUN cd /var/www \
+{% for key, value in php.versions %}
+{% include 'template/components/xdebug/edit_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
+{% endfor %}
+ && cd /var/www
 {% endblock %}
 
 
@@ -393,7 +413,7 @@ RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
 
 RUN service mysql start && \
     # switch to default PHP before installing
-    update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
+    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
     # make sure assets like logos are ready
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \

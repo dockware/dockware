@@ -1,0 +1,8 @@
+{% set filename_fpm = "/etc/php/" ~ version ~ "/fpm/conf.d/20-xdebug.ini"  %}
+{% set filename_cli = "/etc/php/" ~ version ~ "/cli/conf.d/20-xdebug.ini"  %}
+
+&& sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_fpm }} \
+    && sed -i 's/__PHP_VERSION__/{{ version }}/g' {{ filename_fpm }} \
+    && sed -i 's/__PHP__FOLDER__ID/{{ folder_id }}/g' {{ filename_cli }} \
+    && sed -i 's/__PHP_VERSION__/{{ version }}/g' {{ filename_cli }} \
+
