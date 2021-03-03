@@ -38,9 +38,8 @@
       "7.2": {
         "active": true,
         "folder_id": "20170718",
-        "xdebug_version": "2",
-        "xdebug_tag": "2.9.8",
-        "__comment__": "//3.X will produce a zend_mm_heap corrupted error, therefor we use 2.9"
+        "xdebug_version": "3",
+        "xdebug_tag": "3.0.3"
       },
       "7.1": {
         "active": true,

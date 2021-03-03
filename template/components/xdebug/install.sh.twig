@@ -8,4 +8,7 @@
     && sudo ./configure --with-php-config=/usr/bin/php-config{{php_version}} \
     && sudo make \
     && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/{{folder_id}}/xdebug_{{ php_version }}.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize{{ php_version }} --clean \
     && sudo apt-get remove -y php{{ php_version }}-dev \
