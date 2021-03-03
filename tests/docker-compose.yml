@@ -4,7 +4,7 @@ services:
 
   shop:
     container_name: shop
-    image: dockware/dev:6.3.5.1
+    image: dockware/flex:latest
     ports:
       - "80:80"
       - "443:443"
@@ -12,6 +12,9 @@ services:
       - "3306:3306"
       - "8888:8888"
       - "9999:9999"
+    volumes:
+      - "./boot_start.sh:/var/www/boot_start.sh"
+      - "./boot_end.sh:/var/www/boot_end.sh"
     environment:
       - PHP_VERSION=7.4
       - XDEBUG_ENABLED=1

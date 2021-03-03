@@ -27,6 +27,15 @@ set -e
 source /etc/apache2/envvars
 
 
+# it's possible to add a custom boot script on startup.
+# so we test if it exists and just execute it
+file="/var/www/boot_start.sh"
+if [ -f "$file" ] ; then
+    sh $file
+fi
+
+
+
 {% block tz %}
 echo "DOCKWARE: setting timezone to ${TZ}..."
 sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
@@ -192,6 +201,14 @@ sudo apache2ctl configtest
 sudo service apache2 restart
 echo "-----------------------------------------------------------"
 # --------------------------------------------------
+
+
+# now let's check if we have a custom boot script that
+# should run after our other startup scripts.
+file="/var/www/boot_end.sh"
+if [ -f "$file" ] ; then
+    sh $file
+fi
 
 
 
