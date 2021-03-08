@@ -1,0 +1,4 @@
+commands:
+  - name: "NODE Version 12"
+    command: "node -v"
+    expected: "v12."

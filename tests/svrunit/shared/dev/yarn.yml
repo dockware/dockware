@@ -1,0 +1,4 @@
+commands:
+  - name: "YARN Dependency Manager exists"
+    command: "yarn -v"
+    expected: "1."

@@ -1,0 +1,10 @@
+file_exists:
+  - name: "SSH Private Key exists"
+    file: "/var/www/.ssh/id_rsa"
+    expected: 1
+  - name: "SSH Public Key exists"
+    file: "/var/www/.ssh/id_rsa.pub"
+    expected: 1
+  - name: "SSL Certificates exists"
+    file: "/etc/apache2/ssl/server.crt"
+    expected: 1

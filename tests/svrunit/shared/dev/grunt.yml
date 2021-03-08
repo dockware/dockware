@@ -1,0 +1,4 @@
+commands:
+  - name: "Grunt is installed"
+    command: "grunt --version"
+    expected: "grunt-cli v1"

@@ -1,0 +1,8 @@
+php_module:
+  -  name: "PHP Module: Tideways"
+     module: "tideways"
+# ----------------------------------------------------------------------------------------
+file_exists:
+  -  name: "Test that Default Tideways configuration file exists"
+     file: "/etc/default/tideways-daemon"
+     expected: 1

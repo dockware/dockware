@@ -1,0 +1,7 @@
+commands:
+  - name: "Permission: Verify 'www-data' has no shell login"
+    command: "cat /etc/passwd"
+    expected: "www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin"
+  - name: "Permission: Verify 'dockware' user is alias for 'www-data'"
+    command: "cat /etc/passwd"
+    expected: "dockware:x:33:33:,,,:/var/www:/bin/bash"

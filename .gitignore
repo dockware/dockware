@@ -2,6 +2,7 @@
 .idea
 
 /orca.phar
+/svrunit.phar
 
 dist
 /docker-compose.yml

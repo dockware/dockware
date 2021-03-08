@@ -1,0 +1,55 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="dockware/play:latest, PHP 8.0"
+                   dockerImage="dockware/play:latest"
+                   dockerEnv="PHP_VERSION=8.0">
+            <directory>./images/play</directory>
+            <directory>./shared/base</directory>
+            <directory>./packages/php/php8</directory>
+        </testsuite>
+
+        <testsuite name="dockware/play:latest, PHP 7.4"
+                   dockerImage="dockware/play:latest"
+                   dockerEnv="PHP_VERSION=7.4">
+            <directory>./images/play</directory>
+            <directory>./shared/base</directory>
+            <directory>./packages/php/php7</directory>
+        </testsuite>
+
+        <testsuite name="dockware/play:latest, PHP 7.3"
+                   dockerImage="dockware/play:latest"
+                   dockerEnv="PHP_VERSION=7.3">
+            <directory>./images/play</directory>
+            <directory>./shared/base</directory>
+            <directory>./packages/php/php7</directory>
+        </testsuite>
+
+        <testsuite name="dockware/play:latest, PHP 7.2"
+                   dockerImage="dockware/play:latest"
+                   dockerEnv="PHP_VERSION=7.2">
+            <directory>./images/play</directory>
+            <directory>./shared/base</directory>
+            <directory>./packages/php/php7</directory>
+        </testsuite>
+
+        <testsuite name="dockware/play:latest, PHP 7.1"
+                   dockerImage="dockware/play:latest"
+                   dockerEnv="PHP_VERSION=7.1">
+            <directory>./images/play</directory>
+            <directory>./shared/base</directory>
+            <directory>./packages/php/php7</directory>
+        </testsuite>
+
+        <testsuite name="dockware/play:latest, PHP 7.0"
+                   dockerImage="dockware/play:latest"
+                   dockerEnv="PHP_VERSION=7.0,">
+            <directory>./images/play</directory>
+            <directory>./shared/base</directory>
+            <directory>./packages/php/php7</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>

@@ -1,0 +1,4 @@
+commands:
+  - name: "Composer 1 installed"
+    command: "composer --version"
+    expected: "Composer version 1."

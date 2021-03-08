@@ -1,0 +1,4 @@
+commands:
+  - name: "Check Ubuntu 18.04"
+    command: "lsb_release -a"
+    expected: "Ubuntu 18.04"
