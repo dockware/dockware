@@ -2,10 +2,10 @@
   "shopware": {
     "version": "",
     "dev": {
-      "branch": "master"
+      "branch": "trunk"
     },
     "platform": {
-      "branch": "master"
+      "branch": "trunk"
     }
   },
   "php": {
