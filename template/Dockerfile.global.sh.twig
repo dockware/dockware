@@ -255,7 +255,9 @@ RUN apt-get update \
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
 {% endblock %}
+
 {% block components_packagers %}
+{% block components_packagers_composer %}
     USER www-data
     # install composer (with the commit hash we make sure that we don't install composer 2.0.0 which does not work for all sw6 installations)
     RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=1.10.16 --quiet \
@@ -267,9 +269,13 @@ RUN apt-get update \
     RUN  mv /tmp/composer.phar /usr/local/bin/composer \
      # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
     && cd /var/www/.composer && composer require hirak/prestissimo \
-    # install yarn
+{% endblock %}
+
+{% block components_packagers_yarn %}
     && npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
+{% endblock %}
+
 {% endblock %}
 
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
