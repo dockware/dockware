@@ -1,0 +1,41 @@
+name: Build dockware images
+
+#only manuelly
+on:
+  workflow_dispatch:
+    inputs:
+      imageName:
+        description: 'dockware Image Name'
+        required: true
+        default: 'warning'
+
+
+jobs:
+  install:
+    name: Generate the dockerfiles
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: install
+        run: make install
+
+      - name: Generate docker files
+        run: make generate
+
+      - name: Generate Build commands for ${{ github.event.inputs.imageName }} image
+        run: php ./build/build.php ${{ github.event.inputs.imageName }}
+
+      - name: Build the ${{ github.event.inputs.imageName }} images
+        run: sh dist/build_${{ github.event.inputs.imageName }}.sh
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Push Images to dockerhub
+        run: php ./build/push_dockerhub.php ${{ github.event.inputs.imageName }}
