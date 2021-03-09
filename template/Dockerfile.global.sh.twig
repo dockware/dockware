@@ -358,11 +358,11 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages debian main' | sud
     && sudo apt-get -y install tideways-php tideways-daemon  \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ADD ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 
 {% for key,value in php.versions %}
-ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
-ADD ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
 {% endfor %}
 
 {% endblock %}
