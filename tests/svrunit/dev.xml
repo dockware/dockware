@@ -42,26 +42,6 @@
             <directory>./packages/xdebug/xdebug3</directory>
         </testsuite>
 
-        <testsuite name="dockware/dev:latest, PHP 7.1"
-                   dockerImage="dockware/dev:latest"
-                   dockerEnv="PHP_VERSION=7.1,XDEBUG_ENABLED=1">
-            <directory>./images/dev</directory>
-            <directory>./shared/base</directory>
-            <directory>./shared/dev</directory>
-            <directory>./packages/php/php7</directory>
-            <directory>./packages/xdebug/xdebug2</directory>
-        </testsuite>
-
-        <testsuite name="dockware/dev:latest, PHP 7.0"
-                   dockerImage="dockware/dev:latest"
-                   dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
-            <directory>./images/dev</directory>
-            <directory>./shared/base</directory>
-            <directory>./shared/dev</directory>
-            <directory>./packages/php/php7</directory>
-            <directory>./packages/xdebug/xdebug2</directory>
-        </testsuite>
-
     </testsuites>
 
 </svrunit>
