@@ -1,6 +1,5 @@
-name: Generate Dist Files for Master version
+name: Generate DIST files on Master
 
-#only manuelly
 on:
   push:
     branches:
@@ -11,20 +10,19 @@ jobs:
     name: Generate Dist Files
     runs-on: ubuntu-latest
     steps:
-      # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
+      - name: Clone Code
         uses: actions/checkout@v2
 
-      - name: install
+      - name: Install Dependencies
         run: make install
 
-      - name: Generate docker files
+      - name: ORCA Generate
         run: make generate
 
       - name: Copy to dist Version Folder
         run: make generate-dist version=master
 
-      - name: commit and push
+      - name: Commit and Push
         run: |
           git config --local user.email "$(git log --format='%ae' HEAD^!)"
           git config --local user.name "$(git log --format='%an' HEAD^!)"

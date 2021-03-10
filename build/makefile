@@ -11,9 +11,9 @@ help:
 
 # ----------------------------------------------------------------------------------------------------------------
 
-generate-actions: ## Generates the github actions files for relaesing dockware
-	php generate-githubaction-build-dev.php dev
-	php generate-githubaction-build-dev.php play
-	php generate-githubaction-build-dev.php contribute
-	php generate-githubaction-build-dev.php flex
-	php generate-githubaction-build-dev.php essentials
+generate-actions: ## Generates the github actions files for releasing dockware
+	php generate-build-actions.php dev
+	php generate-build-actions.php play
+	php generate-build-actions.php contribute
+	php generate-build-actions.php flex
+	php generate-build-actions.php essentials

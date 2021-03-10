@@ -1,6 +1,6 @@
 name: Release dockware/play:*
 
-#only manuelly
+#only manually
 on:
   workflow_dispatch:
 
@@ -32,7 +32,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.3.0
+          run: docker push dockware/play:5.3.0
   
     build-play-5-5-10:
       name: Release play:5.5.10
@@ -60,7 +60,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.5.10
+          run: docker push dockware/play:5.5.10
   
     build-play-5-6-4:
       name: Release play:5.6.4
@@ -88,7 +88,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.6.4
+          run: docker push dockware/play:5.6.4
   
     build-play-5-6-6:
       name: Release play:5.6.6
@@ -116,7 +116,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.6.6
+          run: docker push dockware/play:5.6.6
   
     build-play-5-6-7:
       name: Release play:5.6.7
@@ -144,7 +144,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.6.7
+          run: docker push dockware/play:5.6.7
   
     build-play-5-6-8:
       name: Release play:5.6.8
@@ -172,7 +172,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.6.8
+          run: docker push dockware/play:5.6.8
   
     build-play-5-6-9:
       name: Release play:5.6.9
@@ -200,7 +200,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.6.9
+          run: docker push dockware/play:5.6.9
   
     build-play-5-7-0-rc1:
       name: Release play:5.7.0-rc1
@@ -228,7 +228,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 5.7.0-rc1
+          run: docker push dockware/play:5.7.0-rc1
   
     build-play-6-1-0:
       name: Release play:6.1.0
@@ -256,7 +256,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.0
+          run: docker push dockware/play:6.1.0
   
     build-play-6-1-1:
       name: Release play:6.1.1
@@ -284,7 +284,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.1
+          run: docker push dockware/play:6.1.1
   
     build-play-6-1-2:
       name: Release play:6.1.2
@@ -312,7 +312,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.2
+          run: docker push dockware/play:6.1.2
   
     build-play-6-1-3:
       name: Release play:6.1.3
@@ -340,7 +340,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.3
+          run: docker push dockware/play:6.1.3
   
     build-play-6-1-4:
       name: Release play:6.1.4
@@ -368,7 +368,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.4
+          run: docker push dockware/play:6.1.4
   
     build-play-6-1-5:
       name: Release play:6.1.5
@@ -396,7 +396,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.5
+          run: docker push dockware/play:6.1.5
   
     build-play-6-1-6:
       name: Release play:6.1.6
@@ -424,7 +424,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.1.6
+          run: docker push dockware/play:6.1.6
   
     build-play-6-2-0:
       name: Release play:6.2.0
@@ -452,7 +452,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.2.0
+          run: docker push dockware/play:6.2.0
   
     build-play-6-2-0-rc1:
       name: Release play:6.2.0-rc1
@@ -480,7 +480,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.2.0-rc1
+          run: docker push dockware/play:6.2.0-rc1
   
     build-play-6-2-1:
       name: Release play:6.2.1
@@ -508,7 +508,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.2.1
+          run: docker push dockware/play:6.2.1
   
     build-play-6-2-2:
       name: Release play:6.2.2
@@ -536,7 +536,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.2.2
+          run: docker push dockware/play:6.2.2
   
     build-play-6-2-3:
       name: Release play:6.2.3
@@ -564,7 +564,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.2.3
+          run: docker push dockware/play:6.2.3
   
     build-play-6-3-0:
       name: Release play:6.3.0
@@ -592,7 +592,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.0
+          run: docker push dockware/play:6.3.0
   
     build-play-6-3-0-1:
       name: Release play:6.3.0.1
@@ -620,7 +620,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.0.1
+          run: docker push dockware/play:6.3.0.1
   
     build-play-6-3-0-2:
       name: Release play:6.3.0.2
@@ -648,7 +648,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.0.2
+          run: docker push dockware/play:6.3.0.2
   
     build-play-6-3-1-0:
       name: Release play:6.3.1.0
@@ -676,7 +676,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.1.0
+          run: docker push dockware/play:6.3.1.0
   
     build-play-6-3-1-1:
       name: Release play:6.3.1.1
@@ -704,7 +704,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.1.1
+          run: docker push dockware/play:6.3.1.1
   
     build-play-6-3-2-0:
       name: Release play:6.3.2.0
@@ -732,7 +732,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.2.0
+          run: docker push dockware/play:6.3.2.0
   
     build-play-6-3-2-1:
       name: Release play:6.3.2.1
@@ -760,7 +760,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.2.1
+          run: docker push dockware/play:6.3.2.1
   
     build-play-6-3-3-0:
       name: Release play:6.3.3.0
@@ -788,7 +788,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.3.0
+          run: docker push dockware/play:6.3.3.0
   
     build-play-6-3-3-1:
       name: Release play:6.3.3.1
@@ -816,7 +816,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.3.1
+          run: docker push dockware/play:6.3.3.1
   
     build-play-6-3-4-0:
       name: Release play:6.3.4.0
@@ -844,7 +844,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.4.0
+          run: docker push dockware/play:6.3.4.0
   
     build-play-6-3-4-1:
       name: Release play:6.3.4.1
@@ -872,7 +872,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.4.1
+          run: docker push dockware/play:6.3.4.1
   
     build-play-6-3-5-0:
       name: Release play:6.3.5.0
@@ -900,7 +900,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.5.0
+          run: docker push dockware/play:6.3.5.0
   
     build-play-6-3-5-1:
       name: Release play:6.3.5.1
@@ -928,7 +928,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.5.1
+          run: docker push dockware/play:6.3.5.1
   
     build-play-6-3-5-2:
       name: Release play:6.3.5.2
@@ -956,7 +956,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play 6.3.5.2
+          run: docker push dockware/play:6.3.5.2
   
     build-play-latest:
       name: Release play:latest
@@ -984,4 +984,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php play latest
+          run: docker push dockware/play:latest

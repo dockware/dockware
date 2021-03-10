@@ -1,6 +1,6 @@
 name: Release dockware/essentials:*
 
-#only manuelly
+#only manually
 on:
   workflow_dispatch:
 
@@ -32,4 +32,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: php ./build/push_dockerhub.php essentials latest
+          run: docker push dockware/essentials:latest
