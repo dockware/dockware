@@ -26,7 +26,7 @@ $template='
         - name: Build
           run: make build image=##image## tag=##tag## -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=##image## tag=##tag## -B
           
         - name: Login to Docker Hub

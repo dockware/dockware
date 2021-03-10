@@ -22,7 +22,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.3.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.3.0 -B
           
         - name: Login to Docker Hub
@@ -50,7 +50,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.5.10 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.5.10 -B
           
         - name: Login to Docker Hub
@@ -78,7 +78,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.6.4 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.6.4 -B
           
         - name: Login to Docker Hub
@@ -106,7 +106,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.6.6 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.6.6 -B
           
         - name: Login to Docker Hub
@@ -134,7 +134,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.6.7 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.6.7 -B
           
         - name: Login to Docker Hub
@@ -162,7 +162,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.6.8 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.6.8 -B
           
         - name: Login to Docker Hub
@@ -190,7 +190,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.6.9 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.6.9 -B
           
         - name: Login to Docker Hub
@@ -218,7 +218,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=5.7.0-rc1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=5.7.0-rc1 -B
           
         - name: Login to Docker Hub
@@ -246,7 +246,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.1.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.1.0 -B
           
         - name: Login to Docker Hub
@@ -274,7 +274,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.1.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.1.1 -B
           
         - name: Login to Docker Hub
@@ -302,7 +302,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.1.3 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.1.3 -B
           
         - name: Login to Docker Hub
@@ -330,7 +330,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.1.4 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.1.4 -B
           
         - name: Login to Docker Hub
@@ -358,7 +358,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.1.5 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.1.5 -B
           
         - name: Login to Docker Hub
@@ -386,7 +386,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.1.6 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.1.6 -B
           
         - name: Login to Docker Hub
@@ -414,7 +414,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.2.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.2.0 -B
           
         - name: Login to Docker Hub
@@ -442,7 +442,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.2.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.2.1 -B
           
         - name: Login to Docker Hub
@@ -470,7 +470,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.2.2 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.2.2 -B
           
         - name: Login to Docker Hub
@@ -498,7 +498,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.2.3 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.2.3 -B
           
         - name: Login to Docker Hub
@@ -526,7 +526,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.0 -B
           
         - name: Login to Docker Hub
@@ -554,7 +554,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.0.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.0.1 -B
           
         - name: Login to Docker Hub
@@ -582,7 +582,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.0.2 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.0.2 -B
           
         - name: Login to Docker Hub
@@ -610,7 +610,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.1.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.1.0 -B
           
         - name: Login to Docker Hub
@@ -638,7 +638,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.1.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.1.1 -B
           
         - name: Login to Docker Hub
@@ -666,7 +666,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.2.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.2.0 -B
           
         - name: Login to Docker Hub
@@ -694,7 +694,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.2.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.2.1 -B
           
         - name: Login to Docker Hub
@@ -722,7 +722,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.3.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.3.0 -B
           
         - name: Login to Docker Hub
@@ -750,7 +750,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.3.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.3.1 -B
           
         - name: Login to Docker Hub
@@ -778,7 +778,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.4.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.4.0 -B
           
         - name: Login to Docker Hub
@@ -806,7 +806,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.4.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.4.1 -B
           
         - name: Login to Docker Hub
@@ -834,7 +834,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.5.0 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.5.0 -B
           
         - name: Login to Docker Hub
@@ -862,7 +862,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.5.1 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.5.1 -B
           
         - name: Login to Docker Hub
@@ -890,7 +890,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=6.3.5.2 -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=6.3.5.2 -B
           
         - name: Login to Docker Hub
@@ -918,7 +918,7 @@ jobs:
         - name: Build
           run: make build image=dev tag=latest -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=dev tag=latest -B
           
         - name: Login to Docker Hub

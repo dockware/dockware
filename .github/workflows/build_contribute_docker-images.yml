@@ -22,7 +22,7 @@ jobs:
         - name: Build
           run: make build image=contribute tag=latest -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=contribute tag=latest -B
           
         - name: Login to Docker Hub

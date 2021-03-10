@@ -22,7 +22,7 @@ jobs:
         - name: Build
           run: make build image=essentials tag=latest -B
     
-        - name: Tests
+        - name: SVRUnit Tests
           run: make test image=essentials tag=latest -B
           
         - name: Login to Docker Hub
