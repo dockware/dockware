@@ -1,4 +1,4 @@
-name: Build dockware images
+name: Release single dockware image
 
 #only manuelly
 on:
@@ -9,7 +9,7 @@ on:
         required: true
       tagName:
         description: 'dockware tag Name'
-        required: false
+        required: true
 
 
 jobs:

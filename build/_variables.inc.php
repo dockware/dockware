@@ -7,8 +7,7 @@ if (count($argv) < 2) {
 
 $image = $argv[1];
 $tag = null;
-$tags = scandir(__DIR__ . '/../dist/images/' . $image);
-
+$tags = [];
 if (count($argv) === 3) {
     $tag = $argv[2];
     if (trim($tag) !== '') {
@@ -17,3 +16,13 @@ if (count($argv) === 3) {
     }
 }
 
+if (count($tags) === 0) {
+    $folder = scandir(__DIR__ . '/../dist/images/' . $image);
+
+    foreach ($folder as $tag) {
+        if ($tag === '.' || $tag === '..') {
+            continue;
+        }
+        $tags[] = $tag;
+    }
+}

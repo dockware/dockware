@@ -1,0 +1,35 @@
+name: Release dockware/flex:*
+
+#only manuelly
+on:
+  workflow_dispatch:
+
+jobs:
+  
+    build-flex-latest:
+      name: build dockware/flex:latest
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+    
+        - name: install
+          run: make install
+    
+        - name: Generate docker files
+          run: make generate
+    
+        - name: Generate Build commands for dev image
+          run: php ./build/build.php flex latest
+    
+        - name: Build the flex latest image
+          run: make build image=flex tag=latest
+    
+        - name: Login to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+        - name: Push Images to dockerhub
+          run: php ./build/push_dockerhub.php flex latest
