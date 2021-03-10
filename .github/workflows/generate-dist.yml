@@ -30,5 +30,10 @@ jobs:
           git config --local user.name "$(git log --format='%an' HEAD^!)"
           git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git add ./.dist/versions/master
-          git commit -m "Update dist files"
-          git push github HEAD:${GITHUB_REF}
+
+          if git diff-index --quiet HEAD --; then
+              echo nothing changed in dist
+          else
+              git commit -m "Auto update dist files"
+              git push github HEAD:${GITHUB_REF}
+          fi

@@ -9,11 +9,11 @@ foreach ($tags as $tag) {
         continue;
     }
 
-    $make = 'make build image=' . $image . ' tag=' . $tag;
+    $make = 'make build image=' . $image . ' tag=' . $tag." -B";
     $sh .= $make . "\n";
 }
 
-$test = $make = 'make test image=' . $image;
+$test = $make = 'make test image=' . $image.' -B';
 $sh .= $test;
 
 file_put_contents('dist/build_' . $image . '.sh', $sh);
