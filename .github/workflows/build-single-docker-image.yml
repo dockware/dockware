@@ -8,7 +8,7 @@ on:
         description: 'dockware Image Name'
         required: true
       tagName:
-        description: 'dockware tag Name'
+        description: 'dockware Tag Name'
         required: true
 
 

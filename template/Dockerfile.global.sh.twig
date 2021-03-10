@@ -326,7 +326,9 @@ RUN service mysql start && \
 {% include 'template/components/mailcatcher/install.sh.twig' %}
 
 RUN {% for key,value in php.versions %}
+{% if value.active==1 %}
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ key }}/mods-available/mailcatcher.ini && \
+{% endif %}
 {% endfor %}
     echo ""
 {% endblock %}
