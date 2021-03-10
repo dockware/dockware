@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.3.5.2
 # Copyright 2020 dasistweb GmbH
 #
-FROM ubuntu:20.04
-LABEL title="Dockware flex:latest" \
+FROM ubuntu:18.04
+LABEL title="Dockware dev:6.3.5.2" \
       version="1.3.5-beta" \
       maintainer="dasistweb GmbH"
 
@@ -26,6 +26,11 @@ RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
 
 ENV APACHE_DOCROOT /var/www/html/public
 RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
+
+ENV MYSQL_USER not-set
+RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile
+ENV MYSQL_PWD not-set
+RUN echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 
 ENV SSH_USER not-set
 RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile
@@ -51,6 +56,9 @@ RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 ENV TIDEWAYS_SERVICE web
 RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 
+ENV SW_CURRENCY 'not-set'
+RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
+
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
@@ -64,6 +72,7 @@ RUN apt-get update \
     && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
+        && apt-get install -y xdg-utils \
         && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
@@ -282,68 +291,6 @@ COPY ./config/php/general.ini /etc/php/7.2/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/7.2/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/7.2/cli/conf.d/01-general-cli.ini
 
-RUN apt-get update \
-    && apt-get install -y php7.1-fpm \
-    && apt-get install -y php7.1-apcu \
-    && apt-get install -y php7.1-curl \
-    && apt-get install -y php7.1-cli \
-    && apt-get install -y php7.1-gd \
-    && apt-get install -y php7.1-json \
-    && apt-get install -y php7.1-ldap \
-    && apt-get install -y php7.1-mysql \
-    && apt-get install -y php7.1-pgsql \
-    && apt-get install -y php7.1-gettext \
-    && apt-get install -y php7.1-intl \
-    && apt-get install -y php7.1-xml \
-    && apt-get install -y php7.1-mysql \
-    && apt-get install -y php7.1-mbstring \
-    && apt-get install -y php7.1-zip \
-    && apt-get install -y php7.1-soap \
-    && apt-get install -y php7.1-memcached \
-    && apt-get install -y php7.1-redis \
-    && apt-get install -y php7.1-bcmath \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.1/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.1/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.1/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
-    && apt-get install -y php7.0-fpm \
-    && apt-get install -y php7.0-apcu \
-    && apt-get install -y php7.0-curl \
-    && apt-get install -y php7.0-cli \
-    && apt-get install -y php7.0-gd \
-    && apt-get install -y php7.0-json \
-    && apt-get install -y php7.0-ldap \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-pgsql \
-    && apt-get install -y php7.0-gettext \
-    && apt-get install -y php7.0-intl \
-    && apt-get install -y php7.0-xml \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-mbstring \
-    && apt-get install -y php7.0-zip \
-    && apt-get install -y php7.0-soap \
-    && apt-get install -y php7.0-memcached \
-    && apt-get install -y php7.0-redis \
-    && apt-get install -y php7.0-bcmath \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
-
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
@@ -402,13 +349,15 @@ RUN apt-get update \
 
     USER www-data
     # install composer (with the commit hash we make sure that we don't install composer 2.0.0 which does not work for all sw6 installations)
-    RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
+    RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=1.10.16 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar
     USER root
     RUN  mv /tmp/composer.phar /usr/local/bin/composer \
+     # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
+    && cd /var/www/.composer && composer require hirak/prestissimo \
 
     && npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
@@ -563,6 +512,71 @@ RUN cd /var/www \
 
  && cd /var/www
 
+## ***********************************************************************
+##  MYSQL INSTALL
+## ***********************************************************************
+
+# prepare environment variables to allow a
+# quiet install of the mysql server
+# this sets the root password to root without user prompts
+RUN echo debconf mysql-server/root_password password root | debconf-set-selections
+RUN echo debconf mysql-server/root_password_again password root | debconf-set-selections
+
+RUN DEBIAN_FRONTEND=noninteractive \
+    # install mysql server
+    && apt-get update \
+    && apt-get install -y -q mysql-server \
+    # set requires permissions
+    && usermod -d /var/lib/mysql/ mysql \
+    # cleanup download folders
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+# copy our custom configuration to the image
+ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
+
+# i dont know why, but this is suddenly required
+RUN chmod 0444 /etc/mysql/my.cnf
+
+RUN service mysql start && \
+    mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" && \
+    service mysql restart
+
+## ***********************************************************************
+##  ADMINER
+## ***********************************************************************
+
+RUN mkdir /usr/share/adminer \
+    && wget "http://www.adminer.org/latest.php" -O /usr/share/adminer/latest.php \
+    && ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php \
+    && echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf \
+    && a2enconf adminer.conf
+
+RUN apt-get update \
+    && apt install -y build-essential libsqlite3-dev ruby-dev \
+    && gem install mailcatcher --no-ri --no-rdoc \
+    && phpenmod mailcatcher \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
+
+RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.4/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.3/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.1/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.0/mods-available/mailcatcher.ini && \
+    echo ""
+
+RUN mkdir -p /var/www/pimpmylog && \
+    wget -O - https://github.com/potsky/PimpMyLog/tarball/master | tar xzf - && \
+    mv potsky-PimpMyLog-* /var/www/pimpmylog && \
+    mv /var/www/pimpmylog/potsky-PimpMyLog-2fed8c1/* /var/www/pimpmylog && \
+    rm -rf /var/www/pimpmylog/potsky-PimpMyLog-*
+
+COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
+COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
+RUN chown -R www-data:www-data /var/www/pimpmylog/
+
 RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-amd64.deb \
     && sudo dpkg -i filebeat-7.4.2-amd64.deb \
     && rm -f /filebeat-7.4.2-amd64.deb
@@ -593,9 +607,70 @@ COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 
+COPY ./assets/shopware6/files /var/www/scripts/shopware6
+
 RUN chown www-data:www-data -R /var/www/scripts
 #make sure for the whole isntallation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
+
+## ***********************************************************************
+##  INSTALL SHOPWARE
+## ***********************************************************************
+RUN rm -rf /var/www/html/* \
+    && wget https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.5.2_c16dfee573139aa1f5238c35d21eb58d54afbc02.zip -qq -O /var/www/shopware.zip \
+    && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
+    && rm -rf /var/www/shopware.zip
+
+RUN echo "APP_ENV=dev" >> /var/www/html/.env && \
+    echo "APP_SECRET=1" >> /var/www/html/.env && \
+    echo "INSTANCE_ID=1" >> /var/www/html/.env && \
+    echo "DATABASE_URL=mysql://root:root@localhost:3306/shopware" >> /var/www/html/.env && \
+    echo "APP_URL=http://localhost" >> /var/www/html/.env && \
+    echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
+    echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env && \
+    chown www-data:www-data /var/www/html/.env
+
+RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
+    cd /var/www/html/config/jwt && chown www-data:www-data *
+
+RUN service mysql start && \
+    # switch to default PHP before installing
+    sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
+    # make sure assets like logos are ready
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \
+    # add some demo data
+    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console framework:demodata' && \
+    # clear cache and refresh dal index to show the new demo data
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console cache:clear' && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console dal:refresh:index' && \
+    rm -rf /var/www/html/var/cache/* && \
+    mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
+    service mysql stop
+
+RUN service mysql start && \
+    # fix weird problem with invalid phpunit file
+    # without this, it cannot find an autoload and thus it
+    # always says "please install composer dependencies"
+    rm -rf /var/www/html/vendor/bin/phpunit && \
+    sudo -u www-data cat /var/www/html/composer.json && \
+    cd /var/www/html/ && composer install && \
+    # install and pre-build our admin and storefront
+    chown -R 33:33 /root/.npm  && \
+    cd /var/www/html && ./bin/build.sh && \
+    cd /var/www/html && php bin/console theme:compile  && \
+    service mysql stop
+
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+
+RUN service mysql start && \
+    chown -R www-data:www-data /var/www/html/custom/plugins/DockwareSamplePlugin && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console plugin:refresh' && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console plugin:install DockwareSamplePlugin' && \
+    cd /var/www/html && sudo -u www-data sh -c 'php bin/console plugin:activate DockwareSamplePlugin' && \
+    rm -rf /var/www/html/var/cache/* && \
+    service mysql stop
 
 # some images dont have that folder. make sure its there
 RUN mkdir -p /var/www/.composer \
