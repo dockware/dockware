@@ -20,7 +20,7 @@ jobs:
         run: make generate
 
       - name: Copy to dist Version Folder
-        run: make generate-dist version=master
+        run: cd build && make generate-dist version=master
 
       - name: Commit and Push
         run: |

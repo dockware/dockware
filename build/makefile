@@ -17,3 +17,14 @@ generate-actions: ## Generates the github actions files for releasing dockware
 	php generate-build-actions.php contribute
 	php generate-build-actions.php flex
 	php generate-build-actions.php essentials
+
+generate-dist:## Generates the current docker files and commits it
+ifndef version
+	$(warning Provide the required version name using "make commit-dist version=master")
+	@exit 1;
+else
+	@cd .. && make generate
+	@cd .. && rm -rf ./.dist/versions/$(version)
+	cd .. && mkdir -p ./.dist/versions/$(version)
+	cd .. && cp -r ./dist/images/* ./.dist/versions/$(version)/
+endif

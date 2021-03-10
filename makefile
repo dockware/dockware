@@ -36,14 +36,3 @@ endif
 
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
 	php svrunit.phar --configuration=./tests/svrunit/suites/$(image)/$(tag).xml
-
-generate-dist:## Generates the current docker files and commits it
-ifndef version
-	$(warning Provide the required version name using "make commit-dist version=master")
-	@exit 1;
-else
-	@make generate
-	@rm -rf ./.dist/versions/$(version)
-	mkdir -p ./.dist/versions/$(version)
-	cp -r ./dist/images/* ./.dist/versions/$(version)/
-endif
