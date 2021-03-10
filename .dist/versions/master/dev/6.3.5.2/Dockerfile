@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware dev:6.3.5.2" \
-      version="1.3.5-beta" \
+      version="1.3.5" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
