@@ -7,925 +7,925 @@ on:
 jobs:
   
     build-dev-5-3-0:
-      name: build dockware/dev:5.3.0
+      name: Release dev:5.3.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.3.0
+        - name: Build
+          run: make build image=dev tag=5.3.0 -B
     
-        - name: Build the dev 5.3.0 image
-          run: make build image=dev tag=5.3.0
-    
+        - name: Tests
+          run: make test image=dev tag=5.3.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.3.0
   
     build-dev-5-5-10:
-      name: build dockware/dev:5.5.10
+      name: Release dev:5.5.10
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.5.10
+        - name: Build
+          run: make build image=dev tag=5.5.10 -B
     
-        - name: Build the dev 5.5.10 image
-          run: make build image=dev tag=5.5.10
-    
+        - name: Tests
+          run: make test image=dev tag=5.5.10 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.5.10
   
     build-dev-5-6-4:
-      name: build dockware/dev:5.6.4
+      name: Release dev:5.6.4
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.6.4
+        - name: Build
+          run: make build image=dev tag=5.6.4 -B
     
-        - name: Build the dev 5.6.4 image
-          run: make build image=dev tag=5.6.4
-    
+        - name: Tests
+          run: make test image=dev tag=5.6.4 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.6.4
   
     build-dev-5-6-6:
-      name: build dockware/dev:5.6.6
+      name: Release dev:5.6.6
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.6.6
+        - name: Build
+          run: make build image=dev tag=5.6.6 -B
     
-        - name: Build the dev 5.6.6 image
-          run: make build image=dev tag=5.6.6
-    
+        - name: Tests
+          run: make test image=dev tag=5.6.6 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.6.6
   
     build-dev-5-6-7:
-      name: build dockware/dev:5.6.7
+      name: Release dev:5.6.7
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.6.7
+        - name: Build
+          run: make build image=dev tag=5.6.7 -B
     
-        - name: Build the dev 5.6.7 image
-          run: make build image=dev tag=5.6.7
-    
+        - name: Tests
+          run: make test image=dev tag=5.6.7 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.6.7
   
     build-dev-5-6-8:
-      name: build dockware/dev:5.6.8
+      name: Release dev:5.6.8
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.6.8
+        - name: Build
+          run: make build image=dev tag=5.6.8 -B
     
-        - name: Build the dev 5.6.8 image
-          run: make build image=dev tag=5.6.8
-    
+        - name: Tests
+          run: make test image=dev tag=5.6.8 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.6.8
   
     build-dev-5-6-9:
-      name: build dockware/dev:5.6.9
+      name: Release dev:5.6.9
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.6.9
+        - name: Build
+          run: make build image=dev tag=5.6.9 -B
     
-        - name: Build the dev 5.6.9 image
-          run: make build image=dev tag=5.6.9
-    
+        - name: Tests
+          run: make test image=dev tag=5.6.9 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.6.9
   
     build-dev-5-7-0-rc1:
-      name: build dockware/dev:5.7.0-rc1
+      name: Release dev:5.7.0-rc1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 5.7.0-rc1
+        - name: Build
+          run: make build image=dev tag=5.7.0-rc1 -B
     
-        - name: Build the dev 5.7.0-rc1 image
-          run: make build image=dev tag=5.7.0-rc1
-    
+        - name: Tests
+          run: make test image=dev tag=5.7.0-rc1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 5.7.0-rc1
   
     build-dev-6-1-0:
-      name: build dockware/dev:6.1.0
+      name: Release dev:6.1.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.1.0
+        - name: Build
+          run: make build image=dev tag=6.1.0 -B
     
-        - name: Build the dev 6.1.0 image
-          run: make build image=dev tag=6.1.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.1.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.1.0
   
     build-dev-6-1-1:
-      name: build dockware/dev:6.1.1
+      name: Release dev:6.1.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.1.1
+        - name: Build
+          run: make build image=dev tag=6.1.1 -B
     
-        - name: Build the dev 6.1.1 image
-          run: make build image=dev tag=6.1.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.1.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.1.1
   
     build-dev-6-1-3:
-      name: build dockware/dev:6.1.3
+      name: Release dev:6.1.3
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.1.3
+        - name: Build
+          run: make build image=dev tag=6.1.3 -B
     
-        - name: Build the dev 6.1.3 image
-          run: make build image=dev tag=6.1.3
-    
+        - name: Tests
+          run: make test image=dev tag=6.1.3 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.1.3
   
     build-dev-6-1-4:
-      name: build dockware/dev:6.1.4
+      name: Release dev:6.1.4
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.1.4
+        - name: Build
+          run: make build image=dev tag=6.1.4 -B
     
-        - name: Build the dev 6.1.4 image
-          run: make build image=dev tag=6.1.4
-    
+        - name: Tests
+          run: make test image=dev tag=6.1.4 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.1.4
   
     build-dev-6-1-5:
-      name: build dockware/dev:6.1.5
+      name: Release dev:6.1.5
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.1.5
+        - name: Build
+          run: make build image=dev tag=6.1.5 -B
     
-        - name: Build the dev 6.1.5 image
-          run: make build image=dev tag=6.1.5
-    
+        - name: Tests
+          run: make test image=dev tag=6.1.5 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.1.5
   
     build-dev-6-1-6:
-      name: build dockware/dev:6.1.6
+      name: Release dev:6.1.6
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.1.6
+        - name: Build
+          run: make build image=dev tag=6.1.6 -B
     
-        - name: Build the dev 6.1.6 image
-          run: make build image=dev tag=6.1.6
-    
+        - name: Tests
+          run: make test image=dev tag=6.1.6 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.1.6
   
     build-dev-6-2-0:
-      name: build dockware/dev:6.2.0
+      name: Release dev:6.2.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.2.0
+        - name: Build
+          run: make build image=dev tag=6.2.0 -B
     
-        - name: Build the dev 6.2.0 image
-          run: make build image=dev tag=6.2.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.2.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.2.0
   
     build-dev-6-2-1:
-      name: build dockware/dev:6.2.1
+      name: Release dev:6.2.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.2.1
+        - name: Build
+          run: make build image=dev tag=6.2.1 -B
     
-        - name: Build the dev 6.2.1 image
-          run: make build image=dev tag=6.2.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.2.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.2.1
   
     build-dev-6-2-2:
-      name: build dockware/dev:6.2.2
+      name: Release dev:6.2.2
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.2.2
+        - name: Build
+          run: make build image=dev tag=6.2.2 -B
     
-        - name: Build the dev 6.2.2 image
-          run: make build image=dev tag=6.2.2
-    
+        - name: Tests
+          run: make test image=dev tag=6.2.2 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.2.2
   
     build-dev-6-2-3:
-      name: build dockware/dev:6.2.3
+      name: Release dev:6.2.3
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.2.3
+        - name: Build
+          run: make build image=dev tag=6.2.3 -B
     
-        - name: Build the dev 6.2.3 image
-          run: make build image=dev tag=6.2.3
-    
+        - name: Tests
+          run: make test image=dev tag=6.2.3 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.2.3
   
     build-dev-6-3-0:
-      name: build dockware/dev:6.3.0
+      name: Release dev:6.3.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.0
+        - name: Build
+          run: make build image=dev tag=6.3.0 -B
     
-        - name: Build the dev 6.3.0 image
-          run: make build image=dev tag=6.3.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.0
   
     build-dev-6-3-0-1:
-      name: build dockware/dev:6.3.0.1
+      name: Release dev:6.3.0.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.0.1
+        - name: Build
+          run: make build image=dev tag=6.3.0.1 -B
     
-        - name: Build the dev 6.3.0.1 image
-          run: make build image=dev tag=6.3.0.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.0.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.0.1
   
     build-dev-6-3-0-2:
-      name: build dockware/dev:6.3.0.2
+      name: Release dev:6.3.0.2
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.0.2
+        - name: Build
+          run: make build image=dev tag=6.3.0.2 -B
     
-        - name: Build the dev 6.3.0.2 image
-          run: make build image=dev tag=6.3.0.2
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.0.2 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.0.2
   
     build-dev-6-3-1-0:
-      name: build dockware/dev:6.3.1.0
+      name: Release dev:6.3.1.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.1.0
+        - name: Build
+          run: make build image=dev tag=6.3.1.0 -B
     
-        - name: Build the dev 6.3.1.0 image
-          run: make build image=dev tag=6.3.1.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.1.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.1.0
   
     build-dev-6-3-1-1:
-      name: build dockware/dev:6.3.1.1
+      name: Release dev:6.3.1.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.1.1
+        - name: Build
+          run: make build image=dev tag=6.3.1.1 -B
     
-        - name: Build the dev 6.3.1.1 image
-          run: make build image=dev tag=6.3.1.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.1.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.1.1
   
     build-dev-6-3-2-0:
-      name: build dockware/dev:6.3.2.0
+      name: Release dev:6.3.2.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.2.0
+        - name: Build
+          run: make build image=dev tag=6.3.2.0 -B
     
-        - name: Build the dev 6.3.2.0 image
-          run: make build image=dev tag=6.3.2.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.2.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.2.0
   
     build-dev-6-3-2-1:
-      name: build dockware/dev:6.3.2.1
+      name: Release dev:6.3.2.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.2.1
+        - name: Build
+          run: make build image=dev tag=6.3.2.1 -B
     
-        - name: Build the dev 6.3.2.1 image
-          run: make build image=dev tag=6.3.2.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.2.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.2.1
   
     build-dev-6-3-3-0:
-      name: build dockware/dev:6.3.3.0
+      name: Release dev:6.3.3.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.3.0
+        - name: Build
+          run: make build image=dev tag=6.3.3.0 -B
     
-        - name: Build the dev 6.3.3.0 image
-          run: make build image=dev tag=6.3.3.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.3.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.3.0
   
     build-dev-6-3-3-1:
-      name: build dockware/dev:6.3.3.1
+      name: Release dev:6.3.3.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.3.1
+        - name: Build
+          run: make build image=dev tag=6.3.3.1 -B
     
-        - name: Build the dev 6.3.3.1 image
-          run: make build image=dev tag=6.3.3.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.3.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.3.1
   
     build-dev-6-3-4-0:
-      name: build dockware/dev:6.3.4.0
+      name: Release dev:6.3.4.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.4.0
+        - name: Build
+          run: make build image=dev tag=6.3.4.0 -B
     
-        - name: Build the dev 6.3.4.0 image
-          run: make build image=dev tag=6.3.4.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.4.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.4.0
   
     build-dev-6-3-4-1:
-      name: build dockware/dev:6.3.4.1
+      name: Release dev:6.3.4.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.4.1
+        - name: Build
+          run: make build image=dev tag=6.3.4.1 -B
     
-        - name: Build the dev 6.3.4.1 image
-          run: make build image=dev tag=6.3.4.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.4.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.4.1
   
     build-dev-6-3-5-0:
-      name: build dockware/dev:6.3.5.0
+      name: Release dev:6.3.5.0
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.5.0
+        - name: Build
+          run: make build image=dev tag=6.3.5.0 -B
     
-        - name: Build the dev 6.3.5.0 image
-          run: make build image=dev tag=6.3.5.0
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.5.0 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.5.0
   
     build-dev-6-3-5-1:
-      name: build dockware/dev:6.3.5.1
+      name: Release dev:6.3.5.1
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.5.1
+        - name: Build
+          run: make build image=dev tag=6.3.5.1 -B
     
-        - name: Build the dev 6.3.5.1 image
-          run: make build image=dev tag=6.3.5.1
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.5.1 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.5.1
   
     build-dev-6-3-5-2:
-      name: build dockware/dev:6.3.5.2
+      name: Release dev:6.3.5.2
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev 6.3.5.2
+        - name: Build
+          run: make build image=dev tag=6.3.5.2 -B
     
-        - name: Build the dev 6.3.5.2 image
-          run: make build image=dev tag=6.3.5.2
-    
+        - name: Tests
+          run: make test image=dev tag=6.3.5.2 -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev 6.3.5.2
   
     build-dev-latest:
-      name: build dockware/dev:latest
+      name: Release dev:latest
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php dev latest
+        - name: Build
+          run: make build image=dev tag=latest -B
     
-        - name: Build the dev latest image
-          run: make build image=dev tag=latest
-    
+        - name: Tests
+          run: make test image=dev tag=latest -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php dev latest

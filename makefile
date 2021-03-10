@@ -34,16 +34,8 @@ else
 	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t dockware/$(image):$(tag) .
 endif
 
-test: ## Runs all SVRUnit Test Suites or the provided image, image=xyz
-ifndef image
-	@php svrunit.phar --configuration=./tests/svrunit/flex.xml
-	@php svrunit.phar --configuration=./tests/svrunit/essentials.xml
-	@php svrunit.phar --configuration=./tests/svrunit/play.xml
-	@php svrunit.phar --configuration=./tests/svrunit/dev.xml
-	@php svrunit.phar --configuration=./tests/svrunit/contribute.xml
-else
-	@php svrunit.phar --configuration=./tests/svrunit/$(image).xml
-endif
+test: ## Runs all SVRUnit Test Suites for the provided image and tag
+	php svrunit.phar --configuration=./tests/svrunit/suites/$(image)/$(tag).xml
 
 generate-dist:## Generates the current docker files and commits it
 ifndef version

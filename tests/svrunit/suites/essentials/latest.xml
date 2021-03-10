@@ -1,0 +1,61 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="essentials:latest, PHP 8.0"
+                   dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
+            <directory>./../../tests/images/essentials</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/php/php8</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
+        <testsuite name="essentials:latest, PHP 7.4"
+                   dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
+            <directory>./../../tests/images/essentials</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
+        <testsuite name="essentials:latest, PHP 7.3"
+                   dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
+            <directory>./../../tests/images/essentials</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
+        <testsuite name="essentials:latest, PHP 7.2"
+                   dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
+            <directory>./../../tests/images/essentials</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
+        <testsuite name="essentials:latest, PHP 7.1"
+                   dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=7.1,XDEBUG_ENABLED=1">
+            <directory>./../../tests/images/essentials</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/xdebug/xdebug2</directory>
+        </testsuite>
+
+        <testsuite name="essentials:latest, PHP 7.0"
+                   dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
+            <directory>./../../tests/images/essentials</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/xdebug/xdebug2</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>

@@ -11,31 +11,31 @@ jobs:';
 
 $template='
     build-##image##-##tag-name##:
-      name: build dockware/##image##:##tag##
+      name: Release ##image##:##tag##
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
+        - name: Clone Code
           uses: actions/checkout@v2
     
-        - name: install
+        - name: Install Dependencies
           run: make install
     
-        - name: Generate docker files
+        - name: ORCA Generate
           run: make generate
     
-        - name: Generate Build commands for dev image
-          run: php ./build/build.php ##image## ##tag##
+        - name: Build
+          run: make build image=##image## tag=##tag## -B
     
-        - name: Build the ##image## ##tag## image
-          run: make build image=##image## tag=##tag##
-    
+        - name: Tests
+          run: make test image=##image## tag=##tag## -B
+          
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Images to dockerhub
+        - name: Push to Docker Hub
           run: php ./build/push_dockerhub.php ##image## ##tag##';
 
 

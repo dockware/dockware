@@ -15,5 +15,3 @@ php_module:
     module: "redis"
   - name: "PHP Module: bcmath"
     module: "bcmath"
-  - name: "PHP Module: SSH2"
-    module: "ssh2"
