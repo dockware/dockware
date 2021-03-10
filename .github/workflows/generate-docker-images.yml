@@ -7,7 +7,9 @@ on:
       imageName:
         description: 'dockware Image Name'
         required: true
-        default: 'warning'
+      tagName:
+        description: 'dockware tag Name'
+        required: false
 
 
 jobs:
@@ -26,7 +28,7 @@ jobs:
         run: make generate
 
       - name: Generate Build commands for ${{ github.event.inputs.imageName }} image
-        run: php ./build/build.php ${{ github.event.inputs.imageName }}
+        run: php ./build/build.php ${{ github.event.inputs.imageName }} ${{ github.event.inputs.tagName }}
 
       - name: Build the ${{ github.event.inputs.imageName }} images
         run: sh dist/build_${{ github.event.inputs.imageName }}.sh
@@ -38,4 +40,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Push Images to dockerhub
-        run: php ./build/push_dockerhub.php ${{ github.event.inputs.imageName }}
+        run: php ./build/push_dockerhub.php ${{ github.event.inputs.imageName }} ${{ github.event.inputs.tagName }}
