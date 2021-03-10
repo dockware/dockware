@@ -448,7 +448,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.5.1_b2d5d91f1f2189b0112601b0cfd65073b2d12dd4.zip -qq -O /var/www/shopware.zip \
+    && wget https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.5.2_c16dfee573139aa1f5238c35d21eb58d54afbc02.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
     && rm -rf /var/www/shopware.zip
 
