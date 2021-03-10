@@ -14,7 +14,7 @@ on:
 
 jobs:
   install:
-    name: Generate the dockerfiles
+    name: Release ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
     runs-on: ubuntu-latest
     steps:
       
