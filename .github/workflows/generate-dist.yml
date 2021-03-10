@@ -1,0 +1,34 @@
+name: Generate Dist Files for Master version
+
+#only manuelly
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  install:
+    name: Generate Dist Files
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: install
+        run: make install
+
+      - name: Generate docker files
+        run: make generate
+
+      - name: Copy to dist Version Folder
+        run: make generate-dist version=master
+
+      - name: commit and push
+        run: |
+          git config --local user.email "$(git log --format='%ae' HEAD^!)"
+          git config --local user.name "$(git log --format='%an' HEAD^!)"
+          git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          git add ./.dist/versions/master
+          git commit -m "Update dist files"
+          git push github HEAD:${GITHUB_REF}

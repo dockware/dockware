@@ -31,7 +31,7 @@ ifndef tag
 	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
 	@exit 1;
 else
-	@cd ./dist/images/$(image)/$(tag) && docker build -t dockware/$(image):$(tag) .
+	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t dockware/$(image):$(tag) .
 endif
 
 test: ## Runs all SVRUnit Test Suites or the provided image, image=xyz
@@ -43,4 +43,15 @@ ifndef image
 	@php svrunit.phar --configuration=./tests/svrunit/contribute.xml
 else
 	@php svrunit.phar --configuration=./tests/svrunit/$(image).xml
+endif
+
+generate-dist:## Generates the current docker files and commits it
+ifndef version
+	$(warning Provide the required version name using "make commit-dist version=master")
+	@exit 1;
+else
+	@make generate
+	@rm -rf ./.dist/versions/$(version)
+	mkdir -p ./.dist/versions/$(version)
+	cp -r ./dist/images/* ./.dist/versions/$(version)/
 endif
