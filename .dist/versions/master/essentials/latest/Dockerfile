@@ -59,6 +59,9 @@ RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
+ENV COMPOSER_VERSION 2
+RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
@@ -410,7 +413,7 @@ RUN apt-get update \
     && npm install grunt --save-dev
 
     USER www-data
-    # install composer (with the commit hash we make sure that we don't install composer 2.0.0 which does not work for all sw6 installations)
+
     RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \

@@ -27,6 +27,9 @@ RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
 ENV APACHE_DOCROOT /var/www/html
 RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
 
+ENV COMPOSER_VERSION 2
+RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************

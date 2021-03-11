@@ -30,6 +30,9 @@ RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
+ENV COMPOSER_VERSION 2
+RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************

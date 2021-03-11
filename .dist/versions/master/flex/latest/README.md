@@ -55,6 +55,7 @@ This image comes with different features that can be set with the ENV variables.
 | TIDEWAYS_KEY | not-set| API Key of the Tideways project |
 | TIDEWAYS_ENV |	dev	| Optional identifier of the environment |
 | TIDEWAYS_SERVICE | web | Optional identifier of the service |
+| COMPOSER_VERSION | not-set| Let's you switch between composer 1 and 2. |
 | FILEBEAT_ENABLED | 0 | Activates the Filebeat daemon service (value 1). For this please provide a manual filebeat.yml for the container. You can do this with bind-mounting. |
 
 ### Container Access

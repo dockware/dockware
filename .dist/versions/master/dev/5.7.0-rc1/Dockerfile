@@ -56,6 +56,9 @@ RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 ENV TIDEWAYS_SERVICE web
 RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 
+ENV COMPOSER_VERSION 2
+RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
