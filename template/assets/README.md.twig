@@ -87,6 +87,8 @@ This image comes with different features that can be set with the ENV variables.
 | TIDEWAYS_ENV |	dev	| Optional identifier of the environment |
 | TIDEWAYS_SERVICE | web | Optional identifier of the service |
 {% endblock %}
+{% block env_composer %}| COMPOSER_VERSION | not-set| Let's you switch between composer 1 and 2. |
+{% endblock %}
 {% block env_filebeat %}| FILEBEAT_ENABLED | 0 | Activates the Filebeat daemon service (value 1). For this please provide a manual filebeat.yml for the container. You can do this with bind-mounting. |
 {% endblock %}
 {% block env_shopware %}| SW_CURRENCY | not-set | Switch to a different default currency for the system, like GBP. This will be used in the administration. |

@@ -63,6 +63,19 @@ if [ $FILEBEAT_ENABLED = 1 ]; then
 fi
 {% endblock %}
 
+{% block components_composer %}
+if [ $COMPOSER_VERSION = 1 ]; then
+   echo "DOCKWARE: switching to composer 1..."
+   sudo composer self-update --1
+   echo "-----------------------------------------------------------"
+fi
+if [ $COMPOSER_VERSION = 2 ]; then
+   echo "DOCKWARE: switching to composer 2..."
+   sudo composer self-update --stable
+   echo "-----------------------------------------------------------"
+fi
+{% endblock %}
+
 {% block components_tideways %}
 if [ $TIDEWAYS_KEY != "not-set" ]; then
     echo "DOCKWARE: activating Tideways...."
