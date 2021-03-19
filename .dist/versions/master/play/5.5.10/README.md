@@ -52,7 +52,7 @@ This image comes with different features that can be set with the ENV variables.
 
 | Feature  |  Default | Description |
 |---|---| --- |
-| PHP_VERSION  | 8.0 | Switch to any of the installed PHP versions: 8.0, 7.4, 7.3, 7.2, 7.1, 7.0,  |
+| PHP_VERSION  | 8.0 | Switch to any of the installed PHP versions:    7.2, 7.1, 7.0, 5.6,  |
 | COMPOSER_VERSION | not-set| Let's you switch between composer 1 and 2. |
 | SW_CURRENCY | not-set | Switch to a different default currency for the system, like GBP. This will be used in the administration. |
 

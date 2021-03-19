@@ -164,39 +164,6 @@ RUN mkdir -p /var/www/.ssh \
 ##  PHP INSTALLATION
 ## ***********************************************************************
 RUN apt-get update \
-    && apt-get install -y php8.0-fpm \
-    && apt-get install -y php8.0-gd \
-    && apt-get install -y php8.0-iconv \
-    && apt-get install -y php8.0-intl \
-    #&& apt-get install -y php8.0-json \
-    && apt-get install -y php8.0-xml \
-    && apt-get install -y php8.0-mbstring \
-    && apt-get install -y php8.0-pdo \
-    && apt-get install -y php8.0-mysql \
-    && apt-get install -y php8.0-apcu \
-    && apt-get install -y php8.0-curl \
-    && apt-get install -y php8.0-cli \
-    && apt-get install -y php8.0-ldap \
-    && apt-get install -y php8.0-pgsql \
-    && apt-get install -y php8.0-gettext \
-    && apt-get install -y php8.0-zip \
-    && apt-get install -y php8.0-soap \
-    && apt-get install -y php8.0-bcmath \
-    && apt-get install -y php8.0-redis \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/8.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.0/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
     && apt-get install -y php7.2-fpm \
     && apt-get install -y php7.2-apcu \
     && apt-get install -y php7.2-curl \
@@ -288,6 +255,37 @@ RUN apt-get update \
 COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
+
+RUN apt-get update \
+    && apt-get install -y php5.6-fpm \
+    && apt-get install -y php5.6-apcu \
+    && apt-get install -y php5.6-curl \
+    && apt-get install -y php5.6-cli \
+    && apt-get install -y php5.6-gd \
+    && apt-get install -y php5.6-json \
+    && apt-get install -y php5.6-ldap \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-pgsql \
+    && apt-get install -y php5.6-gettext \
+    && apt-get install -y php5.6-intl \
+    && apt-get install -y php5.6-xml \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-mbstring \
+    && apt-get install -y php5.6-zip \
+    && apt-get install -y php5.6-soap \
+    && apt-get install -y php5.6-memcached \
+    && apt-get install -y php5.6-redis \
+    && apt-get install -y php5.6-bcmath \
+    && apt-get install -y dh-php \
+    && apt-get install -y php-geoip \
+    && apt-get install -y php-ssh2 \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+COPY ./config/php/general.ini /etc/php/5.6/fpm/conf.d/01-general.ini
+COPY ./config/php/general.ini /etc/php/5.6/cli/conf.d/01-general.ini
+COPY ./config/php/cli.ini /etc/php/5.6/cli/conf.d/01-general-cli.ini
 
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 &
@@ -451,6 +449,20 @@ RUN apt-get update \
     && make distclean \
     && sudo phpize7.0 --clean \
     && sudo apt-get remove -y php7.0-dev \
+    # install xdebug for php 5.6
+    && sudo apt-get install -y php5.6-dev \
+    && cd /var/www/xdebug \
+    && sudo rm -rf /var/www/xdebug/modules/* \
+    && sudo git checkout -f tags/2.7.2 \
+    && sudo phpize5.6 --clean \
+    && sudo phpize5.6 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20131226/xdebug_5.6.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize5.6 --clean \
+    && sudo apt-get remove -y php5.6-dev \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
@@ -474,6 +486,9 @@ COPY ./config/php/xdebug-2.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
 
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 #fille the xddebug ini files with correct informations
 RUN cd /var/www \
@@ -507,6 +522,11 @@ RUN cd /var/www \
     && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
 
  && cd /var/www
 
@@ -557,10 +577,10 @@ RUN apt-get update \
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
-RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
+RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.1/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.0/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/5.6/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -597,6 +617,8 @@ COPY ./config/tideways/tideways.ini /etc/php/7.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.1/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
     
 

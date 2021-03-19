@@ -52,7 +52,7 @@ This image comes with different features that can be set with the ENV variables.
 
 | Feature  |  Default | Description |
 |---|---| --- |
-| PHP_VERSION  | 8.0 | Switch to any of the installed PHP versions: 8.0, 7.4, 7.3, 7.2,    |
+| PHP_VERSION  | 8.0 | Switch to any of the installed PHP versions: 8.0, 7.4, 7.3, 7.2,     |
 | APACHE_DOCROOT  | /var/www/html/public | Sets the default DocRoot of Apache |
 | SSH_USER	| not-set | Name of the optional new SSH user that replaces the existing one from dockware |
 | SSH_PWD |	not-set	| Password of the optional new SSH user that replaces the existing one from dockware |
