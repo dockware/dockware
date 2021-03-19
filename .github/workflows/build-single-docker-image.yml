@@ -51,7 +51,7 @@ jobs:
 
       - name: Install Cypress
         if: ${{ github.event.inputs.cypress }}
-        run: cd Tests/Cypress && make install -B
+        run: cd tests/cypress && make install -B
 
       - name: Start Cypress
         if: ${{ github.event.inputs.cypress }}
