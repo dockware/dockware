@@ -40,7 +40,7 @@ $templateCypress = '
           with:
             time: "30s"
 
-        - name: Image Output
+        - name: Container Output
           run: docker logs shop
 
         - name: Install Cypress

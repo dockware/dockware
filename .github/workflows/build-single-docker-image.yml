@@ -9,9 +9,6 @@ on:
       tagName:
         description: 'Tag Name'
         required: true
-      cypress:
-        description: 'Run Cypress'
-        required: false
 
 jobs:
   install:
@@ -35,25 +32,20 @@ jobs:
         run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
       - name: Start Image
-        if: ${{ github.event.inputs.cypress }}
         run: docker run --rm -p 80:80 --name shop -d dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
 
       - name: Wait for Container
-        if: ${{ github.event.inputs.cypress }}
         uses: jakejarvis/wait-action@master
         with:
           time: "30s"
 
-      - name: Image Output
-        if: ${{ github.event.inputs.cypress }}
+      - name: Container Output
         run: docker logs shop
 
       - name: Install Cypress
-        if: ${{ github.event.inputs.cypress }}
         run: cd tests/cypress && make install -B
 
       - name: Run Cypress Tests
-        if: ${{ github.event.inputs.cypress }}
         run: |
           if [[ $SW_VERSION == 5.* ]]; then
              cd tests/cypress && make run5 url=http://localhost
@@ -65,7 +57,6 @@ jobs:
           SW_VERSION: ${{ github.event.inputs.tagName }}
 
       - name: Store Cypress Results
-        if: ${{ github.event.inputs.cypress }}
         uses: actions/upload-artifact@v2
         with:
           name: cypress_results
