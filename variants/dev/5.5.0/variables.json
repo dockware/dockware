@@ -1,0 +1,26 @@
+{
+    "env": "dev",
+    "apache": {
+        "docroot": "/var/www/html"
+    },
+    "shopware": {
+        "version" : "5.5.0",
+        "download_url": "https://www.shopware.com/de/Download/redirect/version/sw5/file/install_5.5.0_0ed612e1cfef1dc9fd30cd99ea45a22e031d031b.zip"
+    },
+    "composer": {
+        "version": 1
+    },
+    "php": {
+        "default_version": "7.0",
+        "versions": {
+            "7.3": {
+                "active": false
+            },
+            "7.4": {
+                "active": false
+            }
+        }
+    }
+}
+
+
