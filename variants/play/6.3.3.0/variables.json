@@ -1,8 +1,18 @@
 {
-  "shopware": {
-    "version" : "6.3.3.0",
-    "download_url": "https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.3.0_e9ff6b72e856a84d2dad01b8e20eacf65ebfb963.zip"
-  }
+    "shopware": {
+        "version": "6.3.3.0",
+        "download_url": "https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.3.0_e9ff6b72e856a84d2dad01b8e20eacf65ebfb963.zip"
+    },
+    "php": {
+        "versions": {
+            "7.1": {
+                "active": false
+            },
+            "7.0": {
+                "active": false
+            }
+        }
+    }
 }
 
 
