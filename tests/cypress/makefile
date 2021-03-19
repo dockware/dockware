@@ -34,3 +34,10 @@ ifndef url
 	@exit 1
 endif
 	CYPRESS_BASE_URL=$(url) ./node_modules/.bin/cypress run --env conf=dev --headless --spec 'cypress/integration/sw5/**/*'
+
+run6: ## Runs all E2E tests for Shopware 6
+ifndef url
+	$(warning Please provide the URL argument to Start Cypress!)
+	@exit 1
+endif
+	CYPRESS_BASE_URL=$(url) ./node_modules/.bin/cypress run --env conf=dev --headless --spec 'cypress/integration/sw6/**/*'
