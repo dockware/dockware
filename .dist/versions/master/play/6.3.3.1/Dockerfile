@@ -265,68 +265,6 @@ COPY ./config/php/general.ini /etc/php/7.2/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/7.2/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/7.2/cli/conf.d/01-general-cli.ini
 
-RUN apt-get update \
-    && apt-get install -y php7.1-fpm \
-    && apt-get install -y php7.1-apcu \
-    && apt-get install -y php7.1-curl \
-    && apt-get install -y php7.1-cli \
-    && apt-get install -y php7.1-gd \
-    && apt-get install -y php7.1-json \
-    && apt-get install -y php7.1-ldap \
-    && apt-get install -y php7.1-mysql \
-    && apt-get install -y php7.1-pgsql \
-    && apt-get install -y php7.1-gettext \
-    && apt-get install -y php7.1-intl \
-    && apt-get install -y php7.1-xml \
-    && apt-get install -y php7.1-mysql \
-    && apt-get install -y php7.1-mbstring \
-    && apt-get install -y php7.1-zip \
-    && apt-get install -y php7.1-soap \
-    && apt-get install -y php7.1-memcached \
-    && apt-get install -y php7.1-redis \
-    && apt-get install -y php7.1-bcmath \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.1/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.1/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.1/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
-    && apt-get install -y php7.0-fpm \
-    && apt-get install -y php7.0-apcu \
-    && apt-get install -y php7.0-curl \
-    && apt-get install -y php7.0-cli \
-    && apt-get install -y php7.0-gd \
-    && apt-get install -y php7.0-json \
-    && apt-get install -y php7.0-ldap \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-pgsql \
-    && apt-get install -y php7.0-gettext \
-    && apt-get install -y php7.0-intl \
-    && apt-get install -y php7.0-xml \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-mbstring \
-    && apt-get install -y php7.0-zip \
-    && apt-get install -y php7.0-soap \
-    && apt-get install -y php7.0-memcached \
-    && apt-get install -y php7.0-redis \
-    && apt-get install -y php7.0-bcmath \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
-
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
@@ -422,8 +360,6 @@ RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.4/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.3/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.1/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.0/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
