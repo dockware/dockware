@@ -9,6 +9,14 @@
     },
     "composer": {
         "version": 1
+    },
+    "php": {
+        "default_version": "7.4",
+        "versions": {
+            "5.6": {
+                "active": true
+            }
+        }
     }
 }
 

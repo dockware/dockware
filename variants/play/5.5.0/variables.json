@@ -9,11 +9,17 @@
     "php": {
         "default_version": "7.0",
         "versions": {
+            "8.0": {
+                "active": false
+            },
             "7.3": {
                 "active": false
             },
             "7.4": {
                 "active": false
+            },
+            "5.6": {
+                "active": true
             }
         }
     }

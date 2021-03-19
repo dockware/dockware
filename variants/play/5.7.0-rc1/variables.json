@@ -5,6 +5,14 @@
     "shopware": {
         "version": "5.7.0",
         "download_url": "https://www.shopware.com/en/Download/redirect/version/sw5/file/install_5.7.0_rc1_14d06ad0863d19356b49a312c01756957a6fef10.zip"
+    },
+    "php": {
+        "default_version": "7.4",
+        "versions": {
+            "5.6": {
+                "active": true
+            }
+        }
     }
 }
 

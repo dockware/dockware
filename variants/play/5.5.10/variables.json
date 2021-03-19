@@ -7,7 +7,21 @@
         "download_url": "https://www.shopware.com/de/Download/redirect/version/sw5/file/install_5.5.10_edfcb8e82f331fa5a0935a6c6ff35fe4348bf262.zip"
     },
     "php": {
-        "default_version": "7.0"
+        "default_version": "7.0",
+        "versions": {
+            "8.0": {
+                "active": false
+            },
+            "7.3": {
+                "active": false
+            },
+            "7.4": {
+                "active": false
+            },
+            "5.6": {
+                "active": true
+            }
+        }
     }
 }
 
