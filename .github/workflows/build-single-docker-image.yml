@@ -1,6 +1,5 @@
 name: Release Image
 
-#only manuelly
 on:
   workflow_dispatch:
     inputs:
@@ -27,12 +26,12 @@ jobs:
         run: make install
 
       - name: ORCA Generate
-        run: make generate
+        run: make generate -B
 
-      - name: Build
+      - name: Build Image
         run: make build image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
-      - name: Tests
+      - name: Run SVRUnit Tests
         run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
       - name: Start Image
@@ -53,7 +52,7 @@ jobs:
         if: ${{ github.event.inputs.cypress }}
         run: cd tests/cypress && make install -B
 
-      - name: Start Cypress
+      - name: Run Cypress Tests
         if: ${{ github.event.inputs.cypress }}
         run: |
           if [[ $SW_VERSION == 5.* ]]; then

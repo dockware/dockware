@@ -9,7 +9,7 @@ on:
 jobs:';
 
 
-$template='
+$template = '
     build-##image##-##tag-name##:
       name: Release ##image##:##tag##
       runs-on: ubuntu-latest
@@ -21,14 +21,50 @@ $template='
           run: make install
     
         - name: ORCA Generate
-          run: make generate
+          run: make generate -B
     
-        - name: Build
+        - name: Build Image
           run: make build image=##image## tag=##tag## -B
     
-        - name: SVRUnit Tests
+        - name: Run SVRUnit Tests
           run: make test image=##image## tag=##tag## -B
-          
+';
+
+
+$templateCypress = '
+        - name: Start Image
+          run: docker run --rm -p 80:80 --name shop -d dockware/##image##:##tag##
+
+        - name: Wait for Container
+          uses: jakejarvis/wait-action@master
+          with:
+            time: "30s"
+
+        - name: Image Output
+          run: docker logs shop
+
+        - name: Install Cypress
+          run: cd tests/cypress && make install -B
+
+        - name: Run Cypress Tests
+          run: |
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
+            fi
+          env:
+            SW_VERSION: ##tag##
+
+        - name: Store Cypress Results
+          uses: actions/upload-artifact@v2
+          with:
+            name: cypress_results_##image##_##tag##
+            retention-days: 1
+            path: |
+              Tests/Cypress/cypress/videos
+              Tests/Cypress/cypress/screenshots
+';
+
+$templatePush = '
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -39,7 +75,6 @@ $template='
           run: docker push dockware/##image##:##tag##';
 
 
-
 if (count($argv) < 2) {
     throw new Exception('you have to provide the image name you want to build');
 }
@@ -48,6 +83,7 @@ if (count($argv) < 2) {
 $image = $argv[1];
 $tag = null;
 $tags = [];
+
 if (count($argv) === 3) {
     $tag = $argv[2];
     if (trim($tag) !== '') {
@@ -68,14 +104,35 @@ if (count($tags) === 0) {
 }
 
 
-$template = str_replace('##image##', $image, $template);
 $yml = str_replace('##image##', $image, $yml);
+$template = str_replace('##image##', $image, $template);
+$templateCypress = str_replace('##image##', $image, $templateCypress);
+$templatePush = str_replace('##image##', $image, $templatePush);
+
 
 foreach ($tags as $tag) {
-    $tagName = str_replace('.','-',$tag);
-    $ymlPart = str_replace('##tag##', $tag, $template);
+
+    $tagName = str_replace('.', '-', $tag);
+
+
+    # now build our template!
+    # only add cypress tests for shopware images like play and dev
+    $tagTemplate = $template;
+
+    if ($image === 'play' || $image === 'dev') {
+        $tagTemplate .= $templateCypress;
+    }
+
+    $tagTemplate .= $templatePush;
+
+
+    $ymlPart = str_replace('##tag##', $tag, $tagTemplate);
     $ymlPart = str_replace('##tag-name##', $tagName, $ymlPart);
-    $yml .= "\n  ".$ymlPart;
+
+    $yml .= "\n  " . $ymlPart;
 }
 
-file_put_contents(__DIR__ . '/../.github/workflows/build_' . $image . '_docker-images.yml', $yml);
+file_put_contents(
+    __DIR__ . '/../.github/workflows/build_' . $image . '_docker-images.yml',
+    $yml
+);
