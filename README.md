@@ -81,9 +81,7 @@ The GitHub releases will also included the built ORCA distribution files, which 
 not included in the repository, to avoid divergent versions.
 
 ## When will a release be available?
-As soon as we create a new official release, we trigger our building pipelines.
-
-The current building pipelines can be seen at https://dockware.io/builds
+As soon as we create a new official release, we trigger our building pipelines on Github.
 
 All official images including their last publishing date can be found at https://dockware.io/images
 
