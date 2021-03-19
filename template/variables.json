@@ -1,65 +1,68 @@
 {
-  "version": "1.3.5",
-  "base_image": "ubuntu:18.04",
-  "db": {
-    "host": "localhost",
-    "port": "3306",
-    "database": "shopware",
-    "user": "root",
-    "pwd": "root"
-  },
-  "ssh": {
-    "user": {
-      "name": "dockware",
-      "pwd": "dockware"
+    "version": "1.3.5",
+    "base_image": "ubuntu:18.04",
+    "db": {
+        "host": "localhost",
+        "port": "3306",
+        "database": "shopware",
+        "user": "root",
+        "pwd": "root"
+    },
+    "ssh": {
+        "user": {
+            "name": "dockware",
+            "pwd": "dockware"
+        }
+    },
+    "php": {
+        "default_version": "7.4",
+        "versions": {
+            "8.0": {
+                "active": true,
+                "folder_id": "20200930",
+                "xdebug_version": "3",
+                "xdebug_tag": "3.0.3"
+            },
+            "7.4": {
+                "active": true,
+                "folder_id": "20190902",
+                "xdebug_version": "3",
+                "xdebug_tag": "3.0.3"
+            },
+            "7.3": {
+                "active": true,
+                "folder_id": "20180731",
+                "xdebug_version": "3",
+                "xdebug_tag": "3.0.3"
+            },
+            "7.2": {
+                "active": true,
+                "folder_id": "20170718",
+                "xdebug_version": "3",
+                "xdebug_tag": "3.0.3"
+            },
+            "7.1": {
+                "active": true,
+                "folder_id": "20160303",
+                "xdebug_version": "2",
+                "xdebug_tag": "2.7.2"
+            },
+            "7.0": {
+                "active": true,
+                "folder_id": "20151012",
+                "xdebug_version": "2",
+                "xdebug_tag": "2.7.2"
+            }
+        }
+    },
+    "shopware": {
+        "env": "prod",
+        "url": "http://localhost"
+    },
+    "composer": {
+        "version": 2
+    },
+    "apache": {
+        "docroot": "/var/www/html/public"
     }
-  },
-  "php": {
-    "default_version": "7.4",
-    "versions": {
-      "8.0": {
-        "active": true,
-        "folder_id": "20200930",
-        "xdebug_version": "3",
-        "xdebug_tag": "3.0.3"
-      },
-      "7.4": {
-        "active": true,
-        "folder_id": "20190902",
-        "xdebug_version": "3",
-        "xdebug_tag": "3.0.3"
-      },
-      "7.3": {
-        "active": true,
-        "folder_id": "20180731",
-        "xdebug_version": "3",
-        "xdebug_tag": "3.0.3"
-      },
-      "7.2": {
-        "active": true,
-        "folder_id": "20170718",
-        "xdebug_version": "3",
-        "xdebug_tag": "3.0.3"
-      },
-      "7.1": {
-        "active": true,
-        "folder_id": "20160303",
-        "xdebug_version": "2",
-        "xdebug_tag": "2.7.2"
-      },
-      "7.0": {
-        "active": true,
-        "folder_id": "20151012",
-        "xdebug_version": "2",
-        "xdebug_tag": "2.7.2"
-      }
-    }
-  },
-  "shopware": {
-    "env": "prod",
-    "url": "http://localhost"
-  },
-  "apache": {
-    "docroot": "/var/www/html/public"
-  }
 }
