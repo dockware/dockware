@@ -290,7 +290,9 @@ RUN apt-get update \
     && sudo git fetch --all \
     && sudo apt-get update \
 {% for key, value in php.versions %}
+{% if value.xdebug_version != '' %}
 {% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_tag":value.xdebug_tag} %}
+{% endif %}
 {% endfor %}
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
@@ -298,15 +300,18 @@ RUN apt-get update \
 
 
 
-#generate xddebug ini files
+#generate xdebug ini files
 {% for key, value in php.versions %}
+{% if value.xdebug_version != '' %}
 {% include 'template/components/xdebug/generate_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
+{% endif %}
 {% endfor %}
 
-#fille the xddebug ini files with correct informations
 RUN cd /var/www \
 {% for key, value in php.versions %}
+{% if value.xdebug_version != '' %}
 {% include 'template/components/xdebug/edit_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
+{% endif %}
 {% endfor %}
  && cd /var/www
 {% endblock %}

@@ -16,8 +16,14 @@
             "8.0": {
                 "active": false
             },
+            "7.1": {
+                "active": false
+            },
+            "7.0": {
+                "active": false
+            },
             "5.6": {
-                "active": true
+                "active": false
             }
         }
     }
