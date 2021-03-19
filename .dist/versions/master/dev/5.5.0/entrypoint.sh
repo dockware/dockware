@@ -12,7 +12,7 @@ echo "6c 6f 6f 6b 69 6e 67 20 66 6f 72 20 61 20 6a 6f 62 3f 20 77 72 69 74 65 20
 echo ""
 echo "*******************************************************"
 echo "** DOCKWARE IMAGE: dev"
-echo "** Tag: 5.3.0"
+echo "** Tag: 5.5.0"
 echo "** Version: 1.3.5"
 echo "** Built: $(cat /build-date.txt)"
 echo "** Copyright 2020 dasistweb GmbH"
@@ -182,7 +182,7 @@ if [ -f "$file" ] ; then
 fi
 
 echo ""
-echo "WOHOOO, dockware/dev:5.3.0 IS READY :) - let's get started"
+echo "WOHOOO, dockware/dev:5.5.0 IS READY :) - let's get started"
 echo "-----------------------------------------------------"
 echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
 echo "PHP: $(php -v | grep cli)"

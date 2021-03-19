@@ -37,17 +37,6 @@ sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
 sudo dpkg-reconfigure -f noninteractive tzdata
 echo "-----------------------------------------------------------"
 
-if [ $COMPOSER_VERSION = 1 ]; then
-   echo "DOCKWARE: switching to composer 1..."
-   sudo composer self-update --1
-   echo "-----------------------------------------------------------"
-fi
-if [ $COMPOSER_VERSION = 2 ]; then
-   echo "DOCKWARE: switching to composer 2..."
-   sudo composer self-update --stable
-   echo "-----------------------------------------------------------"
-fi
-
 echo "DOCKWARE: starting MySQL...."
 # somehow its necessary to set permissions, because
 # sometimes they get lost :)
