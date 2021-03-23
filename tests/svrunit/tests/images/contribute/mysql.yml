@@ -1,0 +1,4 @@
+commands:
+  - name: "MySQL v14 installed"
+    command: "mysql --version"
+    expected: "mysql  Ver 14."
