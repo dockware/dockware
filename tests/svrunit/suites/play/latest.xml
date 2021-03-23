@@ -7,6 +7,7 @@
             <directory>./../../tests/images/play</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/packages/php/php8</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="play:latest, PHP 7.4"
@@ -14,6 +15,7 @@
             <directory>./../../tests/images/play</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="play:latest, PHP 7.3"
@@ -21,6 +23,7 @@
             <directory>./../../tests/images/play</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="play:latest, PHP 7.2"
@@ -28,6 +31,7 @@
             <directory>./../../tests/images/play</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
     </testsuites>

@@ -9,6 +9,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php8</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="essentials:latest, PHP 7.4"
@@ -18,6 +19,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="essentials:latest, PHP 7.3"
@@ -27,6 +29,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="essentials:latest, PHP 7.2"
@@ -36,6 +39,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="essentials:latest, PHP 7.1"

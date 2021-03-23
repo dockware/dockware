@@ -1,0 +1,3 @@
+php_module:
+  - name: "PHP Module: sodium"
+    module: "sodium"

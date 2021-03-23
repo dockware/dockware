@@ -2,6 +2,3 @@ commands:
   - name: "SUDO is installed"
     command: "sudo"
     expected: "usage: sudo -h"
-php_module:
-  - name: "PHP Module: sodium"
-    module: "sodium"
