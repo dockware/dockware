@@ -92,6 +92,7 @@ RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
 RUN apt-get update \
+    {% block base %}
     && apt-get install -y gosu \
     && apt-get install -y sudo \
     && apt-get install -y wget \
@@ -101,9 +102,7 @@ RUN apt-get update \
     && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
-    {% block base_xdg %}
-    && apt-get install -y xdg-utils \
-    {% endblock %}
+    && apt-get install -y cron \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
@@ -112,7 +111,18 @@ RUN apt-get update \
     && apt-get install -y tzdata \
     && dpkg-reconfigure --frontend noninteractive tzdata  \
     {% endblock %} \
-    && apt-get install -y cron \
+    {% block base_xdg %}
+    && apt-get install -y xdg-utils \
+    {% endblock %}
+    {% block base_sodium %}
+    && apt-get install -y libsodium-dev \
+    && apt-get install -y php-dev \
+    && apt-get install -y php-pear \
+    && pecl install -f libsodium \
+    && apt-get remove -y php-pear \
+    && apt-get remove -y php-dev \
+    {% endblock %}
+    {% endblock %}
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 
