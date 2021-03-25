@@ -31,6 +31,14 @@ jobs:
       - name: Run SVRUnit Tests
         run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
+      - name: SVRUnit Reports
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: SVRunit Tests
+          path: .reports/*.xml
+          reporter: jest-junit
+
       - name: Start Container
         run: |
           docker run --rm -p 80:80 --name shop -d dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
@@ -57,14 +65,10 @@ jobs:
 
       - name: Store Cypress Results
         uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: cypress_results
           retention-days: 1
           path: |
             Tests/Cypress/cypress/videos
             Tests/Cypress/cypress/screenshots
-
-      - name: Publish Test Report
-        if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1
-        report_paths: '**/.reports/*.xml'
