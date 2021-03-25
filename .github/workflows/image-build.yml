@@ -31,7 +31,7 @@ jobs:
       - name: Run SVRUnit Tests
         run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
-      - name: Start dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+      - name: Start Container
         run: |
           docker run --rm -p 80:80 --name shop -d dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
           sleep 30
@@ -67,5 +67,4 @@ jobs:
       - name: Publish Test Report
         if: ${{ always() }}
         uses: scacap/action-surefire-report@v1
-        env:
-          report_paths: '**/.reports/*.xml'
+        report_paths: '**/.reports/*.xml'
