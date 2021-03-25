@@ -1,0 +1,71 @@
+name: Build Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      imageName:
+        description: 'Image Name'
+        required: true
+      tagName:
+        description: 'Tag Name'
+        required: true
+
+jobs:
+  install:
+    name: Release ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Clone Code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: make install
+
+      - name: ORCA Generate
+        run: make generate -B
+
+      - name: Build Image
+        run: make build image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+
+      - name: Run SVRUnit Tests
+        run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+
+      - name: Start dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+        run: |
+          docker run --rm -p 80:80 --name shop -d dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+          sleep 30
+          docker logs shop
+
+      - name: Install Cypress
+        run: cd tests/cypress && make install -B
+
+      - name: Run Cypress Tests
+        run: |
+          if [[ $DW_IMAGE == flex ]]; then
+             cd tests/cypress && make run-flex url=http://localhost
+          fi
+          if [[ $SW_VERSION == 5.* ]]; then
+             cd tests/cypress && make run5 url=http://localhost
+          fi
+          if [[ $SW_VERSION == 6.* ]]; then
+             cd tests/cypress && make run6 url=http://localhost
+          fi
+        env:
+          DW_IMAGE: ${{ github.event.inputs.imageName }}
+          SW_VERSION: ${{ github.event.inputs.tagName }}
+
+      - name: Store Cypress Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress_results
+          retention-days: 1
+          path: |
+            Tests/Cypress/cypress/videos
+            Tests/Cypress/cypress/screenshots
+
+      - name: Publish Test Report
+          if: ${{ always() }}
+          uses: scacap/action-surefire-report@v1
+          report_paths: '**/.reports/*.xml'
+          
