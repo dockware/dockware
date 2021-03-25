@@ -65,7 +65,7 @@ jobs:
             Tests/Cypress/cypress/screenshots
 
       - name: Publish Test Report
-          if: ${{ always() }}
-          uses: scacap/action-surefire-report@v1
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
+        env:
           report_paths: '**/.reports/*.xml'
-          
