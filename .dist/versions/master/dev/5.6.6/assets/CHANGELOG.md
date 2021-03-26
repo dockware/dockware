@@ -3,6 +3,8 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [UNRELEASED] 
+
 ## [1.3.5] - 2021-03-10
 
 ### Added
