@@ -28,6 +28,15 @@ $template = '
     
         - name: Run SVRUnit Tests
           run: make test image=##image## tag=##tag## -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 ';
 
 
@@ -72,6 +81,7 @@ $templateCypress = '
 ';
 
 $templatePush = '
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:

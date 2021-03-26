@@ -31,6 +31,15 @@ jobs:
       - name: Run SVRUnit Tests
         run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
+      - name: Store SVRUnit Report
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: svrunit_report
+          retention-days: 3
+          path: |
+            .reports
+
       - name: Start Image
         run: docker run --rm -p 80:80 --name shop -d dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
 
@@ -64,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cypress_results
-          retention-days: 1
+          retention-days: 3
           path: |
             Tests/Cypress/cypress/videos
             Tests/Cypress/cypress/screenshots

@@ -24,6 +24,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.5.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.5.0
@@ -63,6 +72,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -90,6 +100,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.5.10 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.5.10
@@ -129,6 +148,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -156,6 +176,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.6.4 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.6.4
@@ -195,6 +224,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -222,6 +252,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.6.6 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.6.6
@@ -261,6 +300,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -288,6 +328,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.6.7 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.6.7
@@ -327,6 +376,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -354,6 +404,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.6.8 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.6.8
@@ -393,6 +452,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -420,6 +480,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.6.9 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.6.9
@@ -459,6 +528,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -486,6 +556,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=5.7.0-rc1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:5.7.0-rc1
@@ -525,6 +604,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -552,6 +632,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.0
@@ -591,6 +680,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -618,6 +708,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.1
@@ -657,6 +756,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -684,6 +784,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.2 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.2
@@ -723,6 +832,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -750,6 +860,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.3 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.3
@@ -789,6 +908,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -816,6 +936,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.4 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.4
@@ -855,6 +984,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -882,6 +1012,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.5 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.5
@@ -921,6 +1060,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -948,6 +1088,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.1.6 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.1.6
@@ -987,6 +1136,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1014,6 +1164,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.2.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.2.0
@@ -1053,6 +1212,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1080,6 +1240,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.2.0-rc1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.2.0-rc1
@@ -1119,6 +1288,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1146,6 +1316,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.2.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.2.1
@@ -1185,6 +1364,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1212,6 +1392,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.2.2 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.2.2
@@ -1251,6 +1440,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1278,6 +1468,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.2.3 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.2.3
@@ -1317,6 +1516,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1344,6 +1544,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.0
@@ -1383,6 +1592,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1410,6 +1620,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.0.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.0.1
@@ -1449,6 +1668,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1476,6 +1696,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.0.2 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.0.2
@@ -1515,6 +1744,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1542,6 +1772,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.1.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.1.0
@@ -1581,6 +1820,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1608,6 +1848,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.1.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.1.1
@@ -1647,6 +1896,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1674,6 +1924,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.2.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.2.0
@@ -1713,6 +1972,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1740,6 +2000,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.2.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.2.1
@@ -1779,6 +2048,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1806,6 +2076,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.3.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.3.0
@@ -1845,6 +2124,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1872,6 +2152,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.3.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.3.1
@@ -1911,6 +2200,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1938,6 +2228,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.4.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.4.0
@@ -1977,6 +2276,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2004,6 +2304,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.4.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.4.1
@@ -2043,6 +2352,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2070,6 +2380,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.5.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.5.0
@@ -2109,6 +2428,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2136,6 +2456,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.5.1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.5.1
@@ -2175,6 +2504,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2202,6 +2532,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=6.3.5.2 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:6.3.5.2
@@ -2241,6 +2580,7 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
 
+
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2268,6 +2608,15 @@ jobs:
     
         - name: Run SVRUnit Tests
           run: make test image=play tag=latest -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
 
         - name: Start Image
           run: docker run --rm -p 80:80 --name shop -d dockware/play:latest
@@ -2306,6 +2655,7 @@ jobs:
             path: |
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots
+
 
         - name: Login to Docker Hub
           uses: docker/login-action@v1
