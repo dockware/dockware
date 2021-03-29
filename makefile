@@ -35,4 +35,4 @@ else
 endif
 
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
-	php svrunit.phar --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --report-junit --report-html
+	php svrunit.phar --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --report-junit --report-html
