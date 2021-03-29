@@ -356,19 +356,15 @@ RUN apt-get update \
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
 
-    USER www-data
-    # install composer (with the commit hash we make sure that we don't install composer 2.0.0 which does not work for all sw6 installations)
-    RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=1.10.16 --quiet \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
-    && chmod 755 /tmp/composer.phar
-    USER root
-    RUN  mv /tmp/composer.phar /usr/local/bin/composer \
-     # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
-    && cd /var/www/.composer && composer require hirak/prestissimo \
+    && chmod 755 /tmp/composer.phar \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-    && npm install -g yarn \
+RUN  mv /tmp/composer.phar /usr/local/bin/composer
+RUN npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
 
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
