@@ -273,19 +273,15 @@ RUN apt-get update \
 
 {% block components_packagers %}
 {% block components_packagers_composer %}
-    USER www-data
-
-    RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
-    # prepare "global" composer directory for www-data
-    && mkdir -p /var/www/.composer \
-    && export COMPOSER_HOME="/var/www/.composer" \
-    && chmod 755 /tmp/composer.phar
-    USER root
-    RUN  mv /tmp/composer.phar /usr/local/bin/composer \
+{% if composer.version == 1 %}
+{% include 'template/components/composer/v1/install.sh.twig' %}
+{% else %}
+{% include 'template/components/composer/v2/install.sh.twig' %}
+{% endif %}
 {% endblock %}
 
 {% block components_packagers_yarn %}
-    && npm install -g yarn \
+RUN npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
 {% endblock %}
 
