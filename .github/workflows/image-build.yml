@@ -12,7 +12,7 @@ on:
 
 jobs:
   install:
-    name: Release ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+    name: Build ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
     runs-on: ubuntu-latest
     steps:
 

@@ -75,6 +75,7 @@ $templateCypress = '
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_##image##_##tag##
             retention-days: 1
