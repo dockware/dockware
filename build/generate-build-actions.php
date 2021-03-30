@@ -60,6 +60,9 @@ $templateCypress = '
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
