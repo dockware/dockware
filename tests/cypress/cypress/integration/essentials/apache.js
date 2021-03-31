@@ -4,7 +4,7 @@ describe('Apache Tests', () => {
 
         cy.visit('/', { failOnStatusCode: false });
 
-        cy.contains('Apache/2.4.41');
+        cy.contains('Apache/2.4');
     })
 
 })
