@@ -59,7 +59,7 @@ RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
-ENV COMPOSER_VERSION 2
+ENV COMPOSER_VERSION 1
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ## ***********************************************************************
@@ -356,14 +356,17 @@ RUN apt-get update \
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=1.10.16 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-RUN  mv /tmp/composer.phar /usr/local/bin/composer
+RUN mv /tmp/composer.phar /usr/local/bin/composer \
+    # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
+    && cd /var/www/.composer && composer require hirak/prestissimo \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 RUN npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
 
