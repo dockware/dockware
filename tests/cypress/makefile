@@ -48,3 +48,10 @@ ifndef url
 	@exit 1
 endif
 	CYPRESS_BASE_URL=$(url) ./node_modules/.bin/cypress run --env conf=dev --headless --spec 'cypress/integration/flex/**/*'
+
+run-essentials: ## Runs all E2E tests for Essentials
+ifndef url
+	$(warning Please provide the URL argument to Start Cypress!)
+	@exit 1
+endif
+	CYPRESS_BASE_URL=$(url) ./node_modules/.bin/cypress run --env conf=dev --headless --spec 'cypress/integration/essentials/**/*'

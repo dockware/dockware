@@ -53,6 +53,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -65,6 +68,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.5.0
             retention-days: 1
@@ -129,6 +133,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -141,6 +148,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.5.10
             retention-days: 1
@@ -205,6 +213,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -217,6 +228,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.6.4
             retention-days: 1
@@ -281,6 +293,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -293,6 +308,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.6.6
             retention-days: 1
@@ -357,6 +373,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -369,6 +388,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.6.7
             retention-days: 1
@@ -433,6 +453,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -445,6 +468,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.6.8
             retention-days: 1
@@ -509,6 +533,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -521,6 +548,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.6.9
             retention-days: 1
@@ -585,6 +613,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -597,6 +628,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_5.7.0-rc1
             retention-days: 1
@@ -661,6 +693,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -673,6 +708,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.0
             retention-days: 1
@@ -737,6 +773,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -749,6 +788,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.1
             retention-days: 1
@@ -813,6 +853,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -825,6 +868,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.2
             retention-days: 1
@@ -889,6 +933,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -901,6 +948,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.3
             retention-days: 1
@@ -965,6 +1013,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -977,6 +1028,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.4
             retention-days: 1
@@ -1041,6 +1093,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1053,6 +1108,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.5
             retention-days: 1
@@ -1117,6 +1173,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1129,6 +1188,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.1.6
             retention-days: 1
@@ -1193,6 +1253,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1205,6 +1268,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.2.0
             retention-days: 1
@@ -1269,6 +1333,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1281,6 +1348,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.2.0-rc1
             retention-days: 1
@@ -1345,6 +1413,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1357,6 +1428,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.2.1
             retention-days: 1
@@ -1421,6 +1493,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1433,6 +1508,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.2.2
             retention-days: 1
@@ -1497,6 +1573,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1509,6 +1588,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.2.3
             retention-days: 1
@@ -1573,6 +1653,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1585,6 +1668,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.0
             retention-days: 1
@@ -1649,6 +1733,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1661,6 +1748,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.0.1
             retention-days: 1
@@ -1725,6 +1813,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1737,6 +1828,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.0.2
             retention-days: 1
@@ -1801,6 +1893,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1813,6 +1908,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.1.0
             retention-days: 1
@@ -1877,6 +1973,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1889,6 +1988,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.1.1
             retention-days: 1
@@ -1953,6 +2053,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -1965,6 +2068,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.2.0
             retention-days: 1
@@ -2029,6 +2133,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2041,6 +2148,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.2.1
             retention-days: 1
@@ -2105,6 +2213,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2117,6 +2228,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.3.0
             retention-days: 1
@@ -2181,6 +2293,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2193,6 +2308,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.3.1
             retention-days: 1
@@ -2257,6 +2373,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2269,6 +2388,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.4.0
             retention-days: 1
@@ -2333,6 +2453,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2345,6 +2468,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.4.1
             retention-days: 1
@@ -2409,6 +2533,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2421,6 +2548,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.5.0
             retention-days: 1
@@ -2485,6 +2613,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2497,6 +2628,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.5.1
             retention-days: 1
@@ -2561,6 +2693,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2573,6 +2708,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_6.3.5.2
             retention-days: 1
@@ -2637,6 +2773,9 @@ jobs:
             if [[ $DW_IMAGE == flex ]]; then
                cd tests/cypress && make run-flex url=http://localhost
             fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
             if [[ $SW_VERSION == 5.* ]]; then
                cd tests/cypress && make run5 url=http://localhost
             fi
@@ -2649,6 +2788,7 @@ jobs:
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: cypress_results_play_latest
             retention-days: 1

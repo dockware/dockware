@@ -365,7 +365,7 @@ RUN apt-get update \
     USER root
     RUN  mv /tmp/composer.phar /usr/local/bin/composer \
 
-    && npm install -g yarn \
+RUN npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
 
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

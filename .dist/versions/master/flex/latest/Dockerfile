@@ -409,17 +409,15 @@ RUN apt-get update \
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
 
-    USER www-data
-
-    RUN  curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
-    && chmod 755 /tmp/composer.phar
-    USER root
-    RUN  mv /tmp/composer.phar /usr/local/bin/composer \
+    && chmod 755 /tmp/composer.phar \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-    && npm install -g yarn \
+RUN  mv /tmp/composer.phar /usr/local/bin/composer
+RUN npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
 
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
