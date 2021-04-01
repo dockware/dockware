@@ -4,6 +4,9 @@
     "version": "6.3.3.1",
     "download_url": "https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.3.1_124cb4c92cbfec1bcfa33b5d2d81aa05b8656835.zip"
   },
+  "composer": {
+    "version": 1
+  },
   "php": {
     "versions": {
       "7.1": {

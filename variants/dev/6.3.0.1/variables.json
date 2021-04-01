@@ -4,6 +4,9 @@
     "version": "6.3.0.1",
     "download_url": "using-github-zip-is-broken"
   },
+  "composer": {
+    "version": 1
+  },
   "php": {
     "versions": {
       "7.1": {

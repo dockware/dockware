@@ -4,6 +4,9 @@
     "version": "6.2.0",
     "download_url": "https://www.shopware.com/en/Download/redirect/version/sw6/file/install_6.2.0-RC1_1587999999.zip"
   },
+  "composer": {
+    "version": 1
+  },
   "php": {
     "versions": {
       "7.1": {
