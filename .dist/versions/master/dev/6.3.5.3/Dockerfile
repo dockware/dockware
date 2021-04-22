@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.3.5.3
 # Copyright 2020 dasistweb GmbH
 #
 FROM ubuntu:18.04
-LABEL title="Dockware dev:latest" \
+LABEL title="Dockware dev:6.3.5.3" \
       version="1.3.6-beta" \
       maintainer="dasistweb GmbH"
 
@@ -624,7 +624,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.3.5.4_17ae1ed32c8bc21dabff28316f3c90ed38ba24cb.zip -qq -O /var/www/shopware.zip \
+    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.3.5.3_eaa2a27625f1dd4d3837af9e9050e4981eae6523.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
     && rm -rf /var/www/shopware.zip
 
