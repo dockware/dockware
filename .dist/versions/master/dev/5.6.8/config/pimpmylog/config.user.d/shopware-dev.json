@@ -1,7 +1,8 @@
 {
     "shopware": {
-        "display"   : "Shopware Log (dev)",
-        "path"      : "/var/www/html/var/log/dev*.log",
+        "display"   : "Shopware (dev)",
+        "path"      : "/var/www/html/var/log/*development*.log",
+        "notify": false,
         "format"    : {
             "multiline": "",
             "regex"    : "@\\[(.*?)\\]\\s*?\\w*\\.(.*?):\\s?((.*?)\\s*?(?:at|in)\\s*?(.*?)\\s*?(?:on line|line)\\s*([0-9]*).*?|(.*?))$@",

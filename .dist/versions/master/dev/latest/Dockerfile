@@ -59,7 +59,7 @@ RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
-ENV COMPOSER_VERSION 1
+ENV COMPOSER_VERSION 2
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ## ***********************************************************************
@@ -238,68 +238,6 @@ COPY ./config/php/general.ini /etc/php/7.4/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/7.4/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/7.4/cli/conf.d/01-general-cli.ini
 
-RUN apt-get update \
-    && apt-get install -y php7.3-fpm \
-    && apt-get install -y php7.3-apcu \
-    && apt-get install -y php7.3-curl \
-    && apt-get install -y php7.3-cli \
-    && apt-get install -y php7.3-gd \
-    && apt-get install -y php7.3-json \
-    && apt-get install -y php7.3-ldap \
-    && apt-get install -y php7.3-mysql \
-    && apt-get install -y php7.3-pgsql \
-    && apt-get install -y php7.3-gettext \
-    && apt-get install -y php7.3-intl \
-    && apt-get install -y php7.3-xml \
-    && apt-get install -y php7.3-mysql \
-    && apt-get install -y php7.3-mbstring \
-    && apt-get install -y php7.3-zip \
-    && apt-get install -y php7.3-soap \
-    && apt-get install -y php7.3-memcached \
-    && apt-get install -y php7.3-redis \
-    && apt-get install -y php7.3-bcmath \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.3/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.3/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.3/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
-    && apt-get install -y php7.2-fpm \
-    && apt-get install -y php7.2-apcu \
-    && apt-get install -y php7.2-curl \
-    && apt-get install -y php7.2-cli \
-    && apt-get install -y php7.2-gd \
-    && apt-get install -y php7.2-json \
-    && apt-get install -y php7.2-ldap \
-    && apt-get install -y php7.2-mysql \
-    && apt-get install -y php7.2-pgsql \
-    && apt-get install -y php7.2-gettext \
-    && apt-get install -y php7.2-intl \
-    && apt-get install -y php7.2-xml \
-    && apt-get install -y php7.2-mysql \
-    && apt-get install -y php7.2-mbstring \
-    && apt-get install -y php7.2-zip \
-    && apt-get install -y php7.2-soap \
-    && apt-get install -y php7.2-memcached \
-    && apt-get install -y php7.2-redis \
-    && apt-get install -y php7.2-bcmath \
-    && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.2/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.2/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.2/cli/conf.d/01-general-cli.ini
-
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
@@ -356,17 +294,14 @@ RUN apt-get update \
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=1.10.16 --quiet \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-RUN mv /tmp/composer.phar /usr/local/bin/composer \
-    # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
-    && cd /var/www/.composer && composer require hirak/prestissimo \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+RUN  mv /tmp/composer.phar /usr/local/bin/composer
 RUN npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
 
@@ -568,8 +503,6 @@ COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.4/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.3/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -624,7 +557,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.3.5.4_17ae1ed32c8bc21dabff28316f3c90ed38ba24cb.zip -qq -O /var/www/shopware.zip \
+    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.0.0_53c7ba74a3d915e6e8d045b59df1ae2922df15da.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
     && rm -rf /var/www/shopware.zip
 
