@@ -70,5 +70,11 @@
     },
     "apache": {
         "docroot": "/var/www/html/public"
+    },
+    "pimpmylog": {
+        "paths": {
+            "shopware_prod": "/var/www/html/var/log/prod*.log",
+            "shopware_dev": "/var/www/html/var/log/dev*.log"
+        }
     }
 }

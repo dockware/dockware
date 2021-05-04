@@ -26,6 +26,12 @@
                 "active": true
             }
         }
+    },
+    "pimpmylog": {
+        "paths": {
+            "shopware_prod": "/var/www/html/var/log/*production*.log",
+            "shopware_dev": "/var/www/html/var/log/*development*.log"
+        }
     }
 }
 

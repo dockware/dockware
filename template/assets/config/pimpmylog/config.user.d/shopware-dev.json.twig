@@ -1,7 +1,8 @@
 {
     "shopware": {
-        "display"   : "Shopware Log (prod)",
-        "path"      : "/var/www/html/var/log/prod*.log",
+        "display"   : "Shopware (dev)",
+        "path"      : "{{ pimpmylog.paths.shopware_dev }}",
+        "notify": false,
         "format"    : {
             "multiline": "",
             "regex"    : "@\\[(.*?)\\]\\s*?\\w*\\.(.*?):\\s?((.*?)\\s*?(?:at|in)\\s*?(.*?)\\s*?(?:on line|line)\\s*([0-9]*).*?|(.*?))$@",
