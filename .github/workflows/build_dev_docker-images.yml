@@ -56,11 +56,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -136,11 +142,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -216,11 +228,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -296,11 +314,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -376,11 +400,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -456,11 +486,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -536,11 +572,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -616,11 +658,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -696,11 +744,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -776,11 +830,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -856,11 +916,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -936,11 +1002,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1016,11 +1088,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1096,11 +1174,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1176,11 +1260,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1256,11 +1346,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1336,11 +1432,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1416,11 +1518,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1496,11 +1604,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1576,11 +1690,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1656,11 +1776,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1736,11 +1862,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1816,11 +1948,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1896,11 +2034,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -1976,11 +2120,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2056,11 +2206,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2136,11 +2292,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2216,11 +2378,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2296,11 +2464,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2376,11 +2550,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2456,11 +2636,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2536,11 +2722,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev
@@ -2565,6 +2757,350 @@ jobs:
     
         - name: Push to Docker Hub
           run: docker push dockware/dev:6.3.5.2
+  
+    build-dev-6-3-5-3:
+      name: Release dev:6.3.5.3
+      runs-on: ubuntu-latest
+      steps:
+        - name: Clone Code
+          uses: actions/checkout@v2
+    
+        - name: Install Dependencies
+          run: make install
+    
+        - name: ORCA Generate
+          run: make generate -B
+    
+        - name: Build Image
+          run: make build image=dev tag=6.3.5.3 -B
+    
+        - name: Run SVRUnit Tests
+          run: make test image=dev tag=6.3.5.3 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
+
+        - name: Start Image
+          run: docker run --rm -p 80:80 --name shop -d dockware/dev:6.3.5.3
+
+        - name: Wait for Container
+          uses: jakejarvis/wait-action@master
+          with:
+            time: "30s"
+
+        - name: Container Output
+          run: docker logs shop
+
+        - name: Install Cypress
+          run: cd tests/cypress && make install -B
+
+        - name: Run Cypress Tests
+          run: |
+            if [[ $DW_IMAGE == flex ]]; then
+               cd tests/cypress && make run-flex url=http://localhost
+            fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 6.* ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
+            fi
+          env:
+            DW_IMAGE: dev
+            SW_VERSION: 6.3.5.3
+
+        - name: Store Cypress Results
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: cypress_results_dev_6.3.5.3
+            retention-days: 1
+            path: |
+              Tests/Cypress/cypress/videos
+              Tests/Cypress/cypress/screenshots
+
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+        - name: Push to Docker Hub
+          run: docker push dockware/dev:6.3.5.3
+  
+    build-dev-6-3-5-4:
+      name: Release dev:6.3.5.4
+      runs-on: ubuntu-latest
+      steps:
+        - name: Clone Code
+          uses: actions/checkout@v2
+    
+        - name: Install Dependencies
+          run: make install
+    
+        - name: ORCA Generate
+          run: make generate -B
+    
+        - name: Build Image
+          run: make build image=dev tag=6.3.5.4 -B
+    
+        - name: Run SVRUnit Tests
+          run: make test image=dev tag=6.3.5.4 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
+
+        - name: Start Image
+          run: docker run --rm -p 80:80 --name shop -d dockware/dev:6.3.5.4
+
+        - name: Wait for Container
+          uses: jakejarvis/wait-action@master
+          with:
+            time: "30s"
+
+        - name: Container Output
+          run: docker logs shop
+
+        - name: Install Cypress
+          run: cd tests/cypress && make install -B
+
+        - name: Run Cypress Tests
+          run: |
+            if [[ $DW_IMAGE == flex ]]; then
+               cd tests/cypress && make run-flex url=http://localhost
+            fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 6.* ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
+            fi
+          env:
+            DW_IMAGE: dev
+            SW_VERSION: 6.3.5.4
+
+        - name: Store Cypress Results
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: cypress_results_dev_6.3.5.4
+            retention-days: 1
+            path: |
+              Tests/Cypress/cypress/videos
+              Tests/Cypress/cypress/screenshots
+
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+        - name: Push to Docker Hub
+          run: docker push dockware/dev:6.3.5.4
+  
+    build-dev-6-4-0-0:
+      name: Release dev:6.4.0.0
+      runs-on: ubuntu-latest
+      steps:
+        - name: Clone Code
+          uses: actions/checkout@v2
+    
+        - name: Install Dependencies
+          run: make install
+    
+        - name: ORCA Generate
+          run: make generate -B
+    
+        - name: Build Image
+          run: make build image=dev tag=6.4.0.0 -B
+    
+        - name: Run SVRUnit Tests
+          run: make test image=dev tag=6.4.0.0 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
+
+        - name: Start Image
+          run: docker run --rm -p 80:80 --name shop -d dockware/dev:6.4.0.0
+
+        - name: Wait for Container
+          uses: jakejarvis/wait-action@master
+          with:
+            time: "30s"
+
+        - name: Container Output
+          run: docker logs shop
+
+        - name: Install Cypress
+          run: cd tests/cypress && make install -B
+
+        - name: Run Cypress Tests
+          run: |
+            if [[ $DW_IMAGE == flex ]]; then
+               cd tests/cypress && make run-flex url=http://localhost
+            fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 6.* ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
+            fi
+          env:
+            DW_IMAGE: dev
+            SW_VERSION: 6.4.0.0
+
+        - name: Store Cypress Results
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: cypress_results_dev_6.4.0.0
+            retention-days: 1
+            path: |
+              Tests/Cypress/cypress/videos
+              Tests/Cypress/cypress/screenshots
+
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+        - name: Push to Docker Hub
+          run: docker push dockware/dev:6.4.0.0
+  
+    build-dev-6-4-0-0-rc1:
+      name: Release dev:6.4.0.0-rc1
+      runs-on: ubuntu-latest
+      steps:
+        - name: Clone Code
+          uses: actions/checkout@v2
+    
+        - name: Install Dependencies
+          run: make install
+    
+        - name: ORCA Generate
+          run: make generate -B
+    
+        - name: Build Image
+          run: make build image=dev tag=6.4.0.0-rc1 -B
+    
+        - name: Run SVRUnit Tests
+          run: make test image=dev tag=6.4.0.0-rc1 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report
+            retention-days: 3
+            path: |
+                .reports
+
+        - name: Start Image
+          run: docker run --rm -p 80:80 --name shop -d dockware/dev:6.4.0.0-rc1
+
+        - name: Wait for Container
+          uses: jakejarvis/wait-action@master
+          with:
+            time: "30s"
+
+        - name: Container Output
+          run: docker logs shop
+
+        - name: Install Cypress
+          run: cd tests/cypress && make install -B
+
+        - name: Run Cypress Tests
+          run: |
+            if [[ $DW_IMAGE == flex ]]; then
+               cd tests/cypress && make run-flex url=http://localhost
+            fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 6.* ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
+            fi
+          env:
+            DW_IMAGE: dev
+            SW_VERSION: 6.4.0.0-rc1
+
+        - name: Store Cypress Results
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: cypress_results_dev_6.4.0.0-rc1
+            retention-days: 1
+            path: |
+              Tests/Cypress/cypress/videos
+              Tests/Cypress/cypress/screenshots
+
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+        - name: Push to Docker Hub
+          run: docker push dockware/dev:6.4.0.0-rc1
   
     build-dev-latest:
       name: Release dev:latest
@@ -2616,11 +3152,17 @@ jobs:
             if [[ $DW_IMAGE == essentials ]]; then
                cd tests/cypress && make run-essentials url=http://localhost
             fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+            if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
             fi
           env:
             DW_IMAGE: dev

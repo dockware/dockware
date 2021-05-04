@@ -52,16 +52,22 @@ jobs:
       - name: Run Cypress Tests
         run: |
           if [[ $DW_IMAGE == flex ]]; then
-             cd tests/cypress && make run-flex url=http://localhost
+            cd tests/cypress && make run-flex url=http://localhost
           fi
           if [[ $DW_IMAGE == essentials ]]; then
              cd tests/cypress && make run-essentials url=http://localhost
           fi
-          if [[ $SW_VERSION == 5.* ]]; then
-             cd tests/cypress && make run5 url=http://localhost
+          if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+             cd tests/cypress && make run6 url=http://localhost
+          fi
+          if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+             cd tests/cypress && make run6 url=http://localhost
           fi
           if [[ $SW_VERSION == 6.* ]]; then
              cd tests/cypress && make run6 url=http://localhost
+          fi
+          if [[ $SW_VERSION == 5.* ]]; then
+             cd tests/cypress && make run5 url=http://localhost
           fi
         env:
           DW_IMAGE: ${{ github.event.inputs.imageName }}
