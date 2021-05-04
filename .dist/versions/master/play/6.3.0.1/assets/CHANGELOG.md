@@ -5,6 +5,9 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ## [UNRELEASED] 
 
+### Changed
+- Improved "pimpmylogs" entries for Shopware 5 and Shopware 6
+
 ## [1.3.5] - 2021-03-10
 
 ### Added
