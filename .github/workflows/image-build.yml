@@ -57,10 +57,10 @@ jobs:
           if [[ $DW_IMAGE == essentials ]]; then
              cd tests/cypress && make run-essentials url=http://localhost
           fi
-          if [[ $DW_IMAGE == play AND $SW_VERSION == latest ]]; then
+          if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
              cd tests/cypress && make run6 url=http://localhost
           fi
-          if [[ $DW_IMAGE == dev AND $SW_VERSION == latest ]]; then
+          if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
              cd tests/cypress && make run6 url=http://localhost
           fi
           if [[ $SW_VERSION == 6.* ]]; then
