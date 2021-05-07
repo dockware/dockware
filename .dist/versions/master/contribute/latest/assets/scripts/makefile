@@ -18,7 +18,7 @@ watch-storefront: ## starts watcher for storefront at http://localhost
 	@echo "RequestHeader add hot-reload-mode 1\n"\
 	"RequestHeader add hot-reload-port 9999" > /var/www/html/.htaccess.watch
 	cd /var/www/html && php bin/console theme:dump
-	cd /var/www/html && PROJECT_ROOT=/var/www/html APP_URL=http://localhost ESLINT_DISABLE=true npm --prefix /var/www/html/vendor/shopware/platform/src/Storefront/Resources/app/storefront run-script hot
+	cd /var/www/html && php psh.phar storefront:hot-proxy
 
 stop-watch-storefront: ## Reverts everything back to normal operation
 	@rm -rf /var/www/html/.htaccess.watch
