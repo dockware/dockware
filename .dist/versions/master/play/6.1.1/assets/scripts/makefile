@@ -29,7 +29,7 @@ stop-watch-storefront: ## Reverts everything back to normal operation
 watch-admin: ## starts watcher for admin at http://localhost:8888
 	cd /var/www/html && ./bin/build-administration.sh
 	cd /var/www/html && php bin/console bundle:dump
-	cd /var/www/html && PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev -- http://0.0.0.0
+		cd /var/www/html && PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev -- http://0.0.0.0
 	
 # ---------------------------------------------------------------------------------------------
 build-admin: ## builds the admin
