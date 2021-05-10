@@ -1,0 +1,28 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="play:5.6.10, PHP 7.4"
+                   dockerImage="dockware/play:5.6.10" dockerEnv="PHP_VERSION=7.4">
+            <directory>./../../tests/images/play</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+        </testsuite>
+
+        <testsuite name="play:5.6.10, PHP 7.3"
+                   dockerImage="dockware/play:5.6.10" dockerEnv="PHP_VERSION=7.3">
+            <directory>./../../tests/images/play</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+        </testsuite>
+
+        <testsuite name="play:5.6.10, PHP 7.2"
+                   dockerImage="dockware/play:5.6.10" dockerEnv="PHP_VERSION=7.2">
+            <directory>./../../tests/images/play</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>
