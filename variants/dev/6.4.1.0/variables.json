@@ -1,0 +1,25 @@
+{
+  "shopware": {
+    "env": "dev",
+    "version": "6.4.1.0",
+    "download_url": "https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.1.0_2951a105e0793ee8c3537b5987a938afdcb15002.zip"
+  },
+  "php": {
+    "versions": {
+      "7.3": {
+        "active": false
+      },
+      "7.2": {
+        "active": false
+      },
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
+    }
+  }
+}
+
+

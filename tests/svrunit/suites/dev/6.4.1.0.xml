@@ -1,0 +1,29 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="Basic Checks"
+                   dockerImage="dockware/dev:6.4.1.0">
+            <directory>./../../tests/images/dev</directory>
+            <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
+            <directory>./../../tests/packages/php/php8</directory>
+        </testsuite>
+
+        <testsuite name="PHP 8.0, XDebug ON"
+                   dockerImage="dockware/dev:6.4.1.0" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
+        <testsuite name="PHP 7.4, XDebug ON"
+                   dockerImage="dockware/dev:6.4.1.0" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>

@@ -4,7 +4,7 @@ services:
 
   shop:
     container_name: shop
-    image: dockware/flex:latest
+    image: dockware/dev:6.4.1.0
     ports:
       - "80:80"
       - "443:443"
@@ -12,6 +12,7 @@ services:
       - "3306:3306"
       - "8888:8888"
       - "9999:9999"
+      - "9998:9998"
     volumes:
       - "./boot_start.sh:/var/www/boot_start.sh"
       - "./boot_end.sh:/var/www/boot_end.sh"
