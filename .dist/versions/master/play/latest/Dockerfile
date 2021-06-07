@@ -343,9 +343,6 @@ RUN echo "APP_ENV=prod" >> /var/www/html/.env && \
     echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env && \
     chown www-data:www-data /var/www/html/.env
 
-RUN cd /var/www/scripts/shopware6 && php create_jwt.php && \
-    cd /var/www/html/config/jwt && chown www-data:www-data *
-
 RUN service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 && \
@@ -361,10 +358,17 @@ RUN service mysql start && \
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     service mysql stop
 
+# sometimes there are permission problems
+# so make sure to assign them correctly again here
+RUN chown -R www-data:www-data /var/www/html/* && \
+    chmod -R 775 /var/www/html && \
+    cd /var/www/scripts/shopware6 && php create_jwt.php && \
+    cd /var/www/html/config/jwt && chown www-data:www-data *
+
 # some images dont have that folder. make sure its there
 RUN mkdir -p /var/www/.composer \
     && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chwon to www-data
+    # find all files and folders owned by root and chown to www-data
     && find /var/www -group root -exec chown www-data:www-data {} \; \
     && find /var/www -user root -exec chown www-data:www-data {} \;
 

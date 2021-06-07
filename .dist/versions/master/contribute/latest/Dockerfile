@@ -655,10 +655,17 @@ RUN service mysql start && \
     export COMPOSER_HOME="/var/www/.composer" && \
     ./psh.phar install
 
+# sometimes there are permission problems
+# so make sure to assign them correctly again here
+RUN chown -R www-data:www-data /var/www/html/* && \
+    chmod -R 775 /var/www/html && \
+    cd /var/www/scripts/shopware6 && php create_jwt.php && \
+    cd /var/www/html/config/jwt && chown www-data:www-data *
+
 # some images dont have that folder. make sure its there
 RUN mkdir -p /var/www/.composer \
     && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chwon to www-data
+    # find all files and folders owned by root and chown to www-data
     && find /var/www -group root -exec chown www-data:www-data {} \; \
     && find /var/www -user root -exec chown www-data:www-data {} \;
 
