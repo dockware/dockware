@@ -9,7 +9,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php8</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
-            <directory>./../../tests/packages/composer/v1</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
         <testsuite name="dev:5.7.1, PHP 7.4"
@@ -19,7 +19,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
-            <directory>./../../tests/packages/composer/v1</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
         <testsuite name="dev:5.7.1, PHP 7.3"
@@ -29,7 +29,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
-            <directory>./../../tests/packages/composer/v1</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
         <testsuite name="dev:5.7.1, PHP 7.2"
@@ -39,7 +39,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
-            <directory>./../../tests/packages/composer/v1</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
     </testsuites>
