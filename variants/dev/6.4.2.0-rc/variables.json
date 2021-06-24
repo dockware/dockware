@@ -1,0 +1,25 @@
+{
+  "shopware": {
+    "env": "dev",
+    "version": "6.4.2.0",
+    "download_url": "using-github-commit"
+  },
+  "php": {
+    "versions": {
+      "7.3": {
+        "active": false
+      },
+      "7.2": {
+        "active": false
+      },
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
+    }
+  }
+}
+
+

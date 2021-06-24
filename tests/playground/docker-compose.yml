@@ -4,7 +4,7 @@ services:
 
   shop:
     container_name: shop
-    image: dockware/dev:6.4.1.0
+    image: dockware/dev:6.4.2.0-rc
     ports:
       - "80:80"
       - "443:443"
