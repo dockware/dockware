@@ -368,7 +368,7 @@ RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.
 {% endblock %}
 
 {% block components_tideways %}
-RUN sudo echo 'deb https://packages.tideways.com/apt-packages debian main' | sudo tee /etc/apt/sources.list.d/tideways.list \
+RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
@@ -383,7 +383,6 @@ COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.in
 
 {% endblock %}
 
-    
 {% endblock %}
 
 

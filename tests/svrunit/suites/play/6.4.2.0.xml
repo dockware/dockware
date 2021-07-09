@@ -1,0 +1,24 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="Basic Checks"
+                   dockerImage="dockware/play:6.4.2.0">
+            <directory>./../../tests/images/play</directory>
+            <directory>./../../tests/shared/base</directory>
+        </testsuite>
+
+        <testsuite name="PHP 8.0, XDebug ON"
+                   dockerImage="dockware/play:6.4.2.0" dockerEnv="PHP_VERSION=8.0">
+            <directory>./../../tests/packages/php/php8</directory>
+        </testsuite>
+
+        <testsuite name="PHP 7.4, XDebug ON"
+                   dockerImage="dockware/play:6.4.2.0" dockerEnv="PHP_VERSION=7.4">
+            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>
