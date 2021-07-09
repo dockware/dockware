@@ -371,8 +371,6 @@ COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
 COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
-    
-
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 

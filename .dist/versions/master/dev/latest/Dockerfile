@@ -519,7 +519,7 @@ RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.
     && sudo dpkg -i filebeat-7.4.2-amd64.deb \
     && rm -f /filebeat-7.4.2-amd64.deb
 
-RUN sudo echo 'deb https://packages.tideways.com/apt-packages debian main' | sudo tee /etc/apt/sources.list.d/tideways.list \
+RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
@@ -542,8 +542,6 @@ COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
-    
-
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 
@@ -557,7 +555,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.1.2_225413bbf05de5040cee32d203f480733860f93e.zip -qq -O /var/www/shopware.zip \
+    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.2.0_9d00ae28899e87f520bfeb2d5a652cc329c214f9.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
     && rm -rf /var/www/shopware.zip
 
