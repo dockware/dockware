@@ -314,8 +314,6 @@ COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
 COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
-    
-
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 
@@ -329,7 +327,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.1.2_225413bbf05de5040cee32d203f480733860f93e.zip -qq -O /var/www/shopware.zip \
+    && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.2.0_9d00ae28899e87f520bfeb2d5a652cc329c214f9.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
     && rm -rf /var/www/shopware.zip
 

@@ -49,17 +49,6 @@ if [ $FILEBEAT_ENABLED = 1 ]; then
    echo "-----------------------------------------------------------"
 fi
 
-if [ $COMPOSER_VERSION = 1 ]; then
-   echo "DOCKWARE: switching to composer 1..."
-   sudo composer self-update --1
-   echo "-----------------------------------------------------------"
-fi
-if [ $COMPOSER_VERSION = 2 ]; then
-   echo "DOCKWARE: switching to composer 2..."
-   sudo composer self-update --stable
-   echo "-----------------------------------------------------------"
-fi
-
 if [ $TIDEWAYS_KEY != "not-set" ]; then
     echo "DOCKWARE: activating Tideways...."
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
