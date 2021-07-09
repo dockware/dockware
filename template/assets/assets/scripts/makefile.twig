@@ -22,9 +22,9 @@ xdebug-off: ## disables xdebug
 watch-storefront: ## starts watcher for storefront at {{ shopware.url }}
 	@echo "RequestHeader add hot-reload-mode 1\n"\
 	"RequestHeader add hot-reload-port 9999" > /var/www/html/.htaccess.watch
-	cd /var/www/html && ./bin/build-storefront.sh
+	cd /var/www/html && sudo ./bin/build-storefront.sh
 	cd /var/www/html && php bin/console theme:dump
-	cd /var/www/html && ./bin/watch-storefront.sh
+	cd /var/www/html && sudo ./bin/watch-storefront.sh
 
 stop-watch-storefront: ## Reverts everything back to normal operation
 	@rm -rf /var/www/html/.htaccess.watch
@@ -33,17 +33,16 @@ stop-watch-storefront: ## Reverts everything back to normal operation
 {% endblock %}
 
 {% block watcher_admin %}
-watch-admin: ## starts watcher for admin at {{ shopware.url }}:8888
+watch-admin: ## starts watcher for Shopware {{ shopware.version }} Admin at {{ shopware.url }}:8888
 	cd /var/www/html && ./bin/build-administration.sh
 	cd /var/www/html && php bin/console bundle:dump
 	{% if shopware.version >= 6.4 %}
 cd /var/www/html && php bin/console feature:dump
-{% endif %}
-	{% if shopware.version < 6.3 %}
-cd /var/www/html && PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev -- http://0.0.0.0
-	{% else %}
-cd /var/www/html && APP_URL=http://0.0.0.0 PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev
 	{% endif %}
+{% if shopware.version == '6.4.2.1' %}cd /var/www/html && APP_URL=http://0.0.0.0 PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ./bin/watch-administration.sh
+{% elseif shopware.version >= 6.3 %}cd /var/www/html && APP_URL=http://0.0.0.0 PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev
+{% else %}cd /var/www/html && PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev -- http://0.0.0.0
+{% endif %}
 {% endblock %}
 
 {% block build_admin %}
