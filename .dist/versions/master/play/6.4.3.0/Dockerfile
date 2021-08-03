@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.4.3.0
 # Copyright 2020 dasistweb GmbH
 #
 FROM ubuntu:18.04
-LABEL title="Dockware play:latest" \
+LABEL title="Dockware play:6.4.3.0" \
       version="1.3.6-beta" \
       maintainer="dasistweb GmbH"
 
