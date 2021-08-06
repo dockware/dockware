@@ -3,7 +3,7 @@
     <testsuites>
 
         <testsuite name="dev:5.5.0, PHP 7.2"
-                   dockerImage="dockware/dev:55.5.0" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
+                   dockerImage="dockware/dev:5.5.0" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
