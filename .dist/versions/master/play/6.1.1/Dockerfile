@@ -412,8 +412,8 @@ RUN service mysql start && \
     # make sure assets like logos are ready
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \
     # add some demo data
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console framework:demodata' && \
-    # clear cache and refresh dal index to show the new demo data
+        cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console framework:demodata' && \
+        # clear cache and refresh dal index to show the new demo data
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console cache:clear' && \
     cd /var/www/html && sudo -u www-data sh -c 'php bin/console dal:refresh:index' && \
     rm -rf /var/www/html/var/cache/* && \
