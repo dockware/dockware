@@ -9,6 +9,7 @@ jobs:
     build-play-5-3-0:
       name: Release play:5.3.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -95,6 +96,7 @@ jobs:
     build-play-5-5-0:
       name: Release play:5.5.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -181,6 +183,7 @@ jobs:
     build-play-5-5-10:
       name: Release play:5.5.10
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -267,6 +270,7 @@ jobs:
     build-play-5-6-10:
       name: Release play:5.6.10
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -350,95 +354,10 @@ jobs:
         - name: Push to Docker Hub
           run: docker push dockware/play:5.6.10
   
-    build-play-5-6-3:
-      name: Release play:5.6.3
-      runs-on: ubuntu-latest
-      steps:
-        - name: Clone Code
-          uses: actions/checkout@v2
-    
-        - name: Install Dependencies
-          run: make install
-    
-        - name: ORCA Generate
-          run: make generate -B
-    
-        - name: Build Image
-          run: make build image=play tag=5.6.3 -B
-    
-        - name: Run SVRUnit Tests
-          run: make test image=play tag=5.6.3 -B
-          
-        - name: Store SVRUnit Report
-          uses: actions/upload-artifact@v2
-          if: always()
-          with:
-            name: svrunit_report
-            retention-days: 3
-            path: |
-                .reports
-
-        - name: Start Image
-          run: docker run --rm -p 80:80 --name shop -d dockware/play:5.6.3
-
-        - name: Wait for Container
-          uses: jakejarvis/wait-action@master
-          with:
-            time: "30s"
-
-        - name: Container Output
-          run: docker logs shop
-
-        - name: Install Cypress
-          run: cd tests/cypress && make install -B
-
-        - name: Run Cypress Tests
-          run: |
-            if [[ $DW_IMAGE == flex ]]; then
-               cd tests/cypress && make run-flex url=http://localhost
-            fi
-            if [[ $DW_IMAGE == essentials ]]; then
-               cd tests/cypress && make run-essentials url=http://localhost
-            fi
-            if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $SW_VERSION == 6.* ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
-            fi
-          env:
-            DW_IMAGE: play
-            SW_VERSION: 5.6.3
-
-        - name: Store Cypress Results
-          uses: actions/upload-artifact@v2
-          if: always()
-          with:
-            name: cypress_results_play_5.6.3
-            retention-days: 1
-            path: |
-              Tests/Cypress/cypress/videos
-              Tests/Cypress/cypress/screenshots
-
-
-        - name: Login to Docker Hub
-          uses: docker/login-action@v1
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push to Docker Hub
-          run: docker push dockware/play:5.6.3
-  
     build-play-5-6-4:
       name: Release play:5.6.4
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -525,6 +444,7 @@ jobs:
     build-play-5-6-6:
       name: Release play:5.6.6
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -611,6 +531,7 @@ jobs:
     build-play-5-6-7:
       name: Release play:5.6.7
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -697,6 +618,7 @@ jobs:
     build-play-5-6-8:
       name: Release play:5.6.8
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -783,6 +705,7 @@ jobs:
     build-play-5-6-9:
       name: Release play:5.6.9
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -869,6 +792,7 @@ jobs:
     build-play-5-7-0:
       name: Release play:5.7.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -955,6 +879,7 @@ jobs:
     build-play-5-7-0-rc1:
       name: Release play:5.7.0-rc1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1041,6 +966,7 @@ jobs:
     build-play-5-7-0-rc2:
       name: Release play:5.7.0-rc2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1127,6 +1053,7 @@ jobs:
     build-play-5-7-1:
       name: Release play:5.7.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1213,6 +1140,7 @@ jobs:
     build-play-5-7-2:
       name: Release play:5.7.2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1299,6 +1227,7 @@ jobs:
     build-play-6-1-0:
       name: Release play:6.1.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1385,6 +1314,7 @@ jobs:
     build-play-6-1-1:
       name: Release play:6.1.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1471,6 +1401,7 @@ jobs:
     build-play-6-1-2:
       name: Release play:6.1.2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1557,6 +1488,7 @@ jobs:
     build-play-6-1-3:
       name: Release play:6.1.3
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1643,6 +1575,7 @@ jobs:
     build-play-6-1-4:
       name: Release play:6.1.4
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1729,6 +1662,7 @@ jobs:
     build-play-6-1-5:
       name: Release play:6.1.5
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1815,6 +1749,7 @@ jobs:
     build-play-6-1-6:
       name: Release play:6.1.6
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1901,6 +1836,7 @@ jobs:
     build-play-6-2-0:
       name: Release play:6.2.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -1987,6 +1923,7 @@ jobs:
     build-play-6-2-0-rc1:
       name: Release play:6.2.0-rc1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2073,6 +2010,7 @@ jobs:
     build-play-6-2-1:
       name: Release play:6.2.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2159,6 +2097,7 @@ jobs:
     build-play-6-2-2:
       name: Release play:6.2.2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2245,6 +2184,7 @@ jobs:
     build-play-6-2-3:
       name: Release play:6.2.3
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2331,6 +2271,7 @@ jobs:
     build-play-6-3-0:
       name: Release play:6.3.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2417,6 +2358,7 @@ jobs:
     build-play-6-3-0-1:
       name: Release play:6.3.0.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2503,6 +2445,7 @@ jobs:
     build-play-6-3-0-2:
       name: Release play:6.3.0.2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2589,6 +2532,7 @@ jobs:
     build-play-6-3-1-0:
       name: Release play:6.3.1.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2675,6 +2619,7 @@ jobs:
     build-play-6-3-1-1:
       name: Release play:6.3.1.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2761,6 +2706,7 @@ jobs:
     build-play-6-3-2-0:
       name: Release play:6.3.2.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2847,6 +2793,7 @@ jobs:
     build-play-6-3-2-1:
       name: Release play:6.3.2.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -2933,6 +2880,7 @@ jobs:
     build-play-6-3-3-0:
       name: Release play:6.3.3.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3019,6 +2967,7 @@ jobs:
     build-play-6-3-3-1:
       name: Release play:6.3.3.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3105,6 +3054,7 @@ jobs:
     build-play-6-3-4-0:
       name: Release play:6.3.4.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3191,6 +3141,7 @@ jobs:
     build-play-6-3-4-1:
       name: Release play:6.3.4.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3277,6 +3228,7 @@ jobs:
     build-play-6-3-5-0:
       name: Release play:6.3.5.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3363,6 +3315,7 @@ jobs:
     build-play-6-3-5-1:
       name: Release play:6.3.5.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3449,6 +3402,7 @@ jobs:
     build-play-6-3-5-2:
       name: Release play:6.3.5.2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3535,6 +3489,7 @@ jobs:
     build-play-6-3-5-3:
       name: Release play:6.3.5.3
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3621,6 +3576,7 @@ jobs:
     build-play-6-3-5-4:
       name: Release play:6.3.5.4
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3707,6 +3663,7 @@ jobs:
     build-play-6-4-0-0:
       name: Release play:6.4.0.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3793,6 +3750,7 @@ jobs:
     build-play-6-4-0-0-rc1:
       name: Release play:6.4.0.0-rc1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3879,6 +3837,7 @@ jobs:
     build-play-6-4-1-0:
       name: Release play:6.4.1.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -3965,6 +3924,7 @@ jobs:
     build-play-6-4-1-1:
       name: Release play:6.4.1.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -4051,6 +4011,7 @@ jobs:
     build-play-6-4-1-2:
       name: Release play:6.4.1.2
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -4137,6 +4098,7 @@ jobs:
     build-play-6-4-2-0:
       name: Release play:6.4.2.0
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -4223,6 +4185,7 @@ jobs:
     build-play-6-4-2-1:
       name: Release play:6.4.2.1
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -4306,181 +4269,10 @@ jobs:
         - name: Push to Docker Hub
           run: docker push dockware/play:6.4.2.1
   
-    build-play-6-4-3-0:
-      name: Release play:6.4.3.0
-      runs-on: ubuntu-latest
-      steps:
-        - name: Clone Code
-          uses: actions/checkout@v2
-    
-        - name: Install Dependencies
-          run: make install
-    
-        - name: ORCA Generate
-          run: make generate -B
-    
-        - name: Build Image
-          run: make build image=play tag=6.4.3.0 -B
-    
-        - name: Run SVRUnit Tests
-          run: make test image=play tag=6.4.3.0 -B
-          
-        - name: Store SVRUnit Report
-          uses: actions/upload-artifact@v2
-          if: always()
-          with:
-            name: svrunit_report
-            retention-days: 3
-            path: |
-                .reports
-
-        - name: Start Image
-          run: docker run --rm -p 80:80 --name shop -d dockware/play:6.4.3.0
-
-        - name: Wait for Container
-          uses: jakejarvis/wait-action@master
-          with:
-            time: "30s"
-
-        - name: Container Output
-          run: docker logs shop
-
-        - name: Install Cypress
-          run: cd tests/cypress && make install -B
-
-        - name: Run Cypress Tests
-          run: |
-            if [[ $DW_IMAGE == flex ]]; then
-               cd tests/cypress && make run-flex url=http://localhost
-            fi
-            if [[ $DW_IMAGE == essentials ]]; then
-               cd tests/cypress && make run-essentials url=http://localhost
-            fi
-            if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $SW_VERSION == 6.* ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
-            fi
-          env:
-            DW_IMAGE: play
-            SW_VERSION: 6.4.3.0
-
-        - name: Store Cypress Results
-          uses: actions/upload-artifact@v2
-          if: always()
-          with:
-            name: cypress_results_play_6.4.3.0
-            retention-days: 1
-            path: |
-              Tests/Cypress/cypress/videos
-              Tests/Cypress/cypress/screenshots
-
-
-        - name: Login to Docker Hub
-          uses: docker/login-action@v1
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push to Docker Hub
-          run: docker push dockware/play:6.4.3.0
-  
-    build-play-6-4-3-1:
-      name: Release play:6.4.3.1
-      runs-on: ubuntu-latest
-      steps:
-        - name: Clone Code
-          uses: actions/checkout@v2
-    
-        - name: Install Dependencies
-          run: make install
-    
-        - name: ORCA Generate
-          run: make generate -B
-    
-        - name: Build Image
-          run: make build image=play tag=6.4.3.1 -B
-    
-        - name: Run SVRUnit Tests
-          run: make test image=play tag=6.4.3.1 -B
-          
-        - name: Store SVRUnit Report
-          uses: actions/upload-artifact@v2
-          if: always()
-          with:
-            name: svrunit_report
-            retention-days: 3
-            path: |
-                .reports
-
-        - name: Start Image
-          run: docker run --rm -p 80:80 --name shop -d dockware/play:6.4.3.1
-
-        - name: Wait for Container
-          uses: jakejarvis/wait-action@master
-          with:
-            time: "30s"
-
-        - name: Container Output
-          run: docker logs shop
-
-        - name: Install Cypress
-          run: cd tests/cypress && make install -B
-
-        - name: Run Cypress Tests
-          run: |
-            if [[ $DW_IMAGE == flex ]]; then
-               cd tests/cypress && make run-flex url=http://localhost
-            fi
-            if [[ $DW_IMAGE == essentials ]]; then
-               cd tests/cypress && make run-essentials url=http://localhost
-            fi
-            if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $SW_VERSION == 6.* ]]; then
-               cd tests/cypress && make run6 url=http://localhost
-            fi
-            if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
-            fi
-          env:
-            DW_IMAGE: play
-            SW_VERSION: 6.4.3.1
-
-        - name: Store Cypress Results
-          uses: actions/upload-artifact@v2
-          if: always()
-          with:
-            name: cypress_results_play_6.4.3.1
-            retention-days: 1
-            path: |
-              Tests/Cypress/cypress/videos
-              Tests/Cypress/cypress/screenshots
-
-
-        - name: Login to Docker Hub
-          uses: docker/login-action@v1
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push to Docker Hub
-          run: docker push dockware/play:6.4.3.1
-  
     build-play-latest:
       name: Release play:latest
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2

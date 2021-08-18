@@ -13,6 +13,7 @@ $template = '
     build-##image##-##tag-name##:
       name: Release ##image##:##tag##
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2

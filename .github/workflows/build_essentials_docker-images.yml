@@ -9,6 +9,7 @@ jobs:
     build-essentials-latest:
       name: Release essentials:latest
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
