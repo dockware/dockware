@@ -1,7 +1,6 @@
 .DS_Store
 .idea
 
-/orca.phar
 /svrunit.phar
 
 dist
