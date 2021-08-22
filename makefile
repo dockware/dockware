@@ -12,15 +12,12 @@ help:
 # ----------------------------------------------------------------------------------------------------------------
 
 install: ## Installs all dependencies
-	curl -O https://orca-build.io/downloads/orca.zip
-	unzip -o orca.zip
-	rm -f orca.zip
 	curl -L https://www.svrunit.com/downloads/svrunit.zip --output svrunit.zip
 	unzip -o svrunit.zip
 	rm -f svrunit.zip
 
 generate: ## Generates all artifacts for this image
-	@php orca.phar --directory=.
+	docker run -v ${PWD}:/opt/project orcabuilder/orca:latest
 
 clear: ## Clears all dangling images
 	docker images -aq -f 'dangling=true' | xargs docker rmi
