@@ -590,10 +590,10 @@ RUN service mysql start && \
     mysql --user=root --password=root -e "CREATE DATABASE shopware CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
     cd /var/www/html && sudo -u www-data php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
     cd /var/www/html && sudo -u www-data php bin/console sw:firstrunwizard:disable && \
-        cd /var/www/html && sudo -u www-data php bin/console sw:store:download SwagDemoDataEN && \
-    cd /var/www/html && sudo -u www-data php bin/console sw:plugin:install --activate SwagDemoDataEN && \
         cd /var/www/html && sudo -u www-data php bin/console sw:cache:clear && \
     service mysql stop
+RUN rm -rf /var/www/html/config.php
+COPY ./assets/shopware5/config.php /var/www/html/
 
 # some images dont have that folder. make sure its there
 RUN mkdir -p /var/www/.composer \

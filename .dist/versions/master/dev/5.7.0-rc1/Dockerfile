@@ -626,6 +626,8 @@ RUN service mysql start && \
     cd /var/www/html && sudo -u www-data php bin/console sw:firstrunwizard:disable && \
         cd /var/www/html && sudo -u www-data php bin/console sw:cache:clear && \
     service mysql stop
+RUN rm -rf /var/www/html/config.php
+COPY ./assets/shopware5/config.php /var/www/html/
 
 # some images dont have that folder. make sure its there
 RUN mkdir -p /var/www/.composer \
