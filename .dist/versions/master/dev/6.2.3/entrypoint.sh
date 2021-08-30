@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo ""
 echo " _____   ____   _____ _  ____          __     _____  ______ "
 echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
@@ -203,3 +204,4 @@ echo "https://www.shopware.com/de/changelog/"
 echo ""
 
 tail -f /dev/null
+

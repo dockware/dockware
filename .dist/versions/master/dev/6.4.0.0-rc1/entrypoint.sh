@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo ""
 echo " _____   ____   _____ _  ____          __     _____  ______ "
 echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
@@ -21,6 +22,7 @@ echo ""
 echo "launching dockware...please wait..."
 echo ""
 
+if [[ -z "${BUILD_PLUGIN}" ]]; then
 set -e
 
 source /etc/apache2/envvars
@@ -203,3 +205,47 @@ echo "https://www.shopware.com/de/changelog/"
 echo ""
 
 tail -f /dev/null
+
+else
+echo "DOCKWARE: starting MySQL...."
+# somehow its necessary to set permissions, because
+# sometimes they get lost :)
+# make sure that it is no longer present from the last run
+file="/var/run/mysqld/mysqld.sock.lock"
+if [ -f "$file" ] ; then
+    sudo rm -f "$file"
+fi
+
+sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+sudo service mysql start;
+
+if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
+    echo "DOCKWARE: creating new MySQL user...."
+    # -----------------------------------
+    # Shopware users triggers. the DEFINER does also need to be changed to our new user
+    # otherwise problems like "product cant be created in admin" will occur.
+    # the only solution is to export the triggers, replace the DEFINER and import it again.
+    sudo mysqldump -P 3306 -h localhost -u root -p"root" --triggers --add-drop-trigger --no-create-info --no-data --no-create-db --skip-opt shopware > /tmp/triggers.sql
+    sudo sed -i 's/DEFINER=`root`@`%`/DEFINER=`app`@`%`/g' /tmp/triggers.sql
+    sudo mysql --user=root --password=root shopware < /tmp/triggers.sql
+    sudo rm -rf /tmp/triggers.sql
+    # -----------------------------------
+    # block remote access for root user
+    sudo mysql --user=root --password=root -e "UPDATE mysql.user SET Host='localhost' WHERE User='root' AND Host='%';";
+    # -----------------------------------
+    # add new user and grant privileges
+    sudo mysql --user=root --password=root -e "CREATE USER IF NOT EXISTS '"$MYSQL_USER"'@'%' IDENTIFIED BY '"$MYSQL_PWD"';";
+    sudo mysql --user=root --password=root -e "use mysql; update user set host='%' where user='$MYSQL_USER';";
+    sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON *.* TO '"$MYSQL_USER"'@'%' IDENTIFIED BY '$MYSQL_PWD';";
+    # -----------------------------------
+    # apply and flush privileges
+    sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;";
+    echo "-----------------------------------------------------------"
+fi
+echo "-----------------------------------------------------------"
+
+bin/console plugin:refresh && \
+bin/console plugin:install --activate "${BUILD_PLUGIN}"
+
+bin/build-js.sh
+fi
