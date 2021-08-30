@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo ""
 echo " _____   ____   _____ _  ____          __     _____  ______ "
 echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
@@ -21,7 +22,7 @@ echo ""
 echo "launching dockware...please wait..."
 echo ""
 
-
+{% block entrypoint %}
 set -e
 
 source /etc/apache2/envvars
@@ -260,3 +261,4 @@ echo ""
 {% endblock %}
 
 tail -f /dev/null
+{% endblock%}
