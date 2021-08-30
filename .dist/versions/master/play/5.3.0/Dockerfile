@@ -328,6 +328,8 @@ RUN service mysql start && \
         cd /var/www/html && sudo -u www-data php bin/console sw:store:download SwagDemoDataEN && \
     cd /var/www/html && sudo -u www-data php bin/console sw:plugin:install --activate SwagDemoDataEN && \
         cd /var/www/html && sudo -u www-data php bin/console sw:cache:clear && \
+    mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
+    mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
     service mysql stop
 
 # some images dont have that folder. make sure its there
