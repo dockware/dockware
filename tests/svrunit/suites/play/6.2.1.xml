@@ -18,7 +18,7 @@
         </testsuite>
 
         <testsuite name="PHP 7.3, XDebug ON"
-                   dockerImage="dockware/play:6.2.1" dockerEnv="PHP_VERSION=7.34">
+                   dockerImage="dockware/play:6.2.1" dockerEnv="PHP_VERSION=7.3">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/sodium</directory>
         </testsuite>
