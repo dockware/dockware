@@ -14,10 +14,10 @@ xdebug-off: ## disables xdebug
 	sh /var/www/scripts/bin/xdebug_disable.sh
 
 permission-repair: ## repairs the general file permissions
-	chown -R www-data:www-data /var/www/html/*
-	chmod -R 775 /var/www/html
+	sudo chown -R www-data:www-data /var/www/html/*
+	sudo chmod -R 775 /var/www/html
 	cd /var/www/scripts/shopware6 && php create_jwt.php
-	cd /var/www/html/config/jwt && chown www-data:www-data *
+	cd /var/www/html/config/jwt && sudo chown www-data:www-data *
 
 # ---------------------------------------------------------------------------------------------
 watch-storefront: ## starts watcher for storefront at http://localhost

@@ -365,7 +365,7 @@ RUN service mysql start && \
 
 # sometimes there are permission problems
 # so make sure to assign them correctly again here
-RUN chown -R www-data:www-data /var/www/html/* && \
+RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 775 /var/www/html && \
     cd /var/www/scripts/shopware6 && php create_jwt.php && \
     cd /var/www/html/config/jwt && chown www-data:www-data *
