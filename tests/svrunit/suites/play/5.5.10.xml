@@ -3,23 +3,23 @@
     <testsuites>
 
         <testsuite name="Basic Checks"
-                   dockerImage="dockware/play:5.5.0">
+                   dockerImage="dockware/play:5.5.10">
             <directory>./../../tests/images/play</directory>
             <directory>./../../tests/shared/base</directory>
         </testsuite>
 
         <testsuite name="PHP 7.1, XDebug ON"
-                   dockerImage="dockware/play:5.5.0" dockerEnv="PHP_VERSION=7.1">
+                   dockerImage="dockware/play:5.5.10" dockerEnv="PHP_VERSION=7.1">
             <directory>./../../tests/packages/php/php7</directory>
         </testsuite>
 
         <testsuite name="PHP 7.0, XDebug ON"
-                   dockerImage="dockware/play:5.5.0" dockerEnv="PHP_VERSION=7.0">
+                   dockerImage="dockware/play:5.5.10" dockerEnv="PHP_VERSION=7.0">
             <directory>./../../tests/packages/php/php7</directory>
         </testsuite>
 
         <testsuite name="PHP 5.6, XDebug ON"
-                   dockerImage="dockware/play:5.5.0" dockerEnv="PHP_VERSION=5.6">
+                   dockerImage="dockware/play:5.5.10" dockerEnv="PHP_VERSION=5.6">
             <directory>./../../tests/packages/php/php5</directory>
         </testsuite>
 
