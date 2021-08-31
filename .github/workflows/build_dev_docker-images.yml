@@ -30,7 +30,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.5.0
             retention-days: 3
             path: |
                 .reports
@@ -117,7 +117,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.5.10
             retention-days: 3
             path: |
                 .reports
@@ -204,7 +204,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.10
             retention-days: 3
             path: |
                 .reports
@@ -291,7 +291,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.3
             retention-days: 3
             path: |
                 .reports
@@ -378,7 +378,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.4
             retention-days: 3
             path: |
                 .reports
@@ -465,7 +465,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.6
             retention-days: 3
             path: |
                 .reports
@@ -552,7 +552,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.7
             retention-days: 3
             path: |
                 .reports
@@ -639,7 +639,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.8
             retention-days: 3
             path: |
                 .reports
@@ -726,7 +726,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.6.9
             retention-days: 3
             path: |
                 .reports
@@ -813,7 +813,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.7.0
             retention-days: 3
             path: |
                 .reports
@@ -900,7 +900,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.7.0-rc1
             retention-days: 3
             path: |
                 .reports
@@ -987,7 +987,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.7.0-rc2
             retention-days: 3
             path: |
                 .reports
@@ -1074,7 +1074,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.7.1
             retention-days: 3
             path: |
                 .reports
@@ -1161,7 +1161,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_5.7.2
             retention-days: 3
             path: |
                 .reports
@@ -1248,7 +1248,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.1.0
             retention-days: 3
             path: |
                 .reports
@@ -1335,7 +1335,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.1.1
             retention-days: 3
             path: |
                 .reports
@@ -1422,7 +1422,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.1.3
             retention-days: 3
             path: |
                 .reports
@@ -1509,7 +1509,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.1.4
             retention-days: 3
             path: |
                 .reports
@@ -1596,7 +1596,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.1.5
             retention-days: 3
             path: |
                 .reports
@@ -1683,7 +1683,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.1.6
             retention-days: 3
             path: |
                 .reports
@@ -1770,7 +1770,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.2.0
             retention-days: 3
             path: |
                 .reports
@@ -1857,7 +1857,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.2.1
             retention-days: 3
             path: |
                 .reports
@@ -1944,7 +1944,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.2.2
             retention-days: 3
             path: |
                 .reports
@@ -2031,7 +2031,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.2.3
             retention-days: 3
             path: |
                 .reports
@@ -2118,7 +2118,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.0
             retention-days: 3
             path: |
                 .reports
@@ -2205,7 +2205,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.0.1
             retention-days: 3
             path: |
                 .reports
@@ -2292,7 +2292,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.0.2
             retention-days: 3
             path: |
                 .reports
@@ -2379,7 +2379,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.1.0
             retention-days: 3
             path: |
                 .reports
@@ -2466,7 +2466,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.1.1
             retention-days: 3
             path: |
                 .reports
@@ -2553,7 +2553,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.2.0
             retention-days: 3
             path: |
                 .reports
@@ -2640,7 +2640,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.2.1
             retention-days: 3
             path: |
                 .reports
@@ -2727,7 +2727,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.3.0
             retention-days: 3
             path: |
                 .reports
@@ -2814,7 +2814,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.3.1
             retention-days: 3
             path: |
                 .reports
@@ -2901,7 +2901,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.4.0
             retention-days: 3
             path: |
                 .reports
@@ -2988,7 +2988,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.4.1
             retention-days: 3
             path: |
                 .reports
@@ -3075,7 +3075,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.5.0
             retention-days: 3
             path: |
                 .reports
@@ -3162,7 +3162,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.5.1
             retention-days: 3
             path: |
                 .reports
@@ -3249,7 +3249,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.5.2
             retention-days: 3
             path: |
                 .reports
@@ -3336,7 +3336,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.5.3
             retention-days: 3
             path: |
                 .reports
@@ -3423,7 +3423,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.3.5.4
             retention-days: 3
             path: |
                 .reports
@@ -3510,7 +3510,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.0.0
             retention-days: 3
             path: |
                 .reports
@@ -3597,7 +3597,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.0.0-rc1
             retention-days: 3
             path: |
                 .reports
@@ -3684,7 +3684,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.1.0
             retention-days: 3
             path: |
                 .reports
@@ -3771,7 +3771,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.1.1
             retention-days: 3
             path: |
                 .reports
@@ -3858,7 +3858,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.1.2
             retention-days: 3
             path: |
                 .reports
@@ -3945,7 +3945,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.2.0
             retention-days: 3
             path: |
                 .reports
@@ -4032,7 +4032,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.2.0-rc
             retention-days: 3
             path: |
                 .reports
@@ -4119,7 +4119,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.2.1
             retention-days: 3
             path: |
                 .reports
@@ -4206,7 +4206,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.3.0
             retention-days: 3
             path: |
                 .reports
@@ -4293,7 +4293,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_6.4.3.1
             retention-days: 3
             path: |
                 .reports
@@ -4380,7 +4380,7 @@ jobs:
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_dev_latest
             retention-days: 3
             path: |
                 .reports

@@ -34,7 +34,7 @@ $template = '
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report
+            name: svrunit_report_##image##_##tag##
             retention-days: 3
             path: |
                 .reports
