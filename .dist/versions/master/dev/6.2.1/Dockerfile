@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware dev:6.2.1" \
-      version="1.3.6-beta" \
+      version="1.4" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -580,6 +580,11 @@ RUN mkdir -p /var/www/pimpmylog && \
 
 COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
 COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
+
+# apply our custom file with fixes for PHP 8
+# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
+COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
+
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
 RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-amd64.deb \
