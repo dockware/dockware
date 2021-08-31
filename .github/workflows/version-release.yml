@@ -1,11 +1,12 @@
-name: Release Shopware Version
+name: Release Version
 
 on:
   workflow_dispatch:
     inputs:
       tagName:
-        description: 'Version Name'
+        description: 'Tag Name'
         required: true
+
 
 jobs:
 
