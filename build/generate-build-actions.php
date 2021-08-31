@@ -1,6 +1,6 @@
 <?php
 
-$yml = 'name: Release dockware/##image##:*
+$yml = 'name: Release ##image## (All)
 
 #only manually
 on:

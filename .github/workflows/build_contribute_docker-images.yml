@@ -1,4 +1,4 @@
-name: Release dockware/contribute:*
+name: Release contribute (All)
 
 #only manually
 on:

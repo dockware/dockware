@@ -1,4 +1,4 @@
-name: Release dockware/essentials:*
+name: Release essentials (All)
 
 #only manually
 on:

@@ -1,4 +1,4 @@
-name: Release dockware/flex:*
+name: Release flex (All)
 
 #only manually
 on:
