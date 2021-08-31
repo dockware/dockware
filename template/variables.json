@@ -1,5 +1,5 @@
 {
-    "version": "1.3.6-beta",
+    "version": "1.4",
     "base_image": "ubuntu:18.04",
     "db": {
         "host": "localhost",

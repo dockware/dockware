@@ -4,11 +4,21 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
-## [UNRELEASED] 
+## [1.4] 
+
+### Added
+- Added feature to only build a mounted plugin without running Shopware itself.
+- Added "sodium" PHP extension.
+- Added real Demo Data plugin for Shopware > 6.2 versions
+- Add ready to use "base.scss" file to Dockware Sample Plugin
 
 ### Changed
-- Improved "pimpmylogs" entries for Shopware 5 and Shopware 6
+- Improved "PimpMyLogs" entries for Shopware 5 and Shopware 6
+- Use Composer v1 before Shopware 6.4
+- Improved Watchers across different Shopware versions
 
+### Fixed
+- Fixed missing Shopware 5 default Mailer settings for Mailcatcher
 
 
 ## [1.3.5] - 2021-03-10
