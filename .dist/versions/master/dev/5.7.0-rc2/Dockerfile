@@ -629,6 +629,8 @@ RUN service mysql start && \
     mysql --user=root --password=root -e "CREATE DATABASE shopware CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
     cd /var/www/html && sudo -u www-data php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
     cd /var/www/html && sudo -u www-data php bin/console sw:firstrunwizard:disable && \
+        cd /var/www/html && sudo -u www-data php bin/console sw:store:download SwagDemoDataEN && \
+    cd /var/www/html && sudo -u www-data php bin/console sw:plugin:install --activate SwagDemoDataEN && \
         cd /var/www/html && sudo -u www-data php bin/console sw:cache:clear && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
