@@ -1,5 +1,6 @@
 {
     "trashAssetsBeforeRuns": true,
+    "watchForFileChanges": false,
     "devices": [
         {
             "key": "desktop",

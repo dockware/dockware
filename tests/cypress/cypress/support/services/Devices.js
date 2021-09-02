@@ -32,6 +32,14 @@ class Devices {
 
     /**
      *
+     * @returns {*}
+     */
+    getFirstDevice() {
+        return this.getDevices()[0];
+    }
+
+    /**
+     *
      * @param device
      * @returns {string}
      */
