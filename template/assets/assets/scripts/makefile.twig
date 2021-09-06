@@ -23,6 +23,9 @@ permission-repair: ## repairs the general file permissions
 	cd /var/www/html/config/jwt && sudo chown www-data:www-data *
 {% endblock %}
 
+{% block essentials_download %}
+{% endblock %}
+
 # ---------------------------------------------------------------------------------------------
 {% block watcher_storefront %}
 watch-storefront: ## starts watcher for storefront at {{ shopware.url }}
@@ -59,5 +62,3 @@ build-admin: ## builds the admin
 
 {% block contribute_pull %}
 {% endblock %}
-
-

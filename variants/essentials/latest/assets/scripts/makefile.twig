@@ -1,0 +1,16 @@
+{% extends "template/assets/assets/scripts/makefile.twig" %}
+
+
+{% block essentials_download %}
+# ---------------------------------------------------------------------------------------------
+download: ## Downloads a Shopware 6 from a provided ZIP URL. Use: make download url=(https://......shopware6.zip)
+ifndef url
+	$(warning Please provide the URL to the Shopware ZIP file!)
+	@exit 1
+else
+	sudo rm -rf /var/www/html/*
+	sudo wget $(url) -qq -O /var/www/shopware.zip
+	sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html'
+	sudo rm -rf /var/www/shopware.zip
+endif
+{% endblock %}
