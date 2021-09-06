@@ -3,7 +3,7 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [1.4] 
+## [1.4] - 2021-09-01
 
 ### Added
 - Added feature to only build a mounted plugin without running Shopware itself.
