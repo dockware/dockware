@@ -11,7 +11,7 @@ on:
 jobs:
 
   play:
-    name: Build Shopware ${{ github.event.inputs.tagName }}
+    name: Build Shopware ${{ matrix.image }}:${{ github.event.inputs.tagName }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
