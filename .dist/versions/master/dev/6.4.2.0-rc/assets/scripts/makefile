@@ -39,4 +39,3 @@ pull: ## pulls the latest github version and installs everything again
 	cd /var/www/html && git pull
 	cd /var/www/html/platform && git pull
 	cd /var/www/html && ./psh.phar install
-

@@ -20,6 +20,18 @@ permission-repair: ## repairs the general file permissions
 	cd /var/www/html/config/jwt && sudo chown www-data:www-data *
 
 # ---------------------------------------------------------------------------------------------
+download: ## Downloads a Shopware 6 from a provided ZIP URL. Use: make download url=(https://......shopware6.zip)
+ifndef url
+	$(warning Please provide the URL to the Shopware ZIP file!)
+	@exit 1
+else
+	sudo rm -rf /var/www/html/*
+	sudo wget $(url) -qq -O /var/www/shopware.zip
+	sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html'
+	sudo rm -rf /var/www/shopware.zip
+endif
+
+# ---------------------------------------------------------------------------------------------
 watch-storefront: ## starts watcher for storefront at http://localhost
 	@echo "RequestHeader add hot-reload-mode 1\n"\
 	"RequestHeader add hot-reload-port 9999" > /var/www/html/.htaccess.watch
