@@ -141,7 +141,7 @@ if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     # otherwise problems like "product cant be created in admin" will occur.
     # the only solution is to export the triggers, replace the DEFINER and import it again.
     sudo mysqldump -P 3306 -h localhost -u {{ db.user }} -p"{{ db.pwd }}" --triggers --add-drop-trigger --no-create-info --no-data --no-create-db --skip-opt {{ db.database }} > /tmp/triggers.sql
-    sudo sed -i 's/DEFINER=`{{ db.user }}`@`%`/DEFINER=`app`@`%`/g' /tmp/triggers.sql
+    sudo sed -i 's/DEFINER=`{{ db.user }}`@`%`/DEFINER=`'$MYSQL_USER'`@`%`/g' /tmp/triggers.sql
     sudo mysql --user={{ db.user }} --password={{ db.pwd }} {{ db.database }} < /tmp/triggers.sql
     sudo rm -rf /tmp/triggers.sql
     # -----------------------------------
