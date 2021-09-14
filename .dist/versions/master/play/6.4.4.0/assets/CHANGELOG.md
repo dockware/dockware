@@ -3,6 +3,15 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [1.4.1] - 2021-09-14
+
+### Added
+- Added new "make download" command to easily prepare the installation of Shopware in the "essentials" image.
+
+### Fixed
+- Fixed missing demo data in some Shopware 5 images.
+- Fixed problem with wrong function definer with custom MySQL user (https://github.com/dockware/dockware/issues/58)
+
 ## [1.4] - 2021-09-01
 
 ### Added
