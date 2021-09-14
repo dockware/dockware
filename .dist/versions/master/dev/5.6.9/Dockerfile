@@ -172,11 +172,12 @@ RUN mkdir -p /var/www/.ssh \
 RUN apt-get update \
     && apt-get install -y php7.4-fpm \
     && apt-get install -y php7.4-gd \
+    #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
+    && apt-get install -y php7.4-mbstring \
     && apt-get install -y php7.4-iconv \
     && apt-get install -y php7.4-intl \
     && apt-get install -y php7.4-json \
     && apt-get install -y php7.4-xml \
-    && apt-get install -y php7.4-mbstring \
     && apt-get install -y php7.4-pdo \
     && apt-get install -y php7.4-mysql \
     && apt-get install -y php7.4-apcu \

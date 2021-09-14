@@ -1,0 +1,25 @@
+{
+    "shopware": {
+        "display"   : "Shopware (prod)",
+        "path"      : "/var/www/html/var/log/prod*.log",
+        "notify": false,
+        "format"    : {
+            "multiline": "",
+            "regex"    : "@\\[(.*?)\\]\\s*?\\w*\\.(.*?):\\s?((.*?)\\s*?(?:at|in)\\s*?(.*?)\\s*?(?:on line|line)\\s*([0-9]*).*?|(.*?))$@",
+            "match"    : {
+                "Date"     : 1,
+                "Severity" : 2,
+                "Error"    : [3,4],
+                "File"     : 5,
+                "Line"     : 6
+            },
+            "types"    : {
+                "Date"     : "date:m-d H:i:s",
+                "Severity" : "badge:severity",
+                "File"     : "pre:\/-69",
+                "Line"     : "numeral",
+                "Error"    : "pre"
+            }
+        }
+    }
+}
