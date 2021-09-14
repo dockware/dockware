@@ -118,7 +118,7 @@ if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     # otherwise problems like "product cant be created in admin" will occur.
     # the only solution is to export the triggers, replace the DEFINER and import it again.
     sudo mysqldump -P 3306 -h localhost -u root -p"root" --triggers --add-drop-trigger --no-create-info --no-data --no-create-db --skip-opt shopware > /tmp/triggers.sql
-    sudo sed -i 's/DEFINER=`root`@`%`/DEFINER=`app`@`%`/g' /tmp/triggers.sql
+    sudo sed -i 's/DEFINER=`root`@`%`/DEFINER=`'$MYSQL_USER'`@`%`/g' /tmp/triggers.sql
     sudo mysql --user=root --password=root shopware < /tmp/triggers.sql
     sudo rm -rf /tmp/triggers.sql
     # -----------------------------------
@@ -226,7 +226,7 @@ if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     # otherwise problems like "product cant be created in admin" will occur.
     # the only solution is to export the triggers, replace the DEFINER and import it again.
     sudo mysqldump -P 3306 -h localhost -u root -p"root" --triggers --add-drop-trigger --no-create-info --no-data --no-create-db --skip-opt shopware > /tmp/triggers.sql
-    sudo sed -i 's/DEFINER=`root`@`%`/DEFINER=`app`@`%`/g' /tmp/triggers.sql
+    sudo sed -i 's/DEFINER=`root`@`%`/DEFINER=`'$MYSQL_USER'`@`%`/g' /tmp/triggers.sql
     sudo mysql --user=root --password=root shopware < /tmp/triggers.sql
     sudo rm -rf /tmp/triggers.sql
     # -----------------------------------
