@@ -23,12 +23,15 @@ clear: ## Clears all dangling images
 	docker images -aq -f 'dangling=true' | xargs docker rmi
 	docker volume ls -q -f 'dangling=true' | xargs docker volume rm
 
+
 build: ## Builds the provided tag [image=play tag=6.1.6]
 ifndef tag
 	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
 	@exit 1;
 else
-	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t dockware/$(image):$(tag) .
+	docker buildx create --name multibuilder | true;
+	docker buildx use multibuilder
+	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64,linux/arm64 -t dockware/$(image):$(tag) .
 endif
 
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
