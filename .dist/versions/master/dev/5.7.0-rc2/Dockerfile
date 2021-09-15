@@ -585,9 +585,13 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
-RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-amd64.deb \
-    && sudo dpkg -i filebeat-7.4.2-amd64.deb \
-    && rm -f /filebeat-7.4.2-amd64.deb
+RUN apt-get update \
+    && apt-get install -y gnupg2 \
+    && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+    &&  apt-get install -y apt-transport-https \
+    &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
+    &&  apt-get update && apt-get install filebeat \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
