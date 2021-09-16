@@ -30,9 +30,11 @@ ifndef tag
 	@exit 1;
 else
 	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-	docker buildx create --name multiarch --driver docker-container --use | true;
+	docker buildx rm multiarch | true;
+	docker buildx create --name multiarch --driver docker-container --use
 	docker buildx inspect --bootstrap
-	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64,linux/arm64 -t dockware/$(image):$(tag) .
+	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64,linux/arm64 -t dockware/$(image):$(tag) --output=type=docker .
+	docker buildx rm multiarch
 endif
 
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
