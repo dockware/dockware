@@ -43,4 +43,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: docker push dockware/essentials:latest
+          run: make build-and-push-multiarch image=essentials tag=latest -B

@@ -91,4 +91,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: docker push dockware/flex:latest
+          run: make build-and-push-multiarch image=flex tag=latest -B

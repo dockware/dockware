@@ -100,7 +100,7 @@ $templatePush = '
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push to Docker Hub
-          run: docker push dockware/##image##:##tag##';
+          run: make build-and-push-multiarch image=##image## tag=##tag## -B';
 
 
 if (count($argv) < 2) {
