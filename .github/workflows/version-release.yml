@@ -92,4 +92,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Push to Docker Hub
-        run: docker push dockware/${{ matrix.image }}:${{ github.event.inputs.tagName }}
+        run: make build-and-push-multiarch image=${{ matrix.image }} tag=${{ github.event.inputs.tagName }} -B
