@@ -7,9 +7,11 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ### Added
 - Added "jq" package for JSON processing
+- Add PHP 5.6 support to essentials image
 
 ### Fixed
 - Composer was accidentally always updated, even if no ENV variable has been provided
+- Fix problems with XDEBUG on PHP 5.6
 
 ## [1.4.1] - 2021-09-14
 
