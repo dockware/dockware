@@ -44,6 +44,7 @@ RUN apt-get update \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
     && apt-get install -y cron \
+    && apt-get install -y jq \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog

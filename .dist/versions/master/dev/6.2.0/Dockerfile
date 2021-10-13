@@ -76,6 +76,7 @@ RUN apt-get update \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
     && apt-get install -y cron \
+    && apt-get install -y jq \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
@@ -462,6 +463,20 @@ RUN npm install -g yarn \
     && make distclean \
     && sudo phpize7.0 --clean \
     && sudo apt-get remove -y php7.0-dev \
+    # install xdebug for php 5.6
+    && sudo apt-get install -y php5.6-dev \
+    && cd /var/www/xdebug \
+    && sudo rm -rf /var/www/xdebug/modules/* \
+    && sudo git checkout -f tags/XDEBUG_2_5_5 \
+    && sudo phpize5.6 --clean \
+    && sudo phpize5.6 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20131226/xdebug_5.6.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize5.6 --clean \
+    && sudo apt-get remove -y php5.6-dev \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
@@ -485,6 +500,9 @@ COPY ./config/php/xdebug-2.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
 
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
 
@@ -517,6 +535,11 @@ RUN cd /var/www \
     && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
 
  && cd /var/www
 
