@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware dev:6.3.4.0" \
-      version="1.4.1" \
+      version="1.4.2" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -59,7 +59,7 @@ RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
-ENV COMPOSER_VERSION 1
+ENV COMPOSER_VERSION not-set
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ## ***********************************************************************

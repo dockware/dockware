@@ -3,6 +3,11 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [1.4.2] - 2021-10-13
+
+### Fixed
+- Composer was accidentally always updated, even if no ENV variable has been provided
+
 ## [1.4.1] - 2021-09-14
 
 ### Added

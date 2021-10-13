@@ -4,7 +4,7 @@
 #
 FROM ubuntu:20.04
 LABEL title="Dockware flex:latest" \
-      version="1.4.1" \
+      version="1.4.2" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -51,7 +51,7 @@ RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 ENV TIDEWAYS_SERVICE web
 RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 
-ENV COMPOSER_VERSION 2
+ENV COMPOSER_VERSION not-set
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ## ***********************************************************************
