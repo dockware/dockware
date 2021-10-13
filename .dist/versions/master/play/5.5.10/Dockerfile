@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware play:5.5.10" \
-      version="1.4.1" \
+      version="1.4.2" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -27,7 +27,7 @@ RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
 ENV APACHE_DOCROOT /var/www/html
 RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
 
-ENV COMPOSER_VERSION 2
+ENV COMPOSER_VERSION not-set
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ## ***********************************************************************
