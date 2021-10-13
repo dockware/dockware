@@ -5,6 +5,9 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ## [1.4.2] - 2021-10-13
 
+### Added
+- Added "jq" package for JSON processing
+
 ### Fixed
 - Composer was accidentally always updated, even if no ENV variable has been provided
 
