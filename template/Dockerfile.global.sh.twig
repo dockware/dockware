@@ -81,7 +81,7 @@ RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_composer %}
-ENV COMPOSER_VERSION {{ composer.version }}
+ENV COMPOSER_VERSION not-set
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 {% endblock %}
 
