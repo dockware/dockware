@@ -2,3 +2,6 @@ commands:
   - name: "SUDO is installed"
     command: "sudo"
     expected: "usage: sudo -h"
+  - name: "JQ is installed"
+    command: "jq --version"
+    expected: "jq-1"
