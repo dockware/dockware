@@ -31,6 +31,7 @@ jobs:
           git config --local user.name "$(git log --format='%an' HEAD^!)"
           git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git add ./.dist/versions/master
+          git add ./.github/workflows
 
           if git diff-index --quiet HEAD --; then
               echo nothing changed in dist
