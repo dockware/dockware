@@ -32,10 +32,5 @@ jobs:
           git remote add github "https://${{ secrets.GIT_WORKFLOW_USER }}:${{ secrets.GIT_WORKFLOW_PAT }}@github.com/$GITHUB_REPOSITORY.git"
           git add ./.dist/versions/master
           git add ./.github/workflows
-
-          if git diff-index --quiet HEAD --; then
-              echo nothing changed in dist
-          else
-              git commit -m "Auto update dist files"
-              git push github HEAD:${GITHUB_REF}
-          fi
+          git commit -m "Auto update dist files"
+          git push github HEAD:${GITHUB_REF}
