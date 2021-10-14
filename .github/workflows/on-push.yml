@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  commit-files:
-    name: Generate DIST + Workflows
+  on-push:
+    name: On Push
     runs-on: ubuntu-latest
     steps:
       - name: Clone Code
