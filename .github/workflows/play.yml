@@ -1,4 +1,4 @@
-name: Release play (All)
+name: play (All)
 
 on:
   workflow_dispatch:

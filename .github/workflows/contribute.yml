@@ -1,4 +1,4 @@
-name: Release contribute (All)
+name: contribute (All)
 
 on:
   workflow_dispatch:

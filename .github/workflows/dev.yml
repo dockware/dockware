@@ -1,4 +1,4 @@
-name: Release dev (All)
+name: dev (All)
 
 on:
   workflow_dispatch:
