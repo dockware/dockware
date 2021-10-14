@@ -12,11 +12,7 @@ help:
 # ----------------------------------------------------------------------------------------------------------------
 
 generate-actions: ## Generates the github actions files for releasing dockware
-	php generate-build-actions.php dev
-	php generate-build-actions.php play
-	php generate-build-actions.php contribute
-	php generate-build-actions.php flex
-	php generate-build-actions.php essentials
+	php build.php
 
 generate-dist:## Generates the current docker files and commits it
 ifndef version

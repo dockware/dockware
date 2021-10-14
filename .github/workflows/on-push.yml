@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  install:
-    name: Generate Dist Files
+  commit-files:
+    name: Generate DIST + Workflows
     runs-on: ubuntu-latest
     steps:
       - name: Clone Code
@@ -19,7 +19,10 @@ jobs:
       - name: ORCA Generate
         run: make generate
 
-      - name: Copy to dist Version Folder
+      - name: Generate Workflows
+        run: cd build && make generate-actions
+
+      - name: Archive DIST Files
         run: cd build && make generate-dist version=master
 
       - name: Commit and Push

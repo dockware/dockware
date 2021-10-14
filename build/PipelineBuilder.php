@@ -1,13 +1,20 @@
-name: Release flex (All)
+<?php
 
-#only manually
-on:
-  workflow_dispatch:
 
-jobs:
-  
-    build-flex-latest:
-      name: Release flex:latest
+class PipelineBuilder
+{
+
+    /**
+     * @param $jobKey
+     * @param $image
+     * @param $tag
+     * @return string
+     */
+    public function buildJob($jobKey, $image, $tag)
+    {
+        $templateBuild = '
+    ' . $jobKey . ': 
+      name: Release ' . $image . ':' . $tag . '
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -21,30 +28,27 @@ jobs:
           run: make generate -B
     
         - name: Build Image
-          run: make build image=flex tag=latest -B
-    
+          run: make build image=' . $image . ' tag=' . $tag . ' -B
+';
+
+        $templateTest = '
         - name: Run SVRUnit Tests
-          run: make test image=flex tag=latest -B
+          run: make test image=' . $image . ' tag=' . $tag . ' -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_flex_latest
+            name: svrunit_report_' . $image . '_' . $tag . '
             retention-days: 3
             path: |
                 .reports
-
+                
         - name: Start Image
-          run: docker run --rm -p 80:80 --name shop -d dockware/flex:latest
-
-        - name: Wait for Container
-          uses: jakejarvis/wait-action@master
-          with:
-            time: "30s"
-
-        - name: Container Output
-          run: docker logs shop
+          run: |
+            docker run --rm -p 80:80 --name shop -d dockware/' . $image . ':' . $tag . '
+            sleep 30
+            docker logs shop
 
         - name: Install Cypress
           run: cd tests/cypress && make install -B
@@ -70,25 +74,32 @@ jobs:
                cd tests/cypress && make run5 url=http://localhost
             fi
           env:
-            DW_IMAGE: flex
-            SW_VERSION: latest
+            DW_IMAGE: ' . $image . '
+            SW_VERSION: ' . $tag . '
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_flex_latest
+            name: cypress_results_' . $image . '_' . $tag . '
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
-              Tests/Cypress/cypress/screenshots
+              Tests/Cypress/cypress/screenshots     
+';
 
-
+        $templatePush = '
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push to Docker Hub
-          run: make build-and-push-multiarch image=flex tag=latest -B
+        - name: Push Multi-Arch to Docker Hub
+          run: make build-and-push-multiarch image=' . $image . ' tag=' . $tag . ' -B';
+
+
+        return $templateBuild . $templateTest . $templatePush;
+    }
+
+}

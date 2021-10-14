@@ -1,19 +1,12 @@
-name: Release Custom Image
+name: Release flex (All)
 
 on:
   workflow_dispatch:
-    inputs:
-      imageName:
-        description: 'Image Name'
-        required: true
-      tagName:
-        description: 'Tag Name'
-        required: true
-        
+
 jobs:
   
-    build: 
-      name: Release ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+    flex-latest: 
+      name: Release flex:latest
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -27,23 +20,23 @@ jobs:
           run: make generate -B
     
         - name: Build Image
-          run: make build image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+          run: make build image=flex tag=latest -B
 
         - name: Run SVRUnit Tests
-          run: make test image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+          run: make test image=flex tag=latest -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_${{ github.event.inputs.imageName }}_${{ github.event.inputs.tagName }}
+            name: svrunit_report_flex_latest
             retention-days: 3
             path: |
                 .reports
                 
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+            docker run --rm -p 80:80 --name shop -d dockware/flex:latest
             sleep 30
             docker logs shop
 
@@ -71,14 +64,14 @@ jobs:
                cd tests/cypress && make run5 url=http://localhost
             fi
           env:
-            DW_IMAGE: ${{ github.event.inputs.imageName }}
-            SW_VERSION: ${{ github.event.inputs.tagName }}
+            DW_IMAGE: flex
+            SW_VERSION: latest
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_${{ github.event.inputs.imageName }}_${{ github.event.inputs.tagName }}
+            name: cypress_results_flex_latest
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
@@ -91,4 +84,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+          run: make build-and-push-multiarch image=flex tag=latest -B
