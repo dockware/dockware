@@ -20,7 +20,7 @@ function buildManifestImageJobs()
 
     foreach ($manifestJson['images'] as $image => $variants) {
 
-        $yml = 'name: Release ' . $image . ' (All)
+        $yml = 'name: ' . $image . ' (All)
 
 on:
   workflow_dispatch:
@@ -55,7 +55,7 @@ function buildShopwareVersionJob()
 {
     $builder = new PipelineBuilder();
 
-    $yml = "name: Release Shopware Version
+    $yml = "name: Shopware Version
 
 on:
   workflow_dispatch:
@@ -95,7 +95,7 @@ function buildCustomImageJob()
 {
     $builder = new PipelineBuilder();
 
-    $yml = "name: Release Custom Image
+    $yml = "name: Custom Image
 
 on:
   workflow_dispatch:
