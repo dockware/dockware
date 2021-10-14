@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Clone Code
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: Install Dependencies
         run: make install
