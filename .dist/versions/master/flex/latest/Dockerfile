@@ -355,6 +355,37 @@ COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
 
+RUN apt-get update \
+    && apt-get install -y php5.6-fpm \
+    && apt-get install -y php5.6-apcu \
+    && apt-get install -y php5.6-curl \
+    && apt-get install -y php5.6-cli \
+    && apt-get install -y php5.6-gd \
+    && apt-get install -y php5.6-json \
+    && apt-get install -y php5.6-ldap \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-pgsql \
+    && apt-get install -y php5.6-gettext \
+    && apt-get install -y php5.6-intl \
+    && apt-get install -y php5.6-xml \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-mbstring \
+    && apt-get install -y php5.6-zip \
+    && apt-get install -y php5.6-soap \
+    && apt-get install -y php5.6-memcached \
+    && apt-get install -y php5.6-redis \
+    && apt-get install -y php5.6-bcmath \
+    && apt-get install -y dh-php \
+    && apt-get install -y php-geoip \
+    && apt-get install -y php-ssh2 \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+COPY ./config/php/general.ini /etc/php/5.6/fpm/conf.d/01-general.ini
+COPY ./config/php/general.ini /etc/php/5.6/cli/conf.d/01-general.ini
+COPY ./config/php/cli.ini /etc/php/5.6/cli/conf.d/01-general-cli.ini
+
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
