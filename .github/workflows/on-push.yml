@@ -34,5 +34,11 @@ jobs:
           git remote add github "https://${{ secrets.GIT_WORKFLOW_USER }}:${{ secrets.GIT_WORKFLOW_PAT }}@github.com/$GITHUB_REPOSITORY.git"
           git add ./.dist/versions/master
           git add ./.github/workflows
-          git commit -m "Auto Commit from Github Workflow"
-          git push github HEAD:${GITHUB_REF}
+          if [[ -z $(git status -s) ]]
+          then
+            echo "No changes found!"
+          else
+            git commit -m "Auto Commit from Github Workflow"
+            git push github HEAD:${GITHUB_REF}
+          fi
+
