@@ -29,7 +29,7 @@ jobs:
         run: |
           git config --local user.email "$(git log --format='%ae' HEAD^!)"
           git config --local user.name "$(git log --format='%an' HEAD^!)"
-          git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          git remote add github "https://${{ secrets.GIT_WORKFLOW_USER }}:${{ secrets.GIT_WORKFLOW_PAT }}@github.com/$GITHUB_REPOSITORY.git"
           git add ./.dist/versions/master
           git add ./.github/workflows
 
