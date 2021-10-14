@@ -1,4 +1,4 @@
-name: Release Custom Image
+name: Custom Image
 
 on:
   workflow_dispatch:

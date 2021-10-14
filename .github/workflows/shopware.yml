@@ -1,4 +1,4 @@
-name: Release Shopware Version
+name: Shopware Version
 
 on:
   workflow_dispatch:

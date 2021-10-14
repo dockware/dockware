@@ -1,4 +1,4 @@
-name: Release essentials (All)
+name: essentials (All)
 
 on:
   workflow_dispatch:

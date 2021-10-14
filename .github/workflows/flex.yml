@@ -1,4 +1,4 @@
-name: Release flex (All)
+name: flex (All)
 
 on:
   workflow_dispatch:
