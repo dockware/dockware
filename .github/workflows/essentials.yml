@@ -19,6 +19,9 @@ jobs:
         - name: ORCA Generate
           run: make generate -B
     
+        - name: Verify Configuration
+          run: make verify image=essentials tag=latest -B
+          
         - name: Build Image
           run: make build image=essentials tag=latest -B
 

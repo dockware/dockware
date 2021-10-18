@@ -23,6 +23,9 @@ jobs:
         - name: ORCA Generate
           run: make generate -B
     
+        - name: Verify Configuration
+          run: make verify image=play tag=${{ github.event.inputs.tagName }} -B
+          
         - name: Build Image
           run: make build image=play tag=${{ github.event.inputs.tagName }} -B
 
@@ -104,6 +107,9 @@ jobs:
         - name: ORCA Generate
           run: make generate -B
     
+        - name: Verify Configuration
+          run: make verify image=dev tag=${{ github.event.inputs.tagName }} -B
+          
         - name: Build Image
           run: make build image=dev tag=${{ github.event.inputs.tagName }} -B
 
