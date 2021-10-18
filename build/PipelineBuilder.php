@@ -27,6 +27,9 @@ class PipelineBuilder
         - name: ORCA Generate
           run: make generate -B
     
+        - name: Verify Configuration
+          run: make verify image=' . $image . ' tag=' . $tag . ' -B
+          
         - name: Build Image
           run: make build image=' . $image . ' tag=' . $tag . ' -B
 ';
