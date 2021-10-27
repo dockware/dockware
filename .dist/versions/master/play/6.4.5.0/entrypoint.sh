@@ -14,7 +14,7 @@ echo ""
 echo "*******************************************************"
 echo "** DOCKWARE IMAGE: play"
 echo "** Tag: 6.4.5.0"
-echo "** Version: 1.4.2"
+echo "** Version: 1.4.3"
 echo "** Built: $(cat /build-date.txt)"
 echo "** Copyright 2021 dasistweb GmbH"
 echo "*******************************************************"
@@ -61,10 +61,8 @@ sudo service cron start
 echo "-----------------------------------------------------------"
 
 echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-sudo sed -i 's/__dockware_php_version__/'${PHP_VERSION}'/g' /etc/apache2/sites-enabled/000-default.conf
-sudo service php${PHP_VERSION}-fpm stop > /dev/null 2>&1
-sudo service php${PHP_VERSION}-fpm start
-sudo update-alternatives --set php /usr/bin/php${PHP_VERSION} > /dev/null 2>&1 &
+cd /var/www && make switch-php version=${PHP_VERSION}
+sudo service apache2 stop
 echo "-----------------------------------------------------------"
 
 if [ $SW_CURRENCY != "not-set" ]; then

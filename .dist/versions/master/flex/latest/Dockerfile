@@ -4,7 +4,7 @@
 #
 FROM ubuntu:20.04
 LABEL title="Dockware flex:latest" \
-      version="1.4.2" \
+      version="1.4.3" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
