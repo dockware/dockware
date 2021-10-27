@@ -3533,6 +3533,90 @@ jobs:
         - name: Push Multi-Arch to Docker Hub
           run: make build-and-push-multiarch image=play tag=6.1.0 -B
   
+    play-5-7-6: 
+      name: Release play:5.7.6
+      runs-on: ubuntu-latest
+      continue-on-error: true
+      steps:
+        - name: Clone Code
+          uses: actions/checkout@v2
+    
+        - name: Install Dependencies
+          run: make install
+    
+        - name: ORCA Generate
+          run: make generate -B
+    
+        - name: Verify Configuration
+          run: make verify image=play tag=5.7.6 -B
+          
+        - name: Build Image
+          run: make build image=play tag=5.7.6 -B
+
+        - name: Run SVRUnit Tests
+          run: make test image=play tag=5.7.6 -B
+          
+        - name: Store SVRUnit Report
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: svrunit_report_play_5.7.6
+            retention-days: 3
+            path: |
+                .reports
+                
+        - name: Start Image
+          run: |
+            docker run --rm -p 80:80 --name shop -d dockware/play:5.7.6
+            sleep 30
+            docker logs shop
+
+        - name: Install Cypress
+          run: cd tests/cypress && make install -B
+
+        - name: Run Cypress Tests
+          run: |
+            if [[ $DW_IMAGE == flex ]]; then
+               cd tests/cypress && make run-flex url=http://localhost
+            fi
+            if [[ $DW_IMAGE == essentials ]]; then
+               cd tests/cypress && make run-essentials url=http://localhost
+            fi
+            if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 6.* ]]; then
+               cd tests/cypress && make run6 url=http://localhost
+            fi
+            if [[ $SW_VERSION == 5.* ]]; then
+               cd tests/cypress && make run5 url=http://localhost
+            fi
+          env:
+            DW_IMAGE: play
+            SW_VERSION: 5.7.6
+
+        - name: Store Cypress Results
+          uses: actions/upload-artifact@v2
+          if: always()
+          with:
+            name: cypress_results_play_5.7.6
+            retention-days: 1
+            path: |
+              Tests/Cypress/cypress/videos
+              Tests/Cypress/cypress/screenshots     
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+        - name: Push Multi-Arch to Docker Hub
+          run: make build-and-push-multiarch image=play tag=5.7.6 -B
+  
     play-5-7-5: 
       name: Release play:5.7.5
       runs-on: ubuntu-latest
