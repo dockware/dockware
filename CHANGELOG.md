@@ -3,6 +3,11 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [1.4.3] - Not yet officially released
+
+### Added
+- Add "PHP Version Switching" as easy makefile command in /var/www
+
 
 ## [1.4.2] - 2021-10-13
 
