@@ -162,6 +162,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-soap \
     && apt-get install -y php7.4-bcmath \ 
     && apt-get install -y php7.4-redis \
+    && apt-get install -y php7.4-imap \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
@@ -195,6 +196,7 @@ RUN apt-get update \
     && apt-get install -y php7.3-memcached \
     && apt-get install -y php7.3-redis \
     && apt-get install -y php7.3-bcmath \
+    && apt-get install -y php7.3-imap \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
@@ -226,6 +228,7 @@ RUN apt-get update \
     && apt-get install -y php7.2-memcached \
     && apt-get install -y php7.2-redis \
     && apt-get install -y php7.2-bcmath \
+    && apt-get install -y php7.2-imap \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
