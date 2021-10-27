@@ -35,3 +35,5 @@ php_module:
     module: "curl"
   - name: "PHP Module: pdo"
     module: "pdo"
+  - name: "PHP Module: imap"
+    module: "imap"

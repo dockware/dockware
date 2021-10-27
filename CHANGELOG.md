@@ -7,6 +7,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ### Added
 - Add "PHP Version Switching" as easy makefile command in /var/www
+- Add "IMAP" PHP extensions to all PHP versions in all images
 
 
 ## [1.4.2] - 2021-10-13

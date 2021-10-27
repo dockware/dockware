@@ -15,3 +15,5 @@ php_module:
     module: "redis"
   - name: "PHP Module: bcmath"
     module: "bcmath"
+  - name: "PHP Module: imap"
+    module: "imap"
