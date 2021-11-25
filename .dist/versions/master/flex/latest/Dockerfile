@@ -68,6 +68,8 @@ RUN apt-get update \
     && apt-get install -y lsof \
     && apt-get install -y openssh-server \
     && apt-get install -y cron \
+    && apt-get install -y vim \
+    && apt-get install -y nano \
     && apt-get install -y jq \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -164,6 +166,40 @@ RUN mkdir -p /var/www/.ssh \
 ## ***********************************************************************
 ##  PHP INSTALLATION
 ## ***********************************************************************
+RUN apt-get update \
+    && apt-get install -y php8.1-fpm \
+    && apt-get install -y php8.1-gd \
+    && apt-get install -y php8.1-iconv \
+    && apt-get install -y php8.1-intl \
+    #&& apt-get install -y php8.1-json \
+    && apt-get install -y php8.1-xml \
+    && apt-get install -y php8.1-mbstring \
+    && apt-get install -y php8.1-pdo \
+    && apt-get install -y php8.1-mysql \
+    && apt-get install -y php8.1-apcu \
+    && apt-get install -y php8.1-curl \
+    && apt-get install -y php8.1-cli \
+    && apt-get install -y php8.1-ldap \
+    && apt-get install -y php8.1-pgsql \
+    && apt-get install -y php8.1-gettext \
+    && apt-get install -y php8.1-zip \
+    && apt-get install -y php8.1-soap \
+    && apt-get install -y php8.1-bcmath \
+    && apt-get install -y php8.1-redis \
+    && apt-get install -y php8.1-imap \
+    && apt-get install -y dh-php \
+    && apt-get install -y php-geoip \
+    && apt-get install -y php-ssh2 \
+    # shopware required pcre
+    && apt-get install -y libpcre3 libpcre3-dev \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+COPY ./config/php/general.ini /etc/php/8.1/fpm/conf.d/01-general.ini
+COPY ./config/php/general.ini /etc/php/8.1/cli/conf.d/01-general.ini
+COPY ./config/php/cli.ini /etc/php/8.1/cli/conf.d/01-general-cli.ini
+
 RUN apt-get update \
     && apt-get install -y php8.0-fpm \
     && apt-get install -y php8.0-gd \
@@ -433,7 +469,6 @@ RUN apt-get update \
 
 RUN apt-get update \
 
-    && apt-get install -y vim \
     && apt-get install -y rsync \
     && apt-get install -y sshpass \
     && apt-get install -y jpegoptim \
@@ -467,6 +502,20 @@ RUN npm install -g yarn \
     && cd /var/www/xdebug \
     && sudo git fetch --all \
     && sudo apt-get update \
+    # install xdebug for php 8.1
+    && sudo apt-get install -y php8.1-dev \
+    && cd /var/www/xdebug \
+    && sudo rm -rf /var/www/xdebug/modules/* \
+    && sudo git checkout -f tags/3.0.3 \
+    && sudo phpize8.1 --clean \
+    && sudo phpize8.1 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20210902/xdebug_8.1.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize8.1 --clean \
+    && sudo apt-get remove -y php8.1-dev \
     # install xdebug for php 8.0
     && sudo apt-get install -y php8.0-dev \
     && cd /var/www/xdebug \
@@ -571,6 +620,9 @@ RUN npm install -g yarn \
 
 #generate xdebug ini files
 
+COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
+
 COPY ./config/php/xdebug-3.ini /etc/php/8.0/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.0/cli/conf.d/20-xdebug.ini
 
@@ -593,6 +645,11 @@ COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
+
+&& sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
 
 && sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
@@ -647,6 +704,8 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
 
 COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 
+COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.0/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.0/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.4/fpm/conf.d/20-tideways.ini

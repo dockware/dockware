@@ -3,9 +3,12 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [1.4.3] - Not yet officially released
+## [1.4.3]
 
 ### Added
+- Add support for PHP 8.1 in all appropriate images
+- Add NANO editor to images
+- NANO and VIM are now available in all images and not only in dev-images
 - Add "PHP Version Switching" as easy makefile command in /var/www
 - Add "IMAP" PHP extensions to all PHP versions in all images
 
