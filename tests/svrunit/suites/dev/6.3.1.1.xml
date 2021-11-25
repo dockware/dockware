@@ -9,6 +9,12 @@
             <directory>./../../tests/packages/php/php8</directory>
         </testsuite>
 
+        <testsuite name="PHP 8.1, XDebug ON"
+                   dockerImage="dockware/dev:6.3.1.1" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8.1</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
         <testsuite name="PHP 8.0, XDebug ON"
                    dockerImage="dockware/dev:6.3.1.1" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8</directory>

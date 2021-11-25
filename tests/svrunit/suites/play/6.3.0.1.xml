@@ -6,6 +6,11 @@
             <directory>./../../tests/shared/base</directory>
         </testsuite>
 
+        <testsuite name="PHP 8.1"
+                   dockerImage="dockware/play:6.3.0.1" dockerEnv="PHP_VERSION=8.1">
+            <directory>./../../tests/packages/php/php8.1</directory>
+        </testsuite>
+
         <testsuite name="PHP 8.0, XDebug ON"
                    dockerImage="dockware/play:6.3.0.1" dockerEnv="PHP_VERSION=8.0">
             <directory>./../../tests/packages/php/php8</directory>
