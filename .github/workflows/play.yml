@@ -2609,8 +2609,8 @@ jobs:
         - name: Push Multi-Arch to Docker Hub
           run: make build-and-push-multiarch image=play tag=6.3.0.1 -B
   
-    play-6-3-0: 
-      name: Release play:6.3.0
+    play-6-3-0-0: 
+      name: Release play:6.3.0.0
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -2624,26 +2624,26 @@ jobs:
           run: make generate -B
     
         - name: Verify Configuration
-          run: make verify image=play tag=6.3.0 -B
+          run: make verify image=play tag=6.3.0.0 -B
           
         - name: Build Image
-          run: make build image=play tag=6.3.0 -B
+          run: make build image=play tag=6.3.0.0 -B
 
         - name: Run SVRUnit Tests
-          run: make test image=play tag=6.3.0 -B
+          run: make test image=play tag=6.3.0.0 -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_play_6.3.0
+            name: svrunit_report_play_6.3.0.0
             retention-days: 3
             path: |
                 .reports
                 
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/play:6.3.0
+            docker run --rm -p 80:80 --name shop -d dockware/play:6.3.0.0
             sleep 30
             docker logs shop
 
@@ -2672,13 +2672,13 @@ jobs:
             fi
           env:
             DW_IMAGE: play
-            SW_VERSION: 6.3.0
+            SW_VERSION: 6.3.0.0
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_play_6.3.0
+            name: cypress_results_play_6.3.0.0
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
@@ -2691,7 +2691,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.0 -B
+          run: make build-and-push-multiarch image=play tag=6.3.0.0 -B
   
     play-6-2-3: 
       name: Release play:6.2.3

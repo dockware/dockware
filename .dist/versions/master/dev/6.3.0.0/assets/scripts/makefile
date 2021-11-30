@@ -59,7 +59,7 @@ stop-watch-storefront: ## Reverts everything back to normal operation
 
 # ---------------------------------------------------------------------------------------------
 
-watch-admin: ## starts watcher for Shopware 6.3.0 Admin at http://localhost:8888
+watch-admin: ## starts watcher for Shopware 6.3.0.0 Admin at http://localhost:8888
 	cd /var/www/html && ./bin/build-administration.sh
 	cd /var/www/html && php bin/console bundle:dump
 	cd /var/www/html && APP_URL=http://0.0.0.0 PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ESLINT_DISABLE=true npm run --prefix /var/www/html/vendor/shopware/administration/Resources/app/administration dev
