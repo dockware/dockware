@@ -53,7 +53,6 @@ class Devices {
      */
     setDevice(device) {
         cy.viewport(device.width, device.height);
-        Cypress.config('userAgent', device.userAgent);
     }
 
 }
