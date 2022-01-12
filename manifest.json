@@ -4,7 +4,8 @@
             "flex/latest:latest"
         ],
         "essentials": [
-            "essentials/latest:latest"
+            "essentials/latest:latest",
+            "essentials/test-php8.1:test-php8.1"
         ],
         "contribute": [
             "contribute/latest:latest"
