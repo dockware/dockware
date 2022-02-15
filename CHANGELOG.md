@@ -4,6 +4,12 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
+## [unreleased]
+
+### Changed
+- Removed watcher commands for essentials image, because there is no Shopware installed, and they commands are different across Shopware versions.
+
+
 
 ## [1.4.3]
 
