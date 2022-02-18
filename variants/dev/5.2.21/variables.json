@@ -1,0 +1,38 @@
+{
+    "env": "dev",
+    "apache": {
+        "docroot": "/var/www/html"
+    },
+    "shopware": {
+        "version": "5.2.21",
+        "download_url": "https://www.shopware.com/en/Download/redirect/version/sw5/file/install_5.2.21_2164cff64b62f5d7aa68c0ae8a231ce750430e65.zip"
+    },
+    "composer": {
+        "version": 1
+    },
+    "php": {
+        "default_version": "7.0",
+        "versions": {
+            "8.0": {
+                "active": false
+            },
+            "7.3": {
+                "active": false
+            },
+            "7.4": {
+                "active": false
+            },
+            "5.6": {
+                "active": true
+            }
+        }
+    },
+    "pimpmylog": {
+        "paths": {
+            "shopware_prod": "/var/www/html/var/log/*production*.log",
+            "shopware_dev": "/var/www/html/var/log/*development*.log"
+        }
+    }
+}
+
+
