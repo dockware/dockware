@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.4.8.2
 # Copyright 2020 dasistweb GmbH
 #
 FROM ubuntu:18.04
-LABEL title="Dockware dev:latest" \
+LABEL title="Dockware dev:6.4.8.2" \
       version="1.4.3" \
       maintainer="dasistweb GmbH"
 
