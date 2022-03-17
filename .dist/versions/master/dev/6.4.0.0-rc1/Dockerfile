@@ -347,15 +347,17 @@ RUN npm install -g yarn \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
     RUN cd /var/www \
-    && sudo git clone git://github.com/xdebug/xdebug.git \
-    && cd /var/www/xdebug \
-    && sudo git fetch --all \
-    && sudo apt-get update \
+    && apt-get update \
     # install xdebug for php 8.1
     && sudo apt-get install -y php8.1-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
+    && unzip 3.0.3.zip \
+    && rm -rf 3.0.3.zip \
+    && mv xdebug-3.0.3 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/3.0.3 \
+    && sudo apt-get update \
     && sudo phpize8.1 --clean \
     && sudo phpize8.1 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
@@ -367,9 +369,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php8.1-dev \
     # install xdebug for php 8.0
     && sudo apt-get install -y php8.0-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
+    && unzip 3.0.3.zip \
+    && rm -rf 3.0.3.zip \
+    && mv xdebug-3.0.3 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/3.0.3 \
+    && sudo apt-get update \
     && sudo phpize8.0 --clean \
     && sudo phpize8.0 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.0 \
@@ -381,9 +388,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php8.0-dev \
     # install xdebug for php 7.4
     && sudo apt-get install -y php7.4-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
+    && unzip 3.0.3.zip \
+    && rm -rf 3.0.3.zip \
+    && mv xdebug-3.0.3 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/3.0.3 \
+    && sudo apt-get update \
     && sudo phpize7.4 --clean \
     && sudo phpize7.4 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.4 \
@@ -395,9 +407,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php7.4-dev \
     # install xdebug for php 7.3
     && sudo apt-get install -y php7.3-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
+    && unzip 3.0.3.zip \
+    && rm -rf 3.0.3.zip \
+    && mv xdebug-3.0.3 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/3.0.3 \
+    && sudo apt-get update \
     && sudo phpize7.3 --clean \
     && sudo phpize7.3 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.3 \
@@ -409,9 +426,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php7.3-dev \
     # install xdebug for php 7.2
     && sudo apt-get install -y php7.2-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
+    && unzip 3.0.3.zip \
+    && rm -rf 3.0.3.zip \
+    && mv xdebug-3.0.3 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/3.0.3 \
+    && sudo apt-get update \
     && sudo phpize7.2 --clean \
     && sudo phpize7.2 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.2 \
@@ -423,9 +445,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php7.2-dev \
     # install xdebug for php 7.1
     && sudo apt-get install -y php7.1-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
+    && unzip 2.7.2.zip \
+    && rm -rf 2.7.2.zip \
+    && mv xdebug-2.7.2 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/2.7.2 \
+    && sudo apt-get update \
     && sudo phpize7.1 --clean \
     && sudo phpize7.1 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.1 \
@@ -437,9 +464,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php7.1-dev \
     # install xdebug for php 7.0
     && sudo apt-get install -y php7.0-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
+    && unzip 2.7.2.zip \
+    && rm -rf 2.7.2.zip \
+    && mv xdebug-2.7.2 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/2.7.2 \
+    && sudo apt-get update \
     && sudo phpize7.0 --clean \
     && sudo phpize7.0 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.0 \
@@ -451,9 +483,14 @@ RUN npm install -g yarn \
     && sudo apt-get remove -y php7.0-dev \
     # install xdebug for php 5.6
     && sudo apt-get install -y php5.6-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/XDEBUG_2_5_5.zip \
+    && unzip XDEBUG_2_5_5.zip \
+    && rm -rf XDEBUG_2_5_5.zip \
+    && mv xdebug-XDEBUG_2_5_5 xdebug \
     && cd /var/www/xdebug \
-    && sudo rm -rf /var/www/xdebug/modules/* \
-    && sudo git checkout -f tags/XDEBUG_2_5_5 \
+    && sudo apt-get update \
     && sudo phpize5.6 --clean \
     && sudo phpize5.6 \
     && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
