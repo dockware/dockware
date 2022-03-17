@@ -293,10 +293,7 @@ RUN npm install -g yarn \
 
 {% block components_xdebug %}
     RUN cd /var/www \
-    && sudo git clone git://github.com/xdebug/xdebug.git \
-    && cd /var/www/xdebug \
-    && sudo git fetch --all \
-    && sudo apt-get update \
+    && apt-get update \
 {% for key, value in php.versions %}
 {% if value.xdebug_version != '' %}
 {% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_tag":value.xdebug_tag} %}
