@@ -76,6 +76,7 @@ RUN apt-get update \
     && apt-get install -y vim \
     && apt-get install -y nano \
     && apt-get install -y jq \
+    && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
