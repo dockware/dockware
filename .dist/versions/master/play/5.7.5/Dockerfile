@@ -27,6 +27,9 @@ RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
 ENV APACHE_DOCROOT /var/www/html
 RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
 
+ENV SW_API_ACCESS_KEY 'not-set'
+RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
+
 ENV COMPOSER_VERSION not-set
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 

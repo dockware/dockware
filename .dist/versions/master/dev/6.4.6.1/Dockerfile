@@ -59,6 +59,9 @@ RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
+ENV SW_API_ACCESS_KEY 'not-set'
+RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
+
 ENV COMPOSER_VERSION not-set
 RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
