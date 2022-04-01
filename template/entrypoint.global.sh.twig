@@ -191,6 +191,19 @@ if [ $SW_CURRENCY != "not-set" ]; then
   echo "-----------------------------------------------------------"
 fi
 
+# The access key needs SWSC as a prefix, otherwise shopware
+# won't be able to access the storefront api.
+# The PHP script will automatically add it as a prefix, if
+# it was not defined in the environment variable.
+# The result "ACTUAL_API_ACCESS_KEY" contains the change.
+# It will be echoed at the end of the entrypoint, so the
+# user can see the actual api key they need to use.
+if [ $SW_API_ACCESS_KEY != "not-set" ]; then
+  echo "DOCKWARE: Set Shopware API access key..."
+  ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shopware6/set_api_access_key.php $SW_API_ACCESS_KEY)
+  echo "-----------------------------------------------------------"
+fi
+
 {% endblock %}
 
 
@@ -248,6 +261,11 @@ echo "PIMPMYLOG URL: {{ shopware.url }}/logs"
 echo "SHOP URL: {{ shopware.url }}"
 {% block instructions_shopware_admin %}
 echo "ADMIN URL: {{ shopware.url }}/admin"
+{% endblock %}
+{% block instructions_shopware_api_access_key %}
+if [ $SW_API_ACCESS_KEY != "not-set" ]; then
+    echo "ACCESS KEY: ${ACTUAL_API_ACCESS_KEY}"
+fi
 {% endblock %}
 
 echo ""
