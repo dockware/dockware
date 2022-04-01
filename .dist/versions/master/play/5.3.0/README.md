@@ -55,6 +55,8 @@ This image comes with different features that can be set with the ENV variables.
 | PHP_VERSION  | 8.1 | Switch to any of the installed PHP versions:       7.0, 5.6,  |
 | COMPOSER_VERSION | not-set| Let's you switch between composer 1 and 2. |
 | SW_CURRENCY | not-set | Switch to a different default currency for the system, like GBP. This will be used in the administration. |
+| SW_API_ACCESS_KEY | not-set | Set a custom Storefront API key to access your Shopware API. |
+| SW_TASKS_ENABLED | 0 | Enable the Scheduled Tasks and message consuming via the cron service by enabling this feature |
 
 ### Container Access
 You can access the container either by using the docker exec command, or by using a ssh command.

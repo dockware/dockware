@@ -51,11 +51,14 @@ RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 ENV TIDEWAYS_SERVICE web
 RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 
+ENV COMPOSER_VERSION not-set
+RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+
 ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 
-ENV COMPOSER_VERSION not-set
-RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+ENV SW_TASKS_ENABLED 0
+RUN echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile
 
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
@@ -194,6 +197,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -228,6 +232,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -263,6 +268,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -297,6 +303,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -329,6 +336,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -361,6 +369,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -393,6 +402,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -425,6 +435,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -768,6 +779,7 @@ COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
+COPY ./assets/scripts/cron /var/www/scripts/cron
 
 RUN chown www-data:www-data -R /var/www/scripts
 #make sure for the whole isntallation xdebug is off for performance

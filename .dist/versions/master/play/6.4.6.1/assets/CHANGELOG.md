@@ -3,12 +3,18 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [unreleased]
+## [1.5] - 2022-04-01
 
+### Added
+- Add new ENV variable SW_API_ACCESS_KEY to provide a ready to use Storefront API key from your Docker setups.
+- Add new ENV variable SW_TASKS_ENABLED to automatically run Scheduled Tasks and consume the Message Queues.
+- Add PHP Extension "ampqp" to allow better messaging integrations.
+- 
 ### Changed
+- Updated to Composer v2.2.9
 - Removed watcher commands for essentials image, because there is no Shopware installed, and they commands are different across Shopware versions.
 
-## [1.4.3]
+## [1.4.3] - 2021-11-25
 
 ### Added
 - Add support for PHP 8.1 in all appropriate images

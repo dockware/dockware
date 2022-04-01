@@ -167,6 +167,12 @@ if [ $SW_API_ACCESS_KEY != "not-set" ]; then
   echo "-----------------------------------------------------------"
 fi
 
+if [ $SW_TASKS_ENABLED = 1 ]; then
+  echo "DOCKWARE: creating CRONs for scheduled tasks..."
+	crontab /var/www/scripts/cron/crontab.txt && sudo service cron restart
+  echo "-----------------------------------------------------------"
+fi
+
 # --------------------------------------------------
 # APACHE
 sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
@@ -218,4 +224,3 @@ echo "https://www.shopware.com/de/changelog/"
 echo ""
 
 tail -f /dev/null
-
