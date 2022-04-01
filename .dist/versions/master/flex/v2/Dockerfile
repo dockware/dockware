@@ -489,7 +489,7 @@ RUN apt-get update && \
     apt-get install -y python python2.7 && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.0.11 --quiet \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.2.9 --quiet \
     # prepare "global" composer directory for www-data
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
