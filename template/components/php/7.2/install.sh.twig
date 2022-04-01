@@ -22,6 +22,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-ssh2 \
+    && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

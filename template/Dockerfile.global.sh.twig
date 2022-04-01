@@ -75,6 +75,11 @@ ENV TIDEWAYS_SERVICE web
 RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 {% endblock %}
 
+{% block image_variables_composer %}
+ENV COMPOSER_VERSION not-set
+RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+{% endblock %}
+
 {% block image_variables_sw_currency %}
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
@@ -85,9 +90,9 @@ ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 {% endblock %}
 
-{% block image_variables_composer %}
-ENV COMPOSER_VERSION not-set
-RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+{% block image_variables_cron%}
+ENV SW_TASKS_ENABLED 0
+RUN echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile
 {% endblock %}
 
 {% endblock %}
@@ -404,6 +409,7 @@ COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.in
 {% block assets_install %}
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
+COPY ./assets/scripts/cron /var/www/scripts/cron
 
 {% block assets_install_shopware6 %}
 COPY ./assets/shopware6/files /var/www/scripts/shopware6

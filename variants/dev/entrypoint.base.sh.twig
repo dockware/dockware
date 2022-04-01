@@ -1,22 +1,20 @@
 {% extends "template/entrypoint.global.sh.twig" %}
 
-{% block entrypoint %}
+{% block sw_build %}
 {% if version_gte(shopware.version, '6.4') %}
 if [[ -z "${BUILD_PLUGIN}" ]]; then
 {{ parent() }}
+    echo ""
 else
-{{ block('components_mysql') }}
-
 {% block install_plugin %}
-bin/console plugin:refresh && \
-bin/console plugin:install --activate "${BUILD_PLUGIN}"
+    bin/console plugin:refresh && \
+    bin/console plugin:install --activate "${BUILD_PLUGIN}"
+{% endblock %}
+{% block build_assets %}
+    bin/build-js.sh
 {% endblock %}
 
-{% block build_assets %}
-bin/build-js.sh
-{% endblock %}
-fi
-{% else %}
 {{ parent() }}
+fi
 {% endif %}
 {% endblock %}
