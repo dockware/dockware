@@ -1,7 +1,8 @@
 {
     "images": {
         "flex": [
-            "flex/latest:latest"
+            "flex/latest:latest",
+            "flex/v2:v2"
         ],
         "essentials": [
             "essentials/latest:latest",
