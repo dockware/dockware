@@ -21,64 +21,52 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ## ***********************************************************************
 ##  IMAGE VARIABLES
 ## ***********************************************************************
-{% block image_variables_tz %}
+{% block image_variables_main %}
 ENV TZ Europe/Berlin
-RUN echo "export TZ=${TZ}" >> /etc/profile
-{% endblock %}
-
-{% block image_variables_php %}
 ENV PHP_VERSION {{php.default_version}}
-RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
+ENV APACHE_DOCROOT {{ apache.docroot }}
+ENV SW_TASKS_ENABLED 0
+ENV COMPOSER_VERSION not-set
+RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
+ && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
+ && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 {% endblock %}
 
-{% block image_variables_apache %}
-ENV APACHE_DOCROOT {{ apache.docroot }}
-RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
+{% block image_variables_dev %}
+
+ENV SSH_USER not-set
+ENV SSH_PWD not-set
+ENV XDEBUG_REMOTE_HOST "host.docker.internal"
+ENV XDEBUG_CONFIG "idekey=PHPSTORM"
+ENV PHP_IDE_CONFIG "serverName=localhost"
+ENV XDEBUG_ENABLED 0
+ENV FILEBEAT_ENABLED 0
+ENV TIDEWAYS_KEY not-set
+ENV TIDEWAYS_ENV production
+ENV TIDEWAYS_SERVICE web
+
+
+RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
+ && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
+ && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
+ && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
+ && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
+ && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
+ && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
+ && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_mysql %}
 ENV MYSQL_USER not-set
-RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile
 ENV MYSQL_PWD not-set
-RUN echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
+RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
+    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 {% endblock %}
 
-{% block image_variables_ssh %}
-ENV SSH_USER not-set
-RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile
-ENV SSH_PWD not-set
-RUN echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile
-{% endblock %}
-
-{% block image_variables_xdebug %}
-ENV XDEBUG_ENABLED 0
-RUN echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile
-ENV XDEBUG_REMOTE_HOST "host.docker.internal"
-RUN echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile
-ENV XDEBUG_CONFIG "idekey=PHPSTORM"
-RUN echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile
-ENV PHP_IDE_CONFIG "serverName=localhost"
-RUN echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile
-{% endblock %}
-
-{% block image_variables_filebeat %}
-ENV FILEBEAT_ENABLED 0
-RUN echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile
-{% endblock %}
-
-{% block image_variables_tideways %}
-ENV TIDEWAYS_KEY not-set
-RUN echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile
-ENV TIDEWAYS_ENV production
-RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
-ENV TIDEWAYS_SERVICE web
-RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
-{% endblock %}
-
-{% block image_variables_composer %}
-ENV COMPOSER_VERSION not-set
-RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
-{% endblock %}
 
 {% block image_variables_sw_currency %}
 ENV SW_CURRENCY 'not-set'
@@ -90,10 +78,6 @@ ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 {% endblock %}
 
-{% block image_variables_cron%}
-ENV SW_TASKS_ENABLED 0
-RUN echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile
-{% endblock %}
 
 {% endblock %}
 
