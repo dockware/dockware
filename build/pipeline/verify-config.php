@@ -7,10 +7,16 @@ $swTag = $argv[2];
 if (!isSVRUnitValid($swImage, $swTag)) {
     echo "SVRUNIT XML File does not exist." . PHP_EOL;
     exit(1);
+} else {
+    echo "* SVRUnit File is existing" . PHP_EOL;
 }
 
 
 $layerCount = getLayersCount($swImage, $swTag);
+
+
+echo "* Docker Layers: " . $layerCount . PHP_EOL;
+echo "========================================" . PHP_EOL;
 
 if ($layerCount >= 127) {
     echo "DOCKER LAYER COUNT IS TOO HIGH: " . $layerCount . PHP_EOL;
