@@ -19,54 +19,48 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-RUN echo "export TZ=${TZ}" >> /etc/profile
-
 ENV PHP_VERSION 8.1
-RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
-
 ENV APACHE_DOCROOT /var/www/html/public
-RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
-
-ENV MYSQL_USER not-set
-RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile
-ENV MYSQL_PWD not-set
-RUN echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
+ENV SW_TASKS_ENABLED 0
+ENV COMPOSER_VERSION not-set
+RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
+ && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
+ && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ENV SSH_USER not-set
-RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile
 ENV SSH_PWD not-set
-RUN echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile
-
-ENV XDEBUG_ENABLED 0
-RUN echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile
 ENV XDEBUG_REMOTE_HOST "host.docker.internal"
-RUN echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile
 ENV XDEBUG_CONFIG "idekey=PHPSTORM"
-RUN echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile
 ENV PHP_IDE_CONFIG "serverName=localhost"
-RUN echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile
-
+ENV XDEBUG_ENABLED 0
 ENV FILEBEAT_ENABLED 0
-RUN echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile
-
 ENV TIDEWAYS_KEY not-set
-RUN echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile
 ENV TIDEWAYS_ENV production
-RUN echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 ENV TIDEWAYS_SERVICE web
-RUN echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 
-ENV COMPOSER_VERSION not-set
-RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
+ && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
+ && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
+ && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
+ && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
+ && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
+ && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
+ && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
+
+ENV MYSQL_USER not-set
+ENV MYSQL_PWD not-set
+RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
+    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 
 ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
-
-ENV SW_TASKS_ENABLED 0
-RUN echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile
 
 ## ***********************************************************************
 ##  BASE REQUIREMENTS

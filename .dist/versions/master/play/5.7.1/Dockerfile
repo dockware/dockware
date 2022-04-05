@@ -19,22 +19,18 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-RUN echo "export TZ=${TZ}" >> /etc/profile
-
 ENV PHP_VERSION 8.0
-RUN echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile
-
 ENV APACHE_DOCROOT /var/www/html
-RUN echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile
-
+ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-RUN echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
+ && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
+ && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
 
 ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
-
-ENV SW_TASKS_ENABLED 0
-RUN echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile
 
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
