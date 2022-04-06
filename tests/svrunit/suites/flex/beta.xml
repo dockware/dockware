@@ -2,8 +2,8 @@
 
     <testsuites>
 
-        <testsuite name="flex:v2, PHP 8.1"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 8.1"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -13,8 +13,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 8.0"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 8.0"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -24,8 +24,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 7.4"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 7.4"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -35,8 +35,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 7.3"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 7.3"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -46,8 +46,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 7.2"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 7.2"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -57,8 +57,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 7.1"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=7.1,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 7.1"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=7.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -67,8 +67,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 7.0"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 7.0"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -77,8 +77,8 @@
             <directory>./../../tests/packages/composer/v2</directory>
         </testsuite>
 
-        <testsuite name="flex:v2, PHP 5.6"
-                   dockerImage="dockware/flex:v2" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
+        <testsuite name="flex:beta, PHP 5.6"
+                   dockerImage="dockware/flex:beta" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>

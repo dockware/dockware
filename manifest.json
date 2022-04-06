@@ -2,7 +2,7 @@
     "images": {
         "flex": [
             "flex/latest:latest",
-            "flex/v2:v2"
+            "flex/beta:beta"
         ],
         "essentials": [
             "essentials/latest:latest",
