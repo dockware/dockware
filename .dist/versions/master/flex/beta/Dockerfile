@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: v2
+# Tag: beta
 # Copyright 2020 dasistweb GmbH
 #
 FROM ubuntu:20.04
-LABEL title="Dockware flex:v2" \
+LABEL title="Dockware flex:beta" \
       version="1.4.3" \
       maintainer="dasistweb GmbH"
 

@@ -25,10 +25,10 @@ You can also switch to another PHP version by providing the ENV variable.
 
 ```ruby
 # quick run with latest PHP and Shopware
-$ docker run --rm -p 80:80 dockware/flex:v2
+$ docker run --rm -p 80:80 dockware/flex:beta
 
 # use another php version
-$ docker run --rm -p 80:80 --env PHP_VERSION=7.2 dockware/flex:v2
+$ docker run --rm -p 80:80 --env PHP_VERSION=7.2 dockware/flex:beta
 ```
 
 Please be aware that any modifications you make while Shopware is running, will be lost
@@ -92,7 +92,7 @@ Please note that not all of these settings might be necessary.
 
 ```ruby
 dockware:
-    image: dockware/flex:v2
+    image: dockware/flex:beta
     container_name: shopware
     ports:
         - "80:80"
@@ -116,7 +116,7 @@ This will lead to an automatically created new SSH user when the docker containe
 
 ```ruby
 dockware:
-  image: dockware/flex:v2
+  image: dockware/flex:beta
   environment:
     - SSH_USER=userABC
     - SSH_PWD=supersecret
@@ -130,7 +130,7 @@ Please keep in mind, that these settings might not be working for all Tideways p
 
 ```ruby
 dockware:
-  image: dockware/flex:v2
+  image: dockware/flex:beta
   environment:
     - TIDEWAYS_KEY=xxx
     - TIDEWAYS_ENV=dev
@@ -146,7 +146,7 @@ This needs to be done only if you also have your Logstash within your Docker net
 
 ```ruby
 dockware:
-  image: dockware/flex:v2
+  image: dockware/flex:beta
   volumes:
     - ./elk/myservice/filebeat.yml:/etc/filebeat/filebeat.yml
   environment:

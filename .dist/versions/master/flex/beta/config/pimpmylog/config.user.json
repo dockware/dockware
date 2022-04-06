@@ -2,7 +2,7 @@
     "globals": {
         "EXPORT": true,
         "FOOTER": "Thank you for using dockware.io",
-        "NAV_TITLE": "Dockware Logs (flex:v2)",
+        "NAV_TITLE": "Dockware Logs (flex:beta)",
         "NOTIFICATION": true,
         "NOTIFICATION_TITLE": "New Shopware Logs (dockware) [%f]",
         "PULL_TO_REFRESH": true,

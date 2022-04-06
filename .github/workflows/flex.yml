@@ -89,8 +89,8 @@ jobs:
         - name: Push Multi-Arch to Docker Hub
           run: make build-and-push-multiarch image=flex tag=latest -B
   
-    flex-v2: 
-      name: Release flex:v2
+    flex-beta: 
+      name: Release flex:beta
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -104,26 +104,26 @@ jobs:
           run: make generate -B
     
         - name: Verify Configuration
-          run: make verify image=flex tag=v2 -B
+          run: make verify image=flex tag=beta -B
           
         - name: Build Image
-          run: make build image=flex tag=v2 -B
+          run: make build image=flex tag=beta -B
 
         - name: Run SVRUnit Tests
-          run: make test image=flex tag=v2 -B
+          run: make test image=flex tag=beta -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_flex_v2
+            name: svrunit_report_flex_beta
             retention-days: 3
             path: |
                 .reports
                 
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/flex:v2
+            docker run --rm -p 80:80 --name shop -d dockware/flex:beta
             sleep 30
             docker logs shop
 
@@ -152,13 +152,13 @@ jobs:
             fi
           env:
             DW_IMAGE: flex
-            SW_VERSION: v2
+            SW_VERSION: beta
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_flex_v2
+            name: cypress_results_flex_beta
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
@@ -171,4 +171,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=flex tag=v2 -B
+          run: make build-and-push-multiarch image=flex tag=beta -B
