@@ -399,7 +399,7 @@ RUN service mysql start && \
 ## ***********************************************************************
 
 RUN mkdir /usr/share/adminer \
-    && wget "http://www.adminer.org/latest.php" -O /usr/share/adminer/latest.php \
+    && wget "https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php" -O /usr/share/adminer/latest.php \
     && ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php \
     && echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf \
     && a2enconf adminer.conf
