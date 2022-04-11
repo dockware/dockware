@@ -34,6 +34,7 @@ else
 	sudo service php$(version)-fpm start
 	sudo service php$(PHP_VERSION_CURRENT)-fpm stop
 	sudo service php$(version)-fpm start
+	export PHP_VERSION=$(version)
 	@# ---------------------------------------------------------------------------------------
 	@# if that all worked, switch the apache config now...that avoids breaking the files
 	sudo sed -i 's/__dockware_php_version__/'$(version)'/g' /etc/apache2/sites-enabled/000-default.conf
