@@ -1,7 +1,7 @@
 commands:
-  - name: "Xdebug v3.0.3"
+  - name: "Xdebug v3.1.4"
     command: "php -v"
-    expected: "with Xdebug v3.0.3"
+    expected: "with Xdebug v3.1.4"
   - name: "Xdebug not Corrupted"
     command: "php -v"
     not_expected: "zend_mm_heap corrupted"
