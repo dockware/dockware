@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 
-PHP_VERSION_CURRENT:=`php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;'`
+PHP_VERSION_CURRENT=$(shell php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
 
 
 help:
