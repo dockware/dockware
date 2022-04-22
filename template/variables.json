@@ -21,31 +21,31 @@
                 "active": true,
                 "folder_id": "20210902",
                 "xdebug_version": "3",
-                "xdebug_tag": "3.0.3"
+                "xdebug_tag": "3.1.4"
             },
             "8.0": {
                 "active": true,
                 "folder_id": "20200930",
                 "xdebug_version": "3",
-                "xdebug_tag": "3.0.3"
+                "xdebug_tag": "3.1.4"
             },
             "7.4": {
                 "active": true,
                 "folder_id": "20190902",
                 "xdebug_version": "3",
-                "xdebug_tag": "3.0.3"
+                "xdebug_tag": "3.1.4"
             },
             "7.3": {
                 "active": true,
                 "folder_id": "20180731",
                 "xdebug_version": "3",
-                "xdebug_tag": "3.0.3"
+                "xdebug_tag": "3.1.4"
             },
             "7.2": {
                 "active": true,
                 "folder_id": "20170718",
                 "xdebug_version": "3",
-                "xdebug_tag": "3.0.3"
+                "xdebug_tag": "3.1.4"
             },
             "7.1": {
                 "active": true,

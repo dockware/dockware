@@ -387,13 +387,12 @@ RUN npm install -g yarn \
     && sudo apt-get install -y php8.1-dev \
     && cd /var/www \
     && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
-    && unzip 3.0.3.zip \
-    && rm -rf 3.0.3.zip \
-    && mv xdebug-3.0.3 xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize8.1 --clean \
     && sudo phpize8.1 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
     && sudo make \
@@ -406,13 +405,12 @@ RUN npm install -g yarn \
     && sudo apt-get install -y php8.0-dev \
     && cd /var/www \
     && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
-    && unzip 3.0.3.zip \
-    && rm -rf 3.0.3.zip \
-    && mv xdebug-3.0.3 xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize8.0 --clean \
     && sudo phpize8.0 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.0 \
     && sudo make \
@@ -425,13 +423,12 @@ RUN npm install -g yarn \
     && sudo apt-get install -y php7.4-dev \
     && cd /var/www \
     && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
-    && unzip 3.0.3.zip \
-    && rm -rf 3.0.3.zip \
-    && mv xdebug-3.0.3 xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize7.4 --clean \
     && sudo phpize7.4 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.4 \
     && sudo make \
@@ -444,13 +441,12 @@ RUN npm install -g yarn \
     && sudo apt-get install -y php7.3-dev \
     && cd /var/www \
     && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
-    && unzip 3.0.3.zip \
-    && rm -rf 3.0.3.zip \
-    && mv xdebug-3.0.3 xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize7.3 --clean \
     && sudo phpize7.3 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.3 \
     && sudo make \
@@ -463,13 +459,12 @@ RUN npm install -g yarn \
     && sudo apt-get install -y php7.2-dev \
     && cd /var/www \
     && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.0.3.zip \
-    && unzip 3.0.3.zip \
-    && rm -rf 3.0.3.zip \
-    && mv xdebug-3.0.3 xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize7.2 --clean \
     && sudo phpize7.2 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.2 \
     && sudo make \
@@ -488,7 +483,6 @@ RUN npm install -g yarn \
     && mv xdebug-2.7.2 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize7.1 --clean \
     && sudo phpize7.1 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.1 \
     && sudo make \
@@ -507,7 +501,6 @@ RUN npm install -g yarn \
     && mv xdebug-2.7.2 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize7.0 --clean \
     && sudo phpize7.0 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.0 \
     && sudo make \
@@ -526,7 +519,6 @@ RUN npm install -g yarn \
     && mv xdebug-XDEBUG_2_5_5 xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize5.6 --clean \
     && sudo phpize5.6 \
     && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
     && sudo make \
@@ -758,4 +750,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER dockware
 
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]

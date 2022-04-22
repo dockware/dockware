@@ -282,9 +282,12 @@ echo ""
 
 {% endblock %}
 
-tail -f /dev/null
-
 {% block sw_build %}
 {% endblock %}
 
-{% endblock %}
+if [[ ! -z "$CI" ]]; then
+    exec "$@"
+else
+    tail -f /dev/null
+fi
+{% endblock%}

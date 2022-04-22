@@ -192,4 +192,8 @@ echo "ATTENTION, THIS IMAGE COMES WITHOUT SHOPWARE!"
 echo "IT OFFERS A FULL ENVIRONMENT FOR YOUR PERSONAL SHOPWARE 6 SETUP"
 echo ""
 
-tail -f /dev/null
+if [[ ! -z "$CI" ]]; then
+    exec "$@"
+else
+    tail -f /dev/null
+fi

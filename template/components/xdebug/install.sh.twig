@@ -8,7 +8,6 @@
     && mv xdebug-{{xdebug_tag}} xdebug \
     && cd /var/www/xdebug \
     && sudo apt-get update \
-    && sudo phpize{{ php_version }} --clean \
     && sudo phpize{{ php_version }} \
     && sudo ./configure --with-php-config=/usr/bin/php-config{{php_version}} \
     && sudo make \

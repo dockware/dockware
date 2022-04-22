@@ -228,4 +228,8 @@ echo "HOW TO CONTRIBUTE?! Please see this link for further details:"
 echo "https://developers.shopware.com/community/contributing-code/"
 echo ""
 
-tail -f /dev/null
+if [[ ! -z "$CI" ]]; then
+    exec "$@"
+else
+    tail -f /dev/null
+fi

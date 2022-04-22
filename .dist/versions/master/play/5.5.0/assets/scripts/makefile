@@ -1,7 +1,7 @@
 .PHONY: help
 .DEFAULT_GOAL := help
 
-PHP_VERSION_CURRENT:=`php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;'`
+PHP_VERSION_CURRENT=$(shell php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -34,9 +34,11 @@ else
 	sudo service php$(version)-fpm start
 	sudo service php$(PHP_VERSION_CURRENT)-fpm stop
 	sudo service php$(version)-fpm start
+	export PHP_VERSION=$(version)
 	@# ---------------------------------------------------------------------------------------
 	@# if that all worked, switch the apache config now...that avoids breaking the files
-	sudo sed -i 's/__dockware_php_version__/'$(version)'/g' /etc/apache2/sites-enabled/000-default.conf
+	@# pipe the first command to dev/null to avoid ugly warnings in entrypoint boot script if old placeholder does not exist anymore
+	sudo sed -i 's/__dockware_php_version__/'$(version)'/g' /etc/apache2/sites-enabled/000-default.conf 2>/dev/null
 	sudo sed -i 's/'php$(PHP_VERSION_CURRENT)-fpm.sock'/'php$(version)-fpm.sock'/g' /etc/apache2/sites-enabled/000-default.conf
 	sudo service apache2 restart
 	@# ---------------------------------------------------------------------------------------

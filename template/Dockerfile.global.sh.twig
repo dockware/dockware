@@ -512,4 +512,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER {{ ssh.user.name }}
 
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]
