@@ -148,16 +148,6 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 
-if [[ -z "${BUILD_PLUGIN}" ]]; then
-
-    echo ""
-else
-    bin/console plugin:refresh && \
-    bin/console plugin:install --activate "${BUILD_PLUGIN}"
-    bin/build-js.sh
-
-fi
-
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
   php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
@@ -232,6 +222,16 @@ echo ""
 echo "What's new in this version? see the changelog for further details"
 echo "https://www.shopware.com/de/changelog/"
 echo ""
+
+if [[ -z "${BUILD_PLUGIN}" ]]; then
+
+    echo ""
+else
+    bin/console plugin:refresh && \
+    bin/console plugin:install --activate "${BUILD_PLUGIN}"
+    bin/build-js.sh
+
+fi
 
 if [[ ! -z "$CI" ]]; then
     exec "$@"
