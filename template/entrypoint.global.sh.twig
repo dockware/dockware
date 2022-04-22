@@ -285,7 +285,7 @@ echo ""
 
 {% endblock %}
 
-if [[ ! -z "$CI" ]]; then
+if [[ ! -z "$DOCKWARE_CI" ]]; then
     exec "$@"
 else
     tail -f /dev/null
