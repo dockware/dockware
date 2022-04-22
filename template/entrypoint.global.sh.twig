@@ -185,9 +185,6 @@ echo "-----------------------------------------------------------"
 
 {% block setup_shopware %}
 
-{% block sw_build %}
-{% endblock %}
-
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
   php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
@@ -283,6 +280,9 @@ echo "https://www.shopware.com/de/changelog/"
 echo ""
 {% endblock %}
 
+{% endblock %}
+
+{% block sw_build %}
 {% endblock %}
 
 if [[ ! -z "$CI" ]]; then
