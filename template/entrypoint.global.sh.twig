@@ -285,5 +285,9 @@ echo ""
 
 {% endblock %}
 
-tail -f /dev/null
+if [[ ! -z "$CI" ]]; then
+    exec "$@"
+else
+    tail -f /dev/null
+fi
 {% endblock%}
