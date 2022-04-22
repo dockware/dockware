@@ -37,7 +37,8 @@ else
 	export PHP_VERSION=$(version)
 	@# ---------------------------------------------------------------------------------------
 	@# if that all worked, switch the apache config now...that avoids breaking the files
-	sudo sed -i 's/__dockware_php_version__/'$(version)'/g' /etc/apache2/sites-enabled/000-default.conf
+	@# pipe the first command to dev/null to avoid ugly warnings in entrypoint boot script if old placeholder does not exist anymore
+	sudo sed -i 's/__dockware_php_version__/'$(version)'/g' /etc/apache2/sites-enabled/000-default.conf 2>/dev/null
 	sudo sed -i 's/'php$(PHP_VERSION_CURRENT)-fpm.sock'/'php$(version)-fpm.sock'/g' /etc/apache2/sites-enabled/000-default.conf
 	sudo service apache2 restart
 	@# ---------------------------------------------------------------------------------------
