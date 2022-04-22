@@ -140,4 +140,8 @@ echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
 echo "PHP: $(php -v | grep cli)"
 echo "Apache DocRoot: ${APACHE_DOCROOT}"
 
-tail -f /dev/null
+if [[ ! -z "$CI" ]]; then
+    exec "$@"
+else
+    tail -f /dev/null
+fi

@@ -233,4 +233,8 @@ echo "What's new in this version? see the changelog for further details"
 echo "https://www.shopware.com/de/changelog/"
 echo ""
 
-tail -f /dev/null
+if [[ ! -z "$CI" ]]; then
+    exec "$@"
+else
+    tail -f /dev/null
+fi

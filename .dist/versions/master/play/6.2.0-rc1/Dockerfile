@@ -505,4 +505,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER dockware
 
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]
