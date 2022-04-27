@@ -1,6 +1,6 @@
 # Official Dockware Image
 # Tag: {{ orca.tag }}
-# Copyright 2020 dasistweb GmbH
+# Copyright 2022 dasistweb GmbH
 #
 FROM {{ base_image }}
 LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
@@ -512,4 +512,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER {{ ssh.user.name }}
 
-ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
