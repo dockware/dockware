@@ -16,7 +16,7 @@ echo "** DOCKWARE IMAGE: essentials"
 echo "** Tag: latest"
 echo "** Version: 1.4.3"
 echo "** Built: $(cat /build-date.txt)"
-echo "** Copyright 2021 dasistweb GmbH"
+echo "** Copyright 2022 dasistweb GmbH"
 echo "*******************************************************"
 echo ""
 echo "launching dockware...please wait..."
@@ -143,13 +143,10 @@ echo "DOCKWARE: starting cron service...."
 sudo service cron start
 echo "-----------------------------------------------------------"
 
-echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-cd /var/www && make switch-php version=${PHP_VERSION}
-sudo service apache2 stop
-echo "-----------------------------------------------------------"
-
 # --------------------------------------------------
 # APACHE
+
+# first set the correct doc root, because we need it for the php switch below
 sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
 
 # sometimes the internal docker structure leaves
@@ -165,7 +162,13 @@ echo "DOCKWARE: testing and starting Apache..."
 sudo apache2ctl configtest
 sudo service apache2 restart
 echo "-----------------------------------------------------------"
+
 # --------------------------------------------------
+
+echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
+cd /var/www && make switch-php version=${PHP_VERSION}
+sudo service apache2 stop
+echo "-----------------------------------------------------------"
 
 # now let's check if we have a custom boot script that
 # should run after our other startup scripts.
@@ -192,7 +195,13 @@ echo "ATTENTION, THIS IMAGE COMES WITHOUT SHOPWARE!"
 echo "IT OFFERS A FULL ENVIRONMENT FOR YOUR PERSONAL SHOPWARE 6 SETUP"
 echo ""
 
-if [[ ! -z "$CI" ]]; then
+# used to inject the custom build script of
+# plugins in dockware/dev
+
+if [[ ! -z "$DOCKWARE_CI" ]]; then
+    echo "STARTING IN NON-BLOCKING CI MODE...."
+    echo "DOCKWARE WILL NOW EXECUTE YOUR COMMAND AND EXIT THE CONTAINER AFTERWARDS"
+    echo ""
     exec "$@"
 else
     tail -f /dev/null

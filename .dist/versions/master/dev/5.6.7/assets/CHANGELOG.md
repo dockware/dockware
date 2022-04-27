@@ -3,6 +3,15 @@
 All notable changes of Dockware releases are documented in this file 
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [1.5.1]
+
+### Added
+- Add new ENV variable DOCKWARE_CI to automatically stop the container, once your custom command in your pipeline has been executed with dockware.
+
+### Fixed
+- Fixed "Plugin Build" mode that did not find the bin/build-js.sh file correctly.
+- Fixed wrong warning outputs of Apache when starting the containers. This did not have any impact. It was just a weird warning output.
+
 ## [1.5] - 2022-04-01
 
 ### Added

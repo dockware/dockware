@@ -1,6 +1,6 @@
 # Official Dockware Image
 # Tag: 5.7.0
-# Copyright 2020 dasistweb GmbH
+# Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:18.04
 LABEL title="Dockware play:5.7.0" \
@@ -474,4 +474,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER dockware
 
-ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

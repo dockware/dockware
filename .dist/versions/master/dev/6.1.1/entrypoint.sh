@@ -16,7 +16,7 @@ echo "** DOCKWARE IMAGE: dev"
 echo "** Tag: 6.1.1"
 echo "** Version: 1.4.3"
 echo "** Built: $(cat /build-date.txt)"
-echo "** Copyright 2021 dasistweb GmbH"
+echo "** Copyright 2022 dasistweb GmbH"
 echo "*******************************************************"
 echo ""
 echo "launching dockware...please wait..."
@@ -143,6 +143,28 @@ echo "DOCKWARE: starting cron service...."
 sudo service cron start
 echo "-----------------------------------------------------------"
 
+# --------------------------------------------------
+# APACHE
+
+# first set the correct doc root, because we need it for the php switch below
+sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
+
+# sometimes the internal docker structure leaves
+# some pid files existing. the container will be recreated....but
+# in reality it's not! thus there might be the problem
+# that an older pid file exists, which leads to the following error:
+#   - "httpd (pid 13) already running"
+# to avoid this, we simple remove an existing file
+sudo rm -f /var/run/apache2/apache2.pid
+
+# start test and start apache
+echo "DOCKWARE: testing and starting Apache..."
+sudo apache2ctl configtest
+sudo service apache2 restart
+echo "-----------------------------------------------------------"
+
+# --------------------------------------------------
+
 echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
 cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
@@ -172,25 +194,6 @@ if [ $SW_TASKS_ENABLED = 1 ]; then
 	crontab /var/www/scripts/cron/crontab.txt && sudo service cron restart
   echo "-----------------------------------------------------------"
 fi
-
-# --------------------------------------------------
-# APACHE
-sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
-
-# sometimes the internal docker structure leaves
-# some pid files existing. the container will be recreated....but
-# in reality it's not! thus there might be the problem
-# that an older pid file exists, which leads to the following error:
-#   - "httpd (pid 13) already running"
-# to avoid this, we simple remove an existing file
-sudo rm -f /var/run/apache2/apache2.pid
-
-# start test and start apache
-echo "DOCKWARE: testing and starting Apache..."
-sudo apache2ctl configtest
-sudo service apache2 restart
-echo "-----------------------------------------------------------"
-# --------------------------------------------------
 
 # now let's check if we have a custom boot script that
 # should run after our other startup scripts.
@@ -223,7 +226,27 @@ echo "What's new in this version? see the changelog for further details"
 echo "https://www.shopware.com/de/changelog/"
 echo ""
 
-if [[ ! -z "$CI" ]]; then
+# used to inject the custom build script of
+# plugins in dockware/dev
+
+if [[ -z "${BUILD_PLUGIN}" ]]; then
+    echo ""
+else
+
+    echo "STARTING IN PLUGIN BUILDING MODE...."
+    echo "DOCKWARE WILL NOW BUILD YOUR PLUGIN AND EXIT THE CONTAINER AFTERWARDS"
+    echo ""
+
+    # if we are in the plugin build mode, then
+    # make sure to run our commands to  install and activate it.
+    # afterwards build the javascript
+    
+fi
+
+if [[ ! -z "$DOCKWARE_CI" ]]; then
+    echo "STARTING IN NON-BLOCKING CI MODE...."
+    echo "DOCKWARE WILL NOW EXECUTE YOUR COMMAND AND EXIT THE CONTAINER AFTERWARDS"
+    echo ""
     exec "$@"
 else
     tail -f /dev/null

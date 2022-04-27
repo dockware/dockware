@@ -1,6 +1,6 @@
 # Official Dockware Image
 # Tag: beta
-# Copyright 2020 dasistweb GmbH
+# Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:20.04
 LABEL title="Dockware flex:beta" \
@@ -790,4 +790,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER dockware
 
-ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

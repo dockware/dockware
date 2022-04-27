@@ -1,6 +1,6 @@
 # Official Dockware Image
 # Tag: 6.4.2.0-rc
-# Copyright 2020 dasistweb GmbH
+# Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:18.04
 LABEL title="Dockware dev:6.4.2.0-rc" \
@@ -744,4 +744,4 @@ WORKDIR /var/www/html
 # switch to non root user
 USER dockware
 
-ENTRYPOINT ["/bin/bash" "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
