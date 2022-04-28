@@ -333,6 +333,10 @@ RUN apt-get update \
     && apt install -y gpg-agent \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y nodejs \
+    # -----------------------------------------------------------
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && chown 33:33 /var/www/.npm \
 
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
@@ -680,12 +684,26 @@ RUN chown www-data:www-data -R /var/www/scripts
 #make sure for the whole isntallation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
 ## ***********************************************************************
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
     && wget https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.4.4.0_9b43f4ab771c1802bb5fc30df13850c360d0894a.zip -qq -O /var/www/shopware.zip \
-    && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
+    && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
 RUN echo "APP_ENV=dev" >> /var/www/html/.env && \
@@ -695,72 +713,52 @@ RUN echo "APP_ENV=dev" >> /var/www/html/.env && \
     echo "APP_URL=http://localhost" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env && \
-    chown www-data:www-data /var/www/html/.env
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
+    # -------------------------------------------------------------------------------------------
+    php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \
+    php bin/console assets:install && \
+    # -------------------------------------------------------------------------------------------
     # add some demo data
-        cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData' && \
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console plugin:refresh' && \
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData' && \
-        # clear cache and refresh dal index to show the new demo data
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console cache:clear' && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console dal:refresh:index' && \
+        APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
+    APP_ENV=prod php bin/console plugin:refresh && \
+    APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
+        # -------------------------------------------------------------------------------------------
+    # clear cache and refresh dal index to show the new demo data
+    php bin/console cache:clear && \
+    php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
+    # -------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
-    service mysql stop
+    sudo service mysql stop
 
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # fix weird problem with invalid phpunit file
     # without this, it cannot find an autoload and thus it
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
-    sudo -u www-data cat /var/www/html/composer.json && \
-    cd /var/www/html/ && composer install && \
+    # -------------------------------------------------------------------------------------------
+    composer install && \
     # install and pre-build our admin and storefront
-    chown -R 33:33 /root/.npm  && \
-    cd /var/www/html && ./bin/build.sh && \
-    cd /var/www/html && php bin/console theme:compile  && \
-    service mysql stop
+    ./bin/build.sh && \
+    php bin/console theme:compile  && \
+    sudo service mysql stop
 
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
-RUN service mysql start && \
-    cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+RUN sudo service mysql start && \
+    php bin/console plugin:refresh && \
+    php bin/console plugin:install DockwareSamplePlugin && \
+    php bin/console plugin:activate DockwareSamplePlugin && \
     rm -rf /var/www/html/var/cache/* && \
-    service mysql stop
-
-# sometimes there are permission problems
-# so make sure to assign them correctly again here
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html && \
-    cd /var/www/scripts/shopware6 && php create_jwt.php && \
-    cd /var/www/html/config/jwt && chown www-data:www-data *
-
-# some images dont have that folder. make sure its there
-RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chown to www-data
-    && find /var/www -group root -exec chown www-data:www-data {} \; \
-    && find /var/www -user root -exec chown www-data:www-data {} \;
+    sudo service mysql stop
 
 ## ***********************************************************************
-##  CLEAN UP / POST BUILD
+##  POST BUILD
 ## ***********************************************************************
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-# switch to non root user
-USER dockware
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

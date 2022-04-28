@@ -444,12 +444,26 @@ RUN chown www-data:www-data -R /var/www/scripts
 #make sure for the whole isntallation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
 ## ***********************************************************************
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
     && wget https://www.shopware.com/de/Download/redirect/version/sw6/file/install_6.1.1_1580132211.zip -qq -O /var/www/shopware.zip \
-    && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
+    && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
 RUN echo "APP_ENV=prod" >> /var/www/html/.env && \
@@ -459,48 +473,30 @@ RUN echo "APP_ENV=prod" >> /var/www/html/.env && \
     echo "APP_URL=http://localhost" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env && \
-    chown www-data:www-data /var/www/html/.env
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
+    # -------------------------------------------------------------------------------------------
+    php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \
+    php bin/console assets:install && \
+    # -------------------------------------------------------------------------------------------
     # add some demo data
-        cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console framework:demodata' && \
-        # clear cache and refresh dal index to show the new demo data
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console cache:clear' && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console dal:refresh:index' && \
+        # -------------------------------------------------------------------------------------------
+    APP_ENV=prod php bin/console framework:demodata && \
+        # -------------------------------------------------------------------------------------------
+    # clear cache and refresh dal index to show the new demo data
+    php bin/console cache:clear && \
+    php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
+    # -------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
-    service mysql stop
-
-# sometimes there are permission problems
-# so make sure to assign them correctly again here
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html && \
-    cd /var/www/scripts/shopware6 && php create_jwt.php && \
-    cd /var/www/html/config/jwt && chown www-data:www-data *
-
-# some images dont have that folder. make sure its there
-RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chown to www-data
-    && find /var/www -group root -exec chown www-data:www-data {} \; \
-    && find /var/www -user root -exec chown www-data:www-data {} \;
+    sudo service mysql stop
 
 ## ***********************************************************************
-##  CLEAN UP / POST BUILD
+##  POST BUILD
 ## ***********************************************************************
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-# switch to non root user
-USER dockware
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

@@ -62,24 +62,8 @@ echo "-----------------------------------------------------------"
 
 # --------------------------------------------------
 # APACHE
-
 # first set the correct doc root, because we need it for the php switch below
 sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
-
-# sometimes the internal docker structure leaves
-# some pid files existing. the container will be recreated....but
-# in reality it's not! thus there might be the problem
-# that an older pid file exists, which leads to the following error:
-#   - "httpd (pid 13) already running"
-# to avoid this, we simple remove an existing file
-sudo rm -f /var/run/apache2/apache2.pid
-
-# start test and start apache
-echo "DOCKWARE: testing and starting Apache..."
-sudo apache2ctl configtest
-sudo service apache2 restart
-echo "-----------------------------------------------------------"
-
 # --------------------------------------------------
 
 echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
@@ -111,6 +95,22 @@ if [ $SW_TASKS_ENABLED = 1 ]; then
 	crontab /var/www/scripts/cron/crontab.txt && sudo service cron restart
   echo "-----------------------------------------------------------"
 fi
+
+# --------------------------------------------------
+# APACHE
+# sometimes the internal docker structure leaves
+# some pid files existing. the container will be recreated....but
+# in reality it's not! thus there might be the problem
+# that an older pid file exists, which leads to the following error:
+#   - "httpd (pid 13) already running"
+# to avoid this, we simple remove an existing file
+sudo rm -f /var/run/apache2/apache2.pid
+# start test and start apache
+echo "DOCKWARE: testing and starting Apache..."
+sudo apache2ctl configtest
+sudo service apache2 restart
+echo "-----------------------------------------------------------"
+# --------------------------------------------------
 
 # now let's check if we have a custom boot script that
 # should run after our other startup scripts.

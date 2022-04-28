@@ -330,6 +330,20 @@ RUN chown www-data:www-data -R /var/www/scripts
 #make sure for the whole isntallation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
 RUN rm -rf /var/www/html/* \
     && wget https://www.shopware.com/en/Download/redirect/version/sw5/file/install_5.2.21_2164cff64b62f5d7aa68c0ae8a231ce750430e65.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data unzip -q /var/www/shopware.zip -d /var/www/html \
@@ -348,23 +362,8 @@ RUN service mysql start && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
     service mysql stop
 
-# some images dont have that folder. make sure its there
-RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chown to www-data
-    && find /var/www -group root -exec chown www-data:www-data {} \; \
-    && find /var/www -user root -exec chown www-data:www-data {} \;
-
 ## ***********************************************************************
-##  CLEAN UP / POST BUILD
+##  POST BUILD
 ## ***********************************************************************
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-# switch to non root user
-USER dockware
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

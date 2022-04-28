@@ -361,6 +361,10 @@ RUN apt-get update \
     && apt install -y gpg-agent \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y nodejs \
+    # -----------------------------------------------------------
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && chown 33:33 /var/www/.npm \
 
     && npm install -g grunt-cli \
     && npm install grunt --save-dev
@@ -710,6 +714,20 @@ RUN chown www-data:www-data -R /var/www/scripts
 #make sure for the whole isntallation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
 RUN rm -rf /var/www/html/* \
     && wget https://www.shopware.com/de/Download/redirect/version/sw5/file/install_5.6.3_fec7645a72a0393f8a39f48ddd6c27e138f44513.zip -qq -O /var/www/shopware.zip \
     && sudo -u www-data unzip -q /var/www/shopware.zip -d /var/www/html \
@@ -731,23 +749,8 @@ RUN service mysql start && \
 RUN rm -rf /var/www/html/config.php
 COPY ./assets/shopware5/config.php /var/www/html/
 
-# some images dont have that folder. make sure its there
-RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chown to www-data
-    && find /var/www -group root -exec chown www-data:www-data {} \; \
-    && find /var/www -user root -exec chown www-data:www-data {} \;
-
 ## ***********************************************************************
-##  CLEAN UP / POST BUILD
+##  POST BUILD
 ## ***********************************************************************
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-# switch to non root user
-USER dockware
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

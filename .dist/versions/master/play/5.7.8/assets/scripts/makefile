@@ -10,10 +10,10 @@ status: ## status infos
 	sh /var/www/scripts/bin/status.sh
 
 xdebug-on: ## enables xdebug
-	sh /var/www/scripts/bin/xdebug_enable.sh
+	sudo sh /var/www/scripts/bin/xdebug_enable.sh
 
 xdebug-off: ## disables xdebug
-	sh /var/www/scripts/bin/xdebug_disable.sh
+	sudo sh /var/www/scripts/bin/xdebug_disable.sh
 
 permission-repair: ## repairs the general file permissions
 	sudo chown -R www-data:www-data /var/www/html/*
@@ -52,9 +52,9 @@ endif
 watch-storefront: ## starts watcher for storefront at http://localhost
 	@echo "RequestHeader add hot-reload-mode 1\n"\
 	"RequestHeader add hot-reload-port 9999" > /var/www/html/.htaccess.watch
-	cd /var/www/html && sudo ./bin/build-storefront.sh
+	cd /var/www/html && ./bin/build-storefront.sh
 	cd /var/www/html && php bin/console theme:dump
-	cd /var/www/html && sudo ./bin/watch-storefront.sh
+	cd /var/www/html && ./bin/watch-storefront.sh
 
 stop-watch-storefront: ## Reverts everything back to normal operation
 	@rm -rf /var/www/html/.htaccess.watch

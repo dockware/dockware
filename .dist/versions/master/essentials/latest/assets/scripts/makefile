@@ -10,10 +10,10 @@ status: ## status infos
 	sh /var/www/scripts/bin/status.sh
 
 xdebug-on: ## enables xdebug
-	sh /var/www/scripts/bin/xdebug_enable.sh
+	sudo sh /var/www/scripts/bin/xdebug_enable.sh
 
 xdebug-off: ## disables xdebug
-	sh /var/www/scripts/bin/xdebug_disable.sh
+	sudo sh /var/www/scripts/bin/xdebug_disable.sh
 
 permission-repair: ## repairs the general file permissions
 	sudo chown -R www-data:www-data /var/www/html/*
