@@ -27,11 +27,13 @@ ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
+ENV NODE_VERSION {{ node.version }}
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
- && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
+ && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_dev %}
@@ -67,7 +69,6 @@ RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
     && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 {% endblock %}
 
-
 {% block image_variables_sw_currency %}
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
@@ -77,7 +78,6 @@ RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 {% endblock %}
-
 
 {% endblock %}
 
@@ -254,19 +254,10 @@ RUN apt-get update \
 {% endblock %}
 
 {% block components_git %}
-    && apt-get install -y git \
+    && apt-get install -y git
 {% endblock %}
 
-{% block components_node %}
-    && apt install -y gpg-agent \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
-    && apt-get install -y nodejs \
-{% endblock %}
 
-{% block components_grunt %}
-    && npm install -g grunt-cli \
-    && npm install grunt --save-dev
-{% endblock %}
 
 {% block components_packagers %}
 {% block components_packagers_composer %}
@@ -277,17 +268,13 @@ RUN apt-get update \
 {% endif %}
 {% endblock %}
 
-{% block components_packagers_yarn %}
-RUN npm install -g yarn \
-    && chown -R www-data:www-data /var/www/.composer \
-{% endblock %}
+
 
 {% endblock %}
 
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 {% block components_xdebug %}
-    RUN cd /var/www \
+RUN cd /var/www \
     && apt-get update \
 {% for key, value in php.versions %}
 {% if value.xdebug_version != '' %}
@@ -386,6 +373,28 @@ COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.in
 
 {% endblock %}
 
+RUN echo "" \
+{% block components_node %}
+    && curl -sL https://deb.nodesource.com/setup_16.x | bash \
+    && apt-get install -y nodejs \
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && sudo chown 33:33 /var/www/.npm \
+{% endblock %}
+
+{% block components_grunt %}
+    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev \
+{% endblock %}
+
+{% block components_packagers_yarn %}
+    && npm install -g yarn \
+    && chown -R www-data:www-data /var/www/.composer \
+{% endblock %}
+
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 {% endblock %}
 
 
@@ -401,8 +410,34 @@ COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
 {% endblock %}
 RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole isntallation xdebug is off for performance
+#make sure for the whole installation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
+
+
+
+# switch to non root user
+USER {{ ssh.user.name }}
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
+
+
+{% block components_nvm %}
+RUN ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm install 16 \
+    && nvm install 14 \
+    && nvm install 12 \
+    && nvm use {{ node.version }} \
+    && nvm alias default {{ node.version }}
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+{% endblock %}
 
 
 
@@ -414,7 +449,7 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
     && wget {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
-    && sudo -u www-data sh -c 'unzip -q /var/www/shopware.zip -d /var/www/html' \
+    && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 {% endblock %}
 
@@ -428,88 +463,69 @@ RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
     echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
     echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env && \
-    chown www-data:www-data /var/www/html/.env
+    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 {% endblock %}
 
 
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console system:install --create-database --basic-setup' && \
+    php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console assets:install' && \
+    php bin/console assets:install && \
     # add some demo data
     {% if version_gte(shopware.version, '6.2.0-rc1') %}
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData' && \
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console plugin:refresh' && \
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData' && \
+    APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
+    APP_ENV=prod php bin/console plugin:refresh && \
+    APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
     {% else %}
-    cd /var/www/html && sudo -u www-data sh -c 'APP_ENV=prod php bin/console framework:demodata' && \
+    APP_ENV=prod php bin/console framework:demodata && \
     {% endif %}
     # clear cache and refresh dal index to show the new demo data
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console cache:clear' && \
-    cd /var/www/html && sudo -u www-data sh -c 'php bin/console dal:refresh:index' && \
+    php bin/console cache:clear && \
+    php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
     mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
-    service mysql stop
+    sudo service mysql stop
 {% endblock %}
 
 {% block shopware_dev %}
 
 {% block shopware_dev_install %}
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # fix weird problem with invalid phpunit file
     # without this, it cannot find an autoload and thus it
     # always says "please install composer dependencies"
     rm -rf /var/www/html/vendor/bin/phpunit && \
-    sudo -u www-data cat /var/www/html/composer.json && \
-    cd /var/www/html/ && composer install && \
+    composer install && \
     # install and pre-build our admin and storefront
-    chown -R 33:33 /root/.npm  && \
-    cd /var/www/html && ./bin/build.sh && \
-    cd /var/www/html && php bin/console theme:compile  && \
-    service mysql stop
+    #chown -R 33:33 /root/.npm  && \
+    ./bin/build.sh && \
+    php bin/console theme:compile  && \
+    sudo service mysql stop
 {% endblock %}
 
 {% block shopware_dev_plugin %}
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
-RUN service mysql start && \
-    cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+RUN sudo service mysql start && \
+    php bin/console plugin:refresh && \
+    php bin/console plugin:install DockwareSamplePlugin && \
+    php bin/console plugin:activate DockwareSamplePlugin && \
     rm -rf /var/www/html/var/cache/* && \
-    service mysql stop
+    sudo service mysql stop
 {% endblock %}
 
 {% endblock %}
 
-# sometimes there are permission problems
-# so make sure to assign them correctly again here
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html && \
-    cd /var/www/scripts/shopware6 && php create_jwt.php && \
-    cd /var/www/html/config/jwt && chown www-data:www-data *
 {% endblock %}
 
-# some images dont have that folder. make sure its there
-RUN mkdir -p /var/www/.composer \
-    && chown www-data:www-data /var/www/.composer -R \
-    # find all files and folders owned by root and chown to www-data
-    && find /var/www -group root -exec chown www-data:www-data {} \; \
-    && find /var/www -user root -exec chown www-data:www-data {} \;
 
 ## ***********************************************************************
 ##  CLEAN UP / POST BUILD
 ## ***********************************************************************
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+RUN sudo chmod 755 /*.sh
 
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-# switch to non root user
-USER {{ ssh.user.name }}
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

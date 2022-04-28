@@ -19,10 +19,12 @@ please provide the env variable DOCKWARE_CI=1 and the container will automatical
 
 ### Added
 - Add new ENV variable DOCKWARE_CI to automatically stop the container, once your custom command in your pipeline has been executed with dockware.
-
+- Add new ENV variable NODE_VERSION and "nvm" to switch between Node v12, v14 and v16
+- 
 ### Fixed
 - Fixed "Plugin Build" mode that did not find the bin/build-js.sh file correctly.
 - Fixed wrong warning outputs of Apache when starting the containers. This did not have any impact. It was just a weird warning output.
+
 
 
 ## [1.5] - 2022-04-01

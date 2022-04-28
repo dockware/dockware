@@ -74,6 +74,9 @@
     "composer": {
         "version": 2
     },
+    "node": {
+        "version": 16
+    },
     "apache": {
         "docroot": "/var/www/html/public"
     },
