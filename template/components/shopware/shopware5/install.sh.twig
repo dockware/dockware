@@ -1,15 +1,20 @@
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # we have to update the used PHP version (for older shopware versions <= 5.3)
-    update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
+    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
+    # ------------------------------------------------------------------------------------------------------------
     mysql --user={{ db_user }} --password={{ db.pwd }} -e "CREATE DATABASE {{ db_database }} CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
-    cd /var/www/html && sudo -u www-data php recovery/install/index.php --no-interaction --no-skip-import --db-host="{{ db_host }}" --db-user="{{ db_user }}" --db-password="{{ db_pwd }}" --db-name="{{ db_database }}" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
-    cd /var/www/html && sudo -u www-data php bin/console sw:firstrunwizard:disable && \
+    # ------------------------------------------------------------------------------------------------------------
+    php recovery/install/index.php --no-interaction --no-skip-import --db-host="{{ db_host }}" --db-user="{{ db_user }}" --db-password="{{ db_pwd }}" --db-name="{{ db_database }}" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
+    php bin/console sw:firstrunwizard:disable && \
+    # ------------------------------------------------------------------------------------------------------------
     {% if demo_data %}
-    cd /var/www/html && sudo -u www-data php bin/console sw:store:download SwagDemoDataEN && \
-    cd /var/www/html && sudo -u www-data php bin/console sw:plugin:install --activate SwagDemoDataEN && \
+    php bin/console sw:store:download SwagDemoDataEN && \
+    php bin/console sw:plugin:install --activate SwagDemoDataEN && \
     {% endif %}
-    cd /var/www/html && sudo -u www-data php bin/console sw:cache:clear && \
+    # ------------------------------------------------------------------------------------------------------------
+    cd /var/www/html && php bin/console sw:cache:clear && \
+    # ------------------------------------------------------------------------------------------------------------
     mysql --user={{ db_user }} --password={{ db.pwd }} {{ db_database }} -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
     mysql --user={{ db_user }} --password={{ db.pwd }} {{ db_database }} -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
-    service mysql stop
+    sudo service mysql stop
 
