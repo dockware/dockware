@@ -730,24 +730,31 @@ WORKDIR /var/www/html
 
 RUN rm -rf /var/www/html/* \
     && wget https://www.shopware.com/de/Download/redirect/version/sw5/file/install_5.6.6_f8cbea93398b121a4471c35795ce1a8822176d32.zip -qq -O /var/www/shopware.zip \
-    && sudo -u www-data unzip -q /var/www/shopware.zip -d /var/www/html \
+    && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
-RUN service mysql start && \
+RUN sudo service mysql start && \
     # we have to update the used PHP version (for older shopware versions <= 5.3)
-    update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 && \
+    sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 && \
+    # ------------------------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "CREATE DATABASE shopware CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
-    cd /var/www/html && sudo -u www-data php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
-    cd /var/www/html && sudo -u www-data php bin/console sw:firstrunwizard:disable && \
-        cd /var/www/html && sudo -u www-data php bin/console sw:store:download SwagDemoDataEN && \
-    cd /var/www/html && sudo -u www-data php bin/console sw:plugin:install --activate SwagDemoDataEN && \
-        cd /var/www/html && sudo -u www-data php bin/console sw:cache:clear && \
+    # ------------------------------------------------------------------------------------------------------------
+    php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
+    php bin/console sw:firstrunwizard:disable && \
+    # ------------------------------------------------------------------------------------------------------------
+        php bin/console sw:store:download SwagDemoDataEN && \
+    php bin/console sw:plugin:install --activate SwagDemoDataEN && \
+        # ------------------------------------------------------------------------------------------------------------
+    cd /var/www/html && php bin/console sw:cache:clear && \
+    # ------------------------------------------------------------------------------------------------------------
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
-    service mysql stop
+    sudo service mysql stop
 
 RUN rm -rf /var/www/html/config.php
 COPY ./assets/shopware5/config.php /var/www/html/
+
+RUN sudo chown 33:33 /var/www/html/config.php
 
 ## ***********************************************************************
 ##  POST BUILD
