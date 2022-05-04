@@ -750,17 +750,6 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
-## ***********************************************************************
-## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
-## everything down here is now done as our www-data / dockware user
-## just like you would do it manually in the container
-## ***********************************************************************
-
-USER dockware
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
 RUN rm -rf /var/www/html/* \
     && wget https://www.shopware.com/en/Download/redirect/version/sw5/file/install_5.7.8_b60a1b3a10f58f7566a22e0f0556e512c9bf9a59.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
@@ -772,11 +761,11 @@ RUN sudo service mysql start && \
     # ------------------------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "CREATE DATABASE shopware CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
     # ------------------------------------------------------------------------------------------------------------
-    php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
-    php bin/console sw:firstrunwizard:disable && \
+    cd /var/www/html && php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
+    cd /var/www/html &&  php bin/console sw:firstrunwizard:disable && \
     # ------------------------------------------------------------------------------------------------------------
-        php bin/console sw:store:download SwagDemoDataEN && \
-    php bin/console sw:plugin:install --activate SwagDemoDataEN && \
+        cd /var/www/html && php bin/console sw:store:download SwagDemoDataEN && \
+    cd /var/www/html && php bin/console sw:plugin:install --activate SwagDemoDataEN && \
         # ------------------------------------------------------------------------------------------------------------
     cd /var/www/html && php bin/console sw:cache:clear && \
     # ------------------------------------------------------------------------------------------------------------
@@ -788,6 +777,19 @@ RUN rm -rf /var/www/html/config.php
 COPY ./assets/shopware5/config.php /var/www/html/
 
 RUN sudo chown 33:33 /var/www/html/config.php
+
+RUN chown 33:33 -R /var/www/html
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
 
 ## ***********************************************************************
 ##  POST BUILD

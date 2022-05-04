@@ -756,17 +756,6 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
 ## ***********************************************************************
-## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
-## everything down here is now done as our www-data / dockware user
-## just like you would do it manually in the container
-## ***********************************************************************
-
-USER dockware
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-## ***********************************************************************
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN git clone --branch=trunk https://github.com/shopware/development /var/www/shopware && \
@@ -803,6 +792,19 @@ RUN service mysql start && \
     cd /var/www/html && ls -la && \
     export COMPOSER_HOME="/var/www/.composer" && \
     ./psh.phar install
+
+RUN chown 33:33 -R /var/www/html
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
 
 ## ***********************************************************************
 ##  POST BUILD

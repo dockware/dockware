@@ -380,17 +380,6 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
 ## ***********************************************************************
-## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
-## everything down here is now done as our www-data / dockware user
-## just like you would do it manually in the container
-## ***********************************************************************
-
-USER dockware
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-## ***********************************************************************
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
@@ -411,22 +400,35 @@ RUN sudo service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 && \
     # -------------------------------------------------------------------------------------------
-    php bin/console system:install --create-database --basic-setup && \
+    cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
-    php bin/console assets:install && \
+    cd /var/www/html && php bin/console assets:install && \
     # -------------------------------------------------------------------------------------------
     # add some demo data
-        APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
-    APP_ENV=prod php bin/console plugin:refresh && \
-    APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
+        cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
+    cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
+    cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
         # -------------------------------------------------------------------------------------------
     # clear cache and refresh dal index to show the new demo data
-    php bin/console cache:clear && \
-    php bin/console dal:refresh:index && \
+    cd /var/www/html && php bin/console cache:clear && \
+    cd /var/www/html && php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
     # -------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     sudo service mysql stop
+
+RUN chown 33:33 -R /var/www/html
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER dockware
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
 
 ## ***********************************************************************
 ##  POST BUILD

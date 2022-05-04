@@ -857,6 +857,8 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
+RUN chown 33:33 -R /var/www/html
+
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
 ## everything down here is now done as our www-data / dockware user
