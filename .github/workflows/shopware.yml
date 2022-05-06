@@ -12,6 +12,7 @@ jobs:
     build-play: 
       name: Release play:${{ github.event.inputs.tagName }}
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
@@ -95,6 +96,7 @@ jobs:
     build-dev: 
       name: Release dev:${{ github.event.inputs.tagName }}
       runs-on: ubuntu-latest
+      continue-on-error: true
       steps:
         - name: Clone Code
           uses: actions/checkout@v2
