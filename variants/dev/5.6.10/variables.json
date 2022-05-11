@@ -10,6 +10,9 @@
     "composer": {
         "version": 1
     },
+    "node": {
+        "version": 12
+    },
     "php": {
         "default_version": "7.2",
         "versions": {

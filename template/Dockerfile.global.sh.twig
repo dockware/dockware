@@ -259,7 +259,7 @@ RUN apt-get update \
 
 {% block components_node %}
     && apt install -y gpg-agent \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
+    && curl -sL https://deb.nodesource.com/setup_{{ node.version }}.x | bash \
     && apt-get install -y nodejs \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \

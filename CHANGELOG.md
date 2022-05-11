@@ -19,6 +19,7 @@ please provide the env variable DOCKWARE_CI=1 and the container will automatical
 
 ### Added
 - Add new ENV variable DOCKWARE_CI to automatically stop the container, once your custom command in your pipeline has been executed with dockware.
+- Add Node v16 to Shopware >= 6.4 and Shopware >= 5.7. All previous versions still have Node v12.
 
 ### Improved:
 - Shopware is now installed as www-data in a clean way. So all permissions of all files should be as clean as possible now when launching containers.
