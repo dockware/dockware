@@ -503,8 +503,8 @@ RUN apt-get update \
     && npm config set cache /var/www/.npm \
     && chown 33:33 /var/www/.npm \
 
-    && npm install -g grunt-cli \
-    && npm install grunt --save-dev
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.2.9 --quiet \
     # prepare "global" composer directory for www-data

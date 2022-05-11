@@ -494,8 +494,8 @@ RUN apt-get update \
     && npm config set cache /var/www/.npm \
     && chown 33:33 /var/www/.npm \
 
-    && npm install -g grunt-cli \
-    && npm install grunt --save-dev
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev
 
 RUN apt-get update && \
     apt-get install -y python python2.7 && \
