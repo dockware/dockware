@@ -268,8 +268,8 @@ RUN apt-get update \
 {% endblock %}
 
 {% block components_grunt %}
-    && npm install -g grunt-cli \
-    && npm install grunt --save-dev
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev
 {% endblock %}
 
 {% block components_packagers %}
