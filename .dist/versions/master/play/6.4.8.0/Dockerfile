@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware play:6.4.8.0" \
-      version="1.4.3" \
+      version="1.5.1" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
