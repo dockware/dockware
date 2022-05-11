@@ -46,7 +46,7 @@
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
 
-        <testsuite name="dev:5.7.10, PHP 7.7"
+        <testsuite name="dev:5.7.10, PHP 7.2"
                    dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/base</directory>
