@@ -5,27 +5,24 @@
 if [[ -z "${BUILD_PLUGIN}" ]]; then
     echo ""
 else
-
     echo "STARTING IN PLUGIN BUILDING MODE...."
     echo "DOCKWARE WILL NOW BUILD YOUR PLUGIN AND EXIT THE CONTAINER AFTERWARDS"
     echo ""
-
     # if we are in the plugin build mode, then
     # make sure to run our commands to  install and activate it.
     # afterwards build the javascript
     {% if version_gte(shopware.version, '6.4') %}
-
-        {% block install_plugin %}
-cd /var/www/html && php bin/console plugin:refresh && \
-cd /var/www/html && php bin/console plugin:install --activate "${BUILD_PLUGIN}"
-        {% endblock %}
-
-        {% block build_assets %}
-cd /var/www/html && ./bin/build-js.sh
-        {% endblock %}
-
+{% block install_plugin %}
+    cd /var/www/html && php bin/console plugin:refresh && \
+    cd /var/www/html && php bin/console plugin:install --activate "${BUILD_PLUGIN}"
+{% endblock %}
+{% block build_assets %}
+    cd /var/www/html && ./bin/build-js.sh
+{% endblock %}
+# set the CI mode to ON, so that our container exists after
+# installing and building our plugin
+    export DOCKWARE_CI=1
     {% endif %}
-
 fi
 
 {{ parent() }}
