@@ -232,22 +232,19 @@ echo ""
 if [[ -z "${BUILD_PLUGIN}" ]]; then
     echo ""
 else
-
     echo "STARTING IN PLUGIN BUILDING MODE...."
     echo "DOCKWARE WILL NOW BUILD YOUR PLUGIN AND EXIT THE CONTAINER AFTERWARDS"
     echo ""
-
     # if we are in the plugin build mode, then
     # make sure to run our commands to  install and activate it.
     # afterwards build the javascript
-    
         cd /var/www/html && php bin/console plugin:refresh && \
-cd /var/www/html && php bin/console plugin:install --activate "${BUILD_PLUGIN}"
-        
-        cd /var/www/html && ./bin/build-js.sh
-        
-    
-fi
+    cd /var/www/html && php bin/console plugin:install --activate "${BUILD_PLUGIN}"
+    cd /var/www/html && ./bin/build-js.sh
+# set the CI mode to ON, so that our container exists after
+# installing and building our plugin
+    export DOCKWARE_CI=1
+    fi
 
 if [[ ! -z "$DOCKWARE_CI" ]]; then
     echo "STARTING IN NON-BLOCKING CI MODE...."
