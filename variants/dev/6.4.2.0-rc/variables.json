@@ -4,6 +4,9 @@
     "version": "6.4.2.0",
     "download_url": "using-github-commit"
   },
+  "node": {
+    "version": 12
+  },
   "php": {
     "versions": {
       "7.3": {

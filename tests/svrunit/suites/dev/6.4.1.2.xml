@@ -8,7 +8,7 @@
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/composer/v2</directory>
-            <directory>./../../tests/packages/node/v16</directory>
+            <directory>./../../tests/packages/node/v12</directory>
             <directory>./../../tests/packages/php/php8</directory>
         </testsuite>
 
