@@ -240,11 +240,20 @@ else
     # afterwards build the javascript
     fi
 
+# always execute custom commands in here.
+# if a custom command is provided, then the container
+# will automatically exit after it.
+# that's somehow just how it works.
+# otherwise it will continue with the code below
+exec "$@"
+
+# we still need this to allow custom events
+# such as our BUILD_PLUGIN feature to exit the container
 if [[ ! -z "$DOCKWARE_CI" ]]; then
-    echo "STARTING IN NON-BLOCKING CI MODE...."
-    echo "DOCKWARE WILL NOW EXECUTE YOUR COMMAND AND EXIT THE CONTAINER AFTERWARDS"
+    # CONTAINER WAS STARTED IN NON-BLOCKING CI MODE...."
+    # DOCKWARE WILL NOW EXIT THE CONTAINER"
     echo ""
-    exec "$@"
 else
     tail -f /dev/null
 fi
+
