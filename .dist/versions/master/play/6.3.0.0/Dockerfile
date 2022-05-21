@@ -451,7 +451,7 @@ RUN chmod 755 /*.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.0.0_06f83c91b1c72099392ed37c88c931c7b19739b2.zip -qq -O /var/www/shopware.zip \
+    && wget --no-check-certificate https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.3.0.0_06f83c91b1c72099392ed37c88c931c7b19739b2.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
