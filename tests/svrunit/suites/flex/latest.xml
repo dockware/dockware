@@ -2,6 +2,12 @@
 
     <testsuites>
 
+        <testsuite name="flex:latest, Command Runner"
+                   dockerImage="dockware/flex:latest"
+                   dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner</directory>
+        </testsuite>
+
         <testsuite name="flex:latest, PHP 8.1"
                    dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/flex</directory>

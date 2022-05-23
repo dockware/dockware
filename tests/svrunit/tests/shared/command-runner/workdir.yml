@@ -1,0 +1,4 @@
+commands:
+  - name: "Default working directory is /var/www/html"
+    command: "echo SVRUNIT-TEST: $(pwd)"
+    expected: "SVRUNIT-TEST: /var/www/html"

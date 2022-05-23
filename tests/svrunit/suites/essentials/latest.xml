@@ -2,6 +2,12 @@
 
     <testsuites>
 
+        <testsuite name="essentials:latest, Command Runner"
+                   dockerImage="dockware/essentials:latest"
+                   dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner</directory>
+        </testsuite>
+
         <testsuite name="essentials:latest, PHP 8.1"
                    dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/essentials</directory>

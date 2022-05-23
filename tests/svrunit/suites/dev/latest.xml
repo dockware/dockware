@@ -2,6 +2,12 @@
 
     <testsuites>
 
+        <testsuite name="dev:latest, Command Runner"
+                   dockerImage="dockware/dev:latest"
+                   dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner</directory>
+        </testsuite>
+
         <testsuite name="Basic Checks"
                    dockerImage="dockware/dev:latest">
             <directory>./../../tests/images/dev</directory>
