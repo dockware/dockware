@@ -16,13 +16,21 @@ install: ## Installs all dependencies
 	unzip -o svrunit.zip
 	rm -f svrunit.zip
 
-generate: ## Generates all artifacts for this image
+generate: ## Generates all artifacts for this image. You can use the local PHAR with: make generate phar=1
+ifndef phar
 	docker run -v ${PWD}:/opt/project orcabuilder/orca:latest
+else
+	curl -O https://www.svrunit.com/downloads/svrunit.zip --output svrunit.zip
+	unzip -o svrunit.zip
+	rm -f svrunit.zip
+	php orca.phar --directory=.
+endif
 
 clear: ## Clears all dangling images
 	docker images -aq -f 'dangling=true' | xargs docker rmi
 	docker volume ls -q -f 'dangling=true' | xargs docker volume rm
 
+# ----------------------------------------------------------------------------------------------------------------
 
 verify: ## Verify the configuration of the provided tag [image=play tag=6.1.6]
 ifndef tag
