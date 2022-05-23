@@ -4,6 +4,9 @@
     "version": "6.4.8.1",
     "download_url": "https://www.shopware.com/en/Download/redirect/version/sw6/file/install_6.4.8.1_0d8536adc1256503651ed5a60aef9c10ddfd03b0.zip"
   },
+  "node": {
+    "version": 12
+  },
   "php": {
     "versions": {
       "7.3": {
