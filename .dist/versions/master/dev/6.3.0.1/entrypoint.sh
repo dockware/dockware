@@ -14,7 +14,7 @@ echo ""
 echo "*******************************************************"
 echo "** DOCKWARE IMAGE: dev"
 echo "** Tag: 6.3.0.1"
-echo "** Version: 1.5.1"
+echo "** Version: 1.5.2"
 echo "** Built: $(cat /build-date.txt)"
 echo "** Copyright 2022 dasistweb GmbH"
 echo "*******************************************************"
@@ -25,6 +25,8 @@ echo ""
 set -e
 
 source /etc/apache2/envvars
+
+CONTAINER_STARTUP_DIR=$(pwd)
 
 # it's possible to add a custom boot script on startup.
 # so we test if it exists and just execute it
@@ -226,9 +228,6 @@ echo "What's new in this version? see the changelog for further details"
 echo "https://www.shopware.com/de/changelog/"
 echo ""
 
-# used to inject the custom build script of
-# plugins in dockware/dev
-
 if [[ -z "${BUILD_PLUGIN}" ]]; then
     echo ""
 else
@@ -239,6 +238,15 @@ else
     # make sure to run our commands to  install and activate it.
     # afterwards build the javascript
     fi
+
+# used to inject the custom build script of
+# plugins in dockware/dev
+
+# before starting any commands
+# we always need to ensure we are back in our
+# configured WORKDIR of the container
+echo "-----------------------------------------------------"
+cd $CONTAINER_STARTUP_DIR
 
 # always execute custom commands in here.
 # if a custom command is provided, then the container
