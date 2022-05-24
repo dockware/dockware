@@ -75,7 +75,7 @@
         "version": 2
     },
     "node": {
-        "version": 16
+        "version": 12
     },
     "apache": {
         "docroot": "/var/www/html/public"
