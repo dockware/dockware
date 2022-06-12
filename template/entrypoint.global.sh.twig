@@ -80,6 +80,7 @@ if [ $COMPOSER_VERSION = 2 ]; then
 fi
 {% endblock %}
 
+
 {% block components_tideways %}
 if [ $TIDEWAYS_KEY != "not-set" ]; then
     echo "DOCKWARE: activating Tideways...."
@@ -193,6 +194,19 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 {% endblock %}
+
+
+{% block node_version %}
+if [[ ! -z "$NODE_VERSION" ]]; then
+   echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
+   source ~/.nvm/nvm.sh
+   nvm use ${NODE_VERSION}
+   echo "-----------------------------------------------------------"
+fi
+{% endblock %}
+
+export NVM_DIR=~/.nvm
+source ~/.nvm/nvm.sh
 
 
 {% block setup_shopware %}
