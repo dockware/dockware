@@ -84,6 +84,7 @@ RUN apt-get update \
     && apt-get install -y nano \
     && apt-get install -y jq \
     && apt-get install -y gnupg2 \
+    && apt-get install -y gpg-agent \
     && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -570,8 +571,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN echo "" \
-    && sudo apt install -y gpg-agent \
+    && apt-get update \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
+    && apt-get install -y npm \
     && apt-get install -y nodejs \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \

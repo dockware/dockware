@@ -57,6 +57,7 @@ RUN apt-get update \
     && apt-get install -y nano \
     && apt-get install -y jq \
     && apt-get install -y gnupg2 \
+    && apt-get install -y gpg-agent \
     && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -375,9 +376,6 @@ RUN chown -R www-data:www-data /var/www/pimpmylog/
 
 RUN echo "" \
 
-    && npm install -g yarn \
-    && chown -R www-data:www-data /var/www/.composer \
-
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN ls -la \
@@ -412,7 +410,7 @@ RUN chmod 755 /*.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.4.11.1_4acac2b5012d6a03377ae5881590aec8cda0196b.zip -qq -O /var/www/shopware.zip \
+    && wget --no-check-certificate https://www.shopware.com/de/Download/redirect/version/sw6/file/install_v6.4.12.0_52d0fda063a54b12b5bec5010c6cef8dc7a7e1b5.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 

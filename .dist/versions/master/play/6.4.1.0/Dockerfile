@@ -57,6 +57,7 @@ RUN apt-get update \
     && apt-get install -y nano \
     && apt-get install -y jq \
     && apt-get install -y gnupg2 \
+    && apt-get install -y gpg-agent \
     && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -374,9 +375,6 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
 RUN echo "" \
-
-    && npm install -g yarn \
-    && chown -R www-data:www-data /var/www/.composer \
 
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
