@@ -1,4 +1,4 @@
 commands:
-  - name: "NODE Version 16"
+  - name: "NODE Version 12"
     command: "node -v"
-    expected: "v16."
+    expected: "v12."

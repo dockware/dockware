@@ -4,12 +4,17 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
+## [1.5.3]
+
+### Added
 - Add new ENV variable NODE_VERSION and "nvm" to switch between Node v12, v14 and v16
+
 
 ## [1.5.2]
 
 ### Fixed
 - Fix problem where it was not possible to provide a custom WORKDIR. The images will now switch back to this directory in the entrypoint before running custom commands.
+
 
 ## [1.5.1]
 

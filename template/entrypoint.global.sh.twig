@@ -26,6 +26,12 @@ echo ""
 set -e
 
 source /etc/apache2/envvars
+source /var/www/.bashrc
+
+# this is important to automatically use the bashrc file
+# in the "exec" command below when using a simple docker runner command
+export BASH_ENV=/var/www/.bashrc
+
 
 CONTAINER_STARTUP_DIR=$(pwd)
 
@@ -199,14 +205,11 @@ echo "-----------------------------------------------------------"
 {% block node_version %}
 if [[ ! -z "$NODE_VERSION" ]]; then
    echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
-   source ~/.nvm/nvm.sh
    nvm use ${NODE_VERSION}
    echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
-export NVM_DIR=~/.nvm
-source ~/.nvm/nvm.sh
 
 
 {% block setup_shopware %}

@@ -23,12 +23,14 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ## ***********************************************************************
 {% block image_variables_main %}
 ENV TZ Europe/Berlin
+ENV BASH_ENV /var/www/.bashrc
 ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION {{ node.version }}
 RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
@@ -154,6 +156,13 @@ RUN echo "root:root" | chpasswd \
 {% block users_ssh_connection %}
 RUN echo 'AllowUsers {{ ssh.user.name }}' >> /etc/ssh/sshd_config
 {% endblock %}
+
+{% block users_bashrc %}
+RUN echo "source ~/.nvm/nvm.sh" >> /var/www/.bashrc \
+    # -------------------------------------------------
+    && chown 33:33 /var/www/.bashrc
+{% endblock %}
+
 
 {% endblock %}
 
@@ -399,6 +408,23 @@ COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.in
 {% endblock %}
 
 
+{% block components_nvm %}
+RUN ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm install 16 \
+    && nvm install 14 \
+    && nvm install 12 \
+    && nvm use {{ node.version }} \
+    && nvm alias default {{ node.version }}
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+{% endblock %}
+
 {% endblock %}
 
 
@@ -422,22 +448,6 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
 
-{% block components_nvm %}
-RUN ls -la \
-    && mkdir "/var/www/.nvm" \
-    && export NVM_DIR="/var/www/.nvm" \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm install 16 \
-    && nvm install 14 \
-    && nvm install 12 \
-    && nvm use {{ node.version }} \
-    && nvm alias default {{ node.version }}
-
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
-{% endblock %}
 
 
 
