@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware play:6.4.2.1" \
-      version="1.5.2" \
+      version="1.5.3" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -19,15 +19,19 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
+ENV BASH_ENV /var/www/.bashrc
 ENV PHP_VERSION 7.4
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
+ENV NODE_VERSION 12
 RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
- && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
+ && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
 
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
@@ -52,6 +56,7 @@ RUN apt-get update \
     && apt-get install -y vim \
     && apt-get install -y nano \
     && apt-get install -y jq \
+    && apt-get install -y gnupg2 \
     && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -104,6 +109,10 @@ RUN adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data dockwar
     && echo "Defaults:dockware !requiretty" >> /etc/sudoers \
         && sed -i 's/dockware:x:5577:33:/dockware:x:33:33:/g' /etc/passwd
 RUN echo 'AllowUsers dockware' >> /etc/ssh/sshd_config
+
+RUN echo "source ~/.nvm/nvm.sh" >> /var/www/.bashrc \
+    # -------------------------------------------------
+    && chown 33:33 /var/www/.bashrc
 
 ## ***********************************************************************
 ##  APACHE INSTALLATION
@@ -295,9 +304,7 @@ RUN apt-get update \
 
 RUN apt-get update \
 
-    && apt-get install -y git \
-
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && apt-get install -y git
 
 ## ***********************************************************************
 ##  MYSQL INSTALL
@@ -366,6 +373,28 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
+RUN echo "" \
+
+    && npm install -g yarn \
+    && chown -R www-data:www-data /var/www/.composer \
+
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm install 16 \
+    && nvm install 14 \
+    && nvm install 12 \
+    && nvm use 12 \
+    && nvm alias default 12
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
@@ -373,7 +402,7 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
 RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole isntallation xdebug is off for performance
+#make sure for the whole installation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
 ADD entrypoint.sh /entrypoint.sh

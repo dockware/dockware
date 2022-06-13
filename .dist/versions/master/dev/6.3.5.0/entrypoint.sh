@@ -14,7 +14,7 @@ echo ""
 echo "*******************************************************"
 echo "** DOCKWARE IMAGE: dev"
 echo "** Tag: 6.3.5.0"
-echo "** Version: 1.5.2"
+echo "** Version: 1.5.3"
 echo "** Built: $(cat /build-date.txt)"
 echo "** Copyright 2022 dasistweb GmbH"
 echo "*******************************************************"
@@ -25,6 +25,11 @@ echo ""
 set -e
 
 source /etc/apache2/envvars
+source /var/www/.bashrc
+
+# this is important to automatically use the bashrc file
+# in the "exec" command below when using a simple docker runner command
+export BASH_ENV=/var/www/.bashrc
 
 CONTAINER_STARTUP_DIR=$(pwd)
 
@@ -155,6 +160,12 @@ echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
 cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
+
+if [[ ! -z "$NODE_VERSION" ]]; then
+   echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
+   nvm use ${NODE_VERSION}
+   echo "-----------------------------------------------------------"
+fi
 
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."

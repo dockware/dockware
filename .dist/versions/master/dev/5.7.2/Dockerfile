@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware dev:5.7.2" \
-      version="1.5.2" \
+      version="1.5.3" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -19,15 +19,19 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
+ENV BASH_ENV /var/www/.bashrc
 ENV PHP_VERSION 8.0
 ENV APACHE_DOCROOT /var/www/html
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
+ENV NODE_VERSION 12
 RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
- && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
+ && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
 
 ENV SSH_USER not-set
 ENV SSH_PWD not-set
@@ -76,6 +80,7 @@ RUN apt-get update \
     && apt-get install -y vim \
     && apt-get install -y nano \
     && apt-get install -y jq \
+    && apt-get install -y gnupg2 \
     && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -128,6 +133,10 @@ RUN adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data dockwar
     && echo "Defaults:dockware !requiretty" >> /etc/sudoers \
         && sed -i 's/dockware:x:5577:33:/dockware:x:33:33:/g' /etc/passwd
 RUN echo 'AllowUsers dockware' >> /etc/ssh/sshd_config
+
+RUN echo "source ~/.nvm/nvm.sh" >> /var/www/.bashrc \
+    # -------------------------------------------------
+    && chown 33:33 /var/www/.bashrc
 
 ## ***********************************************************************
 ##  APACHE INSTALLATION
@@ -391,18 +400,7 @@ RUN apt-get update \
     && apt-get install -y screen \
     && apt-get install -y mysql-client \
 
-    && apt-get install -y git \
-
-    && apt install -y gpg-agent \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
-    && apt-get install -y nodejs \
-    # -----------------------------------------------------------
-    && mkdir /var/www/.npm \
-    && npm config set cache /var/www/.npm \
-    && chown 33:33 /var/www/.npm \
-
-    && cd /var/www && npm install -g grunt-cli \
-    && cd /var/www && npm install grunt --save-dev
+    && apt-get install -y git
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.2.9 --quiet \
     # prepare "global" composer directory for www-data
@@ -412,12 +410,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN  mv /tmp/composer.phar /usr/local/bin/composer
-RUN npm install -g yarn \
-    && chown -R www-data:www-data /var/www/.composer \
 
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-    RUN cd /var/www \
+RUN cd /var/www \
     && apt-get update \
     # install xdebug for php 8.1
     && sudo apt-get install -y php8.1-dev \
@@ -707,11 +701,28 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
 RUN apt-get update \
-    && apt-get install -y gnupg2 \
     && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
     &&  apt-get install -y apt-transport-https \
     &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
     &&  apt-get update && apt-get install filebeat \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN echo "" \
+    && sudo apt install -y gpg-agent \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
+    && apt-get install -y nodejs \
+    # -----------------------------------------------------------
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && chown 33:33 /var/www/.npm \
+
+    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev \
+
+    && npm install -g yarn \
+    && chown -R www-data:www-data /var/www/.composer \
+
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
@@ -739,12 +750,27 @@ COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
+RUN ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm install 16 \
+    && nvm install 14 \
+    && nvm install 12 \
+    && nvm use 12 \
+    && nvm alias default 12
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
 RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole isntallation xdebug is off for performance
+#make sure for the whole installation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
 ADD entrypoint.sh /entrypoint.sh
