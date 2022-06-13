@@ -708,11 +708,24 @@ RUN apt-get update \
     &&  apt-get update && apt-get install filebeat \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+RUN ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm install 16 \
+    && nvm install 14 \
+    && nvm install 12 \
+    && nvm use 12 \
+    && nvm alias default 12
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+
 RUN echo "" \
     && apt-get update \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install -y npm \
-    && apt-get install -y nodejs \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -751,21 +764,6 @@ COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
-
-RUN ls -la \
-    && mkdir "/var/www/.nvm" \
-    && export NVM_DIR="/var/www/.nvm" \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm install 16 \
-    && nvm install 14 \
-    && nvm install 12 \
-    && nvm use 12 \
-    && nvm alias default 12
-
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin

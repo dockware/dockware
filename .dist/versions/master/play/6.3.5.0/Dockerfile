@@ -444,10 +444,6 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
-RUN echo "" \
-
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
     && export NVM_DIR="/var/www/.nvm" \
@@ -462,6 +458,10 @@ RUN ls -la \
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+
+RUN echo "" \
+
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
