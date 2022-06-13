@@ -774,13 +774,15 @@ RUN mkdir /usr/share/adminer \
     && a2enconf adminer.conf
 
 RUN apt-get update \
-    && apt install -y build-essential libsqlite3-dev ruby-dev \
-    && gem install mailcatcher --no-ri --no-rdoc \
+    && apt-get install -y build-essential \
+    && apt-get install -y libsqlite3-dev \
+    && apt-get install -y ruby-dev \
+    && gem install sqlite3 -v 1.3.4 \
+    && gem install mailcatcher --conservative --no-ri --no-rdoc \
     && phpenmod mailcatcher \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
-
 RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.4/mods-available/mailcatcher.ini && \
