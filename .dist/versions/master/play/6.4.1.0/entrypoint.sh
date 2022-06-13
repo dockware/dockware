@@ -78,12 +78,6 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 
-if [[ ! -z "$NODE_VERSION" ]]; then
-   echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
-   nvm use ${NODE_VERSION}
-   echo "-----------------------------------------------------------"
-fi
-
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
   php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
