@@ -26,6 +26,12 @@ echo ""
 set -e
 
 source /etc/apache2/envvars
+source /var/www/.bashrc
+
+# this is important to automatically use the bashrc file
+# in the "exec" command below when using a simple docker runner command
+export BASH_ENV=/var/www/.bashrc
+
 
 CONTAINER_STARTUP_DIR=$(pwd)
 
@@ -79,6 +85,7 @@ if [ $COMPOSER_VERSION = 2 ]; then
    echo "-----------------------------------------------------------"
 fi
 {% endblock %}
+
 
 {% block components_tideways %}
 if [ $TIDEWAYS_KEY != "not-set" ]; then
@@ -193,6 +200,16 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 {% endblock %}
+
+
+{% block node_version %}
+if [[ ! -z "$NODE_VERSION" ]]; then
+   echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
+   nvm use ${NODE_VERSION}
+   echo "-----------------------------------------------------------"
+fi
+{% endblock %}
+
 
 
 {% block setup_shopware %}

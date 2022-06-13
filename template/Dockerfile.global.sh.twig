@@ -23,15 +23,19 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ## ***********************************************************************
 {% block image_variables_main %}
 ENV TZ Europe/Berlin
+ENV BASH_ENV /var/www/.bashrc
 ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
+ENV NODE_VERSION {{ node.version }}
 RUN echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
- && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile
+ && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
+ && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_dev %}
@@ -67,7 +71,6 @@ RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
     && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 {% endblock %}
 
-
 {% block image_variables_sw_currency %}
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
@@ -77,7 +80,6 @@ RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 {% endblock %}
-
 
 {% endblock %}
 
@@ -100,6 +102,7 @@ RUN apt-get update \
     && apt-get install -y vim \
     && apt-get install -y nano \
     && apt-get install -y jq \
+    && apt-get install -y gnupg2 \
     && apt-get install -y chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
@@ -153,6 +156,13 @@ RUN echo "root:root" | chpasswd \
 {% block users_ssh_connection %}
 RUN echo 'AllowUsers {{ ssh.user.name }}' >> /etc/ssh/sshd_config
 {% endblock %}
+
+{% block users_bashrc %}
+RUN echo "source ~/.nvm/nvm.sh" >> /var/www/.bashrc \
+    # -------------------------------------------------
+    && chown 33:33 /var/www/.bashrc
+{% endblock %}
+
 
 {% endblock %}
 
@@ -254,23 +264,10 @@ RUN apt-get update \
 {% endblock %}
 
 {% block components_git %}
-    && apt-get install -y git \
+    && apt-get install -y git
 {% endblock %}
 
-{% block components_node %}
-    && apt install -y gpg-agent \
-    && curl -sL https://deb.nodesource.com/setup_{{ node.version }}.x | bash \
-    && apt-get install -y nodejs \
-    # -----------------------------------------------------------
-    && mkdir /var/www/.npm \
-    && npm config set cache /var/www/.npm \
-    && chown 33:33 /var/www/.npm \
-{% endblock %}
 
-{% block components_grunt %}
-    && cd /var/www && npm install -g grunt-cli \
-    && cd /var/www && npm install grunt --save-dev
-{% endblock %}
 
 {% block components_packagers %}
 {% block components_packagers_composer %}
@@ -281,17 +278,13 @@ RUN apt-get update \
 {% endif %}
 {% endblock %}
 
-{% block components_packagers_yarn %}
-RUN npm install -g yarn \
-    && chown -R www-data:www-data /var/www/.composer \
-{% endblock %}
+
 
 {% endblock %}
 
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 {% block components_xdebug %}
-    RUN cd /var/www \
+RUN cd /var/www \
     && apt-get update \
 {% for key, value in php.versions %}
 {% if value.xdebug_version != '' %}
@@ -366,13 +359,38 @@ RUN chown -R www-data:www-data /var/www/pimpmylog/
 
 {% block components_filebeat %}
 RUN apt-get update \
-    && apt-get install -y gnupg2 \
     && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
     &&  apt-get install -y apt-transport-https \
     &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
     &&  apt-get update && apt-get install filebeat \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 {% endblock %}
+
+
+RUN echo "" \
+{% block components_node %}
+    && sudo apt install -y gpg-agent \
+    && curl -sL https://deb.nodesource.com/setup_{{ node.version }}.x | bash \
+    && apt-get install -y nodejs \
+    # -----------------------------------------------------------
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && chown 33:33 /var/www/.npm \
+{% endblock %}
+
+{% block components_grunt %}
+    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev \
+{% endblock %}
+
+{% block components_packagers_yarn %}
+    && npm install -g yarn \
+    && chown -R www-data:www-data /var/www/.composer \
+{% endblock %}
+
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 
 {% block components_tideways %}
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
@@ -387,7 +405,24 @@ COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
 {% endfor %}
+{% endblock %}
 
+
+{% block components_nvm %}
+RUN ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm install 16 \
+    && nvm install 14 \
+    && nvm install 12 \
+    && nvm use {{ node.version }} \
+    && nvm alias default {{ node.version }}
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 {% endblock %}
 
 {% endblock %}
@@ -405,12 +440,13 @@ COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
 {% endblock %}
 RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole isntallation xdebug is off for performance
+#make sure for the whole installation xdebug is off for performance
 RUN sh /var/www/scripts/bin/xdebug_disable.sh
 
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
+
 
 
 
@@ -493,7 +529,7 @@ RUN sudo service mysql start && \
     cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
     cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
     rm -rf /var/www/html/var/cache/* && \
-    service mysql stop
+    sudo service mysql stop
 {% endblock %}
 
 {% endblock %}

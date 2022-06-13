@@ -4,6 +4,12 @@ All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 
+## [1.5.3]
+
+### Added
+- Add new ENV variable NODE_VERSION and "nvm" to switch between Node v12, v14 and v16
+
+
 ## [1.5.2]
 
 ### Fixed
