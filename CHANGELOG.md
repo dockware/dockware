@@ -9,6 +9,9 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 ### Added
 - Add new ENV variable NODE_VERSION and "nvm" to switch between Node v12, v14 and v16
 
+### Fixed
+- Fixed broken XDebug after switching PHP versions.
+- 
 
 ## [1.5.2]
 
