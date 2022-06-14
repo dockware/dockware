@@ -19,14 +19,12 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV BASH_ENV /var/www/.bashrc
 ENV PHP_VERSION 7.4
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION 12
 RUN echo "export TZ=${TZ}" >> /etc/profile \
- && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
@@ -138,9 +136,13 @@ RUN adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data dockwar
         && sed -i 's/dockware:x:5577:33:/dockware:x:33:33:/g' /etc/passwd
 RUN echo 'AllowUsers dockware' >> /etc/ssh/sshd_config
 
-RUN echo "source ~/.nvm/nvm.sh" >> /var/www/.bashrc \
+ENV BASH_ENV /var/www/.bashrc
+
+RUN echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
     # -------------------------------------------------
-    && chown 33:33 /var/www/.bashrc
+    && chown 33:33 /var/www/.bashrc \
+    # -------------------------------------------------
+    && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile
 
 ## ***********************************************************************
 ##  APACHE INSTALLATION
@@ -719,12 +721,16 @@ RUN apt-get update \
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
     && export NVM_DIR="/var/www/.nvm" \
+    # -----------------------------------------------------------------------------------------
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    # -----------------------------------------------------------------------------------------
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    # -----------------------------------------------------------------------------------------
     && nvm install 16 \
     && nvm install 14 \
     && nvm install 12 \
+    # -----------------------------------------------------------------------------------------
     && nvm use 12 \
     && nvm alias default 12
 
@@ -732,8 +738,12 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 RUN echo "" \
-    && apt-get update \
-    && apt-get install -y npm \
+    # -----------------------------------------------------------
+    # we have to reload the correct nvm version otherwise this would destroy it
+    && export NVM_DIR="/var/www/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm use 12 \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -745,7 +755,6 @@ RUN echo "" \
 
     && npm install -g yarn \
     && chown -R www-data:www-data /var/www/.composer \
-
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
@@ -824,17 +833,18 @@ RUN sudo service mysql start && \
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     sudo service mysql stop
 
-RUN sudo service mysql start && \
+RUN sudo service mysql start \
+    # -------------------------------------------------------------------------------------------
     # fix weird problem with invalid phpunit file
     # without this, it cannot find an autoload and thus it
     # always says "please install composer dependencies"
-    rm -rf /var/www/html/vendor/bin/phpunit && \
+    && rm -rf /var/www/html/vendor/bin/phpunit \
     # -------------------------------------------------------------------------------------------
-    cd /var/www/html && composer install && \
+    && cd /var/www/html && composer install \
     # install and pre-build our admin and storefront
-    cd /var/www/html && ./bin/build.sh && \
-    cd /var/www/html && php bin/console theme:compile  && \
-    sudo service mysql stop
+    && cd /var/www/html && ./bin/build.sh \
+    && cd /var/www/html && php bin/console theme:compile \
+    && sudo service mysql stop
 
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 

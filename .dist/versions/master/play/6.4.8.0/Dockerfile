@@ -19,14 +19,12 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV BASH_ENV /var/www/.bashrc
 ENV PHP_VERSION 7.4
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION 12
 RUN echo "export TZ=${TZ}" >> /etc/profile \
- && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
@@ -111,9 +109,13 @@ RUN adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data dockwar
         && sed -i 's/dockware:x:5577:33:/dockware:x:33:33:/g' /etc/passwd
 RUN echo 'AllowUsers dockware' >> /etc/ssh/sshd_config
 
-RUN echo "source ~/.nvm/nvm.sh" >> /var/www/.bashrc \
+ENV BASH_ENV /var/www/.bashrc
+
+RUN echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
     # -------------------------------------------------
-    && chown 33:33 /var/www/.bashrc
+    && chown 33:33 /var/www/.bashrc \
+    # -------------------------------------------------
+    && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile
 
 ## ***********************************************************************
 ##  APACHE INSTALLATION
@@ -379,12 +381,16 @@ RUN chown -R www-data:www-data /var/www/pimpmylog/
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
     && export NVM_DIR="/var/www/.nvm" \
+    # -----------------------------------------------------------------------------------------
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    # -----------------------------------------------------------------------------------------
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    # -----------------------------------------------------------------------------------------
     && nvm install 16 \
     && nvm install 14 \
     && nvm install 12 \
+    # -----------------------------------------------------------------------------------------
     && nvm use 12 \
     && nvm alias default 12
 
