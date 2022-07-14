@@ -385,7 +385,12 @@ RUN ls -la \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     && nvm use {{ node.version }} \
-    && nvm alias default {{ node.version }}
+    && nvm alias default {{ node.version }}  \
+    # -----------------------------------------------------------------------------------------
+    # this is required so that node and npm is also
+    # usable as SUDO root user :)
+    && sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node" \
+    && sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
@@ -557,6 +562,7 @@ USER {{ ssh.user.name }}
 
 # make the apache folder the working directory
 WORKDIR /var/www/html
+
 
 
 ## ***********************************************************************
