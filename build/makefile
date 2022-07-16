@@ -24,3 +24,6 @@ else
 	cd .. && mkdir -p ./.dist/versions/$(version)
 	cd .. && cp -r ./dist/images/* ./.dist/versions/$(version)/
 endif
+
+generate-tests: ## Generates the SVRUnit Tests
+	php build-tests.php
