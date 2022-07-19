@@ -462,10 +462,7 @@ RUN ls -la \
     && nvm use 12 \
     && nvm alias default 12  \
     # -----------------------------------------------------------------------------------------
-    # this is required so that node and npm is also
-    # usable as SUDO root user :)
-    && sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node" \
-    && sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+    && echo ""
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
@@ -525,7 +522,11 @@ RUN sudo service mysql start && \
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     sudo service mysql stop
 
-RUN chown 33:33 -R /var/www/html
+RUN chown 33:33 -R /var/www/html && \
+    # this is necessary so that our user can
+    # change the default nvm node version
+    # otherwise the persisted node version switch would not work!
+    chown 33:33 /var/www/.nvm -R
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

@@ -728,10 +728,7 @@ RUN ls -la \
     && nvm use 12 \
     && nvm alias default 12  \
     # -----------------------------------------------------------------------------------------
-    # this is required so that node and npm is also
-    # usable as SUDO root user :)
-    && sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node" \
-    && sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+    && echo ""
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
@@ -820,7 +817,11 @@ COPY ./assets/shopware5/config.php /var/www/html/
 
 RUN sudo chown 33:33 /var/www/html/config.php
 
-RUN chown 33:33 -R /var/www/html
+RUN chown 33:33 -R /var/www/html && \
+    # this is necessary so that our user can
+    # change the default nvm node version
+    # otherwise the persisted node version switch would not work!
+    chown 33:33 /var/www/.nvm -R
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

@@ -152,7 +152,13 @@ echo "-----------------------------------------------------------"
 
 if [[ ! -z "$NODE_VERSION" ]]; then
    echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
-   nvm use ${NODE_VERSION}
+   nvm alias default ${NODE_VERSION}
+   # now make sure to at least have node and npm as sudo
+   # nvm itself is not possible by design
+   sudo rm -f /usr/local/bin/node
+   sudo rm -f /usr/local/bin/npm
+   sudo ln -s "$(which node)" "/usr/local/bin/node"
+   sudo ln -s "$(which npm)" "/usr/local/bin/npm"
    echo "-----------------------------------------------------------"
 fi
 
