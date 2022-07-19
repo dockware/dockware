@@ -20,16 +20,16 @@ function buildTests()
 
         foreach ($variants as $variant) {
 
-            $yml = '';
-
             $tag = explode(':', $variant)[1];
 
-            $job = $builder->buildJob(
+            $yml = $builder->buildJob(
                 $image . '-' . str_replace('.', '-', $tag),
                 $image,
                 $tag);
 
-            $yml .= "\n  " . $job;
+            if (empty($yml)) {
+                continue;
+            }
 
             file_put_contents(
                 __DIR__ . '/../tests/svrunit/suites/' . $image . '/' . $tag . '.xml',
