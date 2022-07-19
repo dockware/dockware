@@ -62,4 +62,12 @@ else
 endif
 
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
-	php svrunit.phar --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --report-junit --report-html
+	php svrunit.phar --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --debug --report-junit --report-html
+
+# ----------------------------------------------------------------------------------------------------------------
+
+release: ## Makes a new releasable version by generating, building and testing a specific image
+	make generate -B
+	make verify image=$(image) tag=$(tag) -B
+	make build image=$(image) tag=$(tag) -B
+	make test image=$(image) tag=$(tag) -B
