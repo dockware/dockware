@@ -20,9 +20,9 @@ generate: ## Generates all artifacts for this image. You can use the local PHAR 
 ifndef phar
 	docker run -v ${PWD}:/opt/project orcabuilder/orca:latest
 else
-	curl -O https://www.svrunit.com/downloads/svrunit.zip --output svrunit.zip
-	unzip -o svrunit.zip
-	rm -f svrunit.zip
+	curl -O https://orca-build.io/downloads/orca.zip
+	unzip -o orca.zip
+	rm -f orca.zip
 	php orca.phar --directory=.
 endif
 
