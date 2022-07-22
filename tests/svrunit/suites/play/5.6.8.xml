@@ -1,28 +1,23 @@
 <svrunit setupTime="30">
-
     <testsuites>
-
-        <testsuite name="play:5.6.8, PHP 7.4"
-                   dockerImage="dockware/play:5.6.8" dockerEnv="PHP_VERSION=7.4">
-            <directory>./../../tests/images/play</directory>
+    
+        <testsuite name="dockware/play:5.6.8, Command Runner" dockerImage="dockware/play:5.6.8" dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner</directory>
+        </testsuite>
+        
+        <testsuite name="Basic Checks" dockerImage="dockware/play:5.6.8">
             <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/packages/php/php5</directory>
+        </testsuite>
+         
+        <testsuite name="PHP 7.0, XDebug ON" dockerImage="dockware/play:5.6.8" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
         </testsuite>
 
-        <testsuite name="play:5.6.8, PHP 7.3"
-                   dockerImage="dockware/play:5.6.8" dockerEnv="PHP_VERSION=7.3">
-            <directory>./../../tests/images/play</directory>
-            <directory>./../../tests/shared/base</directory>
-            <directory>./../../tests/packages/php/php7</directory>
+        <testsuite name="PHP 5.6, XDebug ON" dockerImage="dockware/play:5.6.8" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php5</directory>
         </testsuite>
 
-        <testsuite name="play:5.6.8, PHP 7.2"
-                   dockerImage="dockware/play:5.6.8" dockerEnv="PHP_VERSION=7.2">
-            <directory>./../../tests/images/play</directory>
-            <directory>./../../tests/shared/base</directory>
-            <directory>./../../tests/packages/php/php7</directory>
-        </testsuite>
-
-    </testsuites>
-
-</svrunit>
+    </testsuites >
+</svrunit >
+    

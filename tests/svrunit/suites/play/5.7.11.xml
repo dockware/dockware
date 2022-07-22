@@ -1,42 +1,40 @@
 <svrunit setupTime="30">
-
     <testsuites>
-
-        <testsuite name="play:5.7.11, PHP 8.1"
-                   dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=8.1">
-            <directory>./../../tests/images/play</directory>
+    
+        <testsuite name="dockware/play:5.7.11, Command Runner" dockerImage="dockware/play:5.7.11" dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner</directory>
+        </testsuite>
+        
+        <testsuite name="Basic Checks" dockerImage="dockware/play:5.7.11">
             <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/packages/php/php7</directory>
+        </testsuite>
+         
+        <testsuite name="PHP 8.1, XDebug ON" dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8.1</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
-        <testsuite name="play:5.7.11, PHP 8.0"
-                   dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=8.0">
-            <directory>./../../tests/images/play</directory>
-            <directory>./../../tests/shared/base</directory>
+        <testsuite name="PHP 8.0, XDebug ON" dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
-        <testsuite name="play:5.7.11, PHP 7.4"
-                   dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=7.4">
-            <directory>./../../tests/images/play</directory>
-            <directory>./../../tests/shared/base</directory>
+        <testsuite name="PHP 7.4, XDebug ON" dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
-        <testsuite name="play:5.7.11, PHP 7.3"
-                   dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=7.3">
-            <directory>./../../tests/images/play</directory>
-            <directory>./../../tests/shared/base</directory>
+        <testsuite name="PHP 7.3, XDebug ON" dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
-        <testsuite name="play:5.7.11, PHP 7.2"
-                   dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=7.2">
-            <directory>./../../tests/images/play</directory>
-            <directory>./../../tests/shared/base</directory>
+        <testsuite name="PHP 7.2, XDebug ON" dockerImage="dockware/play:5.7.11" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
-    </testsuites>
-
-</svrunit>
+    </testsuites >
+</svrunit >
+    
