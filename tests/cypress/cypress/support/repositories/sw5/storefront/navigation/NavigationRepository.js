@@ -1,4 +1,4 @@
-class NavigationRepository {
+export default class NavigationRepository {
 
     /**
      *
@@ -8,6 +8,12 @@ class NavigationRepository {
         return cy.get(':nth-child(3) > .navigation--link > span');
     }
 
-}
+    /**
+     *
+     * @returns {*}
+     */
+    getMountainAirAdventure() {
+        return cy.get('.navigation--list-wrapper > .navigation--list > :nth-child(2) > .navigation--link > span')
+    }
 
-export default NavigationRepository;
+}

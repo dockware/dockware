@@ -1,17 +1,23 @@
 import NavigationRepository from 'Repositories/sw5/storefront/navigation/NavigationRepository';
+import Shopware from "Services/Shopware";
 
-class TopMenu {
+
+const shopware = new Shopware();
+
+export default class TopMenu {
 
     /**
      *
      */
-    clickOnClothing() {
+    clickOnFirstCategory() {
 
         const repo = new NavigationRepository();
 
-        repo.getClothingMenuItem().click();
+        if (shopware.isVersionGreaterEqual('5.3')) {
+            repo.getClothingMenuItem().click();
+        } else {
+            repo.getMountainAirAdventure().click();
+        }
     }
 
 }
-
-export default TopMenu;

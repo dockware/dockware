@@ -71,10 +71,10 @@ class PipelineBuilder
                cd tests/cypress && make run6 url=http://localhost
             fi
             if [[ $SW_VERSION == 6.* ]]; then
-               cd tests/cypress && make run6 url=http://localhost
+               cd tests/cypress && make run6 url=http://localhost shopware=$SW_VERSION
             fi
             if [[ $SW_VERSION == 5.* ]]; then
-               cd tests/cypress && make run5 url=http://localhost
+               cd tests/cypress && make run5 url=http://localhost shopware=$SW_VERSION
             fi
           env:
             DW_IMAGE: ' . $image . '

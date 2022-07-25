@@ -17,7 +17,7 @@ describe('Listing', () => {
 
         cy.visit('/');
 
-        topMenu.clickOnClothing();
+        topMenu.clickOnFirstCategory();
 
         cy.get('.product--box').should('be.visible');
     })
