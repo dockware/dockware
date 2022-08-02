@@ -2,14 +2,11 @@
 
     <testsuites>
 
-        <testsuite name="flex:latest, Command Runner"
-                   dockerImage="dockware/flex:latest"
-                   dockerCommandRunner="true">
+        <testsuite name="flex:latest, Command Runner" dockerImage="dockware/flex:latest" dockerCommandRunner="true">
             <directory>./../../tests/shared/command-runner</directory>
         </testsuite>
 
-        <testsuite name="Basic Checks"
-                   dockerImage="dockware/flex:latest">
+        <testsuite name="Basic Checks" dockerImage="dockware/flex:latest">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -19,55 +16,47 @@
             <directory>./../../tests/packages/node/v12</directory>
         </testsuite>
 
-        <testsuite name="ENV Node Version Switch"
-                   dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=14">
-            <directory>./../../tests/packages/node/v14</directory>
+
+        <testsuite name="ENV Node Version Switch" dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=16">
+            <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
 
-        <testsuite name="PHP 8.1, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 8.1, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8.1</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
         </testsuite>
 
-        <testsuite name="PHP 8.0, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 8.0, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8.0</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
         </testsuite>
 
-        <testsuite name="PHP 7.4, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 7.4, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
         </testsuite>
 
-        <testsuite name="PHP 7.3, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 7.3, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
         </testsuite>
 
-        <testsuite name="PHP 7.2, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 7.2, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
         </testsuite>
 
-        <testsuite name="PHP 7.1, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.1,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 7.1, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug2</directory>
         </testsuite>
 
-        <testsuite name="PHP 7.0, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 7.0, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug2</directory>
         </testsuite>
 
-        <testsuite name="PHP 5.6, XDebug ON"
-                   dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
+        <testsuite name="PHP 5.6, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php5</directory>
             <directory>./../../tests/packages/xdebug/xdebug2</directory>
         </testsuite>

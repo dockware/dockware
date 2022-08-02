@@ -2,6 +2,10 @@
 
     <testsuites>
 
+        <testsuite name="ENV Node Version Switch" dockerImage="dockware/contribute:latest" dockerEnv="NODE_VERSION=16">
+            <directory>./../../tests/packages/node/v16</directory>
+        </testsuite>
+
         <testsuite name="contribute:latest, PHP 8.1"
                    dockerImage="dockware/contribute:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/images/contribute</directory>
