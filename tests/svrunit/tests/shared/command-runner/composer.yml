@@ -1,0 +1,4 @@
+commands:
+  - name: "Composer has valid HOME directory"
+    command: "composer --version"
+    not_expected: "The HOME or COMPOSER_HOME environment variable must be set"
