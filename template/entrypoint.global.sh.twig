@@ -84,6 +84,11 @@ if [ $COMPOSER_VERSION = 2 ]; then
    sudo composer self-update --stable
    echo "-----------------------------------------------------------"
 fi
+
+# somehow we (once) had the problem that composer does not find a HOME directory
+# this was the solution
+export COMPOSER_HOME=/var/www
+
 {% endblock %}
 
 
