@@ -1,4 +1,4 @@
 commands:
-  #- name: "Yarn is installed and loaded"
-  #  command: "yarn -v"
-  #  expected: "1.22.19"
+  - name: "Yarn is installed and loaded"
+    command: "yarn -v"
+    expected: "1.22.19"
