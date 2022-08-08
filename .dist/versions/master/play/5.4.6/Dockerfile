@@ -681,7 +681,7 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/de/Download/redirect/version/sw5/file/install_5.4.6_f667f6471a77bb5af0c115f3e243594e6353747e.zip -qq -O /var/www/shopware.zip \
+    && wget http://releases.s3.shopware.com.s3.amazonaws.com/install_5.4.6_f667f6471a77bb5af0c115f3e243594e6353747e.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
