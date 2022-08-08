@@ -723,6 +723,11 @@ RUN ls -la \
     && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
+    # we have to install yarn in additional node versions
+    # otherwise it won't be found after a nvm switch
+    && nvm use 14 && npm install -g yarn \
+    && nvm use 16 && npm install -g yarn \
+    # -----------------------------------------------------------------------------------------
     && nvm use 12 \
     && nvm alias default 12  \
     # -----------------------------------------------------------------------------------------
@@ -747,7 +752,7 @@ RUN echo "" \
     && cd /var/www && npm install -g grunt-cli \
     && cd /var/www && npm install grunt --save-dev \
 
-    && npm install -g yarn \
+    && npm install -g --no-install-recommends yarn \
     && chown -R www-data:www-data /var/www/.composer \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
