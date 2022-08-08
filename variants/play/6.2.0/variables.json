@@ -1,7 +1,7 @@
 {
   "shopware": {
     "version": "6.2.0",
-    "download_url": "https://www.shopware.com/en/Download/redirect/version/sw6/file/install_6.2.0_1589874223.zip"
+    "download_url": "https://releases.shopware.com/sw6/install_6.2.0_1589874223.zip"
   },
   "php": {
     "versions": {

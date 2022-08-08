@@ -5,7 +5,7 @@
     },
     "shopware": {
         "version": "5.7.0",
-        "download_url": "https://www.shopware.com/en/Download/redirect/version/sw5/file/install_5.7.0_rc1_14d06ad0863d19356b49a312c01756957a6fef10.zip"
+        "download_url": "http://releases.s3.shopware.com.s3.amazonaws.com/install_5.7.0_rc1_14d06ad0863d19356b49a312c01756957a6fef10.zip"
     },
     "composer": {
         "version": 1

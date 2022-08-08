@@ -4,7 +4,7 @@
     },
     "shopware": {
         "version": "5.7.2",
-        "download_url": "https://www.shopware.com/en/Download/redirect/version/sw5/file/install_5.7.2_6999e975cec8fbe20799d98b1919c79fbec9e639.zip"
+        "download_url": "http://releases.s3.shopware.com.s3.amazonaws.com/install_5.7.2_6999e975cec8fbe20799d98b1919c79fbec9e639.zip"
     },
     "php": {
         "default_version": "8.0",

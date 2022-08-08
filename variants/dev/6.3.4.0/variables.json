@@ -2,7 +2,7 @@
   "shopware": {
     "env": "dev",
     "version": "6.3.4.0",
-    "download_url": "https://www.shopware.com/en/Download/redirect/version/sw6/file/install_v6.3.4.0_b1880879b247978c383c200018c4e1234cf6c340.zip"
+    "download_url": "https://releases.shopware.com/sw6/install_v6.3.4.0_733fa8e56afb3032f956ff094f19864b62c12e84.zip"
   },
   "composer": {
     "version": 1
