@@ -3,7 +3,7 @@
     <testsuites>
 
         <testsuite name="essentials:latest, Command Runner" dockerImage="dockware/essentials:latest" dockerCommandRunner="true">
-            <directory>./../../tests/shared/command-runner</directory>
+            <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
 
         <testsuite name="ENV Node Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=16">

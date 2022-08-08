@@ -3,7 +3,7 @@
     <testsuites>
 
         <testsuite name="flex:latest, Command Runner" dockerImage="dockware/flex:latest" dockerCommandRunner="true">
-            <directory>./../../tests/shared/command-runner</directory>
+            <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
 
         <testsuite name="Basic Checks" dockerImage="dockware/flex:latest">
