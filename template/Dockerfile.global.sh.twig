@@ -384,6 +384,11 @@ RUN ls -la \
     && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
+    # we have to install yarn in additional node versions
+    # otherwise it won't be found after a nvm switch
+    && nvm use 14 && npm install -g yarn \
+    && nvm use 16 && npm install -g yarn \
+    # -----------------------------------------------------------------------------------------
     && nvm use {{ node.version }} \
     && nvm alias default {{ node.version }}  \
     # -----------------------------------------------------------------------------------------
@@ -414,7 +419,7 @@ RUN echo "" \
 {% endblock %}
 
 {% block components_packagers_yarn %}
-    && npm install -g yarn \
+    && npm install -g --no-install-recommends yarn \
     && chown -R www-data:www-data /var/www/.composer \
 {% endblock %}
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
