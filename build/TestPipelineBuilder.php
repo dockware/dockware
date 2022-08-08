@@ -75,9 +75,13 @@ class TestPipelineBuilder
     ';
 
         $xml .= '
-        <testsuite name="' . $imageFull . ', Command Runner" dockerImage="' . $imageFull . '" dockerCommandRunner="true">
-            <directory>./../../tests/shared/command-runner</directory>
-        </testsuite>
+        <testsuite name="' . $imageFull . ', Command Runner" dockerImage="' . $imageFull . '" dockerCommandRunner="true">' . PHP_EOL;
+        if ($isDev) {
+            $xml .= '            <directory>./../../tests/shared/command-runner/dev</directory>' . PHP_EOL;
+        } else {
+            $xml .= '            <directory>./../../tests/shared/command-runner/play</directory>' . PHP_EOL;
+        }
+        $xml .= '        </testsuite>
         ';
 
         # -------------------------------------------------------------------------------------------------------------------------------
@@ -102,7 +106,7 @@ class TestPipelineBuilder
 
         if ($isDev) {
             $xml .= '
-        <testsuite name="ENV Node Version Switch" dockerImage="'.$imageFull.'" dockerEnv="NODE_VERSION=16">
+        <testsuite name="ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=16">
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
             ';

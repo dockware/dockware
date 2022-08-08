@@ -2,7 +2,7 @@
     <testsuites>
     
         <testsuite name="dockware/dev:6.4.2.0-rc, Command Runner" dockerImage="dockware/dev:6.4.2.0-rc" dockerCommandRunner="true">
-            <directory>./../../tests/shared/command-runner</directory>
+            <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
         
         <testsuite name="Basic Checks" dockerImage="dockware/dev:6.4.2.0-rc">
