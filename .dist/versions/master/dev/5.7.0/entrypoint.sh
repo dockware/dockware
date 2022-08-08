@@ -68,6 +68,10 @@ if [ $COMPOSER_VERSION = 2 ]; then
    echo "-----------------------------------------------------------"
 fi
 
+# somehow we (once) had the problem that composer does not find a HOME directory
+# this was the solution
+export COMPOSER_HOME=/var/www
+
 if [ $TIDEWAYS_KEY != "not-set" ]; then
     echo "DOCKWARE: activating Tideways...."
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
