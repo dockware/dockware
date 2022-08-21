@@ -47,9 +47,9 @@ class PipelineBuilder
             path: |
                 .reports
         
-        - name: SVRUnit JUnit Reporter
+        - name: Build JUnit Report
           uses: dorny/test-reporter@v1
-          if: success() || failure()
+          if: always()
           with:
             name: SVRUnit Tests
             path: .reports/report.xml

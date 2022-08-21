@@ -96,7 +96,7 @@ class TestPipelineBuilder
         }
 
         $xml .= '
-        <testsuite name="Basic Checks" dockerImage="' . $imageFull . '">
+        <testsuite name="' . $imageFull . ', Basic Checks" dockerImage="' . $imageFull . '">
             <directory>./../../tests/shared/base</directory>' . $devPart . '
             <directory>./../../tests/packages/php/php' . $defaultPHP . '</directory>
         </testsuite>
@@ -106,7 +106,7 @@ class TestPipelineBuilder
 
         if ($isDev) {
             $xml .= '
-        <testsuite name="ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=16">
+        <testsuite name="' . $imageFull . ', ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=16">
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
             ';
@@ -187,7 +187,7 @@ class TestPipelineBuilder
     private function buildVersion($imageFull, $fullPHP, $php, $xDebug, $sodium)
     {
         $xml = PHP_EOL;
-        $xml .= '        <testsuite name="PHP ' . $fullPHP . ', XDebug ON" dockerImage="' . $imageFull . '" dockerEnv="PHP_VERSION=' . $fullPHP . ',XDEBUG_ENABLED=1">' . PHP_EOL;
+        $xml .= '        <testsuite name="' . $imageFull . ', PHP ' . $fullPHP . ', XDebug ON" dockerImage="' . $imageFull . '" dockerEnv="PHP_VERSION=' . $fullPHP . ',XDEBUG_ENABLED=1">' . PHP_EOL;
         $xml .= '            <directory>./../../tests/packages/php/php' . $php . '</directory>' . PHP_EOL;
 
         if (!empty($xDebug)) {
