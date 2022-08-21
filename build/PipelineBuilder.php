@@ -46,7 +46,15 @@ class PipelineBuilder
             retention-days: 3
             path: |
                 .reports
-                
+        
+        - name: SVRUnit JUnit Reporter
+          uses: dorny/test-reporter@v1
+          if: success() || failure()
+          with:
+            name: SVRUnit Tests
+            path: .reports/report.xml
+            reporter: jest-junit
+                    
         - name: Start Image
           run: |
             docker run --rm -p 80:80 --name shop -d dockware/' . $image . ':' . $tag . '
