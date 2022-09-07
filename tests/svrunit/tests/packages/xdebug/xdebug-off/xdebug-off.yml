@@ -1,5 +1,5 @@
 commands:
-  - name: "Xdebug v2.x"
+  - name: "Xdebug not active"
     command: "php -v"
     not_expected: "with Xdebug"
   - name: "Xdebug not Corrupted"
