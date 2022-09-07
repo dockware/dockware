@@ -45,12 +45,6 @@ sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
 sudo dpkg-reconfigure -f noninteractive tzdata
 echo "-----------------------------------------------------------"
 
-if [ $XDEBUG_ENABLED = 1 ]; then
-   sh /var/www/scripts/bin/xdebug_enable.sh
- else
-   sh /var/www/scripts/bin/xdebug_disable.sh
-fi
-
 if [ $FILEBEAT_ENABLED = 1 ]; then
    echo "DOCKWARE: activating Filebeat..."
    sudo service filebeat start --strict.perms=false
@@ -164,6 +158,12 @@ echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
 cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
+
+if [ $XDEBUG_ENABLED = 1 ]; then
+   sh /var/www/scripts/bin/xdebug_enable.sh
+ else
+   sh /var/www/scripts/bin/xdebug_disable.sh
+fi
 
 if [[ ! -z "$NODE_VERSION" ]]; then
    echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
