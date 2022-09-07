@@ -23,11 +23,17 @@
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
             <directory>./../../tests/packages/sodium</directory>
         </testsuite>
+        <testsuite name="dockware/dev:5.7.10, PHP 8.1, XDebug OFF" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug-off/xdebug-off</directory>
+        </testsuite>
 
         <testsuite name="dockware/dev:5.7.10, PHP 8.0, XDebug ON" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
             <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+        <testsuite name="dockware/dev:5.7.10, PHP 8.0, XDebug OFF" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug-off/xdebug-off</directory>
         </testsuite>
 
         <testsuite name="dockware/dev:5.7.10, PHP 7.4, XDebug ON" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
@@ -35,17 +41,26 @@
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
             <directory>./../../tests/packages/sodium</directory>
         </testsuite>
+        <testsuite name="dockware/dev:5.7.10, PHP 7.4, XDebug OFF" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug-off/xdebug-off</directory>
+        </testsuite>
 
         <testsuite name="dockware/dev:5.7.10, PHP 7.3, XDebug ON" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
             <directory>./../../tests/packages/sodium</directory>
         </testsuite>
+        <testsuite name="dockware/dev:5.7.10, PHP 7.3, XDebug OFF" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.3,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug-off/xdebug-off</directory>
+        </testsuite>
 
         <testsuite name="dockware/dev:5.7.10, PHP 7.2, XDebug ON" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
             <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+        <testsuite name="dockware/dev:5.7.10, PHP 7.2, XDebug OFF" dockerImage="dockware/dev:5.7.10" dockerEnv="PHP_VERSION=7.2,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug-off/xdebug-off</directory>
         </testsuite>
 
     </testsuites >
