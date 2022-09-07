@@ -57,13 +57,6 @@ echo "-----------------------------------------------------------"
 
 {% block components %}
 
-{% block components_xdebug %}
-if [ $XDEBUG_ENABLED = 1 ]; then
-   sh /var/www/scripts/bin/xdebug_enable.sh
- else
-   sh /var/www/scripts/bin/xdebug_disable.sh
-fi
-{% endblock %}
 
 {% block components_filebeat %}
 if [ $FILEBEAT_ENABLED = 1 ]; then
@@ -204,6 +197,15 @@ echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
 cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
+{% endblock %}
+
+{% block components_xdebug %}
+{# this block needs to be after php version change that we en/disable the correct xdebug for the correct php version #}
+if [ $XDEBUG_ENABLED = 1 ]; then
+   sh /var/www/scripts/bin/xdebug_enable.sh
+ else
+   sh /var/www/scripts/bin/xdebug_disable.sh
+fi
 {% endblock %}
 
 
