@@ -1,5 +1,8 @@
 {
     "images": {
+        "base": [
+            "base/latest:latest"
+        ],
         "flex": [
             "flex/latest:latest",
             "flex/beta:beta"

@@ -1,0 +1,34 @@
+{% extends "template/assets/assets/scripts/makefile.twig" %}
+
+
+{% block watcher_storefront %}
+watch-storefront: ## starts watcher for storefront at {{ shopware.url }}
+	@echo "RequestHeader add hot-reload-mode 1\n"\
+	"RequestHeader add hot-reload-port 9999" > /var/www/html/.htaccess.watch
+	cd /var/www/html && php bin/console theme:dump
+	cd /var/www/html && php psh.phar storefront:hot-proxy
+
+stop-watch-storefront: ## Reverts everything back to normal operation
+	@rm -rf /var/www/html/.htaccess.watch
+
+# ---------------------------------------------------------------------------------------------
+{% endblock %}
+
+
+{% block watcher_admin %}
+watch-admin: ## starts watcher for admin at {{ shopware.url }}:8888
+	cd /var/www/html && PROJECT_ROOT=/var/www/html APP_URL={{ shopware.url }} ESLINT_DISABLE=true PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env npm run --prefix vendor/shopware/platform/src/Administration/Resources/app/administration/ dev
+{% endblock %}
+
+
+{% block build_admin %}
+{% endblock %}
+
+
+{% block contribute_pull %}
+# ---------------------------------------------------------------------------------------------
+pull: ## pulls the latest github version and installs everything again
+	cd /var/www/html && git pull
+	cd /var/www/html/platform && git pull
+	cd /var/www/html && ./psh.phar install
+{% endblock %}

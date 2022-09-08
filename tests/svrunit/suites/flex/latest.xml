@@ -64,7 +64,7 @@
         <testsuite name="PHP 8.1, XDebug OFF" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=0">
             <directory>./../../tests/packages/xdebug/xdebug-off</directory>
         </testsuite>
-        
+
     </testsuites>
 
 </svrunit>
