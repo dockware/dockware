@@ -22,16 +22,10 @@
             <directory>./../../tests/packages/php/php8</directory>
             <directory>./../../tests/packages/sodium</directory>
         </testsuite>
-        <testsuite name="dockware/play:6.1.4, PHP 8.0, XDebug OFF" dockerImage="dockware/play:6.1.4" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
-        </testsuite>
 
         <testsuite name="dockware/play:6.1.4, PHP 7.4, XDebug ON" dockerImage="dockware/play:6.1.4" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php7</directory>
             <directory>./../../tests/packages/sodium</directory>
-        </testsuite>
-        <testsuite name="dockware/play:6.1.4, PHP 7.4, XDebug OFF" dockerImage="dockware/play:6.1.4" dockerEnv="PHP_VERSION=7.4,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
         </testsuite>
 
     </testsuites >

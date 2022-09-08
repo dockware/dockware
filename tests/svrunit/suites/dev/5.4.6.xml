@@ -30,9 +30,6 @@
             <directory>./../../tests/packages/php/php5</directory>
             <directory>./../../tests/packages/xdebug/xdebug2</directory>
         </testsuite>
-        <testsuite name="dockware/dev:5.4.6, PHP 5.6, XDebug OFF" dockerImage="dockware/dev:5.4.6" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
-        </testsuite>
 
     </testsuites >
 </svrunit >
