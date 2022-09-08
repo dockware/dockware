@@ -21,7 +21,10 @@ COPY ./config/php/xdebug-3.ini /tmp/xdebug-3.ini
 
 COPY ./config/apache/apache2.conf /tmp/apache2.conf
 COPY ./config/apache/ports.conf /tmp/ports.conf
-COPY ./config/apache/sites.conf /tmp/000-default.conf
+COPY ./config/apache/sites.conf /tmp/sites.conf
+
+COPY ./config/php/general.ini /tmp/general.ini
+COPY ./config/php/cli.ini /tmp/cli.ini
 
 {% block image_variables %}
 ## ***********************************************************************
@@ -167,7 +170,7 @@ RUN date >/build-date.txt \
 #need to be added after installation
 && cat /tmp/apache2.conf >> /etc/apache2/apache2.conf \
 && cat /tmp/ports.conf >> /etc/apache2/ports.conf \
-&& cat /tmp/sites.conf /etc/apache2/sites-enabled /000-default.conf \
+&& cat /tmp/sites.conf >> /etc/apache2/sites-enabled/000-default.conf \
 
 {% endblock %}
 
@@ -185,22 +188,19 @@ RUN date >/build-date.txt \
 {% for key,value in php.versions %}
 {% if value.active == true %}
 {% include "template/components/php/#{ key }/install.sh.twig" %}
+
+&& cat /tmp/general.ini >> /etc/php/{{ key }}/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >> /etc/php/{{ key }}/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >> /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini \
+
 {% endif %}
 {% endfor %}
 
-#clean up layer
-&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+# remove pecl again
+&& apt-get remove -y dh-php \
 
-{% for key,value in php.versions %}
-{% if value.active == true %}
-COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
-{% endif %}
-{% endfor %}
-RUN sudo apt-get update \
 #make sure the installation runs also in default php version
-&& sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 & \
+&& sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 \
 # make sure the installation runs using our default php version
 && service php{{ php.default_version }}-fpm stop > /dev/null 2>&1 && \
     service php{{ php.default_version }}-fpm start && \
@@ -350,14 +350,16 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 
 RUN chown www-data:www-data -R /var/www/scripts \
 #make sure for the whole installation xdebug is off for performance
-&& sh /var/www/scripts/bin/xdebug_disable.sh \
-&& chmod 755 /*.sh \
+&& sh /var/www/scripts/bin/xdebug_disable.sh
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh \
 
 && chown 33:33 -R /var/www/html && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    chown 33:33 /var/www/.nvm -R
+    chown 33:33 /var/www/.nvm -R \
+    && rm -rf /tmp/*
 
 
 ## ***********************************************************************
@@ -374,5 +376,5 @@ WORKDIR /var/www/html
 ## ***********************************************************************
 ##  POST BUILD
 ## ***********************************************************************
-ADD entrypoint.sh /entrypoint.sh
+
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
