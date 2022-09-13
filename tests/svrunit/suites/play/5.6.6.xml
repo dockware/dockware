@@ -10,17 +10,6 @@
             <directory>./../../tests/packages/php/php5</directory>
         </testsuite>
          
-        <testsuite name="dockware/play:5.6.6, PHP 7.0, XDebug ON" dockerImage="dockware/play:5.6.6" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
-            <directory>./../../tests/packages/php/php7</directory>
-        </testsuite>
-        <testsuite name="dockware/play:5.6.6, PHP 7.0, XDebug OFF" dockerImage="dockware/play:5.6.6" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
-        </testsuite>
-
-        <testsuite name="dockware/play:5.6.6, PHP 5.6, XDebug ON" dockerImage="dockware/play:5.6.6" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
-            <directory>./../../tests/packages/php/php5</directory>
-        </testsuite>
-
     </testsuites >
 </svrunit >
     
