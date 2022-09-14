@@ -7,297 +7,105 @@ LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
       version="{{version}}" \
       maintainer="dasistweb GmbH"
 
-# remember build-date
-RUN date >/build-date.txt && \
-    mkdir -p /var/www && \
-    mkdir -p /var/www/scripts
+USER root
 
-# add our changelog to the containers
-ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
+ADD entrypoint.sh /entrypoint.sh
+{% block assets_install %}
+# copy our custom configuration to the image
+{% block asset_mysql %}
+{% if mysql.mysql8 == true %}
+COPY ./config/mysql/my-8.cnf /tmp/my.cnf
+{% else %}
+COPY ./config/mysql/my.cnf /tmp/my.cnf
+{% endif %}
+
+{% endblock %}
+COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
+
+COPY ./assets/scripts/makefile /var/www/makefile
+COPY ./assets/scripts/bin /var/www/scripts/bin
+COPY ./assets/scripts/cron /var/www/scripts/cron
 
 
+{% block assets_install_shopware6 %}
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+COPY ./assets/shopware6/files /var/www/scripts/shopware6
+{% endblock %}
+{% endblock %}
 
 {% block image_variables %}
-## ***********************************************************************
-##  IMAGE VARIABLES
-## ***********************************************************************
-{% block image_variables_main %}
-ENV TZ Europe/Berlin
-ENV PHP_VERSION {{php.default_version}}
-ENV APACHE_DOCROOT {{ apache.docroot }}
-ENV SW_TASKS_ENABLED 0
-ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION {{ node.version }}
-RUN echo "export TZ=${TZ}" >> /etc/profile \
- && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
- && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
- && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
- && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
- && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
-{% endblock %}
-
-{% block image_variables_dev %}
-
-ENV SSH_USER not-set
-ENV SSH_PWD not-set
-ENV XDEBUG_REMOTE_HOST "host.docker.internal"
-ENV XDEBUG_CONFIG "idekey=PHPSTORM"
-ENV PHP_IDE_CONFIG "serverName=localhost"
-ENV XDEBUG_ENABLED 0
-ENV FILEBEAT_ENABLED 0
-ENV TIDEWAYS_KEY not-set
-ENV TIDEWAYS_ENV production
-ENV TIDEWAYS_SERVICE web
-
-
-RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
- && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
- && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
- && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
- && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
- && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
- && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
- && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
- && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
- && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
-{% endblock %}
 
 {% block image_variables_mysql %}
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set
-RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
-    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_sw_currency %}
 ENV SW_CURRENCY 'not-set'
-RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_sw_api_access_key %}
 ENV SW_API_ACCESS_KEY 'not-set'
-RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
+{% endblock %}
 {% endblock %}
 
+
+RUN sudo rm -rf /build-data.text \
+ && date >| /build-date.txt \
+ && apt-get update \
+
+{% block image_variables_export %}
+    {% block image_variables_export_mysql %}
+    && echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
+    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile \
+    {% endblock %}
+
+    {% block image_variables_export_sw_api_access_key %}
+    && echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile \
+    {% endblock %}
+    {% block image_variables_export_sw_currency %}
+    && echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile \
+    {% endblock %}
 {% endblock %}
-
-
-## ***********************************************************************
-##  BASE REQUIREMENTS
-## ***********************************************************************
-RUN apt-get update \
-    {% block base %}
-    && apt-get install -y gosu \
-    && apt-get install -y sudo \
-    && apt-get install -y wget \
-    && apt-get install -y curl \
-    && apt-get install -y unzip \
-    && apt-get install -y bzip2 \
-    && apt-get install -y ssmtp \
-    && apt-get install -y lsof \
-    && apt-get install -y openssh-server \
-    && apt-get install -y cron \
-    && apt-get install -y vim \
-    && apt-get install -y nano \
-    && apt-get install -y jq \
-    && apt-get install -y gnupg2 \
-    && apt-get install -y gpg-agent \
-    && apt-get install -y chromium-browser \
-    && mkdir /var/run/sshd \
-    # TIMEZONE SETTINGS
-    # otherwise we would have an interactive input dialog
-    && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-    {% block base_tzdata %}
-    && apt-get install -y tzdata \
-    && dpkg-reconfigure --frontend noninteractive tzdata  \
-    {% endblock %} \
-    {% block base_xdg %}
-    && apt-get install -y xdg-utils \
-    {% endblock %}
-    {% block base_sodium %}
-    && apt-get install -y libsodium-dev \
-    && apt-get install -y php-dev \
-    && apt-get install -y php-pear \
-    && pecl install -f libsodium \
-    && apt-get remove -y php-pear \
-    && apt-get remove -y php-dev \
-    {% endblock %}
-    {% endblock %}
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
 
 {% block users %}
-## ***********************************************************************
-##  USER MANAGEMENT
-## ***********************************************************************
-{% block users_setup %}
-# set easy root pwd for dev purpose
-RUN echo "root:root" | chpasswd \
-    # set password for www-data, and also
-    # avoid shell login (we have a separate user for that)
-    && echo 'www-data:www-data' | chpasswd \
-    && usermod -s /usr/sbin/nologin www-data \
-    # this option makes sure to avoid root SSH login
-    # we just replace our lines with nothing
-    && sed -i 's/PermitRootLogin without-password//' /etc/ssh/sshd_config \
-    && sed -i 's/PermitRootLogin prohibit-password//' /etc/ssh/sshd_config \
-    # allow root and sudo group to run sudo without password
-    && sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' \
-    && sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' \
-    # remove include directory
-    && sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g'
-{% endblock %}
-
-{% block users_ssh_add %}
-{% include 'template/components/ssh/add_user.sh.twig' with {'user': ssh.user.name, 'pwd' : ssh.user.pwd, 'sudo' : true } %}
-{% endblock %}
-
-{% block users_ssh_connection %}
-RUN echo 'AllowUsers {{ ssh.user.name }}' >> /etc/ssh/sshd_config
-{% endblock %}
-
-{% block users_bashrc %}
-ENV BASH_ENV /var/www/.bashrc
-
-RUN echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
-    # -------------------------------------------------
-    && chown 33:33 /var/www/.bashrc \
-    # -------------------------------------------------
-    && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile
+{% block users_ssh_add %}{% endblock %}
+{% block users_ssh_connection %}{% endblock %}
+{% block users_bashrc %}{% endblock %}
 {% endblock %}
 
 
-{% endblock %}
+{% block apache %}{% endblock %}
+
+{% block php %}{% endblock %}
 
 
-{% block apache %}
-## ***********************************************************************
-##  APACHE INSTALLATION
-## ***********************************************************************
-#this conf is needed for enconf command ...
-ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
+{% block permissions %}{% endblock %}
 
-{% include 'template/components/apache2/install.sh.twig' %}
-
-ADD ./config/apache/apache2.conf /etc/apache2/apache2.conf
-ADD ./config/apache/ports.conf /etc/apache2/ports.conf
-ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
-
-{% endblock %}
-
-# create a new id_rsa for the www-data dockeruser.
-# thus we have a SSH Key for connections out of the box
-{% set id_rsa_vars = { 'user' : 'www-data', 'group' : 'www-data', 'directory': '/var/www/.ssh', 'comment' : 'Dockware Container'} %}
-{% include 'template/components/ssh/create_key.sh.twig' with id_rsa_vars %}
-
-
-
-{% block php %}
-## ***********************************************************************
-##  PHP INSTALLATION
-## ***********************************************************************
-{% for key,value in php.versions %}
-{% if value.active == true %}
-{% include "template/components/php/#{ key }/install.sh.twig" %}
-
-COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
-
-
-{% endif %}
-{% endfor %}
-#make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 &
-# make sure the installation runs using our default php version
-RUN service php{{ php.default_version }}-fpm stop > /dev/null 2>&1 && \
-    service php{{ php.default_version }}-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1
-
-
-# make sure our php user has rights on the session
-RUN chown www-data:www-data -R /var/lib/php/sessions
-{% endblock %}
-
-# remove the standard apache index file
-RUN mkdir -p /var/www/html \
-    && rm -rf /var/www/html/* \
-    && chown -R www-data:www-data /var/www/html \
-    && sudo -u www-data sh -c 'mkdir -p /var/www/html/public'
-
-
-{% block permissions %}
-# make sure the configured log folder exists and is writeable
-RUN chmod -R 0777 /var/www \
-    && chgrp -R www-data /var/log/apache2 \
-    && mkdir -p /var/log/mysql \
-    && chgrp -R www-data /var/log/mysql\
-    && mkdir /var/log/php -p  \
-    && touch /var/log/php/cli_errors.log  \
-    && touch /var/log/php/fpm_errors.log  \
-    && chown -R www-data:www-data /var/log/php  \
-    && chmod 0755 /var/log/php
-{% endblock %}
-
-{% block ssl %}
-## ***********************************************************************
-##  MOD_SSL
-##  create SSL certificate
-## ***********************************************************************
-RUN apt-get update \
-    && apt-get install -y openssl \
-    && a2enmod ssl \
-    && mkdir /etc/apache2/ssl \
-    && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-{% endblock %}
+{% block ssl %}{% endblock %}
 
 
 
 {% block components %}
-
-RUN apt-get update \
-
-{% block components_dev_tools %}
-    && apt-get install -y rsync \
-    && apt-get install -y sshpass \
-    && apt-get install -y jpegoptim \
-    && apt-get install -y screen \
-    && apt-get install -y mysql-client \
-{% endblock %}
-
-{% block components_git %}
-    && apt-get install -y git
-{% endblock %}
-
-
+{% block components_dev_tools %}{% endblock %}
+{% block components_git %}{% endblock %}
 
 {% block components_packagers %}
-{% block components_packagers_composer %}
-{% if composer.version == 1 %}
-{% include 'template/components/composer/v1/install.sh.twig' %}
-{% else %}
-{% include 'template/components/composer/v2/install.sh.twig' %}
-{% endif %}
+{% block components_packagers_composer %}{% endblock %}
 {% endblock %}
 
 
-
-{% endblock %}
-
-
-{% block components_xdebug %}
-{% include 'template/components/xdebug/base.sh.twig' %}
-{% endblock %}
+{% block components_xdebug %}{% endblock %}
 
 
 
 {% block components_mysql %}
-{% include 'template/components/mysql/5.7/install.sh.twig' with { 'pwd' : db.pwd } %}
+{% if mysql.mysql8 == true %}
+{% include 'template/components/mysql/install-8.sh.twig' with { 'pwd' : db.pwd } %}
+{% else %}
+{% include 'template/components/mysql/install.sh.twig' with { 'pwd' : db.pwd } %}
+{% endif %}
 
-RUN service mysql start && \
-    mysql --user={{ db.user }} --password={{ db.pwd }} -e "use mysql; update user set host='%' where host='localhost';" && \
-    service mysql restart
 {% endblock %}
 
 
@@ -309,132 +117,42 @@ RUN service mysql start && \
 {% block components_mailcatcher %}
 {% include 'template/components/mailcatcher/install.sh.twig' %}
 
-RUN {% for key,value in php.versions %}
+{% for key,value in php.versions %}
 {% if value.active==1 %}
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ key }}/mods-available/mailcatcher.ini && \
+&& echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ key }}/mods-available/mailcatcher.ini \
 {% endif %}
 {% endfor %}
-    echo ""
 {% endblock %}
 
 {% block components_pimpmylog %}
-RUN mkdir -p /var/www/pimpmylog && \
-    wget -O - https://github.com/potsky/PimpMyLog/tarball/master | tar xzf - && \
-    mv potsky-PimpMyLog-* /var/www/pimpmylog && \
-    mv /var/www/pimpmylog/potsky-PimpMyLog-2fed8c1/* /var/www/pimpmylog && \
-    rm -rf /var/www/pimpmylog/potsky-PimpMyLog-*
-
-COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
-COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
-
-# apply our custom file with fixes for PHP 8
-# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
-COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
-
-RUN chown -R www-data:www-data /var/www/pimpmylog/
+&& rm -rf /var/www/pimpmylog ||true \
+&& mkdir /var/www/pimpmylog \
+    && cd /var/www/pimpmylog \
+    && wget -O - https://github.com/potsky/PimpMyLog/tarball/master | tar xzf - \
+    && mv /var/www/pimpmylog/potsky-PimpMyLog-2fed8c1/* /var/www/pimpmylog \
+    && rm -rf /var/www/pimpmylog/potsky-PimpMyLog-* \
+&& chown -R www-data:www-data /var/www/pimpmylog/ \
 {% endblock %}
 
 {% block components_filebeat %}
-RUN apt-get update \
     && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
     &&  apt-get install -y apt-transport-https \
     &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
-    &&  apt-get update && apt-get install filebeat \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    &&  apt-get update \
+    && apt-get install filebeat \
+{% endblock %}
 {% endblock %}
 
 
-{% block components_nvm %}
-RUN ls -la \
-    && mkdir "/var/www/.nvm" \
-    && export NVM_DIR="/var/www/.nvm" \
-    # -----------------------------------------------------------------------------------------
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    # -----------------------------------------------------------------------------------------
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    # -----------------------------------------------------------------------------------------
-    && nvm install 16 \
-    && nvm install 14 \
-    && nvm install 12 \
-    # -----------------------------------------------------------------------------------------
-    # we have to install yarn in additional node versions
-    # otherwise it won't be found after a nvm switch
-    && nvm use 14 && npm install -g yarn \
-    && nvm use 16 && npm install -g yarn \
-    # -----------------------------------------------------------------------------------------
-    && nvm use {{ node.version }} \
-    && nvm alias default {{ node.version }}  \
-    # -----------------------------------------------------------------------------------------
-    && echo ""
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
-{% endblock %}
-
-RUN echo "" \
-{% block components_node %}
-    # -----------------------------------------------------------
-    # we have to reload the correct nvm version otherwise this would destroy it
-    && export NVM_DIR="/var/www/.nvm" \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use {{ node.version }} \
-    # -----------------------------------------------------------
-    && mkdir /var/www/.npm \
-    && npm config set cache /var/www/.npm \
-    && chown 33:33 /var/www/.npm \
-{% endblock %}
-
-{% block components_grunt %}
-    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
-    && cd /var/www && npm install -g grunt-cli \
-    && cd /var/www && npm install grunt --save-dev \
-{% endblock %}
-
-{% block components_packagers_yarn %}
-    && npm install -g --no-install-recommends yarn \
-    && chown -R www-data:www-data /var/www/.composer \
-{% endblock %}
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-
-{% block components_tideways %}
-RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
-    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
-    && sudo apt-get -y update  \
-    && sudo apt-get -y install tideways-php tideways-daemon  \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
-
-{% for key,value in php.versions %}
-COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
-{% endfor %}
-{% endblock %}
-
-
-{% endblock %}
-
-
-{% block assets_install %}
-COPY ./assets/scripts/makefile /var/www/makefile
-COPY ./assets/scripts/bin /var/www/scripts/bin
-COPY ./assets/scripts/cron /var/www/scripts/cron
-
-{% block assets_install_shopware6 %}
-COPY ./assets/shopware6/files /var/www/scripts/shopware6
-{% endblock %}
-
-{% endblock %}
-
-RUN chown www-data:www-data -R /var/www/scripts
+&& chown www-data:www-data -R /var/www/scripts \
 #make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
+&& sh /var/www/scripts/bin/xdebug_disable.sh \
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+#clear layer
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+
+&& chmod 755 /*.sh \
 
 
 
@@ -445,57 +163,59 @@ RUN chmod 755 /*.sh
 ## ***********************************************************************
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
-RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
+&& rm -rf /var/www/html/* \
+    && echo ""
+USER {{ ssh.user.name }}
+
+    RUN wget --no-check-certificate {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
-    && rm -rf /var/www/shopware.zip
+    && rm -rf /var/www/shopware.zip \
 {% endblock %}
 
 {% block shopware_prepare %}
 
 {% block shopware_prepare_env %}
-RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
-    echo "APP_SECRET=1" >> /var/www/html/.env && \
-    echo "INSTANCE_ID=1" >> /var/www/html/.env && \
-    echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
-    echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env && \
-    echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
-    echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
+&& echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env \
+    && echo "APP_SECRET=1" >> /var/www/html/.env \
+    && echo "INSTANCE_ID=1" >> /var/www/html/.env \
+    && echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env \
+    && echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env \
+    && echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env \
+    && echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env \
+    && echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env \
 {% endblock %}
 
-
-RUN sudo service mysql start && \
+&& sudo service mysql start \
     # switch to default PHP before installing
-    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
+    && sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 \
     # -------------------------------------------------------------------------------------------
-    cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
+    && cd /var/www/html && php bin/console system:install --create-database --basic-setup \
     # make sure assets like logos are ready
-    cd /var/www/html && php bin/console assets:install && \
+    && cd /var/www/html && php bin/console assets:install \
     # -------------------------------------------------------------------------------------------
     # add some demo data
     {% if version_gte(shopware.version, '6.2.0-rc1') %}
-    cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
-    cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
-    cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
+    && cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData \
+    && cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh \
+    && cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData \
     {% else %}
     # -------------------------------------------------------------------------------------------
-    cd /var/www/html && APP_ENV=prod php bin/console framework:demodata && \
+    && cd /var/www/html && APP_ENV=prod php bin/console framework:demodata \
     {% endif %}
     # -------------------------------------------------------------------------------------------
     # clear cache and refresh dal index to show the new demo data
-    cd /var/www/html && php bin/console cache:clear && \
-    cd /var/www/html && php bin/console dal:refresh:index && \
-    rm -rf /var/www/html/var/cache/* && \
+    && cd /var/www/html && php bin/console cache:clear \
+    && cd /var/www/html && php bin/console dal:refresh:index \
+    && rm -rf /var/www/html/var/cache/* \
     # -------------------------------------------------------------------------------------------
-    mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
-    sudo service mysql stop
+    && mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" \
+    && sudo service mysql stop \
 {% endblock %}
 
 {% block shopware_dev %}
 
 {% block shopware_dev_install %}
-RUN sudo service mysql start \
+&& sudo service mysql start \
     # -------------------------------------------------------------------------------------------
     # fix weird problem with invalid phpunit file
     # without this, it cannot find an autoload and thus it
@@ -506,30 +226,42 @@ RUN sudo service mysql start \
     # install and pre-build our admin and storefront
     && cd /var/www/html && ./bin/build.sh \
     && cd /var/www/html && php bin/console theme:compile \
-    && sudo service mysql stop
+    && sudo service mysql stop \
 {% endblock %}
 
 {% block shopware_dev_plugin %}
-COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
-RUN sudo service mysql start && \
-    cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
-    rm -rf /var/www/html/var/cache/* && \
-    sudo service mysql stop
+
+&& sudo service mysql start \
+    && cd /var/www/html && php bin/console plugin:refresh \
+    && cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin \
+    && cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin \
+    && rm -rf /var/www/html/var/cache/* \
+    && sudo service mysql stop
+{% endblock %}
+{% endblock %}
 {% endblock %}
 
+
+
+{% block assets_install_pimpmylog %}
+COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
+COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
+
+# apply our custom file with fixes for PHP 8
+# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
+COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 {% endblock %}
 
-{% endblock %}
-
-
-RUN chown 33:33 -R /var/www/html && \
+RUN chown 33:33 -R /var/www/html \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    chown 33:33 /var/www/.nvm -R
+    && chown 33:33 /var/www/.nvm -R \
+    && chown 33:33 -R /var/www/pimpmylog \
+
+
+
 
 
 ## ***********************************************************************

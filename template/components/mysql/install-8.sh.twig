@@ -1,0 +1,23 @@
+## ***********************************************************************
+##  MYSQL INSTALL
+## ***********************************************************************
+
+# install mysql server
+&& apt-get update \
+&& apt-get install -y -q mysql-server \
+# set required permissions
+&& usermod -d /var/lib/mysql/ mysql \
+#add www-data dockware user to the mysql group to access the mysql.sock and mysql cli tool
+&& usermod -a -G mysql dockware \
+&& sudo chmod 0775 -R /var/run/mysqld/ \
+
+
+&& cat /tmp/my.cnf >| /etc/mysql/my.cnf \
+# i dont know why, but this is suddenly required
+&& chmod 0444 /etc/mysql/my.cnf \
+&& service mysql start \
+#creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
+&& sudo mysql -e "CREATE USER 'dockware'@'%' IDENTIFIED WITH mysql_native_password BY 'dockware';GRANT ALL PRIVILEGES ON *.* TO 'dockware'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
+&& sudo mysql -e "CREATE USER 'dockware'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dockware';GRANT ALL PRIVILEGES ON *.* TO 'dockware'@'localhost' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
+
+&& service mysql restart \

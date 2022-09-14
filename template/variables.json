@@ -1,18 +1,21 @@
 {
     "version": "1.5.3",
-    "base_image": "ubuntu:18.04",
+    "base_image": "dockware/base:latest",
     "db": {
         "host": "localhost",
         "port": "3306",
         "database": "shopware",
-        "user": "root",
-        "pwd": "root"
+        "user": "dockware",
+        "pwd": "dockware"
     },
     "ssh": {
         "user": {
             "name": "dockware",
             "pwd": "dockware"
         }
+    },
+    "mysql":{
+        "mysql8": true
     },
     "php": {
         "default_version": "7.4",

@@ -1,0 +1,27 @@
+## ***********************************************************************
+##  MYSQL INSTALL
+## ***********************************************************************
+
+#D
+#E
+
+# prepare environment variables to allow a
+# quiet install of the mysql server
+# this sets the root password to root without user prompts
+&& echo debconf mysql-server/root_password password {{ pwd }} | debconf-set-selections \
+&& echo debconf mysql-server/root_password_again password {{ pwd }} | debconf-set-selections \
+
+&& DEBIAN_FRONTEND=noninteractive \
+    # install mysql server
+    && apt-get update \
+    && apt-get install -y -q mysql-server \
+    # set required permissions
+    && usermod -d /var/lib/mysql/ mysql \
+
+# i dont know why, but this is suddenly required
+&& cat /tmp/my.cnf >| /etc/mysql/my.cnf \
+&& chmod 0444 /etc/mysql/my.cnf \
+&& service mysql start \
+&& mysql --user={{ db.user }} --password={{ db.pwd }} -e "use mysql; update user set host='%' where host='localhost';" \
+&& service mysql restart \
+

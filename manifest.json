@@ -1,7 +1,8 @@
 {
     "images": {
         "base": [
-            "base/latest:latest"
+            "base/latest:latest",
+            "base/18.04:18.04"
         ],
         "flex": [
             "flex/latest:latest",
