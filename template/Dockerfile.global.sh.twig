@@ -39,14 +39,6 @@ COPY ./assets/shopware6/files /var/www/scripts/shopware6
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set
 {% endblock %}
-
-{% block image_variables_sw_currency %}
-ENV SW_CURRENCY 'not-set'
-{% endblock %}
-
-{% block image_variables_sw_api_access_key %}
-ENV SW_API_ACCESS_KEY 'not-set'
-{% endblock %}
 {% endblock %}
 
 
@@ -55,50 +47,11 @@ RUN sudo rm -rf /build-data.text \
  && apt-get update \
 
 {% block image_variables_export %}
-    {% block image_variables_export_mysql %}
     && echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
     && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile \
-    {% endblock %}
-
-    {% block image_variables_export_sw_api_access_key %}
-    && echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile \
-    {% endblock %}
-    {% block image_variables_export_sw_currency %}
-    && echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile \
-    {% endblock %}
 {% endblock %}
-
-{% block users %}
-{% block users_ssh_add %}{% endblock %}
-{% block users_ssh_connection %}{% endblock %}
-{% block users_bashrc %}{% endblock %}
-{% endblock %}
-
-
-{% block apache %}{% endblock %}
-
-{% block php %}{% endblock %}
-
-
-{% block permissions %}{% endblock %}
-
-{% block ssl %}{% endblock %}
-
-
 
 {% block components %}
-{% block components_dev_tools %}{% endblock %}
-{% block components_git %}{% endblock %}
-
-{% block components_packagers %}
-{% block components_packagers_composer %}{% endblock %}
-{% endblock %}
-
-
-{% block components_xdebug %}{% endblock %}
-
-
-
 {% block components_mysql %}
 {% if mysql.mysql8 == true %}
 {% include 'template/components/mysql/install-8.sh.twig' with { 'pwd' : db.pwd } %}
@@ -154,95 +107,9 @@ RUN sudo rm -rf /build-data.text \
 
 && chmod 755 /*.sh \
 
-
-
-
-{% block shopware %}
-
-{% block shopware_install %}
-## ***********************************************************************
-##  INSTALL SHOPWARE
-## ***********************************************************************
-&& rm -rf /var/www/html/* \
-    && echo ""
-USER {{ ssh.user.name }}
-
-    RUN wget --no-check-certificate {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
-    && unzip -q /var/www/shopware.zip -d /var/www/html \
-    && rm -rf /var/www/shopware.zip \
+{% block image_components %}
+    && echo "" #just end the current layer
 {% endblock %}
-
-{% block shopware_prepare %}
-
-{% block shopware_prepare_env %}
-&& echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env \
-    && echo "APP_SECRET=1" >> /var/www/html/.env \
-    && echo "INSTANCE_ID=1" >> /var/www/html/.env \
-    && echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env \
-    && echo "APP_URL={{ shopware.url }}" >> /var/www/html/.env \
-    && echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env \
-    && echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env \
-    && echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env \
-{% endblock %}
-
-&& sudo service mysql start \
-    # switch to default PHP before installing
-    && sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 \
-    # -------------------------------------------------------------------------------------------
-    && cd /var/www/html && php bin/console system:install --create-database --basic-setup \
-    # make sure assets like logos are ready
-    && cd /var/www/html && php bin/console assets:install \
-    # -------------------------------------------------------------------------------------------
-    # add some demo data
-    {% if version_gte(shopware.version, '6.2.0-rc1') %}
-    && cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData \
-    && cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh \
-    && cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData \
-    {% else %}
-    # -------------------------------------------------------------------------------------------
-    && cd /var/www/html && APP_ENV=prod php bin/console framework:demodata \
-    {% endif %}
-    # -------------------------------------------------------------------------------------------
-    # clear cache and refresh dal index to show the new demo data
-    && cd /var/www/html && php bin/console cache:clear \
-    && cd /var/www/html && php bin/console dal:refresh:index \
-    && rm -rf /var/www/html/var/cache/* \
-    # -------------------------------------------------------------------------------------------
-    && mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" \
-    && sudo service mysql stop \
-{% endblock %}
-
-{% block shopware_dev %}
-
-{% block shopware_dev_install %}
-&& sudo service mysql start \
-    # -------------------------------------------------------------------------------------------
-    # fix weird problem with invalid phpunit file
-    # without this, it cannot find an autoload and thus it
-    # always says "please install composer dependencies"
-    && rm -rf /var/www/html/vendor/bin/phpunit \
-    # -------------------------------------------------------------------------------------------
-    && cd /var/www/html && composer install \
-    # install and pre-build our admin and storefront
-    && cd /var/www/html && ./bin/build.sh \
-    && cd /var/www/html && php bin/console theme:compile \
-    && sudo service mysql stop \
-{% endblock %}
-
-{% block shopware_dev_plugin %}
-
-
-&& sudo service mysql start \
-    && cd /var/www/html && php bin/console plugin:refresh \
-    && cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin \
-    && cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin \
-    && rm -rf /var/www/html/var/cache/* \
-    && sudo service mysql stop
-{% endblock %}
-{% endblock %}
-{% endblock %}
-
-
 
 {% block assets_install_pimpmylog %}
 COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
@@ -253,16 +120,13 @@ COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 {% endblock %}
 
-RUN chown 33:33 -R /var/www/html \
+
+RUN sudo chown 33:33 -R /var/www/html \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    && chown 33:33 /var/www/.nvm -R \
-    && chown 33:33 -R /var/www/pimpmylog \
-
-
-
-
+    && sudo chown 33:33 /var/www/.nvm -R \
+    && sudo chown 33:33 -R /var/www/pimpmylog
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

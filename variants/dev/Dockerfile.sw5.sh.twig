@@ -1,25 +1,26 @@
 {% extends "variants/dev/Dockerfile.base.sh.twig" %}
 
-
-{% block image_variables_sw_currency %}
+{% block assests_install %}
+{{ parent() }}
+COPY  ./assets/shopware5/config.php /tmp/shopware5-config.php
 {% endblock %}
 
 
-{% block assets_install_shopware6 %}
-{% endblock %}
-
-
+{% block image_components %}
 {% block shopware %}
-RUN rm -rf /var/www/html/* \
+&& rm -rf /var/www/html/* \
     && wget {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
 {% include 'template/components/shopware/shopware5/install.sh.twig' with {'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
 
-RUN rm -rf /var/www/html/config.php
-COPY ./assets/shopware5/config.php /var/www/html/
+&& rm -rf /var/www/html/config.php \
+&& cat  /tmmp/shopware5-config.php > /var/www/html/
 
 RUN sudo chown 33:33 /var/www/html/config.php
 
 {% endblock %}
+{% endblock %}
+
+

@@ -1,4 +1,4 @@
-RUN sudo service mysql start && \
+&& sudo service mysql start && \
     # we have to update the used PHP version (for older shopware versions <= 5.3)
     sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
     # ------------------------------------------------------------------------------------------------------------
@@ -16,5 +16,5 @@ RUN sudo service mysql start && \
     # ------------------------------------------------------------------------------------------------------------
     mysql --user={{ db_user }} --password={{ db.pwd }} {{ db_database }} -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
     mysql --user={{ db_user }} --password={{ db.pwd }} {{ db_database }} -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
-    sudo service mysql stop
+    sudo service mysql stop \
 

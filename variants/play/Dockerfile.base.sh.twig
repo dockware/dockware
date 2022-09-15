@@ -1,46 +1,19 @@
 {% extends "template/Dockerfile.global.sh.twig" %}
 
-
-{% block image_variables_mysql %}
+{% block image_variables %}
+{{ parent() }}
+ENV SW_CURRENCY 'not-set'
+ENV SW_API_ACCESS_KEY 'not-set'
 {% endblock %}
 
-{% block image_variables_dev %}
+{% block image_variables_export %}
+{{ parent() }}
+&& echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile \
+&& echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile \
 {% endblock %}
 
-
-{# simply dont allow ssh user, but we still need it #}
-{% block ssh_user_allow %}
+{% block image_components %}
+    {% include 'template/components/shopware/shopware6/install.sh.twig'%}
 {% endblock %}
-
-{% block components_dev_tools %}
-{% endblock %}
-
-{% block components_npm %}
-{% endblock %}
-
-{% block components_node %}
-{% endblock %}
-
-{% block components_grunt %}
-{% endblock %}
-
-{% block components_xdebug %}
-{% endblock %}
-
-{% block components_packagers %}
-{% endblock %}
-
-{% block components_filebeat %}
-{% endblock %}
-
-{% block components_tideways %}
-{% endblock %}
-
-{% block components_packagers_yarn %}
-{% endblock %}
-
-{% block shopware_dev %}
-{% endblock %}
-
 
 

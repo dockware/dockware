@@ -1,2 +1,19 @@
 {% extends "template/Dockerfile.global.sh.twig" %}
 
+{% block image_variables %}
+{{ parent() }}
+ENV SW_CURRENCY 'not-set'
+ENV SW_API_ACCESS_KEY 'not-set'
+{% endblock %}
+
+{% block image_variables_export %}
+{{ parent() }}
+&& echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile \
+&& echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile \
+{% endblock %}
+
+{% block image_components %}
+    {% include 'template/components/shopware/shopware6/install.sh.twig'%}
+{% endblock %}
+
+
