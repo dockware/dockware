@@ -1,0 +1,21 @@
+{% extends "variants/dev/Dockerfile.base.sh.twig" %}
+
+
+{% block shopware_install %}
+RUN git clone --branch=6.5 https://github.com/shopware/production /var/www/production && \
+    cp -a /var/www/production/. /var/www/html/ && \
+    rm -rf /var/www/production && \
+    cd /var/www/html && sudo composer install
+{% endblock %}
+
+{% block shopware_prepare_env %}
+{{ parent() }}
+RUN echo "FEATURE_ALL=major" >> /var/www/html/.env
+{% endblock %}
+
+{% block shopware_setup %}
+{{ parent() }}
+RUN sudo service mysql start && \
+    cd /var/www/html && php bin/console system:generate-jwt-secret && \
+    sudo service mysql stop
+{% endblock %}

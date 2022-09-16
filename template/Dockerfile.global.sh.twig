@@ -490,7 +490,7 @@ RUN echo "APP_ENV={{ shopware.env }}" >> /var/www/html/.env && \
     echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
 {% endblock %}
 
-
+{% block shopware_setup %}
 RUN sudo service mysql start && \
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
@@ -516,6 +516,7 @@ RUN sudo service mysql start && \
     # -------------------------------------------------------------------------------------------
     mysql --user={{ db.user }} --password={{ db.pwd }} -e "use {{ db.database }}; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     sudo service mysql stop
+{% endblock %}
 {% endblock %}
 
 {% block shopware_dev %}
