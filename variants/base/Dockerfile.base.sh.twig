@@ -26,6 +26,10 @@ COPY ./config/apache/sites.conf /tmp/sites.conf
 COPY ./config/php/general.ini /tmp/general.ini
 COPY ./config/php/cli.ini /tmp/cli.ini
 
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
+
+
 {% block image_variables %}
 ## ***********************************************************************
 ##  IMAGE VARIABLES
@@ -252,6 +256,7 @@ RUN date >/build-date.txt \
     && apt-get install -y jpegoptim \
     && apt-get install -y screen \
     && apt-get install -y mysql-client \
+    && apt-get install -y daemon \
 {% endblock %}
 
 {% block components_git %}
@@ -335,11 +340,10 @@ RUN date >/build-date.txt \
     && cat /tmp/20-tideways.ini >| /etc/php/{{ key }}/cli/conf.d/20-tideways.ini \
     {% endfor %}
     #clean up layer
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && sudo chmod 0755 /etc/init.d/tideways-daemon \
 {% endblock %}
-
+&& echo ""
 {% endblock %}
 
 
