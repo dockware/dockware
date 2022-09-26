@@ -1,23 +1,8 @@
 {
+  "base_image": "dockware/essentials:latest",
   "shopware": {
     "env": "dev",
     "version": "6.4.14.0",
     "download_url": "https://releases.shopware.com/sw6/install_v6.4.14.0_812d867f6f77d6d5b0475ba9dd540c97550ac108.zip"
-  },
-  "php": {
-    "versions": {
-      "7.3": {
-        "active": false
-      },
-      "7.2": {
-        "active": false
-      },
-      "7.1": {
-        "active": false
-      },
-      "7.0": {
-        "active": false
-      }
-    }
   }
 }

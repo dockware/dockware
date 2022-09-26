@@ -1,4 +1,5 @@
 {
+  "base_image": "dockware/base:18.04",
   "shopware": {
     "version": "",
     "env": "dev"

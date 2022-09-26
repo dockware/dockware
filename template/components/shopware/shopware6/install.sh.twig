@@ -80,7 +80,7 @@ USER {{ ssh.user.name }}
     && rm -rf /var/www/html/var/cache/* \
         #clean up layer
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sudo service mysql stop
+    && sudo service mysql stop \
 {% endblock %}
 {% endblock %}
 {% endblock %}

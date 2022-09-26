@@ -1,1 +1,126 @@
 {% extends "template/Dockerfile.global.sh.twig" %}
+
+{% block assets_install %}
+# copy our custom configuration to the image
+{% block asset_mysql %}
+{% if mysql.mysql8 == true %}
+COPY ./config/mysql/my-8.cnf /tmp/my.cnf
+{% else %}
+COPY ./config/mysql/my.cnf /tmp/my.cnf
+{% endif %}
+
+{% endblock %}
+COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
+
+COPY ./assets/scripts/makefile /var/www/makefile
+COPY ./assets/scripts/bin /var/www/scripts/bin
+COPY ./assets/scripts/cron /var/www/scripts/cron
+
+
+{% block assets_install_shopware6 %}
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+COPY ./assets/shopware6/files /var/www/scripts/shopware6
+{% endblock %}
+{% endblock %}
+
+{% block image_variables %}
+
+{% block image_variables_mysql %}
+ENV MYSQL_USER not-set
+ENV MYSQL_PWD not-set
+{% endblock %}
+{% endblock %}
+
+{% block image_variables_export %}
+    && echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
+    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile \
+{% endblock %}
+
+{% block image_components %}
+
+&& sudo rm -rf /build-data.text \
+ && date >| /build-date.txt \
+ && apt-get update \
+ #make sure everything runs in the correct php version
+ && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
+ && cd /var/www && make switch-php version={{php.default_version}} \
+
+ {% if composer.version == 1 %}
+   &&  echo "DOCKWARE: switching to co mposer 1..." \
+   && sudo composer self-update --1 \
+ {% endif %}
+
+
+
+
+{% block components_mysql %}
+{% if mysql.mysql8 == true %}
+{% include 'template/components/mysql/install-8.sh.twig' with { 'pwd' : db.pwd } %}
+{% else %}
+{% include 'template/components/mysql/install.sh.twig' with { 'pwd' : db.pwd } %}
+{% endif %}
+
+{% endblock %}
+
+
+{% block components_adminer %}
+{% include 'template/components/adminer/install.sh.twig' %}
+{% endblock %}
+
+
+{% block components_mailcatcher %}
+{% include 'template/components/mailcatcher/install.sh.twig' %}
+
+## as this does not work any longer we have to see what we can doo here
+#{* for key,value in php.versions #}
+#{* if value.active==1 *}
+#&& echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{*{ key }}/mods-available/mailcatcher.ini \
+#{*% endif %}
+#{*% endfor %}
+{% endblock %}
+
+{% block components_pimpmylog %}
+&& rm -rf /var/www/pimpmylog ||true \
+&& mkdir /var/www/pimpmylog \
+    && cd /var/www/pimpmylog \
+    && wget -O - https://github.com/potsky/PimpMyLog/tarball/master | tar xzf - \
+    && mv /var/www/pimpmylog/potsky-PimpMyLog-2fed8c1/* /var/www/pimpmylog \
+    && rm -rf /var/www/pimpmylog/potsky-PimpMyLog-* \
+&& chown -R www-data:www-data /var/www/pimpmylog/ \
+{% endblock %}
+
+{% block components_filebeat %}
+    && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+    &&  apt-get install -y apt-transport-https \
+    &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
+    &&  apt-get update \
+    && apt-get install filebeat \
+{% endblock %}
+
+
+&& chown www-data:www-data -R /var/www/scripts \
+#make sure for the whole installation xdebug is off for performance
+&& sh /var/www/scripts/bin/xdebug_disable.sh \
+
+#clear layer
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+
+&& chmod 755 /*.sh \
+
+{% endblock %}
+
+
+
+
+{% block assets_install_pimpmylog %}
+
+COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
+COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
+
+# apply our custom file with fixes for PHP 8
+# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
+COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
+RUN echo "" \
+{% endblock %}
+
+
