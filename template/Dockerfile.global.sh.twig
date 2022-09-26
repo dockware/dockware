@@ -45,6 +45,14 @@ ENV MYSQL_PWD not-set
 RUN sudo rm -rf /build-data.text \
  && date >| /build-date.txt \
  && apt-get update \
+ #make sure everything runs in the correct php version
+ && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
+ && cd /var/www && make switch-php version={{php.default_version}} \
+
+ {% if composer.version == 1 %}
+   &&  echo "DOCKWARE: switching to co mposer 1..." \
+   && sudo composer self-update --1 \
+ {% endif %}
 
 {% block image_variables_export %}
     && echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
@@ -70,11 +78,12 @@ RUN sudo rm -rf /build-data.text \
 {% block components_mailcatcher %}
 {% include 'template/components/mailcatcher/install.sh.twig' %}
 
-{% for key,value in php.versions %}
-{% if value.active==1 %}
-&& echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ key }}/mods-available/mailcatcher.ini \
-{% endif %}
-{% endfor %}
+## as this does not work any longer we have to see what we can doo here
+#{* for key,value in php.versions #}
+#{* if value.active==1 *}
+#&& echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{*{ key }}/mods-available/mailcatcher.ini \
+#{*% endif %}
+#{*% endfor %}
 {% endblock %}
 
 {% block components_pimpmylog %}
@@ -112,6 +121,7 @@ RUN sudo rm -rf /build-data.text \
 {% endblock %}
 
 {% block assets_install_pimpmylog %}
+
 COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
 COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 
