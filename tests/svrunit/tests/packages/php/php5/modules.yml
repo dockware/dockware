@@ -37,3 +37,5 @@ php_module:
     module: "pdo"
   - name: "PHP Module: imap"
     module: "imap"
+  - name: "PHP Module: ssh2"
+    module: "ssh2"
