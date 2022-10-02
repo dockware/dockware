@@ -206,9 +206,9 @@ RUN apt-get update \
     && apt-get install -y php7.3-redis \
     && apt-get install -y php7.3-bcmath \
     && apt-get install -y php7.3-imap \
+    && apt-get install -y php7.3-ssh2 \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
     && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
@@ -239,9 +239,9 @@ RUN apt-get update \
     && apt-get install -y php7.0-redis \
     && apt-get install -y php7.0-bcmath \
     && apt-get install -y php7.0-imap \
+    && apt-get install -y php7.0-ssh2 \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
-    && apt-get install -y php-ssh2 \
     && apt-get install -y php-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
