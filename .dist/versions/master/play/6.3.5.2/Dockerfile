@@ -183,6 +183,7 @@ RUN apt-get update \
     && apt-get install -y php8.1-redis \
     && apt-get install -y php8.1-imap \
     && apt-get install -y php8.1-ssh2 \
+    && apt-get install -y php8.1-pcov \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-amqp \
@@ -218,6 +219,7 @@ RUN apt-get update \
     && apt-get install -y php8.0-redis \
     && apt-get install -y php8.0-imap \
     && apt-get install -y php8.0-ssh2 \
+    && apt-get install -y php8.0-pcov \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-amqp \
@@ -254,6 +256,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-redis \
     && apt-get install -y php7.4-imap \
     && apt-get install -y php7.4-ssh2 \
+    && apt-get install -y php7.4-pcov \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-amqp \
@@ -289,6 +292,7 @@ RUN apt-get update \
     && apt-get install -y php7.3-bcmath \
     && apt-get install -y php7.3-imap \
     && apt-get install -y php7.3-ssh2 \
+    && apt-get install -y php7.3-pcov \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-amqp \
@@ -322,6 +326,7 @@ RUN apt-get update \
     && apt-get install -y php7.2-bcmath \
     && apt-get install -y php7.2-imap \
     && apt-get install -y php7.2-ssh2 \
+    && apt-get install -y php7.2-pcov \
     && apt-get install -y dh-php \
     && apt-get install -y php-geoip \
     && apt-get install -y php-amqp \
