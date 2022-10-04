@@ -164,7 +164,7 @@ class TestPipelineBuilder
 
         if ($php7) {
             $xdebug = ($isDev) ? '2' : '';
-            $xml .= $this->buildVersion($imageFull, '7.0', '7', $xdebug, $sodium, $testXdebugOff);
+            $xml .= $this->buildVersion($imageFull, '7.0', '7.0', $xdebug, $sodium, $testXdebugOff);
             $testXdebugOff = false;
         }
 
