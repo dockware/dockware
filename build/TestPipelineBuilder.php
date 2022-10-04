@@ -210,6 +210,7 @@ class TestPipelineBuilder
             //disabled xdebug
             $xml = PHP_EOL;
             $xml .= '        <testsuite name="' . $imageFull . ', PHP ' . $fullPHP . ', XDebug OFF" dockerImage="' . $imageFull . '" dockerEnv="PHP_VERSION=' . $fullPHP . ',XDEBUG_ENABLED=0">' . PHP_EOL;
+            $xml .= '            <directory>./../../tests/packages/php/php' . $php . '</directory>' . PHP_EOL;
             $xml .= '            <directory>./../../tests/packages/xdebug/xdebug-off</directory>' . PHP_EOL;
             $xml .= '        </testsuite>' . PHP_EOL;
         }
