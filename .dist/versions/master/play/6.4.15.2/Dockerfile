@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.4.15.2
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:18.04
-LABEL title="Dockware play:latest" \
+LABEL title="Dockware play:6.4.15.2" \
       version="1.5.3" \
       maintainer="dasistweb GmbH"
 
@@ -428,7 +428,7 @@ RUN chmod 755 /*.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate https://releases.shopware.com/sw6/install_v6.4.15.2_51514a17f5a60aaa2e047c92e912ed5c083e965b.zip -qq -O /var/www/shopware.zip \
+    && wget --no-check-certificate https://releases.shopware.com/sw6/install_v6.4.15.1_ef9e6c56297775a457e2733dd7a4039e0a995062.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
