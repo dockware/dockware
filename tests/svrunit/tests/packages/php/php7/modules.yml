@@ -39,5 +39,3 @@ php_module:
     module: "imap"
   - name: "PHP Module: ssh2"
     module: "ssh2"
-  - name: "PHP Module: pcov"
-    module: "pcov"
