@@ -3,6 +3,11 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [UNRELEASED]
+
+### Fixed
+- Fixed broken with Apache in Entrypoint. Sometimes Apache cannot start because port 80 is blocked.
+
 ## [1.5.4]
 
 ### Added

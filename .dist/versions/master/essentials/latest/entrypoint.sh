@@ -186,6 +186,10 @@ fi
 #   - "httpd (pid 13) already running"
 # to avoid this, we simple remove an existing file
 sudo rm -f /var/run/apache2/apache2.pid
+# also, sometimes port 80 is used? happens if you have lots of local containers i think
+# so let's just kill that, otherwise the container won't start
+sudo lsof -t -i tcp:80 | sudo xargs kill
+
 # start test and start apache
 echo "DOCKWARE: testing and starting Apache..."
 sudo apache2ctl configtest
