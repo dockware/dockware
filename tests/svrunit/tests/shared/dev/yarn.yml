@@ -1,4 +1,4 @@
 commands:
   - name: "YARN Dependency Manager exists"
-    command: "yarn -v"
-    expected: "1."
+    command: "echo SVRUNIT: $(yarn -v)"
+    expected: "SVRUNIT: 1."
