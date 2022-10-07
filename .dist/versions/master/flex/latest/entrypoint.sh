@@ -147,7 +147,7 @@ fi
 sudo rm -f /var/run/apache2/apache2.pid
 # also, sometimes port 80 is used? happens if you have lots of local containers i think
 # so let's just kill that, otherwise the container won't start
-sudo lsof -t -i tcp:80 | sudo xargs kill
+sudo lsof -t -i tcp:80 | sudo xargs kill || true;
 
 # start test and start apache
 echo "DOCKWARE: testing and starting Apache..."
