@@ -1,7 +1,7 @@
 commands:
   - name: "NVM is installed and loaded"
-    command: "nvm --version"
-    expected: "0.39.1"
+    command: "echo SVRUNIT: $(nvm --version)"
+    expected: "SVRUNIT: 0.39.1"
   - name: "NVM can switch Node version"
-    command: "nvm use 14"
-    expected: "Now using node v14"
+    command: "nvm use 14 && echo SVRUNIT: $(node -v)"
+    expected: "SVRUNIT: v14."
