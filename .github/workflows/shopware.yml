@@ -1,4 +1,5 @@
 name: Shopware Version
+run-name: Shopware ${{ github.event.inputs.tagName }}
 
 on:
   workflow_dispatch:
