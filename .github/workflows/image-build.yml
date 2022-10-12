@@ -1,5 +1,7 @@
 name: Custom Image
 
+run-name: ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+
 on:
   workflow_dispatch:
     inputs:
