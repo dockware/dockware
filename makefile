@@ -37,7 +37,7 @@ ifndef tag
 	$(warning Provide the required image tag using "make verify image=play tag=6.1.6")
 	@exit 1;
 else
-	@php ./build/pipeline/verify-config.php $(image) $(tag)
+	@php ./build/Scripts/verify-config.php $(image) $(tag)
 endif
 
 build: ## Builds the provided tag [image=play tag=6.1.6]
