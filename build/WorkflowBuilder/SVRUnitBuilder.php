@@ -1,6 +1,6 @@
 <?php
 
-class TestPipelineBuilder
+class SVRUnitBuilder
 {
     /**
      * @param $jobKey

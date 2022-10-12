@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/TestPipelineBuilder.php';
+include __DIR__ . '/WorkflowBuilder/SVRUnitBuilder.php';
 
 
 buildTests();
@@ -11,7 +11,7 @@ buildTests();
  */
 function buildTests()
 {
-    $builder = new TestPipelineBuilder();
+    $builder = new SVRUnitBuilder();
 
     $manifest = file_get_contents(__DIR__ . '/../manifest.json');
     $manifestJson = json_decode($manifest, true);

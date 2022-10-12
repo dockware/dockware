@@ -1,7 +1,9 @@
 <?php
 
+include __DIR__ . '/Constants.php';
 
-class PipelineBuilder
+
+class GithubWorkflowBuilder
 {
 
     /**
@@ -73,10 +75,10 @@ class PipelineBuilder
                cd tests/cypress && make run-essentials url=http://localhost
             fi
             if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
+               cd tests/cypress && make run6 url=http://localhost shopware=' . Constants::LATEST_SW_VERSION . '
             fi
             if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost
+               cd tests/cypress && make run6 url=http://localhost shopware=' . Constants::LATEST_SW_VERSION . '
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost shopware=$SW_VERSION

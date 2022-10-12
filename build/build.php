@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/PipelineBuilder.php';
+include __DIR__ . '/WorkflowBuilder/GithubWorkflowBuilder.php';
 
 
 buildManifestImageJobs();
@@ -13,7 +13,7 @@ buildCustomImageJob();
  */
 function buildManifestImageJobs()
 {
-    $builder = new PipelineBuilder();
+    $builder = new GithubWorkflowBuilder();
 
     $manifest = file_get_contents(__DIR__ . '/../manifest.json');
     $manifestJson = json_decode($manifest, true);
@@ -53,7 +53,7 @@ jobs:';
  */
 function buildShopwareVersionJob()
 {
-    $builder = new PipelineBuilder();
+    $builder = new GithubWorkflowBuilder();
 
     $yml = "name: Shopware Version
 
@@ -93,7 +93,7 @@ jobs:";
  */
 function buildCustomImageJob()
 {
-    $builder = new PipelineBuilder();
+    $builder = new GithubWorkflowBuilder();
 
     $yml = "name: Custom Image
 
