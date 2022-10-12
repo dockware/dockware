@@ -55,16 +55,17 @@ function buildShopwareVersionJob()
 {
     $builder = new GithubWorkflowBuilder();
 
-    $yml = "name: Shopware Version
+    $yml = 'name: Shopware Version
+run-name: Shopware ${{ github.event.inputs.tagName }}
 
 on:
   workflow_dispatch:
     inputs:
       tagName:
-        description: 'Tag Name'
+        description: \'Tag Name\'
         required: true
         
-jobs:";
+jobs:';
 
     $job = $builder->buildJob(
         'build-play',
@@ -95,19 +96,20 @@ function buildCustomImageJob()
 {
     $builder = new GithubWorkflowBuilder();
 
-    $yml = "name: Custom Image
+    $yml = 'name: Custom Image
+run-name: Shopware ${{ github.event.inputs.tagName }}
 
 on:
   workflow_dispatch:
     inputs:
       imageName:
-        description: 'Image Name'
+        description: \'Image Name\'
         required: true
       tagName:
-        description: 'Tag Name'
+        description: \'Tag Name\'
         required: true
         
-jobs:";
+jobs:';
 
     $job = $builder->buildJob(
         'build',

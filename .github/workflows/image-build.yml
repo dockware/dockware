@@ -1,6 +1,5 @@
 name: Custom Image
-
-run-name: ${{ github.event.inputs.imageName }}:${{ github.event.inputs.tagName }}
+run-name: Shopware ${{ github.event.inputs.tagName }}
 
 on:
   workflow_dispatch:
