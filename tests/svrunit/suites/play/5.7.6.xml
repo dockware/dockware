@@ -1,11 +1,11 @@
 <svrunit setupTime="30">
     <testsuites>
     
-        <testsuite name="dockware/play:5.7.6, Command Runner" dockerImage="dockware/play:5.7.6" dockerCommandRunner="true">
+        <testsuite name="dockware/play:5.7.6, Command Runner" group="command-runner" dockerImage="dockware/play:5.7.6" dockerCommandRunner="true">
             <directory>./../../tests/shared/command-runner/play</directory>
         </testsuite>
         
-        <testsuite name="dockware/play:5.7.6, Basic Checks" dockerImage="dockware/play:5.7.6">
+        <testsuite name="dockware/play:5.7.6, Core Checks" group="core" dockerImage="dockware/play:5.7.6">
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/packages/php/php7</directory>
         </testsuite>

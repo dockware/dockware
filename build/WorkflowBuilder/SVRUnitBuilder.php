@@ -74,7 +74,7 @@ class SVRUnitBuilder
     ';
 
         $xml .= '
-        <testsuite name="' . $imageFull . ', Command Runner" dockerImage="' . $imageFull . '" dockerCommandRunner="true">' . PHP_EOL;
+        <testsuite name="' . $imageFull . ', Command Runner" group="command-runner" dockerImage="' . $imageFull . '" dockerCommandRunner="true">' . PHP_EOL;
         if ($isDev) {
             $xml .= '            <directory>./../../tests/shared/command-runner/dev</directory>' . PHP_EOL;
         } else {
@@ -95,7 +95,7 @@ class SVRUnitBuilder
         }
 
         $xml .= '
-        <testsuite name="' . $imageFull . ', Basic Checks" dockerImage="' . $imageFull . '">
+        <testsuite name="' . $imageFull . ', Core Checks" group="core" dockerImage="' . $imageFull . '">
             <directory>./../../tests/shared/base</directory>' . $devPart . '
             <directory>./../../tests/packages/php/php' . $defaultPHP . '</directory>
         </testsuite>

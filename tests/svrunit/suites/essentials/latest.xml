@@ -2,7 +2,7 @@
 
     <testsuites>
 
-        <testsuite name="essentials:latest, Command Runner" dockerImage="dockware/essentials:latest" dockerCommandRunner="true">
+        <testsuite name="essentials:latest, Command Runner" group="command-runner" dockerImage="dockware/essentials:latest" dockerCommandRunner="true">
             <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
 

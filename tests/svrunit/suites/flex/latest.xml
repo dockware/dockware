@@ -2,11 +2,11 @@
 
     <testsuites>
 
-        <testsuite name="flex:latest, Command Runner" dockerImage="dockware/flex:latest" dockerCommandRunner="true">
+        <testsuite name="flex:latest, Command Runner" group="command-runner" dockerImage="dockware/flex:latest" dockerCommandRunner="true">
             <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
 
-        <testsuite name="Basic Checks" dockerImage="dockware/flex:latest">
+        <testsuite name="Core Checks" group="core" dockerImage="dockware/flex:latest">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>

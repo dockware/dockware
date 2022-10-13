@@ -1,11 +1,11 @@
 <svrunit setupTime="30">
     <testsuites>
     
-        <testsuite name="dockware/dev:6.4.3.1, Command Runner" dockerImage="dockware/dev:6.4.3.1" dockerCommandRunner="true">
+        <testsuite name="dockware/dev:6.4.3.1, Command Runner" group="command-runner" dockerImage="dockware/dev:6.4.3.1" dockerCommandRunner="true">
             <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
         
-        <testsuite name="dockware/dev:6.4.3.1, Basic Checks" dockerImage="dockware/dev:6.4.3.1">
+        <testsuite name="dockware/dev:6.4.3.1, Core Checks" group="core" dockerImage="dockware/dev:6.4.3.1">
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/dev</directory>
