@@ -12,9 +12,7 @@ help:
 # ----------------------------------------------------------------------------------------------------------------
 
 install: ## Installs all dependencies
-	curl -L https://www.svrunit.com/downloads/svrunit.zip --output svrunit.zip
-	unzip -o svrunit.zip
-	rm -f svrunit.zip
+	composer install
 
 generate: ## Generates all artifacts for this image. You can use the local PHAR with: make generate phar=1
 ifndef phar
@@ -62,9 +60,9 @@ else
 endif
 
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
-	php svrunit.phar test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-suites
-	php svrunit.phar test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-groups
-	php svrunit.phar test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --debug --report-junit --report-html
+	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-suites
+	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-groups
+	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --debug --report-junit --report-html
 
 # ----------------------------------------------------------------------------------------------------------------
 
