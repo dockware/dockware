@@ -800,7 +800,7 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
 RUN rm -rf /var/www/html/* \
-    && wget https://www.shopware.com/en/Download/redirect/version/sw5/file/http%3A%2F%2Freleases.s3.shopware.com.s3.amazonaws.com%2Finstall_5.7.16_RC1_7ea5df58750740326928d820793f2f055148369d.zip -qq -O /var/www/shopware.zip \
+    && wget http://releases.s3.shopware.com.s3.amazonaws.com/install_5.7.16_RC1_7ea5df58750740326928d820793f2f055148369d.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
