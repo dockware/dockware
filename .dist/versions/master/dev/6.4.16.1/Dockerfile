@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.4.16.1
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:18.04
-LABEL title="Dockware play:latest" \
+LABEL title="Dockware dev:6.4.16.1" \
       version="1.5.4" \
       maintainer="dasistweb GmbH"
 
@@ -30,6 +30,33 @@ RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
  && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
  && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
+
+ENV SSH_USER not-set
+ENV SSH_PWD not-set
+ENV XDEBUG_REMOTE_HOST "host.docker.internal"
+ENV XDEBUG_CONFIG "idekey=PHPSTORM"
+ENV PHP_IDE_CONFIG "serverName=localhost"
+ENV XDEBUG_ENABLED 0
+ENV FILEBEAT_ENABLED 0
+ENV TIDEWAYS_KEY not-set
+ENV TIDEWAYS_ENV production
+ENV TIDEWAYS_SERVICE web
+
+RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
+ && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
+ && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
+ && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
+ && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
+ && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
+ && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
+ && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
+
+ENV MYSQL_USER not-set
+ENV MYSQL_PWD not-set
+RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
+    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
@@ -310,7 +337,242 @@ RUN apt-get update \
 
 RUN apt-get update \
 
+    && apt-get install -y rsync \
+    && apt-get install -y sshpass \
+    && apt-get install -y jpegoptim \
+    && apt-get install -y screen \
+    && apt-get install -y mysql-client \
+
     && apt-get install -y git
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.2.9 --quiet \
+    # prepare "global" composer directory for www-data
+    && mkdir -p /var/www/.composer \
+    && export COMPOSER_HOME="/var/www/.composer" \
+    && chmod 755 /tmp/composer.phar \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN  mv /tmp/composer.phar /usr/local/bin/composer
+
+RUN cd /var/www \
+    && apt-get update \
+    # install xdebug for php 8.1
+    && sudo apt-get install -y php8.1-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize8.1 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20210902/xdebug_8.1.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize8.1 --clean \
+    && sudo apt-get remove -y php8.1-dev \
+    # install xdebug for php 8.0
+    && sudo apt-get install -y php8.0-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize8.0 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config8.0 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20200930/xdebug_8.0.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize8.0 --clean \
+    && sudo apt-get remove -y php8.0-dev \
+    # install xdebug for php 7.4
+    && sudo apt-get install -y php7.4-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize7.4 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config7.4 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20190902/xdebug_7.4.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize7.4 --clean \
+    && sudo apt-get remove -y php7.4-dev \
+    # install xdebug for php 7.3
+    && sudo apt-get install -y php7.3-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize7.3 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config7.3 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20180731/xdebug_7.3.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize7.3 --clean \
+    && sudo apt-get remove -y php7.3-dev \
+    # install xdebug for php 7.2
+    && sudo apt-get install -y php7.2-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
+    && unzip 3.1.4.zip \
+    && rm -rf 3.1.4.zip \
+    && mv xdebug-3.1.4 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize7.2 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config7.2 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20170718/xdebug_7.2.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize7.2 --clean \
+    && sudo apt-get remove -y php7.2-dev \
+    # install xdebug for php 7.1
+    && sudo apt-get install -y php7.1-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
+    && unzip 2.7.2.zip \
+    && rm -rf 2.7.2.zip \
+    && mv xdebug-2.7.2 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize7.1 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config7.1 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20160303/xdebug_7.1.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize7.1 --clean \
+    && sudo apt-get remove -y php7.1-dev \
+    # install xdebug for php 7.0
+    && sudo apt-get install -y php7.0-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
+    && unzip 2.7.2.zip \
+    && rm -rf 2.7.2.zip \
+    && mv xdebug-2.7.2 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize7.0 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config7.0 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20151012/xdebug_7.0.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize7.0 --clean \
+    && sudo apt-get remove -y php7.0-dev \
+    # install xdebug for php 5.6
+    && sudo apt-get install -y php5.6-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/XDEBUG_2_5_5.zip \
+    && unzip XDEBUG_2_5_5.zip \
+    && rm -rf XDEBUG_2_5_5.zip \
+    && mv xdebug-XDEBUG_2_5_5 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize5.6 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20131226/xdebug_5.6.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize5.6 --clean \
+    && sudo apt-get remove -y php5.6-dev \
+&& sudo apt-get install -y zlib1g-dev \
+&& sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+&& sudo rm -rf /var/www/xdebug
+
+#generate xdebug ini files
+
+COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-3.ini /etc/php/8.0/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/8.0/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-3.ini /etc/php/7.4/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/7.4/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-3.ini /etc/php/7.3/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/7.3/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-3.ini /etc/php/7.2/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/7.2/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
+
+RUN cd /var/www \
+
+&& sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20190902/g' /etc/php/7.4/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.4/g' /etc/php/7.4/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20190902/g' /etc/php/7.4/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.4/g' /etc/php/7.4/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20180731/g' /etc/php/7.3/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.3/g' /etc/php/7.3/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20180731/g' /etc/php/7.3/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.3/g' /etc/php/7.3/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20170718/g' /etc/php/7.2/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.2/g' /etc/php/7.2/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20170718/g' /etc/php/7.2/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.2/g' /etc/php/7.2/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20160303/g' /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20160303/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
+
+ && cd /var/www
 
 ## ***********************************************************************
 ##  MYSQL INSTALL
@@ -381,6 +643,13 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
+RUN apt-get update \
+    && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+    &&  apt-get install -y apt-transport-https \
+    &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
+    &&  apt-get update && apt-get install filebeat \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
     && export NVM_DIR="/var/www/.nvm" \
@@ -408,8 +677,49 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 RUN echo "" \
+    # -----------------------------------------------------------
+    # we have to reload the correct nvm version otherwise this would destroy it
+    && export NVM_DIR="/var/www/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm use 12 \
+    # -----------------------------------------------------------
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && chown 33:33 /var/www/.npm \
 
+    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev \
+
+    && npm install -g --no-install-recommends yarn \
+    && chown -R www-data:www-data /var/www/.composer \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
+    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
+    && sudo apt-get -y update  \
+    && sudo apt-get -y install tideways-php tideways-daemon  \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+
+COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/8.0/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/8.0/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.4/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.4/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.3/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.3/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.2/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.2/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.1/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.1/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
@@ -432,7 +742,7 @@ RUN rm -rf /var/www/html/* \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 
-RUN echo "APP_ENV=prod" >> /var/www/html/.env && \
+RUN echo "APP_ENV=dev" >> /var/www/html/.env && \
     echo "APP_SECRET=1" >> /var/www/html/.env && \
     echo "INSTANCE_ID=1" >> /var/www/html/.env && \
     echo "DATABASE_URL=mysql://root:root@localhost:3306/shopware" >> /var/www/html/.env && \
@@ -460,6 +770,28 @@ RUN sudo service mysql start && \
     rm -rf /var/www/html/var/cache/* && \
     # -------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
+    sudo service mysql stop
+
+RUN sudo service mysql start \
+    # -------------------------------------------------------------------------------------------
+    # fix weird problem with invalid phpunit file
+    # without this, it cannot find an autoload and thus it
+    # always says "please install composer dependencies"
+    && rm -rf /var/www/html/vendor/bin/phpunit \
+    # -------------------------------------------------------------------------------------------
+    && cd /var/www/html && composer install \
+    # install and pre-build our admin and storefront
+    && cd /var/www/html && ./bin/build.sh \
+    && cd /var/www/html && php bin/console theme:compile \
+    && sudo service mysql stop
+
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
+
+RUN sudo service mysql start && \
+    cd /var/www/html && php bin/console plugin:refresh && \
+    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
+    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+    rm -rf /var/www/html/var/cache/* && \
     sudo service mysql stop
 
 RUN chown 33:33 -R /var/www/html && \
