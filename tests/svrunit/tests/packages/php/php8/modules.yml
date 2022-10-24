@@ -9,6 +9,8 @@ php_module:
     module: "zip"
   - name: "PHP Module: mysql"
     module: "mysql"
+  - name: "PHP Module: apc"
+    module: "apc"
   - name: "PHP Module: apcu"
     module: "apcu"
   - name: "PHP Module: redis"
