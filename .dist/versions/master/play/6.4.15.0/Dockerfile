@@ -171,6 +171,7 @@ RUN apt-get update \
     && apt-get install -y php8.1-mbstring \
     && apt-get install -y php8.1-pdo \
     && apt-get install -y php8.1-mysql \
+    && apt-get install -y php8.1-apc \
     && apt-get install -y php8.1-apcu \
     && apt-get install -y php8.1-curl \
     && apt-get install -y php8.1-cli \
@@ -207,6 +208,7 @@ RUN apt-get update \
     && apt-get install -y php8.0-mbstring \
     && apt-get install -y php8.0-pdo \
     && apt-get install -y php8.0-mysql \
+    && apt-get install -y php8.0-apc \
     && apt-get install -y php8.0-apcu \
     && apt-get install -y php8.0-curl \
     && apt-get install -y php8.0-cli \
@@ -245,6 +247,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-pdo \
     && apt-get install -y php7.4-mysql \
     && apt-get install -y php7.4-apcu \
+    && apt-get install -y php7.4-apc \
     && apt-get install -y php7.4-curl \
     && apt-get install -y php7.4-cli \
     && apt-get install -y php7.4-ldap \

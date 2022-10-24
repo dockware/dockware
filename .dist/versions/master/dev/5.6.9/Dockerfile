@@ -195,6 +195,7 @@ RUN apt-get update \
     && apt-get install -y php8.1-mbstring \
     && apt-get install -y php8.1-pdo \
     && apt-get install -y php8.1-mysql \
+    && apt-get install -y php8.1-apc \
     && apt-get install -y php8.1-apcu \
     && apt-get install -y php8.1-curl \
     && apt-get install -y php8.1-cli \
@@ -233,6 +234,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-pdo \
     && apt-get install -y php7.4-mysql \
     && apt-get install -y php7.4-apcu \
+    && apt-get install -y php7.4-apc \
     && apt-get install -y php7.4-curl \
     && apt-get install -y php7.4-cli \
     && apt-get install -y php7.4-ldap \
@@ -260,6 +262,7 @@ COPY ./config/php/cli.ini /etc/php/7.4/cli/conf.d/01-general-cli.ini
 
 RUN apt-get update \
     && apt-get install -y php7.3-fpm \
+    && apt-get install -y php7.3-apc \
     && apt-get install -y php7.3-apcu \
     && apt-get install -y php7.3-curl \
     && apt-get install -y php7.3-cli \
@@ -294,6 +297,7 @@ COPY ./config/php/cli.ini /etc/php/7.3/cli/conf.d/01-general-cli.ini
 
 RUN apt-get update \
     && apt-get install -y php7.2-fpm \
+    && apt-get install -y php7.2-apc \
     && apt-get install -y php7.2-apcu \
     && apt-get install -y php7.2-curl \
     && apt-get install -y php7.2-cli \

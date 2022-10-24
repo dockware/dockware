@@ -187,6 +187,7 @@ RUN mkdir -p /var/www/.ssh \
 ## ***********************************************************************
 RUN apt-get update \
     && apt-get install -y php7.3-fpm \
+    && apt-get install -y php7.3-apc \
     && apt-get install -y php7.3-apcu \
     && apt-get install -y php7.3-curl \
     && apt-get install -y php7.3-cli \
@@ -221,6 +222,7 @@ COPY ./config/php/cli.ini /etc/php/7.3/cli/conf.d/01-general-cli.ini
 
 RUN apt-get update \
     && apt-get install -y php7.0-fpm \
+    && apt-get install -y php7.0-apc \
     && apt-get install -y php7.0-apcu \
     && apt-get install -y php7.0-curl \
     && apt-get install -y php7.0-cli \
