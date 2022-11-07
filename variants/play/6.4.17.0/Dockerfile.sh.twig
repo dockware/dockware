@@ -1,0 +1,1 @@
+{% extends "variants/play/Dockerfile.base.sh.twig" %}
