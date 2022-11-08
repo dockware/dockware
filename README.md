@@ -89,7 +89,7 @@ All official images including their last publishing date can be found at https:/
 # Creating a new Shopware Version
 At the moment the step to add a new Shopware version is to manually create a few files, but it's still very easy.
 
-Please add 2 new folders to *+variants/play** and **variants/dev** (just copy the previous release).
+Please add 2 new folders to **variants/play** and **variants/dev** (just copy the previous release).
 Then open the **variables.json** in each folder and adjust the Shopware Version, as well as the Download URL.
 
 Afterwards, add the new entries in the **manifest.json**. Please don't forget to move the alias "latest" to the correct version.
