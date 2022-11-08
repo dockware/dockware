@@ -86,6 +86,22 @@ As soon as we create a new official release, we trigger our building pipelines o
 All official images including their last publishing date can be found at https://dockware.io/images
 
 
+# Creating a new Shopware Version
+At the moment the step to add a new Shopware version is to manually create a few files, but it's still very easy.
+
+Please add 2 new folders to *+variants/play** and **variants/dev** (just copy the previous release).
+Then open the **variables.json** in each folder and adjust the Shopware Version, as well as the Download URL.
+
+Afterwards, add the new entries in the **manifest.json**. Please don't forget to move the alias "latest" to the correct version.
+
+Now open the file **build/WorkflowBuilder/Constant.php** and adjust the correct latest Shopware version.
+This is for Cypress double verifications.
+
+Then open the build folder in your CLI and run **"make generate-tests"** to also create new SVRUnit tests.
+
+That's it! 
+You can now commit your changes.
+
 
 ## License
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
