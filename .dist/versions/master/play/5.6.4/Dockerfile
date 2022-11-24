@@ -211,8 +211,8 @@ RUN apt-get update \
     && apt-get install -y php7.4-ssh2 \
     && apt-get install -y php7.4-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.4-geoip \
+    && apt-get install -y php7.4-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -248,8 +248,8 @@ RUN apt-get update \
     && apt-get install -y php7.3-ssh2 \
     && apt-get install -y php7.3-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.3-geoip \
+    && apt-get install -y php7.3-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -283,8 +283,8 @@ RUN apt-get update \
     && apt-get install -y php7.2-ssh2 \
     && apt-get install -y php7.2-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.2-geoip \
+    && apt-get install -y php7.2-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
