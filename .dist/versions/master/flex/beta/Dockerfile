@@ -798,13 +798,14 @@ RUN apt-get update && \
     && chown -R www-data:www-data /var/www/.composer \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && sudo chmod 0755 /etc/init.d/tideways-daemon
 
 COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
