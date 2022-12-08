@@ -62,7 +62,7 @@ endif
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
 	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-suites
 	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-groups
-	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --debug --report-junit --report-html
+	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --debug --report-junit --report-html
 
 # ----------------------------------------------------------------------------------------------------------------
 

@@ -9,6 +9,9 @@
     "php": {
         "default_version": "7.0",
         "versions": {
+            "8.2": {
+                "active": false
+            },
             "8.1": {
                 "active": false
             },

@@ -18,6 +18,7 @@ class SVRUnitBuilder
         $isDev = ($image === 'dev');
 
         $defaultPHP = '8';
+        $php82 = true;
         $php81 = true;
         $php8 = true;
         $php74 = true;
@@ -56,6 +57,7 @@ class SVRUnitBuilder
                     $composer = '1';
 
                     $defaultPHP = '5';
+                    $php82 = false;
                     $php81 = false;
                     $php8 = false;
                     $php74 = false;
@@ -113,6 +115,14 @@ class SVRUnitBuilder
 
         # -------------------------------------------------------------------------------------------------------------------------------
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
+
+        if ($php82) {
+            $xdebug = ($isDev) ? '3.2.0' : '';
+            $xml .= $this->buildVersion($imageFull, '8.2', '8.2', $xdebug, $sodium, $testXdebugOff);
+            $testXdebugOff = false;
+        }
+
+        # -------------------------------------------------------------------------------------------------------------------------------
 
         if ($php81) {
             $xdebug = ($isDev) ? '3' : '';

@@ -1,5 +1,5 @@
 {
-    "version": "1.5.4",
+    "version": "1.6.0",
     "base_image": "ubuntu:18.04",
     "db": {
         "host": "localhost",
@@ -17,6 +17,12 @@
     "php": {
         "default_version": "7.4",
         "versions": {
+            "8.2": {
+                "active": true,
+                "folder_id": "20220829",
+                "xdebug_version": "3",
+                "xdebug_tag": "3.2.0"
+            },
             "8.1": {
                 "active": true,
                 "folder_id": "20210902",

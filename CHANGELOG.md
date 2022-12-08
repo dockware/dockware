@@ -6,8 +6,15 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ## [UNRELEASED]
 
+### Added
+- Add PHP 8.2 to all images 
+- Added missing PHP extension "apc" in all PHP versions 
+
 ### Fixed
 - Fixed broken with Apache in Entrypoint. Sometimes Apache cannot start because port 80 is blocked.
+- Fixed wrong installation of PHP extensions "geoip" and "amqp". These were accidentally only installed for the current PHP version.
+- Fix broken Tideways service 
+- Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version. 
 
 
 ## [1.5.4]

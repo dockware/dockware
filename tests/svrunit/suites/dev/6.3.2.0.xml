@@ -18,9 +18,15 @@
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
             
-        <testsuite name="dockware/dev:6.3.2.0, PHP 8.1, XDebug OFF" dockerImage="dockware/dev:6.3.2.0" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/php/php8.1</directory>
+        <testsuite name="dockware/dev:6.3.2.0, PHP 8.2, XDebug OFF" dockerImage="dockware/dev:6.3.2.0" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/php/php8.2</directory>
             <directory>./../../tests/packages/xdebug/xdebug-off</directory>
+        </testsuite>
+
+        <testsuite name="dockware/dev:6.3.2.0, PHP 8.1, XDebug ON" dockerImage="dockware/dev:6.3.2.0" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8.1</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
         </testsuite>
 
         <testsuite name="dockware/dev:6.3.2.0, PHP 8.0, XDebug ON" dockerImage="dockware/dev:6.3.2.0" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
