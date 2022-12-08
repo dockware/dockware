@@ -23,3 +23,5 @@ php_module:
     module: "ssh2"
   - name: "PHP Module: pcov"
     module: "pcov"
+  - name: "PHP Module: amqp"
+    module: "amqp"

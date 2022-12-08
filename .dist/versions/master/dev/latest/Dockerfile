@@ -213,8 +213,8 @@ RUN apt-get update \
     && apt-get install -y php8.1-ssh2 \
     && apt-get install -y php8.1-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    #&& apt-get install -y php8.1-geoip \ not available for 8.1
+    && apt-get install -y php8.1-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -250,8 +250,8 @@ RUN apt-get update \
     && apt-get install -y php8.0-ssh2 \
     && apt-get install -y php8.0-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+#    && apt-get install -y php8.0-geoip \ not available for 8.0
+    && apt-get install -y php8.0-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -288,8 +288,8 @@ RUN apt-get update \
     && apt-get install -y php7.4-ssh2 \
     && apt-get install -y php7.4-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.4-geoip \
+    && apt-get install -y php7.4-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -699,13 +699,14 @@ RUN echo "" \
     && chown -R www-data:www-data /var/www/.composer \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && sudo chmod 0755 /etc/init.d/tideways-daemon
 
 COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
@@ -741,7 +742,7 @@ RUN chmod 755 /*.sh
 ##  INSTALL SHOPWARE
 ## ***********************************************************************
 RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate https://releases.shopware.com/sw6/install_v6.4.17.1_c387e7508241ae3b1223c5daf5e8279d99b164ba.zip -qq -O /var/www/shopware.zip \
+    && wget --no-check-certificate https://releases.shopware.com/sw6/install_v6.4.17.2_4d2c85fb448571fa4f30edce635f33a67dda1d76.zip -qq -O /var/www/shopware.zip \
     && unzip -q /var/www/shopware.zip -d /var/www/html \
     && rm -rf /var/www/shopware.zip
 

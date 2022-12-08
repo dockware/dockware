@@ -210,8 +210,8 @@ RUN apt-get update \
     && apt-get install -y php7.2-ssh2 \
     && apt-get install -y php7.2-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.2-geoip \
+    && apt-get install -y php7.2-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -245,8 +245,8 @@ RUN apt-get update \
     && apt-get install -y php7.1-ssh2 \
     && apt-get install -y php7.1-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.1-geoip \
+    && apt-get install -y php7.1-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -279,8 +279,8 @@ RUN apt-get update \
     && apt-get install -y php7.0-imap \
     && apt-get install -y php7.0-ssh2 \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.0-geoip \
+    && apt-get install -y php7.0-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -313,8 +313,8 @@ RUN apt-get update \
     && apt-get install -y php5.6-imap \
     && apt-get install -y php5.6-ssh2 \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php5.6-geoip \
+    && apt-get install -y php5.6-amqp \
     # remove pecl again
     && apt-get remove -y dh-php \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -723,13 +723,14 @@ RUN echo "" \
     && chown -R www-data:www-data /var/www/.composer \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && sudo chmod 0755 /etc/init.d/tideways-daemon
 
 COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini

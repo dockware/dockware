@@ -186,8 +186,8 @@ RUN apt-get update \
     && apt-get install -y php8.1-ssh2 \
     && apt-get install -y php8.1-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    #&& apt-get install -y php8.1-geoip \ not available for 8.1
+    && apt-get install -y php8.1-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -223,8 +223,8 @@ RUN apt-get update \
     && apt-get install -y php8.0-ssh2 \
     && apt-get install -y php8.0-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+#    && apt-get install -y php8.0-geoip \ not available for 8.0
+    && apt-get install -y php8.0-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again
@@ -261,8 +261,8 @@ RUN apt-get update \
     && apt-get install -y php7.4-ssh2 \
     && apt-get install -y php7.4-pcov \
     && apt-get install -y dh-php \
-    && apt-get install -y php-geoip \
-    && apt-get install -y php-amqp \
+    && apt-get install -y php7.4-geoip \
+    && apt-get install -y php7.4-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
     # remove pecl again

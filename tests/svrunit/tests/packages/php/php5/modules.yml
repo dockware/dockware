@@ -41,3 +41,7 @@ php_module:
     module: "imap"
   - name: "PHP Module: ssh2"
     module: "ssh2"
+  - name: "PHP Module: amqp"
+    module: "amqp"
+  - name: "PHP Module: geoip"
+    module: "geoip"
