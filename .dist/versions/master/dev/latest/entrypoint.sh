@@ -14,7 +14,7 @@ echo ""
 echo "*******************************************************"
 echo "** DOCKWARE IMAGE: dev"
 echo "** Tag: latest"
-echo "** Version: 1.5.4"
+echo "** Version: 1.6.0"
 echo "** Built: $(cat /build-date.txt)"
 echo "** Copyright 2022 dasistweb GmbH"
 echo "*******************************************************"
@@ -49,17 +49,6 @@ if [ $FILEBEAT_ENABLED = 1 ]; then
    echo "DOCKWARE: activating Filebeat..."
    sudo service filebeat start --strict.perms=false
    echo "-----------------------------------------------------------"
-fi
-
-if [ $TIDEWAYS_KEY != "not-set" ]; then
-    echo "DOCKWARE: activating Tideways...."
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    sudo service tideways-daemon start
-    echo "-----------------------------------------------------------"
 fi
 
 # checks if a different username is set in ENV and create if its not existing yet
@@ -148,6 +137,17 @@ if [ $XDEBUG_ENABLED = 1 ]; then
    sh /var/www/scripts/bin/xdebug_enable.sh
  else
    sh /var/www/scripts/bin/xdebug_disable.sh
+fi
+
+if [ $TIDEWAYS_KEY != "not-set" ]; then
+    echo "DOCKWARE: activating Tideways...."
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+    sudo service tideways-daemon start
+    echo "-----------------------------------------------------------"
 fi
 
 if [[ ! -z "$NODE_VERSION" ]]; then

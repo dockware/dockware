@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware play:5.3.0" \
-      version="1.5.4" \
+      version="1.6.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -312,6 +312,24 @@ RUN  mv /tmp/composer.phar /usr/local/bin/composer
 
 RUN cd /var/www \
     && apt-get update \
+    # install xdebug for php 8.2
+    && sudo apt-get install -y php8.2-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.2.0.zip \
+    && unzip 3.2.0.zip \
+    && rm -rf 3.2.0.zip \
+    && mv xdebug-3.2.0 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize8.2 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config8.2 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20220829/xdebug_8.2.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize8.2 --clean \
+    && sudo apt-get remove -y php8.2-dev \
     # install xdebug for php 8.1
     && sudo apt-get install -y php8.1-dev \
     && cd /var/www \
@@ -462,6 +480,9 @@ RUN cd /var/www \
 
 #generate xdebug ini files
 
+COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
+
 COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
@@ -487,6 +508,11 @@ COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
+
+&& sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
 
 && sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
@@ -660,6 +686,8 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && sudo chmod 0755 /etc/init.d/tideways-daemon
 
+COPY ./config/tideways/tideways.ini /etc/php/8.2/fpm/conf.d/20-tideways.ini
+COPY ./config/tideways/tideways.ini /etc/php/8.2/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.0/fpm/conf.d/20-tideways.ini
