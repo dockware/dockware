@@ -741,7 +741,11 @@ RUN mkdir /usr/share/adminer \
 RUN apt-get update \
     && apt-get install -y build-essential \
     && apt-get install -y libsqlite3-dev \
+    && apt-get install -y rubygems \
     && apt-get install -y ruby-dev \
+    && gem install net-protocol -v 0.1.2 \
+    && gem install net-smtp -v 0.3.0 \
+    && gem install net-imap -v 0.2.2 \
     && gem install sqlite3 -v 1.3.4 \
     && gem install mailcatcher --conservative --no-ri --no-rdoc \
     && phpenmod mailcatcher \
