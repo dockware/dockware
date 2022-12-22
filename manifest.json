@@ -1,5 +1,9 @@
 {
     "images": {
+        "production": [
+            "production/php-8.1:php-8.1",
+            "production/php-8.0:php-8.0"
+        ],
         "base": [
             "base/latest:latest",
             "base/18.04:18.04"

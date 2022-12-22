@@ -14,7 +14,7 @@
     && a2enmod alias \
     && a2enmod proxy_fcgi \
     && a2enmod http2 \
-    && sudo a2enconf http2 \
-    && sudo a2dismod mpm_prefork > /dev/null 2>&1 \
-    && sudo a2enmod mpm_event > /dev/null 2>&1 \
+    && a2enconf http2 \
+    && a2dismod mpm_prefork > /dev/null 2>&1 \
+    && a2enmod mpm_event > /dev/null 2>&1 \
 

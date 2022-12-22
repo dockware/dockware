@@ -1,0 +1,149 @@
+#!/bin/bash
+
+echo ""
+echo " _____   ____   _____ _  ____          __     _____  ______ "
+echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
+echo "| |  | | |  | | |    | ' /  \ \  /\  / /  \  | |__) | |__   "
+echo "| |  | | |  | | |    |  <    \ \/  \/ / /\ \ |  _  /|  __|  "
+echo "| |__| | |__| | |____| . \    \  /\  / ____ \| | \ \| |____ "
+echo "|_____/ \____/ \_____|_|\_\    \/  \/_/    \_\_|  \_\______|"
+echo ""
+echo "                      _            _   _                 "
+echo "                     | |          | | (_)                "
+echo "_ __  _ __ ___   __| |_   _  ___| |_ _  ___  _ __        "
+echo "|  _ \|  __/ _ \ / _  | | | |/ __| __| |/ _ \|  _ \      "
+echo "| |_) | | | (_) | (_| | |_| | (__| |_| | (_) | | | |     "
+echo "| .__/|_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|     "
+echo "| |                                                      "
+echo "|_|                                                      "
+echo ""
+
+echo "68 69 20 64 65 76 65 6C 6F 70 65 72 2C 20 6E 69 63 65 20 74 6F 20 6D 65 65 74 20 79 6F 75"
+echo "6c 6f 6f 6b 69 6e 67 20 66 6f 72 20 61 20 6a 6f 62 3f 20 77 72 69 74 65 20 75 73 20 61 74 20 6a 6f 62 73 40 64 61 73 69 73 74 77 65 62 2e 64 65"
+echo ""
+echo "*******************************************************"
+echo "** DOCKWARE IMAGE: {{ orca.image }}"
+echo "** Tag: {{ orca.tag }}"
+echo "** Version: {{ version }}"
+echo "** Built: $(cat /build-date.txt)"
+echo "** Copyright 2023 dasistweb GmbH"
+echo "*******************************************************"
+echo ""
+echo "launching dockware...please wait..."
+echo ""
+
+
+set -e
+
+source /etc/apache2/envvars
+#source /var/www/.bashrc
+
+# this is important to automatically use the bashrc file
+# in the "exec" command below when using a simple docker runner command
+#export BASH_ENV=/var/www/.bashrc
+
+
+CONTAINER_STARTUP_DIR=$(pwd)
+
+# it's possible to add a custom boot script on startup.
+# so we test if it exists and just execute it
+file="/var/www/boot_start.sh"
+if [ -f "$file" ] ; then
+    sh $file
+fi
+
+
+echo "DOCKWARE: setting timezone to ${TZ}..."
+ ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
+ dpkg-reconfigure -f noninteractive tzdata
+echo "-----------------------------------------------------------"
+
+
+
+# --------------------------------------------------
+# APACHE
+# first set the correct doc root, because we need it for the php switch below
+ sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
+# --------------------------------------------------
+
+
+
+
+echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
+cd /var/www && make switch-php version=${PHP_VERSION}
+ service apache2 stop
+echo "-----------------------------------------------------------"
+
+# --------------------------------------------------
+# APACHE
+# sometimes the internal docker structure leaves
+# some pid files existing. the container will be recreated....but
+# in reality it's not! thus there might be the problem
+# that an older pid file exists, which leads to the following error:
+#   - "httpd (pid 13) already running"
+# to avoid this, we simple remove an existing file
+ rm -f /var/run/apache2/apache2.pid
+# start test and start apache
+echo "DOCKWARE: testing and starting Apache..."
+ apache2ctl configtest
+ service apache2 restart
+echo "-----------------------------------------------------------"
+# --------------------------------------------------
+
+# before starting any commands
+# we always need to ensure we are back in our
+# configured WORKDIR of the container
+echo "-----------------------------------------------------"
+cd $CONTAINER_STARTUP_DIR
+
+
+# now let's check if we have a custom boot script that
+# should run after our other startup scripts.
+file="/var/www/boot_end.sh"
+if [ -f "$file" ] ; then
+    sh $file
+fi
+
+
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+
+
+echo ""
+echo "WOHOOO, dockware/{{ orca.image }}:{{ orca.tag }} IS READY :) - let's get started"
+echo "-----------------------------------------------------"
+echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
+echo "PHP: $(php -v | grep cli)"
+echo "Apache DocRoot: ${APACHE_DOCROOT}"
+
+echo ""
+echo "What's new in this version? see the changelog for further details"
+echo "https://www.shopware.com/de/changelog/"
+echo ""
+
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+
+# always execute custom commands in here.
+# if a custom command is provided, then the container
+# will automatically exit after it.
+# that's somehow just how it works.
+# otherwise it will continue with the code below
+exec "$@"
+
+
+# we still need this to allow custom events
+# such as our BUILD_PLUGIN feature to exit the container
+if [[ ! -z "$DOCKWARE_CI" ]]; then
+    # CONTAINER WAS STARTED IN NON-BLOCKING CI MODE...."
+    # DOCKWARE WILL NOW EXIT THE CONTAINER"
+    echo ""
+else
+    tail -f /dev/null
+fi

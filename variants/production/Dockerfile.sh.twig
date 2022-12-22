@@ -1,0 +1,185 @@
+# Official Dockware Image
+# Tag: {{ orca.tag }}
+# Copyright 2022 dasistweb GmbH
+#
+FROM {{ base_image }}
+LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
+      version="{{version}}" \
+      maintainer="dasistweb GmbH"
+
+
+# add our changelog to the containers
+ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
+#this conf is needed for enconf command ...
+ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
+
+
+COPY ./config/apache/apache2.conf /tmp/apache2.conf
+COPY ./config/apache/ports.conf /tmp/ports.conf
+COPY ./config/apache/sites.conf /tmp/sites.conf
+
+COPY ./config/php/general.ini /tmp/general.ini
+COPY ./config/php/cli.ini /tmp/cli.ini
+
+
+## ***********************************************************************
+##  IMAGE VARIABLES
+## ***********************************************************************
+
+ENV TZ Europe/Berlin
+ENV PHP_VERSION {{php.default_version}}
+ENV APACHE_DOCROOT {{ apache.docroot }}
+
+#ENV BASH_ENV /var/www/.bashrc
+RUN date >/build-date.txt \
+ && mkdir -p /var/www \
+ && mkdir -p /var/www/scripts \
+ && echo "export TZ=${TZ}" >> /etc/profile \
+ && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
+ && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
+
+
+## ***********************************************************************
+##  BASE REQUIREMENTS
+## ***********************************************************************
+&& apt-get update \
+    && apt-get install -y gosu \
+    && apt-get install -y wget \
+    && apt-get install -y curl \
+    && apt-get install -y unzip \
+    && apt-get install -y bzip2 \
+    && apt-get install -y lsof \
+    && apt-get install -y vim \
+    && apt-get install -y nano \
+    && apt-get install -y jq \
+    && apt-get install -y gnupg2 \
+    && apt-get install -y gpg-agent \
+
+
+    # TIMEZONE SETTINGS
+    # otherwise we would have an interactive input dialog
+    && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+
+    && apt-get install -y tzdata \
+    && dpkg-reconfigure --frontend noninteractive tzdata  \
+
+
+    #&& apt-get install -y libsodium-dev \
+    #&& apt-get install -y php-dev \
+    #&& apt-get install -y php-pear \
+    #&& pecl install -f libsodium \
+    #&& apt-get remove -y php-pear \
+    #&& apt-get remove -y php-dev \
+
+
+## ***********************************************************************
+##  USER MANAGEMENT
+## ***********************************************************************
+# set easy root pwd for dev purpose
+&& echo "root:root" | chpasswd \
+    # set password for www-data, and also
+    # avoid shell login (we have a separate user for that)
+    && echo 'www-data:www-data' | chpasswd \
+    && usermod -s /usr/sbin/nologin www-data \
+
+    # -------------------------------------------------
+    #&& chown 33:33 /var/www/.bashrc \
+    # -------------------------------------------------
+    && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
+
+
+## ***********************************************************************
+##  APACHE INSTALLATION
+## ***********************************************************************
+
+{% include 'template/components/apache2/install.sh.twig' %}
+
+#need to be added after installation
+&& cat /tmp/apache2.conf >| /etc/apache2/apache2.conf \
+&& cat /tmp/ports.conf >| /etc/apache2/ports.conf \
+&& cat /tmp/sites.conf >| /etc/apache2/sites-enabled/000-default.conf \
+
+
+## ***********************************************************************
+##  PHP INSTALLATION
+## ***********************************************************************
+{% for key,value in php.versions %}
+{% if value.active == true %}
+{% include "template/components/php/#{ key }/install.sh.twig" %}
+
+&& cat /tmp/general.ini >| /etc/php/{{ key }}/fpm/conf.d/01-general.ini \
+#check why i do this
+&& cat /tmp/general.ini >| /etc/php/{{ key }}/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini \
+
+{% endif %}
+{% endfor %}
+
+# remove pecl again
+&& apt-get remove -y dh-php \
+
+#make sure the installation runs also in default php version
+&&  update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 \
+# make sure the installation runs using our default php version
+&& service php{{ php.default_version }}-fpm stop > /dev/null 2>&1 && \
+    service php{{ php.default_version }}-fpm start && \
+    update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 \
+
+
+# make sure our php user has rights on the session
+&& chown www-data:www-data -R /var/lib/php/sessions \
+
+# remove the standard apache index file
+&& mkdir -p /var/www/html \
+    && rm -rf /var/www/html/* \
+    && mkdir -p /var/www/html/public \
+    && chown -R www-data:www-data /var/www/html \
+    #&& sudo -u www-data sh -c 'mkdir -p /var/www/html/public' \
+
+
+
+
+# make sure the configured log folder exists and is writeable
+&& chmod -R 0777 /var/www \
+
+
+    && apt-get install -y rsync \
+    && apt-get install -y jpegoptim \
+    && apt-get install -y screen \
+    && apt-get install -y mysql-client \
+    && apt-get install -y daemon
+
+
+
+#todo: remove what is not needed
+#COPY ./assets/scripts/makefile /var/www/makefile
+#COPY ./assets/scripts/bin /var/www/scripts/bin
+
+
+#RUN chown www-data:www-data -R /var/www/scripts \
+
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 755 /*.sh \
+
+&& chown 33:33 -R /var/www/html \
+    # this is necessary so that our user can
+    # change the default nvm node version
+    # otherwise the persisted node version switch would not work!
+    && rm -rf /tmp/*
+
+## ***********************************************************************
+## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
+## everything down here is now done as our www-data / dockware user
+## just like you would do it manually in the container
+## ***********************************************************************
+
+USER www-data
+
+# make the apache folder the working directory
+WORKDIR /var/www/html
+
+## ***********************************************************************
+##  POST BUILD
+## ***********************************************************************
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
