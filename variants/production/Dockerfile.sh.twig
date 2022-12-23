@@ -11,9 +11,7 @@ LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
 # add our changelog to the containers
 ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 #this conf is needed for enconf command ...
-ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
-
-
+ADD ./config/apache/production/http2.conf /etc/apache2/conf-available/http2.conf
 COPY ./config/apache/production/apache2.conf /tmp/apache2.conf
 COPY ./config/apache/production/ports.conf /tmp/ports.conf
 COPY ./config/apache/production/sites.conf /tmp/sites.conf
@@ -29,12 +27,6 @@ COPY ./config/php/production/cli.ini /tmp/cli.ini
 ENV TZ Europe/Berlin
 ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_PID_FILE /var/run/apache2/apache2.pid
-ENV APACHE_SERVER_NAME localhost
 
 
 #ENV BASH_ENV /var/www/.bashrc
@@ -42,7 +34,7 @@ RUN date >/build-date.txt \
  && mkdir -p /var/www \
  && mkdir -p /var/www/scripts \
  && echo "export TZ=${TZ}" >> /etc/profile \
- && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
+ && echo "export PHP_VERSION={{php.default_version}}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
 
 
@@ -111,17 +103,12 @@ RUN date >/build-date.txt \
 ## ***********************************************************************
 ##  PHP INSTALLATION
 ## ***********************************************************************
-{% for key,value in php.versions %}
-{% if value.active == true %}
-{% include "template/components/php/#{ key }/install.sh.twig" %}
 
-&& cat /tmp/general.ini >| /etc/php/{{ key }}/fpm/conf.d/01-dockware.ini \
-#check why i do this
-&& cat /tmp/general.ini >| /etc/php/{{ key }}/cli/conf.d/01-dockware.ini \
-&& cat /tmp/cli.ini >| /etc/php/{{ key }}/cli/conf.d/01-dockware-cli.ini \
+{% include "template/components/php/#{ php.default_version }/install.sh.twig" %}
 
-{% endif %}
-{% endfor %}
+&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/01-dockware.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware.ini \
+&& cat /tmp/cli.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware-cli.ini \
 
 # remove pecl again
 && apt-get remove -y dh-php \
@@ -160,8 +147,7 @@ RUN date >/build-date.txt \
 
 
 #todo: remove what is not needed
-#COPY ./assets/scripts/makefile /var/www/makefile
-#COPY ./assets/scripts/bin /var/www/scripts/bin
+COPY ./assets/scripts/production/makefile /var/www/makefile
 
 
 #RUN chown www-data:www-data -R /var/www/scripts \

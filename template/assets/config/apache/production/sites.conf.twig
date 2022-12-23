@@ -2,7 +2,7 @@
 
     ServerAdmin local@dockware
 
-    ErrorLog /dev/stderr
+    ErrorLog /var/log/apache2/error.log
     AccessFileName .htaccess
 
     DocumentRoot {{ apache.docroot }}
@@ -16,7 +16,7 @@
 
     <FilesMatch \.php$>
         # 2.4.10+ can proxy to unix socket
-        SetHandler "proxy:unix:/var/run/php/{{php.default_version}}-fpm.sock|fcgi://localhost"
+        SetHandler "proxy:unix:/var/run/php/php{{php.default_version}}-fpm.sock|fcgi://localhost"
     </FilesMatch>
 
 </VirtualHost>

@@ -75,7 +75,7 @@ rm -f /var/run/apache2/apache2.pid
 echo "DOCKWARE: testing and starting Apache..."
 apache2ctl configtest
 service apache2 restart
-cd /var/www && su www-data -c "make switch-php version=${PHP_VERSION}"
+cd /var/www &&  make restart-fpm
 cd /var/www/html
 echo "-----------------------------------------------------------"
 # --------------------------------------------------
