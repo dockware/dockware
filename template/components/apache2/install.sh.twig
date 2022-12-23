@@ -17,4 +17,5 @@
     && a2enconf http2 \
     && a2dismod mpm_prefork > /dev/null 2>&1 \
     && a2enmod mpm_event > /dev/null 2>&1 \
+    && a2enmod lbmethod_byrequests \
 

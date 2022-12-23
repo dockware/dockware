@@ -14,12 +14,12 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
 
 
-COPY ./config/apache/apache2.conf /tmp/apache2.conf
-COPY ./config/apache/ports.conf /tmp/ports.conf
-COPY ./config/apache/sites.conf /tmp/sites.conf
+COPY ./config/apache/production/apache2.conf /tmp/apache2.conf
+COPY ./config/apache/production/ports.conf /tmp/ports.conf
+COPY ./config/apache/production/sites.conf /tmp/sites.conf
 
-COPY ./config/php/general.ini /tmp/general.ini
-COPY ./config/php/cli.ini /tmp/cli.ini
+COPY ./config/php/production/general.ini /tmp/general.ini
+COPY ./config/php/production/cli.ini /tmp/cli.ini
 
 
 ## ***********************************************************************
@@ -29,6 +29,13 @@ COPY ./config/php/cli.ini /tmp/cli.ini
 ENV TZ Europe/Berlin
 ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_PID_FILE /var/run/apache2/apache2.pid
+ENV APACHE_SERVER_NAME localhost
+
 
 #ENV BASH_ENV /var/www/.bashrc
 RUN date >/build-date.txt \
@@ -54,6 +61,7 @@ RUN date >/build-date.txt \
     && apt-get install -y jq \
     && apt-get install -y gnupg2 \
     && apt-get install -y gpg-agent \
+    && apt-get install -y make \
 
 
     # TIMEZONE SETTINGS
@@ -81,7 +89,7 @@ RUN date >/build-date.txt \
     # avoid shell login (we have a separate user for that)
     && echo 'www-data:www-data' | chpasswd \
     && usermod -s /usr/sbin/nologin www-data \
-
+    #&& sed -i /etc/sudoers -re 's/^www-data ALL = (root) NOPASSWD: service apache2 start|restart|stop|status/g' \
     # -------------------------------------------------
     #&& chown 33:33 /var/www/.bashrc \
     # -------------------------------------------------
@@ -107,10 +115,10 @@ RUN date >/build-date.txt \
 {% if value.active == true %}
 {% include "template/components/php/#{ key }/install.sh.twig" %}
 
-&& cat /tmp/general.ini >| /etc/php/{{ key }}/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ key }}/fpm/conf.d/01-dockware.ini \
 #check why i do this
-&& cat /tmp/general.ini >| /etc/php/{{ key }}/cli/conf.d/01-general.ini \
-&& cat /tmp/cli.ini >| /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ key }}/cli/conf.d/01-dockware.ini \
+&& cat /tmp/cli.ini >| /etc/php/{{ key }}/cli/conf.d/01-dockware-cli.ini \
 
 {% endif %}
 {% endfor %}
@@ -162,18 +170,28 @@ ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh \
 
 && chown 33:33 -R /var/www/html \
+    && chmod -R 0777 /var/www \
+    && mkdir /var/log/php -p  \
+    && touch /var/log/php/cli_errors.log  \
+    && touch /var/log/apache2/error.log  \
+    && touch /var/log/php/fpm_errors.log  \
+    && chgrp -R www-data /var/log/apache2 \
+    && chown -R www-data:www-data /var/log/php  \
+    && chmod 0755 /var/log/php \
+    && chmod 0755 /var/log/apache2/ \
+    && find /var/log/apache2/ -type f -exec chmod 777 {} \;  \
+
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    && rm -rf /tmp/*
+    && rm -rf /tmp/* \
+    && /bin/bash -c  "source /etc/apache2/envvars; apache2 -V "
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
 ## everything down here is now done as our www-data / dockware user
 ## just like you would do it manually in the container
 ## ***********************************************************************
-
-USER www-data
 
 # make the apache folder the working directory
 WORKDIR /var/www/html
@@ -183,3 +201,8 @@ WORKDIR /var/www/html
 ## ***********************************************************************
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+#CMD ["service", "apache2", "start","tail -f /dev/null"]
+#CMD ["apachectl", "-D", "FOREGROUND"]
+#CMD ["/bun/sh service apache2 start && tail -f /dev/null"]
+
+

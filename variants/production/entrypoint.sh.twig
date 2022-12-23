@@ -53,26 +53,14 @@ if [ -f "$file" ] ; then
 fi
 
 
-echo "DOCKWARE: setting timezone to ${TZ}..."
- ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
- dpkg-reconfigure -f noninteractive tzdata
-echo "-----------------------------------------------------------"
+# before starting any commands
+# we always need to ensure we are back in our
+# configured WORKDIR of the container
+echo "-----------------------------------------------------"
+cd $CONTAINER_STARTUP_DIR
 
 
 
-# --------------------------------------------------
-# APACHE
-# first set the correct doc root, because we need it for the php switch below
- sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
-# --------------------------------------------------
-
-
-
-
-echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-cd /var/www && make switch-php version=${PHP_VERSION}
- service apache2 stop
-echo "-----------------------------------------------------------"
 
 # --------------------------------------------------
 # APACHE
@@ -82,19 +70,17 @@ echo "-----------------------------------------------------------"
 # that an older pid file exists, which leads to the following error:
 #   - "httpd (pid 13) already running"
 # to avoid this, we simple remove an existing file
- rm -f /var/run/apache2/apache2.pid
+rm -f /var/run/apache2/apache2.pid
 # start test and start apache
 echo "DOCKWARE: testing and starting Apache..."
- apache2ctl configtest
- service apache2 restart
+apache2ctl configtest
+service apache2 restart
+cd /var/www && su www-data -c "make switch-php version=${PHP_VERSION}"
+cd /var/www/html
 echo "-----------------------------------------------------------"
 # --------------------------------------------------
 
-# before starting any commands
-# we always need to ensure we are back in our
-# configured WORKDIR of the container
-echo "-----------------------------------------------------"
-cd $CONTAINER_STARTUP_DIR
+
 
 
 # now let's check if we have a custom boot script that
@@ -137,6 +123,7 @@ echo ""
 # otherwise it will continue with the code below
 exec "$@"
 
+#su www-data
 
 # we still need this to allow custom events
 # such as our BUILD_PLUGIN feature to exit the container

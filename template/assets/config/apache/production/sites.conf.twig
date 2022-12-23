@@ -5,7 +5,7 @@
     ErrorLog /dev/stderr
     AccessFileName .htaccess
 
-    DocumentRoot __dockware_apache_docroot__
+    DocumentRoot {{ apache.docroot }}
 
     <Directory /var/www/html>
         Options -Indexes
@@ -16,7 +16,7 @@
 
     <FilesMatch \.php$>
         # 2.4.10+ can proxy to unix socket
-        SetHandler "proxy:unix:/var/run/php/php__dockware_php_version__-fpm.sock|fcgi://localhost"
+        SetHandler "proxy:unix:/var/run/php/{{php.default_version}}-fpm.sock|fcgi://localhost"
     </FilesMatch>
 
 </VirtualHost>
