@@ -1,0 +1,6 @@
+{
+  "name": "dockware/dockware",
+  "require-dev": {
+    "svrunit/svrunit": "^1.6"
+  }
+}
