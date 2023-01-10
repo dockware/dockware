@@ -1,0 +1,12 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="production-beta:php8.1, PHP 8.1"
+                   dockerImage="dockware/production-beta:php8.1" dockerEnv="PHP_VERSION=8.1">
+            <directory>./../../tests/packages/php/php8.1</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>
