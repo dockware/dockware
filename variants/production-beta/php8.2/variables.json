@@ -1,0 +1,15 @@
+{
+  "base_image": "ubuntu:22.04",
+  "php": {
+    "default_version": "8.2",
+    "versions": {
+
+    }
+  },
+  "shopware": {
+    "version": "",
+    "url": ""
+  }
+}
+
+

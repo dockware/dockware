@@ -1,6 +1,7 @@
 {
     "images": {
         "production-beta": [
+            "production-beta/php8.2:php8.2",
             "production-beta/php8.1:php8.1",
             "production-beta/php8.0:php8.0"
         ],
