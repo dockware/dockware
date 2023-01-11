@@ -1,9 +1,9 @@
 {
     "images": {
-        "production-beta": [
-            "production-beta/php8.2:php8.2",
-            "production-beta/php8.1:php8.1",
-            "production-beta/php8.0:php8.0"
+        "production": [
+            "production/php8.2:php8.2-v0.0.1-beta",
+            "production/php8.1:php8.1-v0.0.1-beta",
+            "production/php8.0:php8.0-v0.0.1-beta"
         ],
         "base": [
             "base/latest:latest",
