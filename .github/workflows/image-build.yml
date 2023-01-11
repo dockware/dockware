@@ -10,6 +10,10 @@ on:
       tagName:
         description: 'Tag Name'
         required: true
+      buildArchitecture:
+        description: 'Build Architecture'
+        required: true
+        default: 'multiarch'
         
 jobs:
   
@@ -103,4 +107,9 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+          run: |
+            if [[ ${{ github.event.inputs.imageName }} == "amdarch" ]]; then
+               make build-and-push-amdarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+            else
+              make build-and-push-multiarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B  
+            fi

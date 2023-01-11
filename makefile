@@ -46,6 +46,19 @@ else
 	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t dockware/$(image):$(tag) .
 endif
 
+build-and-push-amdarch: ## Builds and pushes the provided tag [image=play tag=6.1.6]
+ifndef tag
+	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
+	@exit 1;
+else
+	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+	docker buildx rm multiarch | true;
+	docker buildx create --name multiarch --driver docker-container --use
+	docker buildx inspect --bootstrap
+	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64 -t dockware/$(image):$(tag) --push .
+	docker buildx rm multiarch
+endif
+
 build-and-push-multiarch: ## Builds and pushes the provided tag [image=play tag=6.1.6]
 ifndef tag
 	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
@@ -62,7 +75,7 @@ endif
 test: ## Runs all SVRUnit Test Suites for the provided image and tag
 	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-suites
 	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --list-groups
-	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --debug --report-junit --report-html
+	php ./vendor/bin/svrunit test --configuration=./tests/svrunit/suites/$(image)/$(tag).xml --stop-on-error --debug --report-junit --report-html
 
 # ----------------------------------------------------------------------------------------------------------------
 
