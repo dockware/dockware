@@ -32,7 +32,6 @@ ENV APACHE_DOCROOT {{ apache.docroot }}
 #ENV BASH_ENV /var/www/.bashrc
 RUN date >/build-date.txt \
  && mkdir -p /var/www \
- && mkdir -p /var/www/scripts \
  && echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION={{php.default_version}}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
@@ -108,7 +107,7 @@ RUN date >/build-date.txt \
 
 && cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/01-dockware.ini \
 && cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware.ini \
-&& cat /tmp/cli.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware-cli.ini \
+&& cat /tmp/cli.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/999-dockware-cli.ini \
 
 # remove pecl again
 && apt-get remove -y dh-php \
@@ -145,31 +144,22 @@ RUN date >/build-date.txt \
     && apt-get install -y daemon
 
 
-
-#todo: remove what is not needed
-COPY ./assets/scripts/production/makefile /var/www/makefile
-
-
-#RUN chown www-data:www-data -R /var/www/scripts \
-
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh \
 
 && chown 33:33 -R /var/www/html \
-    && chmod -R 0777 /var/www \
+    #&& chmod -R 0777 /var/www \
     && mkdir /var/log/php -p  \
     && touch /var/log/php/cli_errors.log  \
-    && touch /var/log/apache2/error.log  \
     && touch /var/log/php/fpm_errors.log  \
-    && chgrp -R www-data /var/log/apache2 \
+    && touch /var/log/apache2/error.log  \
+    #&& chgrp -R www-data /var/log/apache2 \
     && chown -R www-data:www-data /var/log/php  \
     && chmod 0755 /var/log/php \
-    && chmod 0755 /var/log/apache2/ \
-    && find /var/log/apache2/ -type f -exec chmod 777 {} \;  \
+    #&& chmod 0755 /var/log/apache2/ \
+    #&& find /var/log/apache2/ -type f -exec chmod 777 {} \;  \
 
-    # this is necessary so that our user can
-    # change the default nvm node version
-    # otherwise the persisted node version switch would not work!
+
     && rm -rf /tmp/* \
     && /bin/bash -c  "source /etc/apache2/envvars; apache2 -V "
 

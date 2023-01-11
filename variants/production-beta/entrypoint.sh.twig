@@ -75,7 +75,14 @@ rm -f /var/run/apache2/apache2.pid
 echo "DOCKWARE: testing and starting Apache..."
 apache2ctl configtest
 service apache2 restart
-cd /var/www &&  make restart-fpm
+## restart fpm
+echo $PHP_VERSION
+service php$PHP_VERSION-fpm stop
+service php$PHP_VERSION-fpm start
+service apache2 restart
+update-alternatives --set php /usr/bin/php$PHP_VERSION
+php -v
+
 cd /var/www/html
 echo "-----------------------------------------------------------"
 # --------------------------------------------------
