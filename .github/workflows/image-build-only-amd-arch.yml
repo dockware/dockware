@@ -1,4 +1,4 @@
-name: Custom Image
+name: Custom Image (AMD arch only)
 
 on:
   workflow_dispatch:
@@ -101,5 +101,5 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
+        - name: Push AMD-Arch to Docker Hub
+          run: make build-and-push-amdarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
