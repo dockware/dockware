@@ -107,12 +107,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Push Multi-Arch to Docker Hub
-        if: github.event.inputs.imageName == "armarch"
+        if: ${{ github.event.inputs.imageName == 'armarch' }}
         run: make build-and-push-multiarch image=${{ github.event.inputs.imageName }} tag=${{ github.event.inputs.tagName }} -B
 
 
       - name: Push Amd Arch to Docker Hub
-        if: github.event.inputs.imageName == "amdarch"
+        if: ${{ github.event.inputs.imageName == 'amdarch' }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./dist/images/${{ github.event.inputs.imageName }}/${{ github.event.inputs.tagName }}
