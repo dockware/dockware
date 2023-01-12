@@ -27,13 +27,6 @@ commands:
     command: "service php8.1-fpm status"
     expected: "php-fpm8.1 is running"
 
-  - name: "php 7 not installed"
-    command: "ls -l /etc/php/7.4"
-    expected: "ls: cannot access '/etc/php/7.4': No such file or directory"
-
-  - name: "php 8.2 not installed"
-    command: "ls -l /etc/php/8.2"
-    expected: "ls: cannot access '/etc/php/8.2': No such file or directory"
-  - name: "php 8.0 not installed"
-    command: "ls -l /etc/php/8.0"
-    expected: "ls: cannot access '/etc/php/8.0': No such file or directory"
+  - name: "no other php versions installed"
+    command: "ls /etc/php | wc -l"
+    expected: "1"
