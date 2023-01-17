@@ -71,10 +71,10 @@ jobs:
                cd tests/cypress && make run-essentials url=http://localhost
             fi
             if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware=6.4.18.0
+               cd tests/cypress && make run6 url=http://localhost shopware=6.4.18.1
             fi
             if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware=6.4.18.0
+               cd tests/cypress && make run6 url=http://localhost shopware=6.4.18.1
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost shopware=$SW_VERSION
