@@ -1,0 +1,2 @@
+*/1 * * * * cd /var/www/html && php bin/console scheduled-task:run --time-limit=50 --memory-limit=125M
+*/1 * * * * cd /var/www/html && php bin/console messenger:consume --time-limit=50
