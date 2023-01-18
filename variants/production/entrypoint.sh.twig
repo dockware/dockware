@@ -36,11 +36,11 @@ echo ""
 set -e
 
 source /etc/apache2/envvars
-source /var/www/.bashrc
+#source /var/www/.bashrc
 
 
-if [! test -f "/var/www/.pwdset"; ]; then
-    echo "set new root password if not already set ..."
+if [ ! -f /var/www/.pwdset ]; then
+    echo "set new root password as it is not already set ..."
     #this fil will be created ba the dockerfile maintainer of your project Dockerfile, so we know we donät have to create a new password for root
     PASSWORD=$(openssl rand -base64 24) #make it random if no password is provied by env
     echo "root:$PASSWORD" | chpasswd
@@ -49,7 +49,7 @@ fi;
 
 # this is important to automatically use the bashrc file
 # in the "exec" command below when using a simple docker runner command
-export BASH_ENV=/var/www/.bashrc
+#export BASH_ENV=/var/www/.bashrc
 
 
 CONTAINER_STARTUP_DIR=$(pwd)
