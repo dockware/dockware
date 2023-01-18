@@ -93,9 +93,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=latest -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/latest
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:latest
+
   
     play-6-4-18-1: 
       name: Release play:6.4.18.1
@@ -185,9 +191,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.18.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.18.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.18.1
+
   
     play-6-4-18-0: 
       name: Release play:6.4.18.0
@@ -277,9 +289,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.18.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.18.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.18.0
+
   
     play-6-4-17-2: 
       name: Release play:6.4.17.2
@@ -369,9 +387,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.17.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.17.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.17.2
+
   
     play-6-4-17-1: 
       name: Release play:6.4.17.1
@@ -461,9 +485,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.17.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.17.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.17.1
+
   
     play-6-4-17-0: 
       name: Release play:6.4.17.0
@@ -553,9 +583,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.17.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.17.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.17.0
+
   
     play-6-4-16-1: 
       name: Release play:6.4.16.1
@@ -645,9 +681,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.16.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.16.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.16.1
+
   
     play-6-4-16-0: 
       name: Release play:6.4.16.0
@@ -737,9 +779,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.16.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.16.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.16.0
+
   
     play-6-4-15-2: 
       name: Release play:6.4.15.2
@@ -829,9 +877,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.15.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.15.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.15.2
+
   
     play-6-4-15-1: 
       name: Release play:6.4.15.1
@@ -921,9 +975,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.15.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.15.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.15.1
+
   
     play-6-4-15-0: 
       name: Release play:6.4.15.0
@@ -1013,9 +1073,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.15.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.15.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.15.0
+
   
     play-6-4-14-0: 
       name: Release play:6.4.14.0
@@ -1105,9 +1171,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.14.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.14.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.14.0
+
   
     play-6-4-13-0: 
       name: Release play:6.4.13.0
@@ -1197,9 +1269,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.13.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.13.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.13.0
+
   
     play-6-4-12-0: 
       name: Release play:6.4.12.0
@@ -1289,9 +1367,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.12.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.12.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.12.0
+
   
     play-6-4-11-1: 
       name: Release play:6.4.11.1
@@ -1381,9 +1465,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.11.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.11.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.11.1
+
   
     play-6-4-11-0: 
       name: Release play:6.4.11.0
@@ -1473,9 +1563,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.11.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.11.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.11.0
+
   
     play-6-4-10-1: 
       name: Release play:6.4.10.1
@@ -1565,9 +1661,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.10.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.10.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.10.1
+
   
     play-6-4-10-0: 
       name: Release play:6.4.10.0
@@ -1657,9 +1759,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.10.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.10.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.10.0
+
   
     play-6-4-9-0: 
       name: Release play:6.4.9.0
@@ -1749,9 +1857,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.9.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.9.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.9.0
+
   
     play-6-4-8-2: 
       name: Release play:6.4.8.2
@@ -1841,9 +1955,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.8.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.8.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.8.2
+
   
     play-6-4-8-1: 
       name: Release play:6.4.8.1
@@ -1933,9 +2053,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.8.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.8.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.8.1
+
   
     play-6-4-8-0: 
       name: Release play:6.4.8.0
@@ -2025,9 +2151,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.8.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.8.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.8.0
+
   
     play-6-4-7-0: 
       name: Release play:6.4.7.0
@@ -2117,9 +2249,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.7.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.7.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.7.0
+
   
     play-6-4-6-1: 
       name: Release play:6.4.6.1
@@ -2209,9 +2347,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.6.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.6.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.6.1
+
   
     play-6-4-6-0: 
       name: Release play:6.4.6.0
@@ -2301,9 +2445,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.6.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.6.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.6.0
+
   
     play-6-4-5-1: 
       name: Release play:6.4.5.1
@@ -2393,9 +2543,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.5.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.5.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.5.1
+
   
     play-6-4-5-0: 
       name: Release play:6.4.5.0
@@ -2485,9 +2641,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.5.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.5.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.5.0
+
   
     play-6-4-4-1: 
       name: Release play:6.4.4.1
@@ -2577,9 +2739,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.4.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.4.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.4.1
+
   
     play-6-4-4-0: 
       name: Release play:6.4.4.0
@@ -2669,9 +2837,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.4.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.4.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.4.0
+
   
     play-6-4-3-1: 
       name: Release play:6.4.3.1
@@ -2761,9 +2935,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.3.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.3.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.3.1
+
   
     play-6-4-3-0: 
       name: Release play:6.4.3.0
@@ -2853,9 +3033,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.3.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.3.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.3.0
+
   
     play-6-4-2-1: 
       name: Release play:6.4.2.1
@@ -2945,9 +3131,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.2.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.2.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.2.1
+
   
     play-6-4-2-0: 
       name: Release play:6.4.2.0
@@ -3037,9 +3229,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.2.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.2.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.2.0
+
   
     play-6-4-1-2: 
       name: Release play:6.4.1.2
@@ -3129,9 +3327,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.1.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.1.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.1.2
+
   
     play-6-4-1-1: 
       name: Release play:6.4.1.1
@@ -3221,9 +3425,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.1.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.1.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.1.1
+
   
     play-6-4-1-0: 
       name: Release play:6.4.1.0
@@ -3313,9 +3523,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.1.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.1.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.1.0
+
   
     play-6-4-0-0: 
       name: Release play:6.4.0.0
@@ -3405,9 +3621,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.0.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.0.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.0.0
+
   
     play-6-4-0-0-rc1: 
       name: Release play:6.4.0.0-rc1
@@ -3497,9 +3719,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.4.0.0-rc1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.4.0.0-rc1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.4.0.0-rc1
+
   
     play-6-3-5-4: 
       name: Release play:6.3.5.4
@@ -3589,9 +3817,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.5.4 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.5.4
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.5.4
+
   
     play-6-3-5-3: 
       name: Release play:6.3.5.3
@@ -3681,9 +3915,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.5.3 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.5.3
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.5.3
+
   
     play-6-3-5-2: 
       name: Release play:6.3.5.2
@@ -3773,9 +4013,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.5.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.5.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.5.2
+
   
     play-6-3-5-1: 
       name: Release play:6.3.5.1
@@ -3865,9 +4111,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.5.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.5.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.5.1
+
   
     play-6-3-5-0: 
       name: Release play:6.3.5.0
@@ -3957,9 +4209,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.5.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.5.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.5.0
+
   
     play-6-3-4-1: 
       name: Release play:6.3.4.1
@@ -4049,9 +4307,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.4.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.4.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.4.1
+
   
     play-6-3-4-0: 
       name: Release play:6.3.4.0
@@ -4141,9 +4405,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.4.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.4.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.4.0
+
   
     play-6-3-3-1: 
       name: Release play:6.3.3.1
@@ -4233,9 +4503,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.3.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.3.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.3.1
+
   
     play-6-3-3-0: 
       name: Release play:6.3.3.0
@@ -4325,9 +4601,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.3.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.3.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.3.0
+
   
     play-6-3-2-1: 
       name: Release play:6.3.2.1
@@ -4417,9 +4699,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.2.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.2.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.2.1
+
   
     play-6-3-2-0: 
       name: Release play:6.3.2.0
@@ -4509,9 +4797,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.2.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.2.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.2.0
+
   
     play-6-3-1-1: 
       name: Release play:6.3.1.1
@@ -4601,9 +4895,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.1.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.1.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.1.1
+
   
     play-6-3-1-0: 
       name: Release play:6.3.1.0
@@ -4693,9 +4993,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.1.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.1.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.1.0
+
   
     play-6-3-0-2: 
       name: Release play:6.3.0.2
@@ -4785,9 +5091,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.0.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.0.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.0.2
+
   
     play-6-3-0-1: 
       name: Release play:6.3.0.1
@@ -4877,9 +5189,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.0.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.0.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.0.1
+
   
     play-6-3-0-0: 
       name: Release play:6.3.0.0
@@ -4969,9 +5287,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.3.0.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.3.0.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.3.0.0
+
   
     play-6-2-3: 
       name: Release play:6.2.3
@@ -5061,9 +5385,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.2.3 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.2.3
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.2.3
+
   
     play-6-2-2: 
       name: Release play:6.2.2
@@ -5153,9 +5483,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.2.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.2.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.2.2
+
   
     play-6-2-1: 
       name: Release play:6.2.1
@@ -5245,9 +5581,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.2.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.2.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.2.1
+
   
     play-6-2-0: 
       name: Release play:6.2.0
@@ -5337,9 +5679,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.2.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.2.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.2.0
+
   
     play-6-2-0-rc1: 
       name: Release play:6.2.0-rc1
@@ -5429,9 +5777,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.2.0-rc1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.2.0-rc1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.2.0-rc1
+
   
     play-6-1-6: 
       name: Release play:6.1.6
@@ -5521,9 +5875,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.6 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.6
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.6
+
   
     play-6-1-5: 
       name: Release play:6.1.5
@@ -5613,9 +5973,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.5 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.5
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.5
+
   
     play-6-1-4: 
       name: Release play:6.1.4
@@ -5705,9 +6071,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.4 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.4
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.4
+
   
     play-6-1-3: 
       name: Release play:6.1.3
@@ -5797,9 +6169,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.3 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.3
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.3
+
   
     play-6-1-2: 
       name: Release play:6.1.2
@@ -5889,9 +6267,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.2
+
   
     play-6-1-1: 
       name: Release play:6.1.1
@@ -5981,9 +6365,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.1
+
   
     play-6-1-0: 
       name: Release play:6.1.0
@@ -6073,9 +6463,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=6.1.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/6.1.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:6.1.0
+
   
     play-5-7-16: 
       name: Release play:5.7.16
@@ -6165,9 +6561,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.16 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.16
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.16
+
   
     play-5-7-16-rc: 
       name: Release play:5.7.16-rc
@@ -6257,9 +6659,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.16-rc -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.16-rc
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.16-rc
+
   
     play-5-7-15: 
       name: Release play:5.7.15
@@ -6349,9 +6757,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.15 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.15
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.15
+
   
     play-5-7-14: 
       name: Release play:5.7.14
@@ -6441,9 +6855,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.14 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.14
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.14
+
   
     play-5-7-13: 
       name: Release play:5.7.13
@@ -6533,9 +6953,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.13 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.13
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.13
+
   
     play-5-7-12: 
       name: Release play:5.7.12
@@ -6625,9 +7051,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.12 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.12
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.12
+
   
     play-5-7-11: 
       name: Release play:5.7.11
@@ -6717,9 +7149,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.11 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.11
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.11
+
   
     play-5-7-10: 
       name: Release play:5.7.10
@@ -6809,9 +7247,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.10 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.10
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.10
+
   
     play-5-7-9: 
       name: Release play:5.7.9
@@ -6901,9 +7345,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.9 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.9
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.9
+
   
     play-5-7-8: 
       name: Release play:5.7.8
@@ -6993,9 +7443,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.8 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.8
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.8
+
   
     play-5-7-7: 
       name: Release play:5.7.7
@@ -7085,9 +7541,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.7 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.7
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.7
+
   
     play-5-7-6: 
       name: Release play:5.7.6
@@ -7177,9 +7639,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.6 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.6
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.6
+
   
     play-5-7-5: 
       name: Release play:5.7.5
@@ -7269,9 +7737,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.5 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.5
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.5
+
   
     play-5-7-4: 
       name: Release play:5.7.4
@@ -7361,9 +7835,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.4 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.4
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.4
+
   
     play-5-7-3: 
       name: Release play:5.7.3
@@ -7453,9 +7933,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.3 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.3
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.3
+
   
     play-5-7-2: 
       name: Release play:5.7.2
@@ -7545,9 +8031,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.2
+
   
     play-5-7-1: 
       name: Release play:5.7.1
@@ -7637,9 +8129,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.1
+
   
     play-5-7-0: 
       name: Release play:5.7.0
@@ -7729,9 +8227,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.0
+
   
     play-5-7-0-rc2: 
       name: Release play:5.7.0-rc2
@@ -7821,9 +8325,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.0-rc2 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.0-rc2
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.0-rc2
+
   
     play-5-7-0-rc1: 
       name: Release play:5.7.0-rc1
@@ -7913,9 +8423,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.7.0-rc1 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.7.0-rc1
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.7.0-rc1
+
   
     play-5-6-10: 
       name: Release play:5.6.10
@@ -8005,9 +8521,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.10 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.10
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.10
+
   
     play-5-6-9: 
       name: Release play:5.6.9
@@ -8097,9 +8619,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.9 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.9
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.9
+
   
     play-5-6-8: 
       name: Release play:5.6.8
@@ -8189,9 +8717,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.8 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.8
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.8
+
   
     play-5-6-7: 
       name: Release play:5.6.7
@@ -8281,9 +8815,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.7 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.7
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.7
+
   
     play-5-6-6: 
       name: Release play:5.6.6
@@ -8373,9 +8913,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.6 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.6
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.6
+
   
     play-5-6-4: 
       name: Release play:5.6.4
@@ -8465,9 +9011,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.4 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.4
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.4
+
   
     play-5-6-3: 
       name: Release play:5.6.3
@@ -8557,9 +9109,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.6.3 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.6.3
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.6.3
+
   
     play-5-5-10: 
       name: Release play:5.5.10
@@ -8649,9 +9207,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.5.10 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.5.10
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.5.10
+
   
     play-5-5-0: 
       name: Release play:5.5.0
@@ -8741,9 +9305,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.5.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.5.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.5.0
+
   
     play-5-4-6: 
       name: Release play:5.4.6
@@ -8833,9 +9403,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.4.6 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.4.6
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.4.6
+
   
     play-5-3-0: 
       name: Release play:5.3.0
@@ -8925,9 +9501,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.3.0 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.3.0
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.3.0
+
   
     play-5-2-21: 
       name: Release play:5.2.21
@@ -9017,6 +9599,11 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=5.2.21 -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/5.2.21
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:5.2.21

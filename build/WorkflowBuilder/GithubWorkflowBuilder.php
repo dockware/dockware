@@ -1,11 +1,9 @@
 <?php
 
-include __DIR__ . '/Constants.php';
-
+include __DIR__.'/Constants.php';
 
 class GithubWorkflowBuilder
 {
-
     /**
      * @param $jobKey
      * @param $image
@@ -15,8 +13,8 @@ class GithubWorkflowBuilder
     public function buildJob($jobKey, $image, $tag)
     {
         $templateBuild = '
-    ' . $jobKey . ': 
-      name: Release ' . $image . ':' . $tag . '
+    '.$jobKey.': 
+      name: Release '.$image.':'.$tag.'
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -30,21 +28,21 @@ class GithubWorkflowBuilder
           run: make generate -B
     
         - name: Verify Configuration
-          run: make verify image=' . $image . ' tag=' . $tag . ' -B
+          run: make verify image='.$image.' tag='.$tag.' -B
           
         - name: Build Image
-          run: make build image=' . $image . ' tag=' . $tag . ' -B
+          run: make build image='.$image.' tag='.$tag.' -B
 ';
 
         $templateTest = '
         - name: Run SVRUnit Tests
-          run: make test image=' . $image . ' tag=' . $tag . ' -B
+          run: make test image='.$image.' tag='.$tag.' -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_' . $image . '_' . $tag . '
+            name: svrunit_report_'.$image.'_'.$tag.'
             retention-days: 3
             path: |
                 .reports
@@ -59,7 +57,7 @@ class GithubWorkflowBuilder
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/' . $image . ':' . $tag . '
+            docker run --rm -p 80:80 --name shop -d dockware/'.$image.':'.$tag.'
             sleep 30
             docker logs shop
 
@@ -75,10 +73,10 @@ class GithubWorkflowBuilder
                cd tests/cypress && make run-essentials url=http://localhost
             fi
             if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware=' . Constants::LATEST_SW_VERSION . '
+               cd tests/cypress && make run6 url=http://localhost shopware='.Constants::LATEST_SW_VERSION.'
             fi
             if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
-               cd tests/cypress && make run6 url=http://localhost shopware=' . Constants::LATEST_SW_VERSION . '
+               cd tests/cypress && make run6 url=http://localhost shopware='.Constants::LATEST_SW_VERSION.'
             fi
             if [[ $SW_VERSION == 6.* ]]; then
                cd tests/cypress && make run6 url=http://localhost shopware=$SW_VERSION
@@ -87,14 +85,14 @@ class GithubWorkflowBuilder
                cd tests/cypress && make run5 url=http://localhost shopware=$SW_VERSION
             fi
           env:
-            DW_IMAGE: ' . $image . '
-            SW_VERSION: ' . $tag . '
+            DW_IMAGE: '.$image.'
+            SW_VERSION: '.$tag.'
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_' . $image . '_' . $tag . '
+            name: cypress_results_'.$image.'_'.$tag.'
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
@@ -107,12 +105,16 @@ class GithubWorkflowBuilder
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=' . $image . ' tag=' . $tag . ' -B';
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/'.$image.'/'.$tag.'
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/'.$image.':'.$tag.'
+';
 
-
-        return $templateBuild . $templateTest . $templatePush;
+        return $templateBuild.$templateTest.$templatePush;
     }
-
 }

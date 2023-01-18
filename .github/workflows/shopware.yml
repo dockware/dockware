@@ -98,9 +98,15 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=play tag=${{ github.event.inputs.tagName }} -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/${{ github.event.inputs.tagName }}
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/play:${{ github.event.inputs.tagName }}
+
   
     build-dev: 
       name: Release dev:${{ github.event.inputs.tagName }}
@@ -190,6 +196,11 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
-        - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=dev tag=${{ github.event.inputs.tagName }} -B
+        
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/${{ github.event.inputs.tagName }}
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: dockware/dev:${{ github.event.inputs.tagName }}
