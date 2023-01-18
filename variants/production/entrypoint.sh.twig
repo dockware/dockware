@@ -69,6 +69,9 @@ echo "-----------------------------------------------------"
 cd $CONTAINER_STARTUP_DIR
 
 
+rm -rf /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+rm -rf /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+
 if [ $TIDEWAYS_KEY != "not-set" ] && [ $TIDEWAYS_CONNECTION != "not-set" ]; then
     echo "DOCKWARE: activating Tideways...."
 
@@ -94,9 +97,6 @@ if [ $TIDEWAYS_KEY != "not-set" ] && [ $TIDEWAYS_CONNECTION != "not-set" ]; then
     echo "-----------------------------------------------------------"
 else
   echo "DOCKWARE: launnching without Tideways...."
-  #make sure tideways is not configured
-  echo "" >| /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-  echo "" >| /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
 fi
 
 
