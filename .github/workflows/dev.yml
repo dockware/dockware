@@ -98,8 +98,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.5.0.0-trunk
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.5.0.0-trunk
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -108,11 +114,11 @@ jobs:
             push: false
             tags: dockware/dev:6.5.0.0-trunk
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.5.0.0-trunk
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.5.0.0-trunk
 
@@ -210,8 +216,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/latest
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:latest
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -220,11 +232,11 @@ jobs:
             push: false
             tags: dockware/dev:latest
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/latest
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:latest
 
@@ -322,8 +334,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.18.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.18.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -332,11 +350,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.18.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.18.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.18.1
 
@@ -434,8 +452,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.18.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.18.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -444,11 +468,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.18.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.18.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.18.0
 
@@ -546,8 +570,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.17.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.17.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -556,11 +586,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.17.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.17.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.17.2
 
@@ -658,8 +688,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.17.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.17.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -668,11 +704,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.17.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.17.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.17.1
 
@@ -770,8 +806,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.17.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.17.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -780,11 +822,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.17.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.17.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.17.0
 
@@ -882,8 +924,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.16.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.16.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -892,11 +940,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.16.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.16.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.16.1
 
@@ -994,8 +1042,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.16.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.16.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1004,11 +1058,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.16.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.16.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.16.0
 
@@ -1106,8 +1160,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.15.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.15.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1116,11 +1176,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.15.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.15.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.15.2
 
@@ -1218,8 +1278,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.15.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.15.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1228,11 +1294,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.15.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.15.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.15.1
 
@@ -1330,8 +1396,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.15.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.15.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1340,11 +1412,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.15.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.15.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.15.0
 
@@ -1442,8 +1514,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.14.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.14.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1452,11 +1530,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.14.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.14.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.14.0
 
@@ -1554,8 +1632,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.13.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.13.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1564,11 +1648,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.13.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.13.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.13.0
 
@@ -1666,8 +1750,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.12.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.12.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1676,11 +1766,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.12.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.12.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.12.0
 
@@ -1778,8 +1868,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.11.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.11.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1788,11 +1884,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.11.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.11.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.11.1
 
@@ -1890,8 +1986,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.11.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.11.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -1900,11 +2002,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.11.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.11.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.11.0
 
@@ -2002,8 +2104,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.10.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.10.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2012,11 +2120,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.10.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.10.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.10.1
 
@@ -2114,8 +2222,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.10.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.10.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2124,11 +2238,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.10.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.10.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.10.0
 
@@ -2226,8 +2340,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.9.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.9.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2236,11 +2356,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.9.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.9.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.9.0
 
@@ -2338,8 +2458,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.8.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.8.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2348,11 +2474,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.8.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.8.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.8.2
 
@@ -2450,8 +2576,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.8.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.8.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2460,11 +2592,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.8.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.8.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.8.1
 
@@ -2562,8 +2694,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.8.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.8.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2572,11 +2710,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.8.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.8.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.8.0
 
@@ -2674,8 +2812,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.7.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.7.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2684,11 +2828,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.7.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.7.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.7.0
 
@@ -2786,8 +2930,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.6.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.6.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2796,11 +2946,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.6.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.6.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.6.1
 
@@ -2898,8 +3048,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.6.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.6.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -2908,11 +3064,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.6.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.6.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.6.0
 
@@ -3010,8 +3166,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.5.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.5.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3020,11 +3182,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.5.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.5.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.5.1
 
@@ -3122,8 +3284,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.5.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.5.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3132,11 +3300,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.5.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.5.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.5.0
 
@@ -3234,8 +3402,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.4.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.4.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3244,11 +3418,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.4.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.4.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.4.1
 
@@ -3346,8 +3520,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.4.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.4.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3356,11 +3536,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.4.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.4.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.4.0
 
@@ -3458,8 +3638,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.3.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.3.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3468,11 +3654,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.3.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.3.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.3.1
 
@@ -3570,8 +3756,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.3.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.3.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3580,11 +3772,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.3.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.3.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.3.0
 
@@ -3682,8 +3874,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.2.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.2.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3692,11 +3890,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.2.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.2.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.2.1
 
@@ -3794,8 +3992,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.2.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.2.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3804,11 +4008,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.2.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.2.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.2.0
 
@@ -3906,8 +4110,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.2.0-rc
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.2.0-rc
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -3916,11 +4126,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.2.0-rc
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.2.0-rc
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.2.0-rc
 
@@ -4018,8 +4228,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.1.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.1.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4028,11 +4244,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.1.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.1.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.1.2
 
@@ -4130,8 +4346,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.1.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.1.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4140,11 +4362,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.1.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.1.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.1.1
 
@@ -4242,8 +4464,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.1.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.1.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4252,11 +4480,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.1.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.1.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.1.0
 
@@ -4354,8 +4582,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.0.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.0.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4364,11 +4598,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.0.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.0.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.0.0
 
@@ -4466,8 +4700,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.4.0.0-rc1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.4.0.0-rc1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4476,11 +4716,11 @@ jobs:
             push: false
             tags: dockware/dev:6.4.0.0-rc1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.4.0.0-rc1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.4.0.0-rc1
 
@@ -4578,8 +4818,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.5.4
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.5.4
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4588,11 +4834,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.5.4
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.5.4
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.5.4
 
@@ -4690,8 +4936,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.5.3
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.5.3
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4700,11 +4952,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.5.3
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.5.3
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.5.3
 
@@ -4802,8 +5054,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.5.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.5.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4812,11 +5070,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.5.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.5.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.5.2
 
@@ -4914,8 +5172,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.5.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.5.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -4924,11 +5188,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.5.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.5.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.5.1
 
@@ -5026,8 +5290,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.5.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.5.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5036,11 +5306,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.5.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.5.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.5.0
 
@@ -5138,8 +5408,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.4.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.4.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5148,11 +5424,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.4.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.4.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.4.1
 
@@ -5250,8 +5526,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.4.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.4.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5260,11 +5542,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.4.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.4.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.4.0
 
@@ -5362,8 +5644,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.3.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.3.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5372,11 +5660,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.3.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.3.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.3.1
 
@@ -5474,8 +5762,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.3.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.3.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5484,11 +5778,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.3.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.3.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.3.0
 
@@ -5586,8 +5880,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.2.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.2.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5596,11 +5896,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.2.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.2.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.2.1
 
@@ -5698,8 +5998,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.2.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.2.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5708,11 +6014,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.2.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.2.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.2.0
 
@@ -5810,8 +6116,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.1.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.1.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5820,11 +6132,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.1.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.1.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.1.1
 
@@ -5922,8 +6234,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.1.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.1.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -5932,11 +6250,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.1.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.1.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.1.0
 
@@ -6034,8 +6352,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.0.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.0.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6044,11 +6368,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.0.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.0.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.0.2
 
@@ -6146,8 +6470,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.0.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.0.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6156,11 +6486,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.0.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.0.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.0.1
 
@@ -6258,8 +6588,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.3.0.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.3.0.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6268,11 +6604,11 @@ jobs:
             push: false
             tags: dockware/dev:6.3.0.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.3.0.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.3.0.0
 
@@ -6370,8 +6706,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.2.3
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.2.3
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6380,11 +6722,11 @@ jobs:
             push: false
             tags: dockware/dev:6.2.3
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.2.3
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.2.3
 
@@ -6482,8 +6824,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.2.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.2.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6492,11 +6840,11 @@ jobs:
             push: false
             tags: dockware/dev:6.2.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.2.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.2.2
 
@@ -6594,8 +6942,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.2.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.2.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6604,11 +6958,11 @@ jobs:
             push: false
             tags: dockware/dev:6.2.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.2.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.2.1
 
@@ -6706,8 +7060,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.2.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.2.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6716,11 +7076,11 @@ jobs:
             push: false
             tags: dockware/dev:6.2.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.2.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.2.0
 
@@ -6818,8 +7178,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.1.6
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.1.6
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6828,11 +7194,11 @@ jobs:
             push: false
             tags: dockware/dev:6.1.6
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.1.6
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.1.6
 
@@ -6930,8 +7296,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.1.5
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.1.5
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -6940,11 +7312,11 @@ jobs:
             push: false
             tags: dockware/dev:6.1.5
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.1.5
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.1.5
 
@@ -7042,8 +7414,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.1.4
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.1.4
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7052,11 +7430,11 @@ jobs:
             push: false
             tags: dockware/dev:6.1.4
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.1.4
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.1.4
 
@@ -7154,8 +7532,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.1.3
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.1.3
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7164,11 +7548,11 @@ jobs:
             push: false
             tags: dockware/dev:6.1.3
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.1.3
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.1.3
 
@@ -7266,8 +7650,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.1.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.1.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7276,11 +7666,11 @@ jobs:
             push: false
             tags: dockware/dev:6.1.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.1.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.1.1
 
@@ -7378,8 +7768,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/6.1.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:6.1.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7388,11 +7784,11 @@ jobs:
             push: false
             tags: dockware/dev:6.1.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/6.1.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:6.1.0
 
@@ -7490,8 +7886,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.16
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.16
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7500,11 +7902,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.16
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.16
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.16
 
@@ -7602,8 +8004,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.16-rc
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.16-rc
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7612,11 +8020,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.16-rc
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.16-rc
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.16-rc
 
@@ -7714,8 +8122,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.15
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.15
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7724,11 +8138,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.15
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.15
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.15
 
@@ -7826,8 +8240,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.14
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.14
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7836,11 +8256,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.14
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.14
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.14
 
@@ -7938,8 +8358,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.13
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.13
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -7948,11 +8374,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.13
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.13
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.13
 
@@ -8050,8 +8476,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.12
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.12
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8060,11 +8492,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.12
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.12
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.12
 
@@ -8162,8 +8594,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.11
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.11
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8172,11 +8610,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.11
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.11
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.11
 
@@ -8274,8 +8712,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.10
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.10
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8284,11 +8728,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.10
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.10
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.10
 
@@ -8386,8 +8830,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.9
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.9
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8396,11 +8846,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.9
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.9
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.9
 
@@ -8498,8 +8948,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.8
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.8
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8508,11 +8964,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.8
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.8
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.8
 
@@ -8610,8 +9066,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.7
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.7
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8620,11 +9082,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.7
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.7
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.7
 
@@ -8722,8 +9184,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.6
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.6
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8732,11 +9200,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.6
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.6
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.6
 
@@ -8834,8 +9302,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.5
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.5
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8844,11 +9318,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.5
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.5
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.5
 
@@ -8946,8 +9420,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.4
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.4
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -8956,11 +9436,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.4
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.4
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.4
 
@@ -9058,8 +9538,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.3
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.3
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9068,11 +9554,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.3
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.3
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.3
 
@@ -9170,8 +9656,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9180,11 +9672,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.2
 
@@ -9282,8 +9774,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9292,11 +9790,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.1
 
@@ -9394,8 +9892,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9404,11 +9908,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.0
 
@@ -9506,8 +10010,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.0-rc2
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.0-rc2
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9516,11 +10026,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.0-rc2
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.0-rc2
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.0-rc2
 
@@ -9618,8 +10128,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.7.0-rc1
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.7.0-rc1
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9628,11 +10144,11 @@ jobs:
             push: false
             tags: dockware/dev:5.7.0-rc1
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.7.0-rc1
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.7.0-rc1
 
@@ -9730,8 +10246,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.10
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.10
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9740,11 +10262,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.10
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.10
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.10
 
@@ -9842,8 +10364,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.9
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.9
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9852,11 +10380,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.9
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.9
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.9
 
@@ -9954,8 +10482,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.8
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.8
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -9964,11 +10498,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.8
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.8
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.8
 
@@ -10066,8 +10600,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.7
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.7
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10076,11 +10616,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.7
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.7
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.7
 
@@ -10178,8 +10718,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.6
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.6
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10188,11 +10734,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.6
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.6
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.6
 
@@ -10290,8 +10836,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.4
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.4
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10300,11 +10852,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.4
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.4
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.4
 
@@ -10402,8 +10954,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.6.3
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.6.3
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10412,11 +10970,11 @@ jobs:
             push: false
             tags: dockware/dev:5.6.3
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.6.3
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.6.3
 
@@ -10514,8 +11072,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.5.10
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.5.10
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10524,11 +11088,11 @@ jobs:
             push: false
             tags: dockware/dev:5.5.10
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.5.10
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.5.10
 
@@ -10626,8 +11190,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.5.0
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.5.0
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10636,11 +11206,11 @@ jobs:
             push: false
             tags: dockware/dev:5.5.0
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.5.0
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.5.0
 
@@ -10738,8 +11308,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.4.6
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.4.6
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10748,11 +11324,11 @@ jobs:
             push: false
             tags: dockware/dev:5.4.6
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.4.6
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.4.6
 
@@ -10850,8 +11426,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/5.2.21
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:5.2.21
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -10860,10 +11442,10 @@ jobs:
             push: false
             tags: dockware/dev:5.2.21
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/5.2.21
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:5.2.21

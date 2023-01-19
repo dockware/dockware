@@ -103,8 +103,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/play/${{ github.event.inputs.tagName }}
+            platforms: linux/amd64
+            push: false
+            tags: dockware/play:${{ github.event.inputs.tagName }}
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -113,11 +119,11 @@ jobs:
             push: false
             tags: dockware/play:${{ github.event.inputs.tagName }}
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/play/${{ github.event.inputs.tagName }}
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/play:${{ github.event.inputs.tagName }}
 
@@ -215,8 +221,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/dev/${{ github.event.inputs.tagName }}
+            platforms: linux/amd64
+            push: false
+            tags: dockware/dev:${{ github.event.inputs.tagName }}
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -225,10 +237,10 @@ jobs:
             push: false
             tags: dockware/dev:${{ github.event.inputs.tagName }}
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/dev/${{ github.event.inputs.tagName }}
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/dev:${{ github.event.inputs.tagName }}

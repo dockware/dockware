@@ -98,8 +98,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/flex/latest
+            platforms: linux/amd64
+            push: false
+            tags: dockware/flex:latest
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -108,11 +114,11 @@ jobs:
             push: false
             tags: dockware/flex:latest
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/flex/latest
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/flex:latest
 
@@ -210,8 +216,14 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/flex/beta
+            platforms: linux/amd64
+            push: false
+            tags: dockware/flex:beta
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -220,10 +232,10 @@ jobs:
             push: false
             tags: dockware/flex:beta
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/flex/beta
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/flex:beta

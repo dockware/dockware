@@ -110,8 +110,14 @@ class GithubWorkflowBuilder
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
-        
-          
+        - name: Build amd64
+          uses: docker/build-push-action@v2
+          with:
+            context: ./dist/images/'.$image.'/'.$tag.'
+            platforms: linux/amd64
+            push: false
+            tags: dockware/'.$image.':'.$tag.'
+            
         - name: Build arm64
           uses: docker/build-push-action@v2
           with:
@@ -120,14 +126,15 @@ class GithubWorkflowBuilder
             push: false
             tags: dockware/'.$image.':'.$tag.'
             
-         - name: Build and push multiarch
+        - name: Build and push multiarch
           uses: docker/build-push-action@v2
           with:
             context: ./dist/images/'.$image.'/'.$tag.'
-            platforms: linux/arm64/v8
+            platforms: linux/amd64,linux/arm64/v8
             push: true
             tags: dockware/'.$image.':'.$tag.'
 ';
+
 
         return $templateBuild.$templateTest.$templatePush;
     }
