@@ -105,7 +105,7 @@ class GithubWorkflowBuilder
           uses: docker/setup-buildx-action@v1
         
         - name: Login to Docker Hub
-          uses: docker/login-action@v1
+          uses: docker/login-action@v2
           with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
