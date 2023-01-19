@@ -88,6 +88,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -186,6 +190,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -284,6 +292,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -382,6 +394,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -480,6 +496,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -578,6 +598,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -676,6 +700,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -774,6 +802,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -872,6 +904,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -970,6 +1006,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1068,6 +1108,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1166,6 +1210,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1264,6 +1312,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1362,6 +1414,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1460,6 +1516,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1558,6 +1618,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1656,6 +1720,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1754,6 +1822,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1852,6 +1924,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -1950,6 +2026,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2048,6 +2128,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2146,6 +2230,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2244,6 +2332,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2342,6 +2434,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2440,6 +2536,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2538,6 +2638,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2636,6 +2740,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2734,6 +2842,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2832,6 +2944,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -2930,6 +3046,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3028,6 +3148,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3126,6 +3250,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3224,6 +3352,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3322,6 +3454,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3420,6 +3556,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3518,6 +3658,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3616,6 +3760,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3714,6 +3862,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3812,6 +3964,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -3910,6 +4066,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4008,6 +4168,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4106,6 +4270,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4204,6 +4372,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4302,6 +4474,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4400,6 +4576,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4498,6 +4678,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4596,6 +4780,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4694,6 +4882,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4792,6 +4984,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4890,6 +5086,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -4988,6 +5188,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5086,6 +5290,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5184,6 +5392,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5282,6 +5494,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5380,6 +5596,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5478,6 +5698,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5576,6 +5800,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5674,6 +5902,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5772,6 +6004,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5870,6 +6106,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -5968,6 +6208,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6066,6 +6310,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6164,6 +6412,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6262,6 +6514,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6360,6 +6616,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6458,6 +6718,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6556,6 +6820,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6654,6 +6922,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6752,6 +7024,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6850,6 +7126,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -6948,6 +7228,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7046,6 +7330,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7144,6 +7432,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7242,6 +7534,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7340,6 +7636,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7438,6 +7738,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7536,6 +7840,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7634,6 +7942,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7732,6 +8044,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7830,6 +8146,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -7928,6 +8248,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8026,6 +8350,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8124,6 +8452,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8222,6 +8554,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8320,6 +8656,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8418,6 +8758,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8516,6 +8860,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8614,6 +8962,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8712,6 +9064,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8810,6 +9166,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -8908,6 +9268,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -9006,6 +9370,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -9104,6 +9472,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -9202,6 +9574,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -9300,6 +9676,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -9398,6 +9778,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
@@ -9496,6 +9880,10 @@ jobs:
               Tests/Cypress/cypress/videos
               Tests/Cypress/cypress/screenshots     
 
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:

@@ -100,6 +100,10 @@ class GithubWorkflowBuilder
 ';
 
         $templatePush = '
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
+        
         - name: Login to Docker Hub
           uses: docker/login-action@v1
           with:
