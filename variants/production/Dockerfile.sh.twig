@@ -91,6 +91,11 @@ RUN date >/build-date.txt \
     # -------------------------------------------------
     && echo "export BASH_ENV=${BASH_ENV}" >> /etc/profile \
 
+#add a useer as which the container will act
+&& adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data web \
+    && usermod -m -d /var/www web | true \
+    #&& echo "web:" | chpasswd \
+    && sed -i 's/web:x:5577:33:/web:x:33:33:/g' /etc/passwd \
 
 ## ***********************************************************************
 ##  APACHE INSTALLATION
