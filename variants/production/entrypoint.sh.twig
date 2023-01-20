@@ -100,7 +100,13 @@ else
 fi
 
 
-# --------------------------------------------------
+
+## restart fpm
+echo $PHP_VERSION
+
+if [[ $@ == "" ]]; then
+  #fpm and apache only needed if we have no run command given
+  # --------------------------------------------------
 # APACHE
 # sometimes the internal docker structure leaves
 # some pid files existing. the container will be recreated....but
@@ -113,11 +119,10 @@ rm -f /var/run/apache2/apache2.pid
 echo "DOCKWARE: testing and starting Apache..."
 apache2ctl configtest
 service apache2 restart
-## restart fpm
-echo $PHP_VERSION
 service php$PHP_VERSION-fpm stop
 service php$PHP_VERSION-fpm start
 service apache2 restart
+fi
 update-alternatives --set php /usr/bin/php$PHP_VERSION
 php -v
 
@@ -155,8 +160,7 @@ echo "What's new in this version? see the changelog for further details"
 echo "https://www.shopware.com/de/changelog/"
 echo ""
 
-#lets change the user to the web user which acts as www-data so we will not have permission troubles
-su web
+
 # ------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------
@@ -168,8 +172,10 @@ su web
 # will automatically exit after it.
 # that's somehow just how it works.
 # otherwise it will continue with the code below
-exec "$@"
-
+if [[ $@ != "" ]]; then
+    #make sure docker run ... gets executed as web user, this is important for cronjobs in kubernetes for example
+    exec su -m web -c "$@"
+fi
 
 
 # we still need this to allow custom events
