@@ -51,7 +51,7 @@ jobs:
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/play:${{ github.event.inputs.tagName }}
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/play:${{ github.event.inputs.tagName }}
             sleep 30
             docker logs shop
 
@@ -143,7 +143,7 @@ jobs:
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/dev:${{ github.event.inputs.tagName }}
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/dev:${{ github.event.inputs.tagName }}
             sleep 30
             docker logs shop
 

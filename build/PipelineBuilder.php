@@ -57,7 +57,7 @@ class PipelineBuilder
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/' . $image . ':' . $tag . '
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/' . $image . ':' . $tag . '
             sleep 30
             docker logs shop
 

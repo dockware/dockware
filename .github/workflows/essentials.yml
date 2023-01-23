@@ -47,7 +47,7 @@ jobs:
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/essentials:latest
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/essentials:latest
             sleep 30
             docker logs shop
 
@@ -139,7 +139,7 @@ jobs:
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --name shop -d dockware/essentials:test-php8.1
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/essentials:test-php8.1
             sleep 30
             docker logs shop
 

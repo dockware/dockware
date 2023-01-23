@@ -1,12 +1,12 @@
-name: flex (All)
+name: base (All)
 
 on:
   workflow_dispatch:
 
 jobs:
   
-    flex-latest: 
-      name: Release flex:latest
+    base-latest: 
+      name: Release base:latest
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -20,19 +20,19 @@ jobs:
           run: make generate -B
     
         - name: Verify Configuration
-          run: make verify image=flex tag=latest -B
+          run: make verify image=base tag=latest -B
           
         - name: Build Image
-          run: make build image=flex tag=latest -B
+          run: make build image=base tag=latest -B
 
         - name: Run SVRUnit Tests
-          run: make test image=flex tag=latest -B
+          run: make test image=base tag=latest -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_flex_latest
+            name: svrunit_report_base_latest
             retention-days: 3
             path: |
                 .reports
@@ -47,7 +47,7 @@ jobs:
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/flex:latest
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/base:latest
             sleep 30
             docker logs shop
 
@@ -75,14 +75,14 @@ jobs:
                cd tests/cypress && make run5 url=http://localhost shopware=$SW_VERSION
             fi
           env:
-            DW_IMAGE: flex
+            DW_IMAGE: base
             SW_VERSION: latest
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_flex_latest
+            name: cypress_results_base_latest
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
@@ -95,10 +95,10 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=flex tag=latest -B
+          run: make build-and-push-multiarch image=base tag=latest -B
   
-    flex-beta: 
-      name: Release flex:beta
+    base-18-04: 
+      name: Release base:18.04
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
@@ -112,19 +112,19 @@ jobs:
           run: make generate -B
     
         - name: Verify Configuration
-          run: make verify image=flex tag=beta -B
+          run: make verify image=base tag=18.04 -B
           
         - name: Build Image
-          run: make build image=flex tag=beta -B
+          run: make build image=base tag=18.04 -B
 
         - name: Run SVRUnit Tests
-          run: make test image=flex tag=beta -B
+          run: make test image=base tag=18.04 -B
           
         - name: Store SVRUnit Report
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: svrunit_report_flex_beta
+            name: svrunit_report_base_18.04
             retention-days: 3
             path: |
                 .reports
@@ -139,7 +139,7 @@ jobs:
                     
         - name: Start Image
           run: |
-            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/flex:beta
+            docker run --rm -p 80:80 --env SVR_UNIT=1 --name shop -d dockware/base:18.04
             sleep 30
             docker logs shop
 
@@ -167,14 +167,14 @@ jobs:
                cd tests/cypress && make run5 url=http://localhost shopware=$SW_VERSION
             fi
           env:
-            DW_IMAGE: flex
-            SW_VERSION: beta
+            DW_IMAGE: base
+            SW_VERSION: 18.04
 
         - name: Store Cypress Results
           uses: actions/upload-artifact@v2
           if: always()
           with:
-            name: cypress_results_flex_beta
+            name: cypress_results_base_18.04
             retention-days: 1
             path: |
               Tests/Cypress/cypress/videos
@@ -187,4 +187,4 @@ jobs:
             password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
         - name: Push Multi-Arch to Docker Hub
-          run: make build-and-push-multiarch image=flex tag=beta -B
+          run: make build-and-push-multiarch image=base tag=18.04 -B
