@@ -55,6 +55,7 @@ RUN date >/build-date.txt \
     && apt-get install -y gnupg2 \
     && apt-get install -y gpg-agent \
     && apt-get install -y make \
+    && apt-get install -y sudo \
 
 
 
@@ -85,7 +86,6 @@ RUN date >/build-date.txt \
     # avoid shell login (we have a separate user for that)
     && echo 'www-data:www-data' | chpasswd \
     && usermod -s /usr/sbin/nologin www-data \
-    #&& sed -i /etc/sudoers -re 's/^www-data ALL = (root) NOPASSWD: service apache2 start|restart|stop|status/g' \
     # -------------------------------------------------
     #&& chown 33:33 /var/www/.bashrc \
     # -------------------------------------------------
@@ -94,7 +94,15 @@ RUN date >/build-date.txt \
 #add a useer as which the container will act
 && adduser --disabled-password --uid 5577 --gecos "" --ingroup www-data web \
     && usermod -m -d /var/www web | true \
-    #&& echo "web:" | chpasswd \
+    #make sure the group sudo is not allowed to any command
+    && sed -i /etc/sudoers -re 's/^%sudo.*//g' \
+    #allow web user to restart apache
+    # and make sure we have a plain sudoers file
+    && echo "%www-data ALL=NOPASSWD: /etc/init.d/apache2 restart" > /etc/sudoers \
+    #allow restart fpm
+    && echo "%www-data ALL=NOPASSWD: /etc/init.d/php${PHP_VERSION}-fpm stop" >> /etc/sudoers \
+    && echo "%www-data ALL=NOPASSWD: /etc/init.d/php${PHP_VERSION}-fpm start" >> /etc/sudoers \
+
     && sed -i 's/web:x:5577:33:/web:x:33:33:/g' /etc/passwd \
 
 ## ***********************************************************************
@@ -182,6 +190,7 @@ RUN chmod 755 /*.sh \
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
 ## everything down here is now done as our www-data / dockware user
 ## just like you would do it manually in the container
+USER web
 ## ***********************************************************************
 
 # make the apache folder the working directory

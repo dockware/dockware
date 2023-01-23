@@ -40,10 +40,9 @@ source /etc/apache2/envvars
 
 
 if [ ! -f /var/www/.pwdset ]; then
-    echo "set new root password as it is not already set ..."
+    echo "exit bootup, you have to set a root password other then default!"
     #this fil will be created ba the dockerfile maintainer of your project Dockerfile, so we know we donät have to create a new password for root
-    PASSWORD=$(openssl rand -base64 24) #make it random if no password is provied by env
-    echo "root:$PASSWORD" | chpasswd
+    exit 1
 fi;
 
 
@@ -69,38 +68,6 @@ echo "-----------------------------------------------------"
 cd $CONTAINER_STARTUP_DIR
 
 
-rm -rf /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-rm -rf /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-
-if [ $TIDEWAYS_KEY != "not-set" ] && [ $TIDEWAYS_CONNECTION != "not-set" ]; then
-    echo "DOCKWARE: activating Tideways...."
-
-    #create the INI with >
-    echo "tideways.connection=${TIDEWAYS_CONNECTION}" >| /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    echo "tideways.connection=${TIDEWAYS_CONNECTION}" >| /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-
-    #append to fpm  the INI with >>
-    echo "extension=tideways.so" >> /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    echo "tideways.auto_start=1" >> /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    echo "tideways.monitor_cli=1" >> /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    echo "tideways.enable_cli=1" >> /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    echo "tideways.sample_rate=20" >> /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    echo "tideways.api_key=${TIDEWAYS_KEY}" >> /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-
-    #append to cli  the INI with >>
-    echo "extension=tideways.so" >> /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    echo "tideways.auto_start=1" >> /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    echo "tideways.monitor_cli=1" >> /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    echo "tideways.enable_cli=1" >> /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    echo "tideways.sample_rate=20" >> /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    echo "tideways.api_key=${TIDEWAYS_KEY}" >> /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    echo "-----------------------------------------------------------"
-else
-  echo "DOCKWARE: launnching without Tideways...."
-fi
-
-
-
 ## restart fpm
 echo $PHP_VERSION
 
@@ -118,20 +85,17 @@ rm -f /var/run/apache2/apache2.pid
 # start test and start apache
 echo "DOCKWARE: testing and starting Apache..."
 apache2ctl configtest
-service apache2 restart
-service php$PHP_VERSION-fpm stop
-service php$PHP_VERSION-fpm start
-service apache2 restart
+#make sure all ini changes take affect
+sudo /etc/init.d/php$PHP_VERSION-fpm stop
+sudo /etc/init.d/php$PHP_VERSION-fpm start
+sudo /etc/init.d/apache2 restart
 fi
-update-alternatives --set php /usr/bin/php$PHP_VERSION
+
 php -v
 
 cd /var/www/html
 echo "-----------------------------------------------------------"
 # --------------------------------------------------
-
-
-
 
 # now let's check if we have a custom boot script that
 # should run after our other startup scripts.
@@ -174,7 +138,8 @@ echo ""
 # otherwise it will continue with the code below
 if [[ $@ != "" ]]; then
     #make sure docker run ... gets executed as web user, this is important for cronjobs in kubernetes for example
-    exec su -m web -c "$@"
+    su -m web -c "$@"
+    exec echo ""
 fi
 
 
