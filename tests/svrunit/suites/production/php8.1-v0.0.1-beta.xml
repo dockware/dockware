@@ -3,7 +3,8 @@
     <testsuites>
 
         <testsuite name="production:php8.1, PHP 8.1"
-                   dockerImage="dockware/production:php8.1-v0.0.1-beta" >
+                   dockerImage="dockware/production:php8.1-v0.0.1-beta"
+                   dockerEnv="SVR_UNIT=1">
             <directory>./../../tests/packages/php/production/php8.1</directory>
         </testsuite>
 
