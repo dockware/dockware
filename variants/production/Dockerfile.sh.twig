@@ -16,7 +16,10 @@ COPY ./config/apache/production/apache2.conf /tmp/apache2.conf
 COPY ./config/apache/production/ports.conf /tmp/ports.conf
 COPY ./config/apache/production/sites.conf /tmp/sites.conf
 
-
+COPY ./config/php/production/general.ini /tmp/general.ini
+COPY ./config/php/production/99-shopware-performance.ini /tmp/99-shopware-performance.ini
+COPY ./config/php/production/cli.ini /tmp/cli.ini
+COPY ./config/php/production/php-fpm.conf /tmp/php-fpm.conf
 
 
 ## ***********************************************************************
@@ -100,16 +103,7 @@ RUN date >/build-date.txt \
     # and make sure we have a plain sudoers file
     && echo "%www-data ALL=NOPASSWD: /etc/init.d/apache2 start" > /etc/sudoers \
     && echo "%www-data ALL=NOPASSWD: /etc/init.d/apache2 restart" >> /etc/sudoers \
-    #&& echo "%www-data ALL=NOPASSWD: /etc/init.d/apache2 restart -DFOREGROUND" > /etc/sudoers \
-    #&& echo "%www-data ALL=NOPASSWD: rm -f /var/run/apache2/apache2.pid" >> /etc/sudoers \
-    && echo "%www-data ALL=NOPASSWD: /usr/sbin/apache2ctl -D FOREGROUND" >> /etc/sudoers \
-    && echo "%www-data ALL=NOPASSWD: /etc/init.d/apache2 -DFOREGROUND" >> /etc/sudoers \
-    #allow restart fpm
-    && echo "%www-data ALL=NOPASSWD: /etc/init.d/php${PHP_VERSION}-fpm stop" >> /etc/sudoers \
-    && echo "%www-data ALL=NOPASSWD: /etc/init.d/php${PHP_VERSION}-fpm start" >> /etc/sudoers \
-    #&& echo "%www-data ALL=NOPASSWD: /etc/init.d/php${PHP_VERSION}-fpm start --daemonize" >> /etc/sudoers \
-    && echo "%www-data ALL=NOPASSWD: /usr/sbin/php-fpm8.1 -F" >> /etc/sudoers \
-
+    && echo "%www-data ALL=NOPASSWD: /etc/init.d/apache2 stop" >> /etc/sudoers \
     && sed -i 's/web:x:5577:33:/web:x:33:33:/g' /etc/passwd \
 
 ## ***********************************************************************
@@ -135,9 +129,11 @@ RUN date >/build-date.txt \
 && apt-get -y update  \
 && apt-get -y install tideways-php  \
 
-#TODO: ##### paste here the php config later
-
-
+&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/01-dockware.ini \
+&& cat /tmp/99-shopware-performance.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/99-shopware-performance.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware.ini \
+&& cat /tmp/cli.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/999-dockware-cli.ini \
+&& cat /tmp/php-fpm.conf >| /etc/php/{{ php.default_version }}/fpm/pool.d/zzz-dockware.conf \
 
 
 # remove pecl again
@@ -159,15 +155,9 @@ RUN date >/build-date.txt \
     && rm -rf /var/www/html/* \
     && mkdir -p /var/www/html/public \
     && chown -R www-data:www-data /var/www/html \
-    #&& sudo -u www-data sh -c 'mkdir -p /var/www/html/public' \
-
-
-
 
 # make sure the configured log folder exists and is writeable
 && chmod -R 0777 /var/www \
-
-
     && apt-get install -y rsync \
     && apt-get install -y jpegoptim \
     && apt-get install -y screen \
@@ -191,19 +181,8 @@ RUN chmod 755 /*.sh \
     #&& find /var/log/apache2/ -type f -exec chmod 777 {} \;  \
     && mkdir -p /var/www/log \
     && chown -R www-data:www-data /var/www/log \
-
+    && rm -rf /tmp/* \
     && /bin/bash -c  "source /etc/apache2/envvars; apache2 -V "
-
-COPY ./config/php/production/general.ini /tmp/general.ini
-COPY ./config/php/production/99-shopware-performance.ini /tmp/99-shopware-performance.ini
-COPY ./config/php/production/cli.ini /tmp/cli.ini
-COPY ./config/php/production/php-fpm.conf /tmp/php-fpm.conf
-RUN cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/01-dockware.ini \
-&& cat /tmp/99-shopware-performance.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/99-shopware-performance.ini \
-&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware.ini \
-&& cat /tmp/cli.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/999-dockware-cli.ini \
-&& cat /tmp/php-fpm.conf >| /etc/php/{{ php.default_version }}/fpm/pool.d/zzz-dockware.conf \
-&& rm -rf /tmp/*
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

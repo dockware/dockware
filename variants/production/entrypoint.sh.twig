@@ -124,11 +124,11 @@ echo ""
 # will automatically exit after it.
 # that's somehow just how it works.
 # otherwise it will continue with the code below
-#if [[ $@ != "" ]]; then
+if [[ $@ != "" ]]; then
     #make sure docker run ... gets executed as web user, this is important for cronjobs in kubernetes for example
-    #su -m web -c "$@"
-    #exec echo ""
-#fi
+    su -m web -c "$@"
+    exec echo ""
+fi
 
 
 # we still need this to allow custom events
@@ -150,17 +150,11 @@ else
     #make sure all ini changes take affect
     #exec sudo rm -f /var/run/apache2/apache2.pid
 
-    #exec sudo /etc/init.d/apache2 restart
-    #make sure fpm is foregorund for stdout
-    sudo /etc/init.d/php$PHP_VERSION-fpm stop
-
-
-    #sudo /etc/init.d/apache2 start
     echo "start log output"
-    ln -sf /dev/stdout /var/www/log/stdout.log
     #need to be used 1 an dnot self as docker on monitors the process 1
-    #tail -n 0 -q -F /var/www/log/*.log >> /proc/1/fd/1 &
     sudo /etc/init.d/apache2 restart
-    exec /usr/sbin/php-fpm8.1 -F
+
+    #1 make sure we are www-data and not sudo/root
+    exec /usr/sbin/php-fpm$PHP_VERSION -F
 fi
 
