@@ -14,7 +14,6 @@ echo "launching dockware...please wait..."
 echo ""
 
 echo "PHP: $(php -v | grep cli)"
-echo "Apache DocRoot: ${APACHE_DOCROOT}"
 echo ""
 set -e
 
@@ -66,10 +65,12 @@ fi
 # that's somehow just how it works.
 # otherwise it will continue with the code below
 if [[ $@ != "" ]]; then
+    echo "execute given command: $@"
     #make sure docker run ... gets executed as web user, this is important for cronjobs in kubernetes for example
-    su -m web -c "$@"
     #if a command is passed we will exit after it, so no appache gets started and no fpm, this safes boot up time
-    exec echo "command finished, exit here"
+    "$@"
+    echo "finished command"
+    exit
 fi
 
 
@@ -89,9 +90,10 @@ else
     # to avoid this, we simple remove an existing file
     echo "DOCKWARE: testing and starting Apache..."
     apache2ctl configtest
-    echo "DOCKWARE: start log output here"
     #need to be used 1 an dnot self as docker on monitors the process 1
     sudo /etc/init.d/apache2 restart
+    echo "Apache DocRoot: ${APACHE_DOCROOT}"
+    echo "DOCKWARE: start log output here"
 
     #1 make sure we are www-data and not sudo/root
     # otherwise we would not be able to log to the proc/1 channel as www-data
