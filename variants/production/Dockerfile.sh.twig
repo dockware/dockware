@@ -129,9 +129,9 @@ RUN date >/build-date.txt \
 && apt-get -y update  \
 && apt-get -y install tideways-php  \
 
-&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/01-dockware.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/99-dockware.ini \
 && cat /tmp/99-shopware-performance.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/99-shopware-performance.ini \
-&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/01-dockware.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/99-dockware.ini \
 && cat /tmp/cli.ini >| /etc/php/{{ php.default_version }}/cli/conf.d/999-dockware-cli.ini \
 && cat /tmp/php-fpm.conf >| /etc/php/{{ php.default_version }}/fpm/pool.d/zzz-dockware.conf \
 
