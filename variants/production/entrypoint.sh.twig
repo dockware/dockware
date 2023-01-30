@@ -1,42 +1,23 @@
 #!/bin/bash
-
-echo ""
-echo " _____   ____   _____ _  ____          __     _____  ______ "
-echo "|  __ \ / __ \ / ____| |/ /\ \        / /\   |  __ \|  ____|"
-echo "| |  | | |  | | |    | ' /  \ \  /\  / /  \  | |__) | |__   "
-echo "| |  | | |  | | |    |  <    \ \/  \/ / /\ \ |  _  /|  __|  "
-echo "| |__| | |__| | |____| . \    \  /\  / ____ \| | \ \| |____ "
-echo "|_____/ \____/ \_____|_|\_\    \/  \/_/    \_\_|  \_\______|"
-echo ""
-echo "                      _            _   _                 "
-echo "                     | |          | | (_)                "
-echo "_ __  _ __ ___   __| |_   _  ___| |_ _  ___  _ __        "
-echo "|  _ \|  __/ _ \ / _  | | | |/ __| __| |/ _ \|  _ \      "
-echo "| |_) | | | (_) | (_| | |_| | (__| |_| | (_) | | | |     "
-echo "| .__/|_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|     "
-echo "| |                                                      "
-echo "|_|                                                      "
-echo ""
-
-echo "68 69 20 64 65 76 65 6C 6F 70 65 72 2C 20 6E 69 63 65 20 74 6F 20 6D 65 65 74 20 79 6F 75"
-echo "6c 6f 6f 6b 69 6e 67 20 66 6f 72 20 61 20 6a 6f 62 3f 20 77 72 69 74 65 20 75 73 20 61 74 20 6a 6f 62 73 40 64 61 73 69 73 74 77 65 62 2e 64 65"
 echo ""
 echo "*******************************************************"
 echo "** DOCKWARE IMAGE: {{ orca.image }}"
 echo "** Tag: {{ orca.tag }}"
 echo "** Version: {{ version }}"
 echo "** Built: $(cat /build-date.txt)"
-echo "** Copyright 2023 dasistweb GmbH"
+echo "** ImageUrl: https://hub.docker.com/layers/dockware/production"
+echo "** Copyright {{ 'now' | date('Y') }} dasistweb GmbH"
 echo "*******************************************************"
 echo ""
 echo "launching dockware...please wait..."
 echo ""
-
-
+echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
+echo "PHP: $(php -v | grep cli)"
+echo "Apache DocRoot: ${APACHE_DOCROOT}"
+echo ""
 set -e
 
 source /etc/apache2/envvars
-#source /var/www/.bashrc
 
 #the SVR_UNIT variable is needed to make tests on this image, donät use it to skip the root pwd generation!
 if [ ! -f /var/www/.pwdset ] && [ $SVR_UNIT = 0 ] ; then
@@ -49,14 +30,13 @@ fi;
 # this is important to automatically use the bashrc file
 # in the "exec" command below when using a simple docker runner command
 #export BASH_ENV=/var/www/.bashrc
-
-
 CONTAINER_STARTUP_DIR=$(pwd)
 
 # it's possible to add a custom boot script on startup.
 # so we test if it exists and just execute it
 file="/var/www/boot_start.sh"
 if [ -f "$file" ] ; then
+    echo "execute $file"
     sh $file
 fi
 
@@ -64,60 +44,20 @@ fi
 # before starting any commands
 # we always need to ensure we are back in our
 # configured WORKDIR of the container
-echo "-----------------------------------------------------"
 cd $CONTAINER_STARTUP_DIR
 
 
-## restart fpm
-echo $PHP_VERSION
-
-#if [[ $@ == "" ]]; then
-  #fpm and apache only needed if we have no run command given
-  # --------------------------------------------------
-
-
-# start test and start apache
-#fi
-
-php -v
-
 cd /var/www/html
-echo "-----------------------------------------------------------"
 # --------------------------------------------------
 
 # now let's check if we have a custom boot script that
 # should run after our other startup scripts.
 file="/var/www/boot_end.sh"
 if [ -f "$file" ] ; then
+    echo "execute $file"
     sh $file
 fi
 
-
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-
-
-echo ""
-echo "WOHOOO, dockware/{{ orca.image }}:{{ orca.tag }} IS READY :) - let's get started"
-echo "-----------------------------------------------------"
-echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
-echo "PHP: $(php -v | grep cli)"
-echo "Apache DocRoot: ${APACHE_DOCROOT}"
-
-echo ""
-echo "What's new in this version? see the changelog for further details"
-echo "https://www.shopware.com/de/changelog/"
-echo ""
-
-
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
 
 # always execute custom commands in here.
 # if a custom command is provided, then the container
@@ -127,7 +67,8 @@ echo ""
 if [[ $@ != "" ]]; then
     #make sure docker run ... gets executed as web user, this is important for cronjobs in kubernetes for example
     su -m web -c "$@"
-    exec echo ""
+    #if a command is passed we will exit after it, so no appache gets started and no fpm, this safes boot up time
+    exec echo "command finished, exit here"
 fi
 
 
@@ -147,14 +88,12 @@ else
     # to avoid this, we simple remove an existing file
     echo "DOCKWARE: testing and starting Apache..."
     apache2ctl configtest
-    #make sure all ini changes take affect
-    #exec sudo rm -f /var/run/apache2/apache2.pid
-
-    echo "start log output"
+    echo "DOCKWARE: start log output here"
     #need to be used 1 an dnot self as docker on monitors the process 1
     sudo /etc/init.d/apache2 restart
 
     #1 make sure we are www-data and not sudo/root
+    # otherwise we would not be able to log to the proc/1 channel as www-data
     exec /usr/sbin/php-fpm$PHP_VERSION -F
 fi
 

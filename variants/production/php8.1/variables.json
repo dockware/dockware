@@ -1,5 +1,5 @@
 {
-  "version": "production-0.0.1-beta",
+  "version": "production-1.0-beta",
   "base_image": "ubuntu:22.04",
   "php": {
     "default_version": "8.1",
