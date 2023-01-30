@@ -3,7 +3,7 @@
     <testsuites>
 
         <testsuite name="production:php8.2, PHP 8.2"
-                   dockerImage="dockware/production:php8.2-v0.0.1-beta">
+                   dockerImage="dockware/production:php8.2-v1.0-beta">
             <directory>./../../tests/packages/php/production/php8.1</directory>
         </testsuite>
 
