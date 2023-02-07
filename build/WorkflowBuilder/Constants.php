@@ -7,6 +7,6 @@ interface Constants
      * please adjust as double verification
      * for our cypress tests
      */
-    const LATEST_SW_VERSION = '6.4.18.1';
+    const LATEST_SW_VERSION = '6.4.19.0';
 
 }
