@@ -81,10 +81,31 @@
         "version": 2
     },
     "node": {
-        "version": 12
+        "version": 12,
+        "packages": [
+            {
+                "version": 18,
+                "active": false
+            },
+            {
+                "version": 16,
+                "active": true
+            },
+            {
+                "version": 14,
+                "active": true
+            },
+            {
+                "version": 12,
+                "active": true
+            }
+        ]
     },
     "apache": {
         "docroot": "/var/www/html/public"
+    },
+    "mysql": {
+        "version" : "5.7"
     },
     "pimpmylog": {
         "paths": {

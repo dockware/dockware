@@ -32,7 +32,32 @@ class SVRUnitBuilder
         $node = '12';
         $composer = '2';
 
-        if ($tag === 'latest' || version_compare($tag, '6.0') >= 0) {
+        if (version_compare($tag, '6.5') >= 0) {
+            # SHOPWARE 6
+            $php81 = true;
+            $php8 = false;
+            $php74 = false;
+            $php73 = false;
+            $php72 = false;
+            $php71 = false;
+            $php7 = false;
+            $php56 = false;
+
+            $node = '18';
+        }
+        if (str_contains($tag, '6.5')) {
+            # SHOPWARE 6
+            $php81 = true;
+            $php8 = false;
+            $php74 = false;
+            $php73 = false;
+            $php72 = false;
+            $php71 = false;
+            $php7 = false;
+            $php56 = false;
+            $node = '18';
+
+        } else if ($tag === 'latest' || version_compare($tag, '6.0') >= 0) {
             # SHOPWARE 6
             $php73 = false;
             $php72 = false;
@@ -40,6 +65,7 @@ class SVRUnitBuilder
             $php7 = false;
             $php56 = false;
         } else {
+
             if (version_compare($tag, '6.0') >= 0) {
                 # SHOPWARE 6
                 $php56 = false;
@@ -92,13 +118,21 @@ class SVRUnitBuilder
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/node/v' . $node . '</directory>
             <directory>./../../tests/packages/composer/v' . $composer . '</directory>';
+
+        $sharedBaseSW = './../../tests/shared/base-6.0';
+
+        if (str_contains($tag, '6.5')) {
+            $sharedBaseSW = './../../tests/shared/base-6.5';
+        }
+
         if (!$isDev) {
             $devPart = '';
         }
 
         $xml .= '
         <testsuite name="' . $imageFull . ', Core Checks" group="core" dockerImage="' . $imageFull . '">
-            <directory>./../../tests/shared/base</directory>' . $devPart . '
+            <directory>./../../tests/shared/base</directory>
+            <directory>' . $sharedBaseSW . '</directory>' . $devPart . '
             <directory>./../../tests/packages/php/php' . $defaultPHP . '</directory>
         </testsuite>
          ';
@@ -108,7 +142,7 @@ class SVRUnitBuilder
         if ($isDev) {
             $xml .= '
         <testsuite name="' . $imageFull . ', ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=16">
-            <directory>./../../tests/packages/node/v16</directory>
+            <directory>./../../tests/packages/node/v' . $node . '</directory>
         </testsuite>
             ';
         }

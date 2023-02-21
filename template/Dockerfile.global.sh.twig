@@ -290,7 +290,7 @@ RUN apt-get update \
 RUN cd /var/www \
     && apt-get update \
 {% for key, value in php.versions %}
-{% if value.xdebug_version != '' %}
+{% if value.active and value.xdebug_version != '' %}
 {% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_tag":value.xdebug_tag} %}
 {% endif %}
 {% endfor %}
@@ -302,14 +302,14 @@ RUN cd /var/www \
 
 #generate xdebug ini files
 {% for key, value in php.versions %}
-{% if value.xdebug_version != '' %}
+{% if value.active and value.xdebug_version != '' %}
 {% include 'template/components/xdebug/generate_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
 {% endif %}
 {% endfor %}
 
 RUN cd /var/www \
 {% for key, value in php.versions %}
-{% if value.xdebug_version != '' %}
+{% if value.active and value.xdebug_version != '' %}
 {% include 'template/components/xdebug/edit_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
 {% endif %}
 {% endfor %}
@@ -319,7 +319,7 @@ RUN cd /var/www \
 
 
 {% block components_mysql %}
-{% include 'template/components/mysql/5.7/install.sh.twig' with { 'pwd' : db.pwd } %}
+{% include 'template/components/mysql/' ~ mysql.version ~ '/install.sh.twig' with { 'pwd' : db.pwd } %}
 
 RUN service mysql start && \
     mysql --user={{ db.user }} --password={{ db.pwd }} -e "use mysql; update user set host='%' where host='localhost';" && \
@@ -336,7 +336,7 @@ RUN service mysql start && \
 {% include 'template/components/mailcatcher/install.sh.twig' %}
 
 RUN {% for key,value in php.versions %}
-{% if value.active==1 %}
+{% if value.active==true %}
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/{{ key }}/mods-available/mailcatcher.ini && \
 {% endif %}
 {% endfor %}
@@ -370,6 +370,7 @@ RUN apt-get update \
 {% endblock %}
 
 
+
 {% block components_nvm %}
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
@@ -380,14 +381,19 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
-    && nvm install 16 \
-    && nvm install 14 \
-    && nvm install 12 \
+{% for key,nodeEntry in node.packages %}
+{% if nodeEntry.active == true %}
+    && nvm install {{ nodeEntry.version }} \
+{% endif %}
+{% endfor %}
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
-    && nvm use 14 && npm install -g yarn \
-    && nvm use 16 && npm install -g yarn \
+{% for key,nodeEntry in node.packages %}
+{% if nodeEntry.active == true %}
+    && nvm use {{ nodeEntry.version }} && npm install -g yarn \
+{% endif %}
+{% endfor %}
     # -----------------------------------------------------------------------------------------
     && nvm use {{ node.version }} \
     && nvm alias default {{ node.version }}  \
@@ -438,8 +444,11 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
 
 
 {% for key,value in php.versions %}
+{% if value.active == true %}
+{% include "template/components/php/#{ key }/install.sh.twig" %}
 COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
+{% endif %}
 {% endfor %}
 {% endblock %}
 

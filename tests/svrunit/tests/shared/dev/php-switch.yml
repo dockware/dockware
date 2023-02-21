@@ -1,8 +1,8 @@
 commands:
   - name: "Switch to another PHP version should work correctly"
     # we switch to any php version that is not default...just any in the "middle"
-    command: "cd /var/www && make switch-php version=8.0"
-    expected: "with Zend OPcache v8.0."
+    command: "cd /var/www && make switch-php version=8.1"
+    expected: "with Zend OPcache v8.1."
   - name: "Switch PHP with XDebug ON leads to enabled XDebug"
     command: "cd /var/www && make xdebug-on && make switch-php version=8.1"
     expected: "with Xdebug v3.1.4"

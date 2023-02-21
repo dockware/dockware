@@ -3,5 +3,5 @@ commands:
     command: "echo SVRUNIT: $(yarn -v)"
     expected: "SVRUNIT: 1.22.19"
   - name: "Yarn is installed and loaded after NVM switch"
-    command: "nvm use 14 && echo SVRUNIT: $(yarn -v)"
+    command: "nvm use default && echo SVRUNIT: $(yarn -v)"
     expected: "SVRUNIT: 1.22.19"

@@ -73,6 +73,9 @@ jobs:
             if [[ $DW_IMAGE == play && $SW_VERSION == latest ]]; then
                cd tests/cypress && make run6 url=http://localhost shopware=6.4.19.0
             fi
+            if [[ $DW_IMAGE == dev && $SW_VERSION == 6.5.0.0-rc1 ]]; then
+               cd tests/cypress && make run6 url=http://localhost shopware=6.5.0.0
+            fi
             if [[ $DW_IMAGE == dev && $SW_VERSION == latest ]]; then
                cd tests/cypress && make run6 url=http://localhost shopware=6.4.19.0
             fi

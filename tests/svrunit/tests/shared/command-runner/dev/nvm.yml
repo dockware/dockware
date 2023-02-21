@@ -3,5 +3,5 @@ commands:
     command: "nvm --version"
     expected: "0.39.1"
   - name: "NVM can switch Node version"
-    command: "nvm use 14"
-    expected: "Now using node v14"
+    command: "nvm use default"
+    expected: "Now using node v"

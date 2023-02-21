@@ -1,0 +1,4 @@
+commands:
+  - name: "NVM is installed and loaded"
+    command: "echo SVRUNIT: $(nvm --version)"
+    expected: "SVRUNIT: 0.39.1"

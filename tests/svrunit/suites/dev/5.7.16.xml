@@ -7,6 +7,7 @@
         
         <testsuite name="dockware/dev:5.7.16, Core Checks" group="core" dockerImage="dockware/dev:5.7.16">
             <directory>./../../tests/shared/base</directory>
+            <directory>./../../tests/shared/base-6.0</directory>
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/node/v12</directory>
@@ -15,7 +16,7 @@
         </testsuite>
          
         <testsuite name="dockware/dev:5.7.16, ENV Node Version Switch" dockerImage="dockware/dev:5.7.16" dockerEnv="NODE_VERSION=16">
-            <directory>./../../tests/packages/node/v16</directory>
+            <directory>./../../tests/packages/node/v12</directory>
         </testsuite>
             
         <testsuite name="dockware/dev:5.7.16, PHP 8.2, XDebug OFF" dockerImage="dockware/dev:5.7.16" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
