@@ -462,7 +462,7 @@ RUN apt-get update \
     && gem install net-smtp -v 0.3.0 \
     && gem install net-imap -v 0.2.2 \
     && gem install sqlite3 -v 1.3.4 \
-    && gem install mailcatcher --conservative --no-ri --no-rdoc \
+    && gem install mailcatcher \
     && phpenmod mailcatcher \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
@@ -505,8 +505,9 @@ RUN ls -la \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
-    && nvm use 14 && npm install -g yarn \
     && nvm use 16 && npm install -g yarn \
+    && nvm use 14 && npm install -g yarn \
+    && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
     && nvm use 12 \
     && nvm alias default 12  \

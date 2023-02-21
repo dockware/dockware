@@ -312,132 +312,6 @@ RUN  mv /tmp/composer.phar /usr/local/bin/composer
 
 RUN cd /var/www \
     && apt-get update \
-    # install xdebug for php 8.2
-    && sudo apt-get install -y php8.2-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.2.0.zip \
-    && unzip 3.2.0.zip \
-    && rm -rf 3.2.0.zip \
-    && mv xdebug-3.2.0 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize8.2 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.2 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20220829/xdebug_8.2.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.2 --clean \
-    && sudo apt-get remove -y php8.2-dev \
-    # install xdebug for php 8.1
-    && sudo apt-get install -y php8.1-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize8.1 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20210902/xdebug_8.1.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.1 --clean \
-    && sudo apt-get remove -y php8.1-dev \
-    # install xdebug for php 8.0
-    && sudo apt-get install -y php8.0-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize8.0 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.0 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20200930/xdebug_8.0.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.0 --clean \
-    && sudo apt-get remove -y php8.0-dev \
-    # install xdebug for php 7.4
-    && sudo apt-get install -y php7.4-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize7.4 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config7.4 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20190902/xdebug_7.4.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize7.4 --clean \
-    && sudo apt-get remove -y php7.4-dev \
-    # install xdebug for php 7.3
-    && sudo apt-get install -y php7.3-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize7.3 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config7.3 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20180731/xdebug_7.3.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize7.3 --clean \
-    && sudo apt-get remove -y php7.3-dev \
-    # install xdebug for php 7.2
-    && sudo apt-get install -y php7.2-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize7.2 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config7.2 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20170718/xdebug_7.2.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize7.2 --clean \
-    && sudo apt-get remove -y php7.2-dev \
-    # install xdebug for php 7.1
-    && sudo apt-get install -y php7.1-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
-    && unzip 2.7.2.zip \
-    && rm -rf 2.7.2.zip \
-    && mv xdebug-2.7.2 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize7.1 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config7.1 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20160303/xdebug_7.1.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize7.1 --clean \
-    && sudo apt-get remove -y php7.1-dev \
     # install xdebug for php 7.0
     && sudo apt-get install -y php7.0-dev \
     && cd /var/www \
@@ -480,27 +354,6 @@ RUN cd /var/www \
 
 #generate xdebug ini files
 
-COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/8.0/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.0/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/7.4/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/7.4/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/7.3/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/7.3/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/7.2/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/7.2/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-2.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-2.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
-
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
 
@@ -508,41 +361,6 @@ COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
-
-&& sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20190902/g' /etc/php/7.4/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.4/g' /etc/php/7.4/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20190902/g' /etc/php/7.4/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.4/g' /etc/php/7.4/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20180731/g' /etc/php/7.3/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.3/g' /etc/php/7.3/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20180731/g' /etc/php/7.3/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.3/g' /etc/php/7.3/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20170718/g' /etc/php/7.2/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.2/g' /etc/php/7.2/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20170718/g' /etc/php/7.2/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.2/g' /etc/php/7.2/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20160303/g' /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20160303/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
 
 && sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
@@ -604,7 +422,7 @@ RUN apt-get update \
     && gem install net-smtp -v 0.3.0 \
     && gem install net-imap -v 0.2.2 \
     && gem install sqlite3 -v 1.3.4 \
-    && gem install mailcatcher --conservative --no-ri --no-rdoc \
+    && gem install mailcatcher \
     && phpenmod mailcatcher \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
@@ -650,8 +468,9 @@ RUN ls -la \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
-    && nvm use 14 && npm install -g yarn \
     && nvm use 16 && npm install -g yarn \
+    && nvm use 14 && npm install -g yarn \
+    && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
     && nvm use 12 \
     && nvm alias default 12  \
@@ -690,22 +509,66 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && sudo chmod 0755 /etc/init.d/tideways-daemon
 
-COPY ./config/tideways/tideways.ini /etc/php/8.2/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.2/cli/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.0/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.0/cli/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.4/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.4/cli/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.3/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.3/cli/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.2/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.2/cli/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.1/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.1/cli/conf.d/20-tideways.ini
+RUN apt-get update \
+    && apt-get install -y php7.0-fpm \
+    && apt-get install -y php7.0-apc \
+    && apt-get install -y php7.0-apcu \
+    && apt-get install -y php7.0-curl \
+    && apt-get install -y php7.0-cli \
+    && apt-get install -y php7.0-gd \
+    && apt-get install -y php7.0-json \
+    && apt-get install -y php7.0-ldap \
+    && apt-get install -y php7.0-mysql \
+    && apt-get install -y php7.0-pgsql \
+    && apt-get install -y php7.0-gettext \
+    && apt-get install -y php7.0-intl \
+    && apt-get install -y php7.0-xml \
+    && apt-get install -y php7.0-mysql \
+    && apt-get install -y php7.0-mbstring \
+    && apt-get install -y php7.0-zip \
+    && apt-get install -y php7.0-soap \
+    && apt-get install -y php7.0-memcached \
+    && apt-get install -y php7.0-redis \
+    && apt-get install -y php7.0-bcmath \
+    && apt-get install -y php7.0-imap \
+    && apt-get install -y php7.0-ssh2 \
+    && apt-get install -y dh-php \
+    && apt-get install -y php7.0-geoip \
+    && apt-get install -y php7.0-amqp \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
+RUN apt-get update \
+    && apt-get install -y php5.6-fpm \
+    && apt-get install -y php5.6-apc \
+    && apt-get install -y php5.6-apcu \
+    && apt-get install -y php5.6-curl \
+    && apt-get install -y php5.6-cli \
+    && apt-get install -y php5.6-gd \
+    && apt-get install -y php5.6-json \
+    && apt-get install -y php5.6-ldap \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-pgsql \
+    && apt-get install -y php5.6-gettext \
+    && apt-get install -y php5.6-intl \
+    && apt-get install -y php5.6-xml \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-mbstring \
+    && apt-get install -y php5.6-zip \
+    && apt-get install -y php5.6-soap \
+    && apt-get install -y php5.6-memcached \
+    && apt-get install -y php5.6-redis \
+    && apt-get install -y php5.6-bcmath \
+    && apt-get install -y php5.6-imap \
+    && apt-get install -y php5.6-ssh2 \
+    && apt-get install -y dh-php \
+    && apt-get install -y php5.6-geoip \
+    && apt-get install -y php5.6-amqp \
+    # remove pecl again
+    && apt-get remove -y dh-php \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
