@@ -15,7 +15,7 @@
             <directory>./../../tests/packages/php/php8</directory>
         </testsuite>
          
-        <testsuite name="dockware/dev:6.4.5.1, ENV Node Version Switch" dockerImage="dockware/dev:6.4.5.1" dockerEnv="NODE_VERSION=16">
+        <testsuite name="dockware/dev:6.4.5.1, ENV Node Version Switch" dockerImage="dockware/dev:6.4.5.1" dockerEnv="NODE_VERSION=12">
             <directory>./../../tests/packages/node/v12</directory>
         </testsuite>
             

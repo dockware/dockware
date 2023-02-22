@@ -141,7 +141,7 @@ class SVRUnitBuilder
 
         if ($isDev) {
             $xml .= '
-        <testsuite name="' . $imageFull . ', ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=16">
+        <testsuite name="' . $imageFull . ', ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=' . $node . '">
             <directory>./../../tests/packages/node/v' . $node . '</directory>
         </testsuite>
             ';
