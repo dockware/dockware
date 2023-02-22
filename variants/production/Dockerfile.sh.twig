@@ -51,6 +51,7 @@ RUN date >/build-date.txt \
     && apt-get install -y curl \
     && apt-get install -y unzip \
     && apt-get install -y bzip2 \
+    && apt-get install -y ssmtp \
     && apt-get install -y lsof \
     && apt-get install -y vim \
     && apt-get install -y nano \
@@ -68,15 +69,6 @@ RUN date >/build-date.txt \
 
     && apt-get install -y tzdata \
     && dpkg-reconfigure --frontend noninteractive tzdata  \
-
-
-    #&& apt-get install -y libsodium-dev \
-    #&& apt-get install -y php-dev \
-    #&& apt-get install -y php-pear \
-    #&& pecl install -f libsodium \
-    #&& apt-get remove -y php-pear \
-    #&& apt-get remove -y php-dev \
-
 
 ## ***********************************************************************
 ##  USER MANAGEMENT
