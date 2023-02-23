@@ -9,7 +9,7 @@ use Doctrine\DBAL\FetchMode;
 $newCurrency = $argv[1];
 
 # ----------------------------------------------------------------------------
-$connString = "mysql://root:root@localhost:3306/shopware";
+$connString = "mysql://root:root@127.0.0.1:3306/shopware";
 
 $connection = DriverManager::getConnection([
     'url' => $connString,

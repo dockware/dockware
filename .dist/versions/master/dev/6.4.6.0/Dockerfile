@@ -24,12 +24,14 @@ ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION 12
+ENV SHOP_DOMAIN not-set
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
  && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
- && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile
+ && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile \
+ && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile
 
 ENV SSH_USER not-set
 ENV SSH_PWD not-set
