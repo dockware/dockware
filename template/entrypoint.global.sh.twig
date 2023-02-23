@@ -231,6 +231,14 @@ fi
 
 {% block setup_shopware %}
 
+if [ $SHOP_DOMAIN != "not-set" ]; then
+  # update our domain. this means we can use the
+    # SHOP DOMAIN as environment variable
+    echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
+    sh /var/www/scripts/shopware6/update_domain.sh
+    echo "-----------------------------------------------------------"
+fi
+
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
   php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
@@ -310,22 +318,23 @@ echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
 echo "PHP: $(php -v | grep cli)"
 echo "Apache DocRoot: ${APACHE_DOCROOT}"
 
+echo "URLs (if you are using a custom domain, make sure its available using /etc/hosts or other approaches)"
 {% block instructions_adminer %}
-echo "ADMINER URL: {{ shopware.url }}/adminer.php"
+echo "ADMINER URL: http://${SHOP_DOMAIN}/adminer.php"
 {% endblock %}
 
 {% block instructions_mailcatcher %}
-echo "MAILCATCHER URL: {{ shopware.url }}/mailcatcher"
+echo "MAILCATCHER URL: http://${SHOP_DOMAIN}/mailcatcher"
 {% endblock %}
 
 {% block instructions_pimpmylog %}
-echo "PIMPMYLOG URL: {{ shopware.url }}/logs"
+echo "PIMPMYLOG URL: http://${SHOP_DOMAIN}/logs"
 {% endblock %}
 
 {% block instructions_shopware %}
-echo "SHOP URL: {{ shopware.url }}"
+echo "SHOP URL: http://${SHOP_DOMAIN}"
 {% block instructions_shopware_admin %}
-echo "ADMIN URL: {{ shopware.url }}/admin"
+echo "ADMIN URL: http://${SHOP_DOMAIN}/admin"
 {% endblock %}
 {% block instructions_shopware_api_access_key %}
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
