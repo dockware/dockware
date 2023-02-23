@@ -5,6 +5,9 @@
     "version": "6.5.0.0",
     "download_url": "github-url"
   },
+  "db": {
+    "host": "127.0.0.1"
+  },
   "node": {
     "version": 18,
     "packages": [

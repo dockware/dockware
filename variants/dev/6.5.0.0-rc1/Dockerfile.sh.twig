@@ -13,7 +13,7 @@ RUN cd /var/www && \
     sed -i "/MAILER_URL=/g" /var/www/html/.env && \
     echo "APP_ENV=dev" >> /var/www/html/.env && \
     echo "APP_URL=http://localhost" >> /var/www/html/.env && \
-    echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@127.0.0.1:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
+    echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
     echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env
 
 RUN sudo service mysql start && \
