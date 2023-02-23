@@ -78,6 +78,14 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 
+if [ $SHOP_DOMAIN != "not-set" ]; then
+  # update our domain. this means we can use the
+    # SHOP DOMAIN as environment variable
+    echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
+    sh /var/www/scripts/shopware6/update_domain.sh
+    echo "-----------------------------------------------------------"
+fi
+
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
   php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
@@ -149,14 +157,15 @@ echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
 echo "PHP: $(php -v | grep cli)"
 echo "Apache DocRoot: ${APACHE_DOCROOT}"
 
-echo "ADMINER URL: http://localhost/adminer.php"
+echo "URLs (if you are using a custom domain, make sure its available using /etc/hosts or other approaches)"
+echo "ADMINER URL: http://${SHOP_DOMAIN}/adminer.php"
 
-echo "MAILCATCHER URL: http://localhost/mailcatcher"
+echo "MAILCATCHER URL: http://${SHOP_DOMAIN}/mailcatcher"
 
-echo "PIMPMYLOG URL: http://localhost/logs"
+echo "PIMPMYLOG URL: http://${SHOP_DOMAIN}/logs"
 
-echo "SHOP URL: http://localhost"
-echo "ADMIN URL: http://localhost/admin"
+echo "SHOP URL: http://${SHOP_DOMAIN}"
+echo "ADMIN URL: http://${SHOP_DOMAIN}/admin"
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
     echo "ACCESS KEY: ${ACTUAL_API_ACCESS_KEY}"
 fi

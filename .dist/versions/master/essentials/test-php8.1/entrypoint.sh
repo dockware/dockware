@@ -223,11 +223,12 @@ echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
 echo "PHP: $(php -v | grep cli)"
 echo "Apache DocRoot: ${APACHE_DOCROOT}"
 
-echo "ADMINER URL: http://localhost/adminer.php"
+echo "URLs (if you are using a custom domain, make sure its available using /etc/hosts or other approaches)"
+echo "ADMINER URL: http://${SHOP_DOMAIN}/adminer.php"
 
-echo "MAILCATCHER URL: http://localhost/mailcatcher"
+echo "MAILCATCHER URL: http://${SHOP_DOMAIN}/mailcatcher"
 
-echo "PIMPMYLOG URL: http://localhost/logs"
+echo "PIMPMYLOG URL: http://${SHOP_DOMAIN}/logs"
 
 echo ""
 echo "ATTENTION, THIS IMAGE COMES WITHOUT SHOPWARE!"

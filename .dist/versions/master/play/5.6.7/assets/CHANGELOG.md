@@ -9,6 +9,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - Add PHP 8.2 to all images 
 - Added missing PHP extension "apc" in all PHP versions 
 - Add new "make restart-php" command to restart FPM + Apache. 
+- Add new ENV variable "SHOP_DOMAIN" to automatically change Sales Channel domains on startup.
 
 ### Fixed
 - Fixed broken with Apache in Entrypoint. Sometimes Apache cannot start because port 80 is blocked.
