@@ -612,6 +612,7 @@ RUN chown 33:33 -R /var/www/html && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
+    chown 33:33 /var/www/.npm -R
     chown 33:33 /var/www/.nvm -R
 
 ## ***********************************************************************
