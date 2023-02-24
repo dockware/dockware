@@ -219,19 +219,19 @@ commands:
             docker logs shop
             cd tests/cypress && make install -B
             echo "Running Cypress tests for: $IMG:$TAG"
-            if [ $IMG == flex ]; then
+            if [[ $IMG == flex ]]; then
               cd tests/cypress && make run-flex url=http://localhost
-            elif [ $IMG == essentials ]; then
+            elif [[ $IMG == essentials ]]; then
               cd tests/cypress && make run-essentials url=http://localhost
-            elif [ $IMG == play && $TAG == latest ]; then
+            elif [[ $IMG == play && $TAG == latest ]]; then
               cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
-            elif [ $IMG == dev && $TAG == latest ]; then
+            elif [[ $IMG == dev && $TAG == latest ]]; then
               cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
-            elif [ $IMG == dev && $TAG == 6.5.0.0-rc1 ]; then
+            elif [[ $IMG == dev && $TAG == 6.5.0.0-rc1 ]]; then
               cd tests/cypress && make run6 url=http://localhost shopware=6.5.0.0
-            elif [ $IMG == 6.* ]; then
+            elif [[ $IMG == 6.* ]]; then
               cd tests/cypress && make run6 url=http://localhost shopware=$TAG
-            elif [ $IMG == 5.* ]; then
+            elif [[ $IMG == 5.* ]]; then
               cd tests/cypress && make run5 url=http://localhost shopware=$TAG
             else
               echo "NO CYPRESS CONFIGURATION FOUND FOR IMAGE"
