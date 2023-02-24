@@ -208,6 +208,18 @@ commands:
       - store_test_results:
           path: .reports
         # ------------------------------------------------------------------------------------
+      - restore_cache:
+          key: cypress-cache
+          paths:
+            - tests/cypress/node_modules
+      - run:
+          name: Install Cypress
+          command: |
+            cd tests/cypress && make install -B
+      - save_cache:
+          key: cypress-cache
+          paths:
+            - tests/cypress/node_modules
       - run:
           name: Run Cypress Tests
           environment:
@@ -215,10 +227,10 @@ commands:
             TAG: << parameters.imageTag >>
           command: |
             docker run --rm -p 80:80 --name shop -d dockware/$IMG:$TAG
-            sleep 30
+            while ! curl -k -s -o /dev/null http://localhost; do echo Waiting for dockware; sleep 1; done
             docker logs shop
-            cd tests/cypress && make install -B
-            echo "Running Cypress tests for: $IMG:$TAG"
+            echo "***************************************************"
+            echo ">> Running Cypress tests for: $IMG:$TAG"
             if [[ $IMG == "flex" ]]; then
               cd tests/cypress && make run-flex url=http://localhost
             elif [[ $IMG == "essentials" ]]; then
