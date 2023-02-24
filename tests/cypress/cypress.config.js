@@ -11,6 +11,14 @@ module.exports = defineConfig({
     screenshotOnRunFailure: true,
     video: false,
     videoCompression: 50,
+    devices: [
+        {
+            key: 'desktop',
+            name: 'Desktop',
+            width: 1920,
+            height: 1080,
+        },
+    ],
     e2e: {
         testIsolation: true,
         experimentalWebKitSupport: true,
