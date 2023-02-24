@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ $IMG == "flex" ]]; then
   make run-flex url=http://localhost
 elif [[ $IMG == "essentials" ]]; then

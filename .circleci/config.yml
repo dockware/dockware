@@ -170,6 +170,10 @@ commands:
 
   cmd_install:
     steps:
+      - restore_cache:
+          key: vendor-cache
+          paths:
+            - vendor
       - run: sudo apt-get update
       - run: sudo apt-get install -y php-cli php-xml unzip
       - run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -177,6 +181,10 @@ commands:
       - run: sudo mv composer.phar /usr/local/bin/composer
       # ------------------------------------------------------------------------------------
       - run: make install
+      - save_cache:
+          key: vendor-cache
+          paths:
+           - vendor
       # ------------------------------------------------------------------------------------
       # ORCA generate command
       - run: make generate phar=1 -B
