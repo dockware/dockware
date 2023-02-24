@@ -216,6 +216,7 @@ commands:
             sleep 30
             docker logs shop
             cd tests/cypress && make install -B
+            echo "Running Cypress tests for: << parameters.imageName >>:<< parameters.imageTag >>"
             if [[ << parameters.imageName >> == flex ]]; then
               cd tests/cypress && make run-flex url=http://localhost
             fi
