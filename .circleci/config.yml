@@ -3,10 +3,10 @@ version: 2.1
 parameters:
   imageName:
     type: string
-    default: "false"
+    default: ""
   imageTag:
     type: string
-    default: "false"
+    default: ""
   shopwareVersion:
     description: make sure a push does not trigger any workflow
     type: string
