@@ -1000,11 +1000,11 @@ COPY ./assets/shopware5/config.php /var/www/html/
 RUN sudo chown 33:33 /var/www/html/config.php
 
 RUN chown 33:33 -R /var/www/html && \
+    mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    chown 33:33 /var/www/.npm -R && \
-    chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
