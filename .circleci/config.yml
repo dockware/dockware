@@ -240,7 +240,7 @@ commands:
             docker run --rm -p 80:80 --name shop -d dockware/$IMG:$TAG
             while ! curl -k -s -o /dev/null http://localhost; do echo Waiting for dockware; sleep 1; done
             docker logs shop
-            cd tests/cypress && IMG=$IMG TAG=$TAG sh run.sh
+            cd tests/cypress && IMG=$IMG TAG=$TAG bash run.sh
       # ------------------------------------------------------------------------------------
       - run:
           name: Docker Hub Login
