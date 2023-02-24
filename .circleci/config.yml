@@ -206,7 +206,9 @@ commands:
           name: Run SVRUnit Tests
           command: |
             make test image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
-      # ------------------------------------------------------------------------------------
+      - store_test_results:
+          path: .reports
+        # ------------------------------------------------------------------------------------
       - run:
           name: Run Cypress Tests
           command: |
