@@ -78,7 +78,7 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 
-if [ $SHOP_DOMAIN != "not-set" ]; then
+if [ $SHOP_DOMAIN != "localhost" ]; then
   # update our domain. this means we can use the
     # SHOP DOMAIN as environment variable
     echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."

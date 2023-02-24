@@ -24,7 +24,7 @@ ENV APACHE_DOCROOT /var/www/html
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION 12
-ENV SHOP_DOMAIN not-set
+ENV SHOP_DOMAIN localhost
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
