@@ -218,7 +218,7 @@ commands:
             sleep 30
             docker logs shop
             cd tests/cypress && make install -B
-            echo "Running Cypress tests for: $IMG:$TAG
+            echo "Running Cypress tests for: $IMG:$TAG"
             if [ $IMG == flex ]; then
               cd tests/cypress && make run-flex url=http://localhost
             elif [ $IMG == essentials ]; then
