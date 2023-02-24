@@ -51,22 +51,22 @@ workflows:
     jobs:
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
-          name: shopware-<< pipeline.parameters.shopwareVersion >>-dev-arm64
+          name: sw-<< pipeline.parameters.shopwareVersion >>-dev-arm64
           imageName: "dev"
           imageTag: << pipeline.parameters.shopwareVersion >>
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
-          name: shopware-<< pipeline.parameters.shopwareVersion >>-play-arm64
+          name: sw-<< pipeline.parameters.shopwareVersion >>-play-arm64
           imageName: "play"
           imageTag: << pipeline.parameters.shopwareVersion >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: shopware-<< pipeline.parameters.shopwareVersion >>-dev-amd64
+          name: sw-<< pipeline.parameters.shopwareVersion >>-dev-amd64
           imageName: "dev"
           imageTag: << pipeline.parameters.shopwareVersion >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: shopware-<< pipeline.parameters.shopwareVersion >>-play-amd64
+          name: sw-<< pipeline.parameters.shopwareVersion >>-play-amd64
           imageName: "play"
           imageTag: << pipeline.parameters.shopwareVersion >>
       # ------------------------------------------------------------------------------------
@@ -75,16 +75,16 @@ workflows:
           imageName: "dev"
           imageTag: << pipeline.parameters.shopwareVersion >>
           requires:
-            - shopware-<< pipeline.parameters.shopwareVersion >>-dev-amd64
-            - shopware-<< pipeline.parameters.shopwareVersion >>-dev-arm64
+            - sw-<< pipeline.parameters.shopwareVersion >>-dev-amd64
+            - sw-<< pipeline.parameters.shopwareVersion >>-dev-arm64
       # ------------------------------------------------------------------------------------
       - job-update-manifest:
           name: update-manifest-play
           imageName: "play"
           imageTag: << pipeline.parameters.shopwareVersion >>
           requires:
-            - shopware-<< pipeline.parameters.shopwareVersion >>-play-amd64
-            - shopware-<< pipeline.parameters.shopwareVersion >>-play-arm64
+            - sw-<< pipeline.parameters.shopwareVersion >>-play-amd64
+            - sw-<< pipeline.parameters.shopwareVersion >>-play-arm64
 
 
 # -----------------------------------------------------------------------------------------------------
