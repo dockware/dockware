@@ -151,15 +151,14 @@ jobs:
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       # ------------------------------------------------------------------------------------
       - run:
-          name: Create Manifest ARM/AMD
+          name: Create Manifest
           command: |
             docker manifest create dockware/<< parameters.imageName >>:<< parameters.imageTag >> --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
       # ------------------------------------------------------------------------------------
       - run:
-          name: Push Images
+          name: Push Manifest
           command: |
             docker manifest push dockware/<< parameters.imageName >>:<< parameters.imageTag >>
-
 
 
 # -----------------------------------------------------------------------------------------------------
@@ -211,43 +210,43 @@ commands:
         # ------------------------------------------------------------------------------------
       - run:
           name: Run Cypress Tests
+          environment:
+            IMG: << parameters.imageName >>
+            TAG: << parameters.imageTag >>
           command: |
-            docker run --rm -p 80:80 --name shop -d dockware/<< parameters.imageName >>:<< parameters.imageTag >>
+            docker run --rm -p 80:80 --name shop -d dockware/$IMG:$TAG
             sleep 30
             docker logs shop
             cd tests/cypress && make install -B
-            echo "Running Cypress tests for: << parameters.imageName >>:<< parameters.imageTag >>"
-            if [[ << parameters.imageName >> == flex ]]; then
+            echo "Running Cypress tests for: $IMG:$TAG
+            if [ $IMG == flex ]; then
               cd tests/cypress && make run-flex url=http://localhost
-            fi
-            if [[ << parameters.imageName >> == essentials ]]; then
+            elif [ $IMG == essentials ]; then
               cd tests/cypress && make run-essentials url=http://localhost
-            fi
-            if [[ << parameters.imageName >> == play && << parameters.imageTag >> == latest ]]; then
+            elif [ $IMG == play && $TAG == latest ]; then
               cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
-            fi
-            if [[ << parameters.imageName >> == dev && << parameters.imageTag >> == latest ]]; then
+            elif [ $IMG == dev && $TAG == latest ]; then
               cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
-            fi
-            if [[ << parameters.imageName >> == dev && << parameters.imageTag >> == 6.5.0.0-rc1 ]]; then
+            elif [ $IMG == dev && $TAG == 6.5.0.0-rc1 ]; then
               cd tests/cypress && make run6 url=http://localhost shopware=6.5.0.0
-            fi
-            if [[ << parameters.imageTag >> == 6.* ]]; then
-              cd tests/cypress && make run6 url=http://localhost shopware=<< parameters.imageTag >>
-            fi
-            if [[ << parameters.imageTag >> == 5.* ]]; then
-              cd tests/cypress && make run5 url=http://localhost shopware=<< parameters.imageTag >>
+            elif [ $IMG == 6.* ]; then
+              cd tests/cypress && make run6 url=http://localhost shopware=$TAG
+            elif [ $IMG == 5.* ]; then
+              cd tests/cypress && make run5 url=http://localhost shopware=$TAG
+            else
+              echo "NO CYPRESS CONFIGURATION FOUND FOR IMAGE"
+              exit 1
             fi
       # ------------------------------------------------------------------------------------
       - run:
-          name: Publish Docker Image to Docker Hub
+          name: Docker Hub Login
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - run:
-          name: Create alias to push as amd64
+          name: Tag Image for ARCH
           command: |
             docker tag dockware/<< parameters.imageName >>:<< parameters.imageTag >> dockware/<< parameters.imageName >>:<< parameters.imageTag >>-<< parameters.imageArch >>
       - run:
-          name: Push Image AMD
+          name: Push Image
           command: |
             docker push dockware/<< parameters.imageName >>:<< parameters.imageTag >>-<< parameters.imageArch >>
