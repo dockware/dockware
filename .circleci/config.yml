@@ -207,6 +207,9 @@ commands:
             make test image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
       - store_test_results:
           path: .reports
+      - store_artifacts:
+          path: .reports/report.xml
+          destination: svrunit.xml
         # ------------------------------------------------------------------------------------
       - restore_cache:
           key: cypress-cache
@@ -229,26 +232,7 @@ commands:
             docker run --rm -p 80:80 --name shop -d dockware/$IMG:$TAG
             while ! curl -k -s -o /dev/null http://localhost; do echo Waiting for dockware; sleep 1; done
             docker logs shop
-            echo "***************************************************"
-            echo ">> Running Cypress tests for: $IMG:$TAG"
-            if [[ $IMG == "flex" ]]; then
-              cd tests/cypress && make run-flex url=http://localhost
-            elif [[ $IMG == "essentials" ]]; then
-              cd tests/cypress && make run-essentials url=http://localhost
-            elif [[ $IMG == "play" && $TAG == "latest" ]]; then
-              cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
-            elif [[ $IMG == "dev" && $TAG == "latest" ]]; then
-              cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
-            elif [[ $IMG == "dev" && $TAG == "6.5.0.0-rc1" ]]; then
-              cd tests/cypress && make run6 url=http://localhost shopware=6.5.0.0
-            elif [[ $IMG == "6."* ]]; then
-              cd tests/cypress && make run6 url=http://localhost shopware=$TAG
-            elif [[ $IMG == "5."* ]]; then
-              cd tests/cypress && make run5 url=http://localhost shopware=$TAG
-            else
-              echo "NO CYPRESS CONFIGURATION FOUND FOR IMAGE"
-              exit 1
-            fi
+            cd tests/cypress && IMG=$IMG TAG=$TAG sh run.sh
       # ------------------------------------------------------------------------------------
       - run:
           name: Docker Hub Login
