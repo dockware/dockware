@@ -219,10 +219,18 @@ commands:
           path: .reports/report.xml
           destination: svrunit.xml
         # ------------------------------------------------------------------------------------
+      - restore_cache:
+          key: cypress-cache
+          paths:
+            - tests/cypress/node_modules
       - run:
           name: Install Cypress
           command: |
             cd tests/cypress && make install -B
+      - save_cache:
+          key: cypress-cache
+          paths:
+            - tests/cypress/node_modules
       - run:
           name: Run Cypress Tests
           environment:
