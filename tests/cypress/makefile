@@ -8,14 +8,10 @@ help:
 # ---------------------------------------------------------------------------------------------
 
 install: ## Installs all dependencies
-	npm install cypress@9.6.0 --save-dev --save .
-	npm install webpack --save-dev --save .
-	npm install @cypress/webpack-preprocessor --save-dev --save .
-	npm install @cucumber/tag-expressions --save-dev --save .
+	npm install
 
 clean: ## Cleans all dependencies
 	rm -rf node_modules
-	rm -rf package-lock.json
 
 # ---------------------------------------------------------------------------------------------
 
