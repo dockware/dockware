@@ -13,7 +13,7 @@ module.exports = defineConfig({
     videoCompression: 50,
     e2e: {
         experimentalSessionAndOrigin: true,
-        testIsolation: "strict",
+        testIsolation: true,
         experimentalWebKitSupport: true,
         // We've imported your old cypress plugins here.
         // You may want to clean this up later by importing these.
