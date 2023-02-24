@@ -1,189 +1,250 @@
 version: 2.1
 
 parameters:
-    imageName:
-        type: string
-        default: "false"
-    imageTag:
-        type: string
-        default: "false"
-    doBuildImage:
-        description: make sure a push does not trigger any workflow
-        type: boolean
-        default: false
-    buildShopwareVersion:
-        description: make sure a push does not trigger any workflow
-        type: string
-        default: ""
+  imageName:
+    type: string
+    default: "false"
+  imageTag:
+    type: string
+    default: "false"
+  shopwareVersion:
+    description: make sure a push does not trigger any workflow
+    type: string
+    default: ""
+
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
 
 workflows:
-    release-single-image:
-        when:
-            and:
-                -   equal: [true, << pipeline.parameters.doBuildImage >>]
-        jobs:
-            -   build-image-arm64:
-                    imageName: << pipeline.parameters.imageName >>
-                    imageTag: << pipeline.parameters.imageTag >>
-            -   build-image-amd64:
-                    imageName: << pipeline.parameters.imageName >>
-                    imageTag: << pipeline.parameters.imageTag >>
 
-            -   create-manifest-push:
-                    imageName: << pipeline.parameters.imageName >>
-                    imageTag: << pipeline.parameters.imageTag >>
-                    requires:
-                        - build-image-arm64
-                        - build-image-amd64
+  release-image:
+    when:
+      and:
+        - not:
+            equal: [ "", << pipeline.parameters.imageName >> ]
+    jobs:
+      - job-build-arm64:
+          name: build-arm
+          imageName: << pipeline.parameters.imageName >>
+          imageTag: << pipeline.parameters.imageTag >>
+      # ------------------------------------------------------------------------------------
+      - job-build-amd64:
+          name: build-ard
+          imageName: << pipeline.parameters.imageName >>
+          imageTag: << pipeline.parameters.imageTag >>
+      # ------------------------------------------------------------------------------------
+      - job-update-manifest:
+          name: update-manifest
+          imageName: << pipeline.parameters.imageName >>
+          imageTag: << pipeline.parameters.imageTag >>
+          requires:
+            - build-arm
+            - build-ard
 
-    release-shopware-version:
-        when:
-            and:
-                -   not:
-                        equal: ["", << pipeline.parameters.buildShopwareVersion >>]
-        jobs:
-            -   build-image-arm64:
-                    imageName: "dev"
-                    name: build-shopware-<< pipeline.parameters.buildShopwareVersion >>-dev-arm64
-                    imageTag: << pipeline.parameters.buildShopwareVersion >>
-            -   build-image-arm64:
-                    name: build-shopware-<< pipeline.parameters.buildShopwareVersion >>-play-arm64
-                    imageName: "play"
-                    imageTag: << pipeline.parameters.buildShopwareVersion >>
+  release-shopware:
+    when:
+      and:
+        - not:
+            equal: [ "", << pipeline.parameters.shopwareVersion >> ]
+    jobs:
+      # ------------------------------------------------------------------------------------
+      - job-build-arm64:
+          name: shopware-<< pipeline.parameters.shopwareVersion >>-dev-arm64
+          imageName: "dev"
+          imageTag: << pipeline.parameters.shopwareVersion >>
+      # ------------------------------------------------------------------------------------
+      - job-build-arm64:
+          name: shopware-<< pipeline.parameters.shopwareVersion >>-play-arm64
+          imageName: "play"
+          imageTag: << pipeline.parameters.shopwareVersion >>
+      # ------------------------------------------------------------------------------------
+      - job-build-amd64:
+          name: shopware-<< pipeline.parameters.shopwareVersion >>-dev-amd64
+          imageName: "dev"
+          imageTag: << pipeline.parameters.shopwareVersion >>
+      # ------------------------------------------------------------------------------------
+      - job-build-amd64:
+          name: shopware-<< pipeline.parameters.shopwareVersion >>-play-amd64
+          imageName: "play"
+          imageTag: << pipeline.parameters.shopwareVersion >>
+      # ------------------------------------------------------------------------------------
+      - job-update-manifest:
+          name: update-manifest-dev
+          imageName: "dev"
+          imageTag: << pipeline.parameters.shopwareVersion >>
+          requires:
+            - shopware-<< pipeline.parameters.shopwareVersion >>-dev-amd64
+            - shopware-<< pipeline.parameters.shopwareVersion >>-dev-arm64
+      # ------------------------------------------------------------------------------------
+      - job-update-manifest:
+          name: update-manifest-play
+          imageName: "play"
+          imageTag: << pipeline.parameters.shopwareVersion >>
+          requires:
+            - shopware-<< pipeline.parameters.shopwareVersion >>-play-amd64
+            - shopware-<< pipeline.parameters.shopwareVersion >>-play-arm64
 
-            -   build-image-amd64:
-                    name: build-shopware-<< pipeline.parameters.buildShopwareVersion >>-dev-amd64
-                    imageName: "dev"
-                    imageTag: << pipeline.parameters.buildShopwareVersion >>
 
-            -   build-image-amd64:
-                    name: build-shopware-<< pipeline.parameters.buildShopwareVersion >>-play-amd64
-                    imageName: "play"
-                    imageTag: << pipeline.parameters.buildShopwareVersion >>
-
-            -   create-manifest-push:
-                    name: create-manifest-push-dev
-                    imageName: "dev"
-                    imageTag: << pipeline.parameters.buildShopwareVersion >>
-                    requires:
-                        - build-shopware-<< pipeline.parameters.buildShopwareVersion >>-dev-amd64
-                        - build-shopware-<< pipeline.parameters.buildShopwareVersion >>-dev-arm64
-
-            -   create-manifest-push:
-                    name: create-manifest-push-play
-                    imageName: "play"
-                    imageTag: << pipeline.parameters.buildShopwareVersion >>
-                    requires:
-                        - build-shopware-<< pipeline.parameters.buildShopwareVersion >>-play-amd64
-                        - build-shopware-<< pipeline.parameters.buildShopwareVersion >>-play-arm64
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
 
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-    build-image-arm64:
-        parameters:
-            imageName:
-                type: string
-            imageTag:
-                type: string
 
-        machine:
-            image: ubuntu-2204:current
-            docker_layer_caching: true
-        resource_class: arm.medium
+  job-build-arm64:
+    parameters:
+      imageName:
+        type: string
+      imageTag:
+        type: string
+    machine:
+      image: ubuntu-2204:current
+      docker_layer_caching: true
+    resource_class: arm.medium
+    steps:
+      - checkout
+      - cmd_install
+      - cmd_image_build_push:
+          imageName: <<parameters.imageName>>
+          imageTag: <<parameters.imageTag>>
+          imageArch: "arm64"
 
-        steps:
-            - checkout
-            - install_requirements
-            - build_and_push_image:
-                    imageName: <<parameters.imageName>>
-                    imageTag: <<parameters.imageTag>>
-                    imageArch: "arm64"
+  job-build-amd64:
+    machine:
+      image: ubuntu-2204:current
+      docker_layer_caching: true
+    resource_class: medium
+    parameters:
+      imageName:
+        type: string
+      imageTag:
+        type: string
+    steps:
+      - checkout
+      - cmd_install
+      - cmd_image_build_push:
+          imageName: << parameters.imageName >>
+          imageTag: << parameters.imageTag >>
+          imageArch: "amd64"
 
-    build-image-amd64:
-        machine:
-            image: ubuntu-2204:current
-            docker_layer_caching: true
-        resource_class: medium
+  job-update-manifest:
+    machine:
+      image: ubuntu-2204:current
+      docker_layer_caching: true
+    resource_class: medium
+    parameters:
+      imageName:
+        type: string
+      imageTag:
+        type: string
+    steps:
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Docker Hub Login
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Create Manifest ARM/AMD
+          command: |
+            docker manifest create dockware/<< parameters.imageName >>:<< parameters.imageTag >> --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Push Images
+          command: |
+            docker manifest push dockware/<< parameters.imageName >>:<< parameters.imageTag >>
 
-        parameters:
-            imageName:
-                type: string
-            imageTag:
-                type: string
-        steps:
-            - checkout
-            - install_requirements
-            -   build_and_push_image:
-                    imageName: << parameters.imageName >>
-                    imageTag: << parameters.imageTag >>
-                    imageArch: "amd64"
 
-    create-manifest-push:
-        machine:
-            image: ubuntu-2204:current
-            docker_layer_caching: true
-        resource_class: medium
 
-        parameters:
-            imageName:
-                type: string
-            imageTag:
-                type: string
-
-        steps:
-            -   run:
-                    name: Publish Docker Image to Docker Hub
-                    command: |
-                        echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-
-            -   run: docker manifest create dockware/<< parameters.imageName >>:<< parameters.imageTag >> --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
-            -   run: docker manifest push dockware/<< parameters.imageName >>:<< parameters.imageTag >>
-
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
 
 commands:
-    install_requirements:
-        steps:
-            -   run: sudo apt-get update
-            -   run: sudo apt-get install -y php-cli php-xml unzip
-            -   run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-            -   run: php composer-setup.php
-            -   run: sudo mv composer.phar /usr/local/bin/composer
 
-            #Install Dependencies
-            -   run: make install
+  cmd_install:
+    steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y php-cli php-xml unzip
+      - run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      - run: php composer-setup.php
+      - run: sudo mv composer.phar /usr/local/bin/composer
+      # ------------------------------------------------------------------------------------
+      - run: make install
+      # ------------------------------------------------------------------------------------
+      # ORCA generate command
+      - run: make generate phar=1 -B
 
-            #ORCA Generate
-            -   run: make generate phar=1 -B
-
-
-    build_and_push_image:
-        parameters:
-            imageName:
-                type: string
-            imageTag:
-                type: string
-            imageArch:
-                type: string
-        steps:
-            #Verify Configuration
-            -   run: make verify image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
-
-            #name: Build Image
-            -   run: cd ./dist/images/<< parameters.imageName >>/<< parameters.imageTag >> && DOCKER_BUILDKIT=1 docker build -t dockware/<< parameters.imageName >>:<< parameters.imageTag >> .
-
-            # Run SVRUnit Tests
-            -   run: make test image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
-            -   run:
-                    name: Publish Docker Image to Docker Hub
-                    command: |
-                        echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            -   run:
-                    name: Create alias to push as amd64
-                    command: |
-                        docker tag dockware/<< parameters.imageName >>:<< parameters.imageTag >> dockware/<< parameters.imageName >>:<< parameters.imageTag >>-<< parameters.imageArch >>
-            -   run:
-                    name: push amd image
-                    command: |
-                        docker push dockware/<< parameters.imageName >>:<< parameters.imageTag >>-<< parameters.imageArch >>
+  cmd_image_build_push:
+    parameters:
+      imageName:
+        type: string
+      imageTag:
+        type: string
+      imageArch:
+        type: string
+    steps:
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Verify Configuration
+          command: |
+            make verify image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Build Image << parameters.imageName >>:<< parameters.imageTag >>
+          command: |
+            make build image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Run SVRUnit Tests
+          command: |
+            make test image=<< parameters.imageName >> tag=<< parameters.imageTag >> -B
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Run Cypress Tests
+          command: |
+            docker run --rm -p 80:80 --name shop -d dockware/<< parameters.imageName >>:<< parameters.imageTag >>
+            sleep 30
+            docker logs shop
+            cd tests/cypress && make install -B
+            if [[ << parameters.imageName >> == flex ]]; then
+              cd tests/cypress && make run-flex url=http://localhost
+            fi
+            if [[ << parameters.imageName >> == essentials ]]; then
+              cd tests/cypress && make run-essentials url=http://localhost
+            fi
+            if [[ << parameters.imageName >> == play && << parameters.imageTag >> == latest ]]; then
+              cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
+            fi
+            if [[ << parameters.imageName >> == dev && << parameters.imageTag >> == latest ]]; then
+              cd tests/cypress && make run6 url=http://localhost shopware=6.4.20.0
+            fi
+            if [[ << parameters.imageName >> == dev && << parameters.imageTag >> == 6.5.0.0-rc1 ]]; then
+              cd tests/cypress && make run6 url=http://localhost shopware=6.5.0.0
+            fi
+            if [[ << parameters.imageTag >> == 6.* ]]; then
+              cd tests/cypress && make run6 url=http://localhost shopware=<< parameters.imageTag >>
+            fi
+            if [[ << parameters.imageTag >> == 5.* ]]; then
+              cd tests/cypress && make run5 url=http://localhost shopware=<< parameters.imageTag >>
+            fi
+      # ------------------------------------------------------------------------------------
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run:
+          name: Create alias to push as amd64
+          command: |
+            docker tag dockware/<< parameters.imageName >>:<< parameters.imageTag >> dockware/<< parameters.imageName >>:<< parameters.imageTag >>-<< parameters.imageArch >>
+      - run:
+          name: Push Image AMD
+          command: |
+            docker push dockware/<< parameters.imageName >>:<< parameters.imageTag >>-<< parameters.imageArch >>
