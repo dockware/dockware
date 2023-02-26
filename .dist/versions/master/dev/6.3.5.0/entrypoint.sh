@@ -177,7 +177,7 @@ if [[ ! -z "$NODE_VERSION" ]]; then
    echo "-----------------------------------------------------------"
 fi
 
-if [ $SHOP_DOMAIN != "not-set" ]; then
+if [ $SHOP_DOMAIN != "localhost" ]; then
   # update our domain. this means we can use the
     # SHOP DOMAIN as environment variable
     echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
