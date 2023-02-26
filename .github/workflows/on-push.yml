@@ -21,8 +21,8 @@ jobs:
       - name: ORCA Generate
         run: make generate
 
-      - name: Generate Workflows
-        run: cd build && make generate-actions
+      # - name: Generate Workflows
+      #   run: cd build && make generate-actions
 
       - name: Archive DIST Files
         run: cd build && make generate-dist version=master
