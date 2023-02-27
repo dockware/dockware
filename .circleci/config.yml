@@ -168,7 +168,7 @@ jobs:
       - run:
           name: Create and push manifest (latest)
           command: |
-            if [ << parameters.isLatest >> = true ]; then
+            if [ << parameters.setLatest >> = true ]; then
               docker manifest create dockware/<< parameters.imageName >>:latest --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
               docker manifest push dockware/<< parameters.imageName >>:latest
             fi
