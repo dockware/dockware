@@ -43,6 +43,7 @@ workflows:
           name: update-manifest
           imageName: << pipeline.parameters.imageName >>
           imageTag: << pipeline.parameters.imageTag >>
+          setLatest: << pipeline.parameters.setLatest >>
           requires:
             - build-arm
             - build-ard
@@ -78,6 +79,7 @@ workflows:
           name: update-manifest-dev
           imageName: "dev"
           imageTag: << pipeline.parameters.shopwareVersion >>
+          setLatest: << pipeline.parameters.setLatest >>
           requires:
             - sw-<< pipeline.parameters.shopwareVersion >>-dev-amd64
             - sw-<< pipeline.parameters.shopwareVersion >>-dev-arm64
@@ -86,6 +88,7 @@ workflows:
           name: update-manifest-play
           imageName: "play"
           imageTag: << pipeline.parameters.shopwareVersion >>
+          setLatest: << pipeline.parameters.setLatest >>
           requires:
             - sw-<< pipeline.parameters.shopwareVersion >>-play-amd64
             - sw-<< pipeline.parameters.shopwareVersion >>-play-arm64
