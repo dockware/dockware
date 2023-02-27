@@ -162,14 +162,13 @@ jobs:
             docker manifest create dockware/<< parameters.imageName >>:<< parameters.imageTag >> --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
             docker manifest push dockware/<< parameters.imageName >>:<< parameters.imageTag >>
       # ------------------------------------------------------------------------------------
-      - when:
-          condition:
-            equal: [ true, << parameters.isLatest >> ]
-          steps:
-            name: Create and push manifest (latest)
-            command: |
+      - run:
+          name: Create and push manifest (latest)
+          command: |
+            if [ << parameters.isLatest >> = true ]; then
               docker manifest create dockware/<< parameters.imageName >>:latest --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
               docker manifest push dockware/<< parameters.imageName >>:latest
+            fi
 
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
