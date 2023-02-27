@@ -11,6 +11,10 @@ parameters:
     description: make sure a push does not trigger any workflow
     type: string
     default: ""
+  setLatest:
+    description: defines if the latest tag should be set to this version
+    type: boolean
+    default: false
 
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
@@ -143,6 +147,8 @@ jobs:
         type: string
       imageTag:
         type: string
+      setLatest:
+        type: boolean
     steps:
       # ------------------------------------------------------------------------------------
       - run:
@@ -151,15 +157,19 @@ jobs:
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       # ------------------------------------------------------------------------------------
       - run:
-          name: Create Manifest
+          name: Create and push manifest (<< parameters.imageTag >>)
           command: |
             docker manifest create dockware/<< parameters.imageName >>:<< parameters.imageTag >> --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
-      # ------------------------------------------------------------------------------------
-      - run:
-          name: Push Manifest
-          command: |
             docker manifest push dockware/<< parameters.imageName >>:<< parameters.imageTag >>
-
+      # ------------------------------------------------------------------------------------
+      - when:
+          condition:
+            equal: [ true, << parameters.isLatest >> ]
+          steps:
+            name: Create and push manifest (latest)
+            command: |
+              docker manifest create dockware/<< parameters.imageName >>:latest --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-amd64 --amend dockware/<< parameters.imageName >>:<< parameters.imageTag >>-arm64
+              docker manifest push dockware/<< parameters.imageName >>:latest
 
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
