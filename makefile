@@ -21,7 +21,7 @@ else
 	curl -O https://orca-build.io/downloads/orca.zip
 	unzip -o orca.zip
 	rm -f orca.zip
-	php orca.phar --directory=.
+	php orca.phar --directory=. --debug
 endif
 
 clear: ## Clears all dangling images
