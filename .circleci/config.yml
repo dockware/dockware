@@ -249,7 +249,8 @@ commands:
             IMG: << parameters.imageName >>
             TAG: << parameters.imageTag >>
           command: |
-            sudo tee -a /etc/hosts \<<<'127.0.0.1 cypress.shopware.com'
+            echo 127.0.0.1 cypress.shopware.com | sudo tee -a /etc/hosts
+            cat /etc/hosts
             docker run --rm -p 80:80 --name shop -e SHOP_DOMAIN=cypress.shopware.com -d dockware/$IMG:$TAG
             while ! curl -k -s -o /dev/null http://cypress.shopware.com; do echo Waiting for dockware; sleep 1; done
             sleep 10
