@@ -5,3 +5,5 @@ mysql -h 127.0.0.1 -uroot -proot -e "use shopware; UPDATE sales_channel_domain S
 
 sed -i "/APP_URL=/g" /var/www/html/.env
 echo "APP_URL=http://${SHOP_DOMAIN}" >> /var/www/html/.env
+
+cd /var/www/html && php bin/console cache:clear
