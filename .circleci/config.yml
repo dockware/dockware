@@ -250,13 +250,11 @@ commands:
             TAG: << parameters.imageTag >>
           command: |
             echo 127.0.0.1 cypress.shopware.com | sudo tee -a /etc/hosts
-            cat /etc/hosts
             docker run --rm -p 80:80 --name shop -e SHOP_DOMAIN=cypress.shopware.com -d dockware/$IMG:$TAG
             while ! curl -k -s -o /dev/null http://cypress.shopware.com; do echo Waiting for dockware; sleep 1; done
-            sleep 10
+            sleep 5
             docker logs shop
-            curl http://cypress.shopware.com
-            cd tests/cypress && IMG=$IMG TAG=$TAG bash run.sh
+            cd tests/cypress && IMG=$IMG TAG=$TAG URL=http://cypress.shopware.com bash run.sh
       # ------------------------------------------------------------------------------------
       - run:
           name: Docker Hub Login
