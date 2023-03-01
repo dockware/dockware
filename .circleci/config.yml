@@ -255,6 +255,7 @@ commands:
             while ! curl -k -s -o /dev/null http://cypress.shopware.com; do echo Waiting for dockware; sleep 1; done
             sleep 10
             docker logs shop
+            curl http://cypress.shopware.com
             cd tests/cypress && IMG=$IMG TAG=$TAG bash run.sh
       # ------------------------------------------------------------------------------------
       - run:
