@@ -23,3 +23,20 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+const origLog = Cypress.log;
+Cypress.log = function (opts, ...other) {
+    if (opts.displayName === 'xhr') {
+        return;
+    }
+
+    if (opts.name === 'uncaught exception') {
+        return;
+    }
+
+    if (opts.name === 'new url') {
+        return;
+    }
+
+    return origLog(opts, ...other);
+};
