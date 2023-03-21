@@ -36,6 +36,8 @@ RUN sudo service mysql start && \
     # clear cache and refresh dal index to show the new demo data
     cd /var/www/html && php bin/console cache:clear && \
     #cd /var/www/html && ./bin/build.sh && \
+    cd /var/www/html/bin && ./build-storefront.sh \
+    cd /var/www/html && php bin/console theme:change --all --no-compile --no-interaction Storefront && \
     cd /var/www/html && php bin/console theme:compile && \
     cd /var/www/html && php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
