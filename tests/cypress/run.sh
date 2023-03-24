@@ -12,6 +12,8 @@ elif [[ $IMG == "dev" && $TAG == "6.5.0.0-rc1" ]]; then
   make run6 url=$URL shopware=6.5.0.0
 elif [[ $IMG == "dev" && $TAG == "6.5.0.0-rc2" ]]; then
   make run6 url=$URL shopware=6.5.0.0
+elif [[ $IMG == "dev" && $TAG == "6.5.0.0-rc3" ]]; then
+  make run6 url=$URL shopware=6.5.0.0
 elif [[ $TAG == "6."* ]]; then
   make run6 url=$URL shopware=$TAG
 elif [[ $TAG == "5."* ]]; then
