@@ -467,9 +467,9 @@ ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
 # i dont know why, but this is suddenly required
 RUN chmod 0444 /etc/mysql/my.cnf
 
-RUN service mysql start && \
-    mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" && \
-    service mysql restart
+&& service mysql start \
+    && mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" \
+    && service mysql restart
 
 ## ***********************************************************************
 ##  ADMINER

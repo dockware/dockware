@@ -401,10 +401,12 @@ ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
 
 # i dont know why, but this is suddenly required
 RUN chmod 0444 /etc/mysql/my.cnf
+&& service mysql start \
+#creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
+&& sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
+&& sudo mysql --user=root --password=root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
 
-RUN service mysql start && \
-    mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" && \
-    service mysql restart
+&& service mysql restart
 
 ## ***********************************************************************
 ##  ADMINER
