@@ -323,9 +323,6 @@ RUN cd /var/www \
 {% block components_mysql %}
 {% include 'template/components/mysql/' ~ mysql.version ~ '/install.sh.twig' with { 'pwd' : db.pwd } %}
 
-RUN service mysql start && \
-    mysql --user={{ db.user }} --password={{ db.pwd }} -e "use mysql; update user set host='%' where host='localhost';" && \
-    service mysql restart
 {% endblock %}
 
 
