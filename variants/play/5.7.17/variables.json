@@ -1,0 +1,25 @@
+{
+    "apache": {
+        "docroot": "/var/www/html"
+    },
+    "shopware": {
+        "version": "5.7.17",
+        "download_url": "https://releases.shopware.com/install_5.7.17_31b8b37fe396c41da6dfe6c5354e968ca82d890c.zip"
+    },
+    "php": {
+        "default_version": "8.0",
+        "versions": {
+            "7.1": {
+                "active": false
+            },
+            "7.0": {
+                "active": false
+            },
+            "5.6": {
+                "active": false
+            }
+        }
+    }
+}
+
+
