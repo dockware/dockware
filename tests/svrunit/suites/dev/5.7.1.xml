@@ -12,7 +12,7 @@
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/node/v12</directory>
             <directory>./../../tests/packages/composer/v2</directory>
-            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/php/php8</directory>
         </testsuite>
          
         <testsuite name="dockware/dev:5.7.1, ENV Node Version Switch" dockerImage="dockware/dev:5.7.1" dockerEnv="NODE_VERSION=12">

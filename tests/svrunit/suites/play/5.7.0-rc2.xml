@@ -8,7 +8,7 @@
         <testsuite name="dockware/play:5.7.0-rc2, Core Checks" group="core" dockerImage="dockware/play:5.7.0-rc2">
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/base-6.0</directory>
-            <directory>./../../tests/packages/php/php7</directory>
+            <directory>./../../tests/packages/php/php8</directory>
         </testsuite>
          
     </testsuites >

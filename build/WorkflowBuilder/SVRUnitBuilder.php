@@ -72,7 +72,7 @@ class SVRUnitBuilder
             } else {
                 if (version_compare($tag, '5.7') >= 0) {
                     # SHOPWARE >= 5.7
-                    $defaultPHP = '7';
+                    $defaultPHP = '8';
 
                     $php72 = true;
                     $php71 = false;
