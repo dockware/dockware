@@ -652,9 +652,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
 ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
 
 # i dont know why, but this is suddenly required
-RUN chmod 0444 /etc/mysql/my.cnf
-
-&& service mysql start \
+RUN chmod 0444 /etc/mysql/my.cnf \
+    && service mysql start \
     && mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" \
     && service mysql restart
 
