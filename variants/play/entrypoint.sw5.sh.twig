@@ -1,0 +1,9 @@
+{% extends "variants/play/entrypoint.base.sh.twig" %}
+
+{% block setup_shopware_domain %}
+{% endblock %}
+
+
+{% block instructions_shopware_admin %}
+echo "ADMIN URL: {{ shopware.url }}/backend"
+{% endblock %}
