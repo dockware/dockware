@@ -78,14 +78,6 @@ cd /var/www && make switch-php version=${PHP_VERSION}
 sudo service apache2 stop
 echo "-----------------------------------------------------------"
 
-if [ $SHOP_DOMAIN != "localhost" ]; then
-  # update our domain. this means we can use the
-    # SHOP DOMAIN as environment variable
-    echo "DOCKWARE: updating domain to ${SHOP_DOMAIN}..."
-    sh /var/www/scripts/shopware6/update_domain.sh
-    echo "-----------------------------------------------------------"
-fi
-
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
   php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
