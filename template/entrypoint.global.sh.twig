@@ -231,6 +231,7 @@ fi
 
 {% block setup_shopware %}
 
+{% block setup_shopware_domain %}
 if [ $SHOP_DOMAIN != "localhost" ]; then
   # update our domain. this means we can use the
     # SHOP DOMAIN as environment variable
@@ -238,6 +239,7 @@ if [ $SHOP_DOMAIN != "localhost" ]; then
     sh /var/www/scripts/shopware6/update_domain.sh
     echo "-----------------------------------------------------------"
 fi
+{% endblock %}
 
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
