@@ -1002,6 +1002,7 @@ RUN sudo service mysql start && \
     cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
     cd /var/www/html && php bin/console assets:install && \
+    cd /var/www/html && php bin/console system:generate-jwt-secret && \
     # -------------------------------------------------------------------------------------------
     # add some demo data
         # -------------------------------------------------------------------------------------------
