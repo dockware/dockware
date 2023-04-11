@@ -13,3 +13,7 @@ php_module:
     module: "bcmath"
   - name: "PHP Module: imap"
     module: "imap"
+  - name: "PHP Module: REDIS"
+    module: "redis"
+  - name: "PHP Module: AMQP"
+    module: "amqp"
