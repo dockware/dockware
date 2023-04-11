@@ -400,7 +400,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
 
 # i dont know why, but this is suddenly required
-RUN chmod 0444 /etc/mysql/my.cnf
+RUN chmod 0444 /etc/mysql/my.cnf \
 && service mysql start \
 #creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
 && sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
