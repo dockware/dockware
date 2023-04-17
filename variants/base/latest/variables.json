@@ -1,5 +1,5 @@
 {
-  "base_image": "ubuntu:20.04",
+  "base_image": "ubuntu:22.04",
   "shopware": {
     "version": "",
     "env": "dev"
@@ -7,7 +7,6 @@
   "php": {
     "default_version": "8.2",
     "versions": {
-      //this is a "latest" image here we donät want to have old php versions
       "8.2": {
         "active": true
       },

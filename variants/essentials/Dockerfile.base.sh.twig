@@ -3,7 +3,8 @@
 {% block assets_install %}
 # copy our custom configuration to the image
 {% block asset_mysql %}
-{% if mysql.mysql_5_7 == true %}
+{% if base_image == 'ubuntu:18.04' %}
+# ubuntu 18.04 5.7 is default
 COPY ./config/mysql/my-5.7.cnf /tmp/my.cnf
 {% else %}
 COPY ./config/mysql/my-8.cnf /tmp/my.cnf
@@ -17,10 +18,6 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
 
-{% block assets_install_shopware6 %}
-COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
-COPY ./assets/shopware6/files /var/www/scripts/shopware6
-{% endblock %}
 {% endblock %}
 
 {% block image_variables %}
@@ -37,9 +34,7 @@ ENV MYSQL_PWD not-set
 {% endblock %}
 
 {% block image_components %}
-
-&& sudo rm -rf /build-data.text \
- && date >| /build-date.txt \
+ && sudo rm -rf /build-data.text \
  && apt-get update \
  #make sure everything runs in the correct php version
  && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
@@ -109,6 +104,9 @@ ENV MYSQL_PWD not-set
 
 {% endblock %}
 
+{% block uninstall_components %}
+{% include "template/components/php/uninstall_in-active.sh.twig" with { 'php':php } %}
+{% endblock %}
 
 
 

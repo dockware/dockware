@@ -1,29 +1,24 @@
-{% extends "variants/play/Dockerfile.base.sh.twig" %}
+{% extends "template/Dockerfile.global.sh.twig" %}
 
 {% block assets_install %}
-{{ parent() }}
 COPY  ./assets/shopware5/config.php /tmp/shopware5-config.php
 {% endblock %}
 
-
-{% block assets_install_shopware6 %}
-{% endblock %}
-
-
-
 {% block image_components %}
-{% block shopware %}
-&& rm -rf /var/www/html/* \
-    && wget {{ shopware.download_url }} -qq -O /var/www/shopware.zip \
-    && unzip -q /var/www/shopware.zip -d /var/www/html \
-    && rm -rf /var/www/shopware.zip \
+    #make sure for the whole installation xdebug is off for performance
+    && sh /var/www/scripts/bin/xdebug_disable.sh \
+    #make sure the installation runs also in default php version
+    && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
+    && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
 
-{% include 'template/components/shopware/shopware5/install.sh.twig' with {'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
-
-&& rm -rf /var/www/html/config.php \
-&& cat /tmp/shopware5-config.php > /var/www/html/config.php \
-
-&& sudo chown 33:33 /var/www/html/config.php
-
+    {% block shopware %}
+    {% include 'template/components/shopware/shopware5/install.sh.twig' with {'download_url': shopware.download_url 'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
+    {% endblock %}
 {% endblock %}
-{% endblock %}
+
+
+
+
+
+
+

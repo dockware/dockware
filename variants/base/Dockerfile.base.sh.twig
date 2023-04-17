@@ -1,16 +1,8 @@
 {% extends "template/Dockerfile.global.sh.twig" %}
 
-# Official Dockware Image
-# Tag: {{ orca.tag }}
-# Copyright 2023 dasistweb GmbH
-#
-FROM {{ base_image }}
-LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
-      version="{{version}}" \
-      maintainer="dasistweb GmbH"
 
 
-{% block assets_install %}{% endblock %}
+{% block assets_install %}
 # add our changelog to the containers
 ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 #this conf is needed for enconf command ...
@@ -31,6 +23,10 @@ COPY ./config/php/cli.ini /tmp/cli.ini
 
 COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
+
+COPY ./assets/scripts/makefile /var/www/makefile
+COPY ./assets/scripts/bin /var/www/scripts/bin
+
 {% endblock %}
 
 {% block image_variables %}
@@ -81,7 +77,7 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
  && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
  && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile \
 {% endblock %}
-{% endblock %}
+
 
 
 {% block components %}
@@ -350,31 +346,6 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 && echo ""
 
 
-
-{% block assets_install %}
-COPY ./assets/scripts/makefile /var/www/makefile
-COPY ./assets/scripts/bin /var/www/scripts/bin
-COPY ./assets/scripts/cron /var/www/scripts/cron
+&& chown www-data:www-data -R /var/www/scripts \
+&&  chmod 755 /*.sh \
 {% endblock %}
-
-RUN chown www-data:www-data -R /var/www/scripts \
-RUN chmod 755 /*.sh \
-{% endblock %}
-
-
-## ***********************************************************************
-## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
-## everything down here is now done as our www-data / dockware user
-## just like you would do it manually in the container
-## ***********************************************************************
-
-USER {{ ssh.user.name }}
-
-# make the apache folder the working directory
-WORKDIR /var/www/html
-
-## ***********************************************************************
-##  POST BUILD
-## ***********************************************************************
-
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

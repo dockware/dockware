@@ -1,6 +1,6 @@
 # Official Dockware Image
 # Tag: {{ orca.tag }}
-# Copyright 2022 dasistweb GmbH
+# Copyright 2023 dasistweb GmbH
 #
 FROM {{ base_image }}
 LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
@@ -25,12 +25,19 @@ RUN date >/build-date.txt \
     && echo "" \ #just end the current layer
 {% endblock %}
 
+#make sure we uninstall all unneeded stuff
+{% block uninstall_components %}
+    && echo "" \
+{% endblock %}
+
 && chown 33:33 -R /var/www/html && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
     chown 33:33 /var/www/.nvm -R \
     && rm -rf /tmp/*
+
+
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

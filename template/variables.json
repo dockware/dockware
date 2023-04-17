@@ -1,92 +1,98 @@
 {
-    "version": "1.5.3",
-    "base_image": "dockware/base:latest",
-    "db": {
-        "host": "localhost",
-        "port": "3306",
-        "database": "shopware",
-        "user": "root",
-        "pwd": "root"
-    },
-    "ssh": {
-        "user": {
-            "name": "dockware",
-            "pwd": "dockware"
-        }
-    },
-    "mysql":{
-        "mysql8": true
-    },
-    "php": {
-        "default_version": "7.4",
-        "versions": {
-            "8.1": {
-                "active": true,
-                "folder_id": "20210902",
-                "xdebug_version": "3",
-                "xdebug_tag": "3.1.4"
-            },
-            "8.0": {
-                "active": true,
-                "folder_id": "20200930",
-                "xdebug_version": "3",
-                "xdebug_tag": "3.1.4"
-            },
-            "7.4": {
-                "active": true,
-                "folder_id": "20190902",
-                "xdebug_version": "3",
-                "xdebug_tag": "3.1.4"
-            },
-            "7.3": {
-                "active": true,
-                "folder_id": "20180731",
-                "xdebug_version": "3",
-                "xdebug_tag": "3.1.4"
-            },
-            "7.2": {
-                "active": true,
-                "folder_id": "20170718",
-                "xdebug_version": "3",
-                "xdebug_tag": "3.1.4"
-            },
-            "7.1": {
-                "active": true,
-                "folder_id": "20160303",
-                "xdebug_version": "2",
-                "xdebug_tag": "2.7.2"
-            },
-            "7.0": {
-                "active": true,
-                "folder_id": "20151012",
-                "xdebug_version": "2",
-                "xdebug_tag": "2.7.2"
-            },
-            "5.6": {
-                "active": false,
-                "folder_id": "20131226",
-                "xdebug_version": "2",
-                "xdebug_tag": "XDEBUG_2_5_5"
-            }
-        }
-    },
-    "shopware": {
-        "env": "prod",
-        "url": "http://localhost"
-    },
-    "composer": {
-        "version": 2
-    },
-    "node": {
-        "version": 12
-    },
-    "apache": {
-        "docroot": "/var/www/html/public"
-    },
-    "pimpmylog": {
-        "paths": {
-            "shopware_prod": "/var/www/html/var/log/prod*.log",
-            "shopware_dev": "/var/www/html/var/log/dev*.log"
-        }
+  "version": "1.5.3",
+  "base_image": "dockware/base:latest",
+  "db": {
+    "host": "localhost",
+    "port": "3306",
+    "database": "shopware",
+    "user": "root",
+    "pwd": "root"
+  },
+  "ssh": {
+    "user": {
+      "name": "dockware",
+      "pwd": "dockware"
     }
+  },
+  "mysql": {
+    "mysql8": true
+  },
+  "php": {
+    "default_version": "7.4",
+    "versions": {
+      "8.2": {
+        "active": true,
+        "folder_id": "20220829",
+        "xdebug_version": "3",
+        "xdebug_tag": "3.2.0"
+      },
+      "8.1": {
+        "active": true,
+        "folder_id": "20210902",
+        "xdebug_version": "3",
+        "xdebug_tag": "3.1.4"
+      },
+      "8.0": {
+        "active": true,
+        "folder_id": "20200930",
+        "xdebug_version": "3",
+        "xdebug_tag": "3.1.4"
+      },
+      "7.4": {
+        "active": false,
+        "folder_id": "20190902",
+        "xdebug_version": "3",
+        "xdebug_tag": "3.1.4"
+      },
+      "7.3": {
+        "active": false,
+        "folder_id": "20180731",
+        "xdebug_version": "3",
+        "xdebug_tag": "3.1.4"
+      },
+      "7.2": {
+        "active": false,
+        "folder_id": "20170718",
+        "xdebug_version": "3",
+        "xdebug_tag": "3.1.4"
+      },
+      "7.1": {
+        "active": false,
+        "folder_id": "20160303",
+        "xdebug_version": "2",
+        "xdebug_tag": "2.7.2"
+      },
+      "7.0": {
+        "active": false,
+        "folder_id": "20151012",
+        "xdebug_version": "2",
+        "xdebug_tag": "2.7.2"
+      },
+      "5.6": {
+        "active": false,
+        "folder_id": "20131226",
+        "xdebug_version": "2",
+        "xdebug_tag": "XDEBUG_2_5_5"
+      }
+    }
+  },
+  "shopware": {
+    "env": "prod",
+    "url": "http://localhost"
+  },
+  "composer": {
+    "version": 2
+  },
+  "node": {
+    "version": 12
+  },
+  "apache": {
+    "docroot": "/var/www/html/public"
+  },
+  "pimpmylog": {
+    "paths": {
+      "shopware_prod": "/var/www/html/var/log/prod*.log",
+      "shopware_dev": "/var/www/html/var/log/dev*.log"
+    }
+  }
 }

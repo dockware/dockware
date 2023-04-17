@@ -2,21 +2,5 @@
   "shopware": {
     "version": "6.4.4.0",
     "download_url": "https://releases.shopware.com/sw6/install_v6.4.4.0_9b43f4ab771c1802bb5fc30df13850c360d0894a.zip"
-  },
-  "php": {
-    "versions": {
-      "7.3": {
-        "active": false
-      },
-      "7.2": {
-        "active": false
-      },
-      "7.1": {
-        "active": false
-      },
-      "7.0": {
-        "active": false
-      }
-    }
   }
 }

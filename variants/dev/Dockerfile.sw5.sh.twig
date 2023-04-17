@@ -1,9 +1,15 @@
 {% extends "template/Dockerfile.global.sh.twig" %}
 
+{% block assets_install %}
+COPY  ./assets/shopware5/config.php /tmp/shopware5-config.php
+{% endblock %}
 
 {% block image_components %}
     #make sure for the whole installation xdebug is off for performance
     && sh /var/www/scripts/bin/xdebug_disable.sh \
+    #make sure the installation runs also in default php version
+    && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
+    && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
 
     {% block shopware %}
     {% include 'template/components/shopware/shopware5/install.sh.twig' with {'download_url': shopware.download_url 'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
@@ -11,10 +17,7 @@
 {% endblock %}
 
 
-{% block assets_install %}
-{{ parent() }}
-COPY  ./assets/shopware5/config.php /tmp/shopware5-config.php
-{% endblock %}
+
 
 
 
