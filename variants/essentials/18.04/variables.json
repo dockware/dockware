@@ -3,5 +3,10 @@
   "shopware": {
     "version": "",
     "env": "dev"
+  },
+  "mysql": {
+    "mysql_5_7": true
   }
 }
+
+

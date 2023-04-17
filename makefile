@@ -21,7 +21,7 @@ else
 	curl -O https://orca-build.io/downloads/orca.zip
 	unzip -o orca.zip
 	rm -f orca.zip
-	php orca.phar --directory=.
+	php orca.phar --directory=. --debug
 endif
 
 clear: ## Clears all dangling images
@@ -44,19 +44,6 @@ ifndef tag
 	@exit 1;
 else
 	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t dockware/$(image):$(tag) .
-endif
-
-build-and-push-amdarch: ## Builds and pushes the provided tag [image=play tag=6.1.6]
-ifndef tag
-	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
-	@exit 1;
-else
-	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-	docker buildx rm multiarch | true;
-	docker buildx create --name multiarch --driver docker-container --use
-	docker buildx inspect --bootstrap
-	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64 -t dockware/$(image):$(tag) --push .
-	docker buildx rm multiarch
 endif
 
 build-and-push-multiarch: ## Builds and pushes the provided tag [image=play tag=6.1.6]

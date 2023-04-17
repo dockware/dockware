@@ -3,10 +3,10 @@
 {% block assets_install %}
 # copy our custom configuration to the image
 {% block asset_mysql %}
-{% if mysql.mysql8 == true %}
-COPY ./config/mysql/my-8.cnf /tmp/my.cnf
+{% if mysql.mysql_5_7 == true %}
+COPY ./config/mysql/my-5.7.cnf /tmp/my.cnf
 {% else %}
-COPY ./config/mysql/my.cnf /tmp/my.cnf
+COPY ./config/mysql/my-8.cnf /tmp/my.cnf
 {% endif %}
 
 {% endblock %}
