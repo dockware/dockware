@@ -1,3 +1,8 @@
+&& rm -rf /var/www/html/* \
+&& wget {{ download_url }} -qq -O /var/www/shopware.zip \
+&& unzip -q /var/www/shopware.zip -d /var/www/html \
+&& rm -rf /var/www/shopware.zip \
+
 && sudo service mysql start && \
     # we have to update the used PHP version (for older shopware versions <= 5.3)
     sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 && \
@@ -17,4 +22,8 @@
     mysql --user={{ db_user }} --password={{ db.pwd }} {{ db_database }} -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
     mysql --user={{ db_user }} --password={{ db.pwd }} {{ db_database }} -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
     sudo service mysql stop \
+
+    && rm -rf /var/www/html/config.php \
+    && cat  /tmp/shopware5-config.php > /var/www/html/config.php \
+    && sudo chown 33:33 /var/www/html/config.php \
 

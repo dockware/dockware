@@ -13,6 +13,8 @@ ENV SW_API_ACCESS_KEY 'not-set'
 {% endblock %}
 
 {% block image_components %}
+    #make sure for the whole installation xdebug is off for performance
+    && sh /var/www/scripts/bin/xdebug_disable.sh \
     {% include 'template/components/shopware/shopware6/install.sh.twig'%}
 {% endblock %}
 

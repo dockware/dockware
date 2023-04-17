@@ -17,25 +17,26 @@ ADD entrypoint.sh /entrypoint.sh
 {% block image_variables %}{% endblock %}
 
 
-RUN echo "" \
+#starting the mainlayer
+RUN date >/build-date.txt \
+{% block image_variables_export %}{% endblock %}
+
 {% block image_components %}
-    && echo "" #just end the current layer
+    && echo "" \ #just end the current layer
 {% endblock %}
 
-
-&& sudo chown 33:33 -R /var/www/html \
+&& chown 33:33 -R /var/www/html && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    && sudo chown 33:33 /var/www/.nvm -R \
-    && sudo chown 33:33 -R /var/www/pimpmylog
+    chown 33:33 /var/www/.nvm -R \
+    && rm -rf /tmp/*
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
 ## everything down here is now done as our www-data / dockware user
 ## just like you would do it manually in the container
 ## ***********************************************************************
-
 USER {{ ssh.user.name }}
 
 # make the apache folder the working directory

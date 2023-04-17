@@ -1,6 +1,8 @@
+{% extends "template/Dockerfile.global.sh.twig" %}
+
 # Official Dockware Image
 # Tag: {{ orca.tag }}
-# Copyright 2022 dasistweb GmbH
+# Copyright 2023 dasistweb GmbH
 #
 FROM {{ base_image }}
 LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
@@ -8,6 +10,7 @@ LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
       maintainer="dasistweb GmbH"
 
 
+{% block assets_install %}{% endblock %}
 # add our changelog to the containers
 ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 #this conf is needed for enconf command ...
@@ -28,7 +31,7 @@ COPY ./config/php/cli.ini /tmp/cli.ini
 
 COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
-
+{% endblock %}
 
 {% block image_variables %}
 ## ***********************************************************************
@@ -54,9 +57,10 @@ ENV TIDEWAYS_SERVICE web
 ENV BASH_ENV /var/www/.bashrc
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+{% endblock %}
+{% endblock %}
 
-
-RUN date >/build-date.txt \
+{% block image_variables_export %}
  && mkdir -p /var/www \
  && mkdir -p /var/www/scripts \
  && echo "export TZ=${TZ}" >> /etc/profile \
@@ -80,6 +84,7 @@ RUN date >/build-date.txt \
 {% endblock %}
 
 
+{% block components %}
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
@@ -247,7 +252,6 @@ RUN date >/build-date.txt \
     && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
 {% endblock %}
 
-{% block components %}
 
 
 {% block components_dev_tools %}
@@ -344,7 +348,7 @@ RUN date >/build-date.txt \
     && sudo chmod 0755 /etc/init.d/tideways-daemon \
 {% endblock %}
 && echo ""
-{% endblock %}
+
 
 
 {% block assets_install %}
@@ -354,17 +358,8 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 {% endblock %}
 
 RUN chown www-data:www-data -R /var/www/scripts \
-#make sure for the whole installation xdebug is off for performance
-&& sh /var/www/scripts/bin/xdebug_disable.sh
-ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh \
-
-&& chown 33:33 -R /var/www/html && \
-    # this is necessary so that our user can
-    # change the default nvm node version
-    # otherwise the persisted node version switch would not work!
-    chown 33:33 /var/www/.nvm -R \
-    && rm -rf /tmp/*
+{% endblock %}
 
 
 ## ***********************************************************************
