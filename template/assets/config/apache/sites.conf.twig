@@ -5,6 +5,8 @@
     ErrorLog /var/log/apache2/error.log
     AccessFileName .htaccess.watch .htaccess
 
+    Protocols http/1.1
+
     DocumentRoot __dockware_apache_docroot__
 
     <Directory /var/www/html>
