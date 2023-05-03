@@ -2,7 +2,7 @@
 # Tag: latest
 # Copyright 2022 dasistweb GmbH
 #
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 LABEL title="Dockware dev:latest" \
       version="1.6.0" \
       maintainer="dasistweb GmbH"
@@ -19,11 +19,11 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV PHP_VERSION 7.4
+ENV PHP_VERSION 8.1
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION 12
+ENV NODE_VERSION 18
 ENV SHOP_DOMAIN localhost
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
@@ -258,87 +258,12 @@ COPY ./config/php/general.ini /etc/php/8.1/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/8.1/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/8.1/cli/conf.d/01-general-cli.ini
 
-RUN apt-get update \
-    && apt-get install -y php8.0-fpm \
-    && apt-get install -y php8.0-gd \
-    && apt-get install -y php8.0-iconv \
-    && apt-get install -y php8.0-intl \
-    #&& apt-get install -y php8.0-json \
-    && apt-get install -y php8.0-xml \
-    && apt-get install -y php8.0-mbstring \
-    && apt-get install -y php8.0-pdo \
-    && apt-get install -y php8.0-mysql \
-    && apt-get install -y php8.0-apc \
-    && apt-get install -y php8.0-apcu \
-    && apt-get install -y php8.0-curl \
-    && apt-get install -y php8.0-cli \
-    && apt-get install -y php8.0-ldap \
-    && apt-get install -y php8.0-pgsql \
-    && apt-get install -y php8.0-gettext \
-    && apt-get install -y php8.0-zip \
-    && apt-get install -y php8.0-soap \
-    && apt-get install -y php8.0-bcmath \
-    && apt-get install -y php8.0-redis \
-    && apt-get install -y php8.0-imap \
-    && apt-get install -y php8.0-ssh2 \
-    && apt-get install -y php8.0-pcov \
-    && apt-get install -y dh-php \
-#    && apt-get install -y php8.0-geoip \ not available for 8.0
-    && apt-get install -y php8.0-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/8.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.0/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
-    && apt-get install -y php7.4-fpm \
-    && apt-get install -y php7.4-gd \
-    #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
-    && apt-get install -y php7.4-mbstring \
-    && apt-get install -y php7.4-iconv \
-    && apt-get install -y php7.4-intl \
-    && apt-get install -y php7.4-json \
-    && apt-get install -y php7.4-xml \
-    && apt-get install -y php7.4-pdo \
-    && apt-get install -y php7.4-mysql \
-    && apt-get install -y php7.4-apcu \
-    && apt-get install -y php7.4-apc \
-    && apt-get install -y php7.4-curl \
-    && apt-get install -y php7.4-cli \
-    && apt-get install -y php7.4-ldap \
-    && apt-get install -y php7.4-pgsql \
-    && apt-get install -y php7.4-gettext \
-    && apt-get install -y php7.4-zip \
-    && apt-get install -y php7.4-soap \
-    && apt-get install -y php7.4-bcmath \ 
-    && apt-get install -y php7.4-redis \
-    && apt-get install -y php7.4-imap \
-    && apt-get install -y php7.4-ssh2 \
-    && apt-get install -y php7.4-pcov \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.4-geoip \
-    && apt-get install -y php7.4-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.4/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.4/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.4/cli/conf.d/01-general-cli.ini
-
 #make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
-RUN service php7.4-fpm stop > /dev/null 2>&1 && \
-    service php7.4-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1
+RUN service php8.1-fpm stop > /dev/null 2>&1 && \
+    service php8.1-fpm start && \
+    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1
 
 # make sure our php user has rights on the session
 RUN chown www-data:www-data -R /var/lib/php/sessions
@@ -428,42 +353,6 @@ RUN cd /var/www \
     && make distclean \
     && sudo phpize8.1 --clean \
     && sudo apt-get remove -y php8.1-dev \
-    # install xdebug for php 8.0
-    && sudo apt-get install -y php8.0-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize8.0 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.0 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20200930/xdebug_8.0.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.0 --clean \
-    && sudo apt-get remove -y php8.0-dev \
-    # install xdebug for php 7.4
-    && sudo apt-get install -y php7.4-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize7.4 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config7.4 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20190902/xdebug_7.4.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize7.4 --clean \
-    && sudo apt-get remove -y php7.4-dev \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
@@ -476,12 +365,6 @@ COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
-COPY ./config/php/xdebug-3.ini /etc/php/8.0/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.0/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/7.4/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/7.4/cli/conf.d/20-xdebug.ini
-
 RUN cd /var/www \
 
 && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
@@ -493,16 +376,6 @@ RUN cd /var/www \
     && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20200930/g' /etc/php/8.0/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.0/g' /etc/php/8.0/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20190902/g' /etc/php/7.4/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.4/g' /etc/php/7.4/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20190902/g' /etc/php/7.4/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.4/g' /etc/php/7.4/cli/conf.d/20-xdebug.ini \
 
  && cd /var/www
 
@@ -519,20 +392,23 @@ RUN echo debconf mysql-server/root_password_again password root | debconf-set-se
 RUN DEBIAN_FRONTEND=noninteractive \
     # install mysql server
     && apt-get update \
-    && apt-get install -y -q mysql-server \
+    && apt-get install -y -q mysql-server-8.0 \
     # set requires permissions
     && usermod -d /var/lib/mysql/ mysql \
     # cleanup download folders
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 # copy our custom configuration to the image
-ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
+ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
 
 # i dont know why, but this is suddenly required
 RUN chmod 0444 /etc/mysql/my.cnf \
-    && service mysql start \
-    && mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" \
-    && service mysql restart
+&& service mysql start \
+#creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
+&& sudo mysql --user=root --password=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
+&& sudo mysql --user=root --password=root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
+
+&& service mysql restart
 
 ## ***********************************************************************
 ##  ADMINER
@@ -560,8 +436,6 @@ RUN apt-get update \
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.4/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -595,18 +469,14 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
-    && nvm install 16 \
-    && nvm install 14 \
-    && nvm install 12 \
+    && nvm install 18 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
-    && nvm use 16 && npm install -g yarn \
-    && nvm use 14 && npm install -g yarn \
-    && nvm use 12 && npm install -g yarn \
+    && nvm use 18 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
-    && nvm use 12 \
-    && nvm alias default 12  \
+    && nvm use 18 \
+    && nvm alias default 18  \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
@@ -619,7 +489,7 @@ RUN echo "" \
     && export NVM_DIR="/var/www/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use 12 \
+    && nvm use 18 \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -706,77 +576,6 @@ RUN apt-get update \
 
 COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php8.0-fpm \
-    && apt-get install -y php8.0-gd \
-    && apt-get install -y php8.0-iconv \
-    && apt-get install -y php8.0-intl \
-    #&& apt-get install -y php8.0-json \
-    && apt-get install -y php8.0-xml \
-    && apt-get install -y php8.0-mbstring \
-    && apt-get install -y php8.0-pdo \
-    && apt-get install -y php8.0-mysql \
-    && apt-get install -y php8.0-apc \
-    && apt-get install -y php8.0-apcu \
-    && apt-get install -y php8.0-curl \
-    && apt-get install -y php8.0-cli \
-    && apt-get install -y php8.0-ldap \
-    && apt-get install -y php8.0-pgsql \
-    && apt-get install -y php8.0-gettext \
-    && apt-get install -y php8.0-zip \
-    && apt-get install -y php8.0-soap \
-    && apt-get install -y php8.0-bcmath \
-    && apt-get install -y php8.0-redis \
-    && apt-get install -y php8.0-imap \
-    && apt-get install -y php8.0-ssh2 \
-    && apt-get install -y php8.0-pcov \
-    && apt-get install -y dh-php \
-#    && apt-get install -y php8.0-geoip \ not available for 8.0
-    && apt-get install -y php8.0-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways.ini /etc/php/8.0/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.0/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php7.4-fpm \
-    && apt-get install -y php7.4-gd \
-    #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
-    && apt-get install -y php7.4-mbstring \
-    && apt-get install -y php7.4-iconv \
-    && apt-get install -y php7.4-intl \
-    && apt-get install -y php7.4-json \
-    && apt-get install -y php7.4-xml \
-    && apt-get install -y php7.4-pdo \
-    && apt-get install -y php7.4-mysql \
-    && apt-get install -y php7.4-apcu \
-    && apt-get install -y php7.4-apc \
-    && apt-get install -y php7.4-curl \
-    && apt-get install -y php7.4-cli \
-    && apt-get install -y php7.4-ldap \
-    && apt-get install -y php7.4-pgsql \
-    && apt-get install -y php7.4-gettext \
-    && apt-get install -y php7.4-zip \
-    && apt-get install -y php7.4-soap \
-    && apt-get install -y php7.4-bcmath \ 
-    && apt-get install -y php7.4-redis \
-    && apt-get install -y php7.4-imap \
-    && apt-get install -y php7.4-ssh2 \
-    && apt-get install -y php7.4-pcov \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.4-geoip \
-    && apt-get install -y php7.4-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways.ini /etc/php/7.4/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.4/cli/conf.d/20-tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
@@ -791,67 +590,49 @@ RUN sh /var/www/scripts/bin/xdebug_disable.sh
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /*.sh
 
-## ***********************************************************************
-##  INSTALL SHOPWARE
-## ***********************************************************************
-RUN rm -rf /var/www/html/* \
-    && wget --no-check-certificate https://releases.shopware.com/sw6/install_v6.4.20.1_1d0e1a2bb4c4e0395c390b0911efd19748b1d9d0.zip -qq -O /var/www/shopware.zip \
-    && unzip -q /var/www/shopware.zip -d /var/www/html \
-    && rm -rf /var/www/shopware.zip
+COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
-RUN echo "APP_ENV=dev" >> /var/www/html/.env && \
-    echo "APP_SECRET=1" >> /var/www/html/.env && \
-    echo "INSTANCE_ID=1" >> /var/www/html/.env && \
-    echo "DATABASE_URL=mysql://root:root@localhost:3306/shopware" >> /var/www/html/.env && \
+RUN cd /var/www && \
+    composer create-project shopware/production:6.5.0.0 --no-interaction && \
+    cp -a /var/www/production/. /var/www/html && \
+    rm -rf /var/www/production && \
+    sed -i "/APP_ENV=/g" /var/www/html/.env && \
+    sed -i "/APP_URL=/g" /var/www/html/.env && \
+    sed -i "/DATABASE_URL=/g" /var/www/html/.env && \
+    sed -i "/MAILER_URL=/g" /var/www/html/.env && \
+    echo "APP_ENV=dev" >> /var/www/html/.env && \
     echo "APP_URL=http://localhost" >> /var/www/html/.env && \
-    echo "MAILER_URL=smtp://localhost:1025" >> /var/www/html/.env && \
-    echo "COMPOSER_HOME=/var/www/html/var/cache/composer" >> /var/www/html/.env && \
-    echo "SHOPWARE_ES_ENABLED=0" >> /var/www/html/.env
+    echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware" >> /var/www/html/.env && \
+    echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env
 
 RUN sudo service mysql start && \
     # switch to default PHP before installing
-    sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 && \
+    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 && \
     # -------------------------------------------------------------------------------------------
     cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
     cd /var/www/html && php bin/console assets:install && \
-    rm -rf /var/www/html/config/jwt/private.pem && \
-    rm -rf /var/www/html/config/jwt/public.pem && \
-    cd /var/www/html && php bin/console system:generate-jwt-secret && \
+    cd /var/www/html && composer require fakerphp/faker && \
+    cd /var/www/html && composer require mbezhanov/faker-provider-collection && \
+    cd /var/www/html && composer require maltyxx/images-generator && \
     # -------------------------------------------------------------------------------------------
-    # add some demo data
-        cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
+    cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
-        # -------------------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------------------------
+    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
+    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
+    # -------------------------------------------------------------------------------------------
     # clear cache and refresh dal index to show the new demo data
     cd /var/www/html && php bin/console cache:clear && \
+    cd /var/www/html/bin && ./build-storefront.sh && \
+    cd /var/www/html && php bin/console theme:change --all --no-compile --no-interaction Storefront && \
+    cd /var/www/html && php bin/console theme:compile && \
     cd /var/www/html && php bin/console dal:refresh:index && \
     rm -rf /var/www/html/var/cache/* && \
     # -------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
-    sudo service mysql stop
-
-RUN sudo service mysql start \
     # -------------------------------------------------------------------------------------------
-    # fix weird problem with invalid phpunit file
-    # without this, it cannot find an autoload and thus it
-    # always says "please install composer dependencies"
-    && rm -rf /var/www/html/vendor/bin/phpunit \
-    # -------------------------------------------------------------------------------------------
-    && cd /var/www/html && composer install \
-    # install and pre-build our admin and storefront
-    && cd /var/www/html && ./bin/build.sh \
-    && cd /var/www/html && php bin/console theme:compile \
-    && sudo service mysql stop
-
-COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
-
-RUN sudo service mysql start && \
-    cd /var/www/html && php bin/console plugin:refresh && \
-    cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
-    cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
-    rm -rf /var/www/html/var/cache/* && \
     sudo service mysql stop
 
 RUN chown 33:33 -R /var/www/html && \
