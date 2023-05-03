@@ -348,6 +348,15 @@ RUN apt-get update \
 
     && apt-get install -y git
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.2.9 --quiet \
+    # prepare "global" composer directory for www-data
+    && mkdir -p /var/www/.composer \
+    && export COMPOSER_HOME="/var/www/.composer" \
+    && chmod 755 /tmp/composer.phar \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+RUN  mv /tmp/composer.phar /usr/local/bin/composer
+
 ## ***********************************************************************
 ##  MYSQL INSTALL
 ## ***********************************************************************

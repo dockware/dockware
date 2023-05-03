@@ -19,7 +19,7 @@ if ($identifier != 'SWSC')
 }
 
 # ----------------------------------------------------------------------------
-$connString = "mysql://root:root@localhost:3306/shopware";
+$connString = "mysql://root:root@127.0.0.1:3306/shopware";
 
 $connection = DriverManager::getConnection([
     'url' => $connString,
