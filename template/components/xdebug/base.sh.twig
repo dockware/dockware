@@ -2,7 +2,7 @@
 && cd /var/www \
     && apt-get update \
 {% for key, value in php.versions %}
-{% if value.xdebug_version != '' %}
+{% if value.xdebug_version != '' and value.active == true %}
 {% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_tag":value.xdebug_tag} %}
 {% endif %}
 {% endfor %}
@@ -12,7 +12,7 @@
 
 #generate xdebug ini files
 {% for key, value in php.versions %}
-{% if value.xdebug_version != '' %}
+{% if value.xdebug_version != '' and value.active == true %}
 {% include 'template/components/xdebug/generate_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
 {% endif %}
 {% endfor %}
@@ -20,7 +20,7 @@
 
 && cd /var/www \
 {% for key, value in php.versions %}
-{% if value.xdebug_version != '' %}
+{% if value.xdebug_version != '' and value.active == true %}
 {% include 'template/components/xdebug/edit_ini_files.sh.twig' with { "version" : key, "folder_id" : value.folder_id ,"xdebug_version":value.xdebug_version} %}
 {% endif %}
 {% endfor %}

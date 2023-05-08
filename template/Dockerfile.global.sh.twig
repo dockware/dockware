@@ -22,7 +22,8 @@ RUN date >/build-date.txt \
 {% block image_variables_export %}{% endblock %}
 
 {% block image_components %}
-    && echo "" \ #just end the current layer
+    #just end the current layer
+    && echo "" \
 {% endblock %}
 
 #make sure we uninstall all unneeded stuff
