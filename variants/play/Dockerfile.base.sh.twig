@@ -25,5 +25,16 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
     #make sure the installation runs also in default php version
     && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
     && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
-    {% include 'template/components/shopware/shopware6/install.sh.twig'%}
+    {#  if node.default_version is defined %#}
+        && echo "DOCKWARE: switching to NODE {{node.default_version}}..." \
+        && nvm use {{ node.default_version }} \
+        && nvm alias default {{ node.default_version }}  \
+    {#   endif %#}
+     {%  if shopware.version > 6.4 %}
+        {% include 'template/components/shopware/shopware6/install_flex.sh.twig' with { 'pwd' : db.pwd } %}
+    {%  else %}
+        {% include 'template/components/shopware/shopware6/install_6.4.sh.twig' with { 'pwd' : db.pwd } %}
+    {% endif %}
+
+    {% block shopware_dev %}{% endblock %}
 {% endblock %}

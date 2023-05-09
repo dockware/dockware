@@ -1,7 +1,0 @@
-{
-  "base_image": "dockware/base:latest",
-  "shopware": {
-    "version": "",
-    "env": "dev"
-  }
-}

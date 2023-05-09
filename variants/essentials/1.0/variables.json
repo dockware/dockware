@@ -1,0 +1,15 @@
+{
+  "base_image": "dockware/base_dev:1.0",
+  "shopware": {
+    "version": "",
+    "env": "dev"
+  },
+  "php": {
+    "default_version": "8.2"
+  },
+  "node": {
+    "default_version": 18
+  }
+}
+
+

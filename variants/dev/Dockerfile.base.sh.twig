@@ -25,7 +25,9 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
     #make sure the installation runs also in default php version
     && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
     && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
-    {% include 'template/components/shopware/shopware6/install.sh.twig'%}
+    {% include 'template/components/shopware/shopware6/install_flex.sh.twig' with { 'pwd' : db.pwd } %}
+
+
 {% endblock %}
 
 

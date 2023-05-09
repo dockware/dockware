@@ -12,7 +12,7 @@ COPY  ./assets/shopware5/config.php /tmp/shopware5-config.php
     && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
 
     {% block shopware %}
-    {% include 'template/components/shopware/shopware5/install.sh.twig' with {'download_url': shopware.download_url 'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
+    {% include 'template/components/shopware/shopware5/install.sh.twig' with {'download_url': shopware.download_url, 'db_host': db.host, 'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd, 'demo_data' : true } %}
     {% endblock %}
 {% endblock %}
 

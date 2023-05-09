@@ -1,16 +1,7 @@
 {% extends "template/Dockerfile.global.sh.twig" %}
 
 {% block assets_install %}
-# copy our custom configuration to the image
-{% block asset_mysql %}
-{% if base_image == 'ubuntu:18.04' %}
-# ubuntu 18.04 5.7 is default
-COPY ./config/mysql/my-5.7.cnf /tmp/my.cnf
-{% else %}
-COPY ./config/mysql/my-8.cnf /tmp/my.cnf
-{% endif %}
 
-{% endblock %}
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 COPY ./assets/scripts/makefile /var/www/makefile
@@ -40,22 +31,11 @@ ENV MYSQL_PWD not-set
  && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
  && cd /var/www && make switch-php version={{php.default_version}} \
 
- {% if composer.version == 1 %}
-   &&  echo "DOCKWARE: switching to co mposer 1..." \
-   && sudo composer self-update --1 \
- {% endif %}
-
-
-
-
-{% block components_mysql %}
-{% if mysql.mysql8 == true %}
-{% include 'template/components/mysql/install-8.sh.twig' with { 'pwd' : db.pwd } %}
-{% else %}
-{% include 'template/components/mysql/install.sh.twig' with { 'pwd' : db.pwd } %}
+{% if node.default_version is defined %}
+  && echo "DOCKWARE: switching to NODE {{node.default_version}}..." \
+  && nvm use {{ node.default_version }} \
+    && nvm alias default {{ node.default_version }}  \
 {% endif %}
-
-{% endblock %}
 
 
 {% block components_adminer %}
@@ -66,6 +46,13 @@ ENV MYSQL_PWD not-set
 {% block components_mailcatcher %}
 {% include 'template/components/mailcatcher/install.sh.twig' %}
 
+
+{%  block shopware_cli %}
+ && curl -1sLf \
+  'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' \
+  | sudo -E bash \
+ && apt install shopware-cli \
+{% endblock %}
 ## as this does not work any longer we have to see what we can doo here
 #{* for key,value in php.versions #}
 #{* if value.active==1 *}
@@ -104,9 +91,6 @@ ENV MYSQL_PWD not-set
 
 {% endblock %}
 
-{% block uninstall_components %}
-{% include "template/components/php/uninstall_in-active.sh.twig" with { 'php':php } %}
-{% endblock %}
 
 
 

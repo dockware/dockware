@@ -1,5 +1,5 @@
 {
-  "base_image": "dockware/dev:5.7.17",
+  "base_image":"dockware/essentials_play:1.0",
   "apache": {
     "docroot": "/var/www/html"
   },

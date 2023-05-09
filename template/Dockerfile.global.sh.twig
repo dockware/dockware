@@ -15,6 +15,21 @@ ADD entrypoint.sh /entrypoint.sh
 {% block assets_install %}{% endblock %}
 
 {% block image_variables %}{% endblock %}
+#make sure we have this variables always set and not overwritten in image_variables block
+ENV PHP_VERSION {{php.default_version}}
+ENV APACHE_DOCROOT {{ apache.docroot }}
+{% if node.default_version is defined %}
+ENV NODE_VERSION {{ node.default_version }}
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+{% endif %}
+ENV TZ Europe/Berlin
+ENV SW_TASKS_ENABLED 0
+ENV COMPOSER_VERSION not-set
+ENV SSH_USER not-set
+ENV SSH_PWD not-set
+ENV FILEBEAT_ENABLED 0
+ENV BASH_ENV /var/www/.bashrc
 
 
 #starting the mainlayer

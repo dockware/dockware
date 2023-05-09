@@ -1,0 +1,17 @@
+{% extends "variants/essentials/Dockerfile.base.sh.twig" %}
+
+
+
+{% block assets_install %}
+
+{{ parent() }}
+COPY ./config/mysql/my-8.cnf /tmp/my.cnf
+
+{% endblock %}
+
+
+
+{% block image_components %}
+{% include 'template/components/mysql/install-8.sh.twig' with { 'pwd' : db.pwd } %}
+{{  parent() }}
+{% endblock %}

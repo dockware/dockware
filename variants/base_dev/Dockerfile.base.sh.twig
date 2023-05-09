@@ -1,0 +1,56 @@
+{% extends "variants/base/Dockerfile.base.sh.twig" %}
+
+{% block assets_install %}
+{{ parent() }}
+COPY ./config/tideways/tideways.ini /tmp/20-tideways.ini
+COPY ./config/php/xdebug-2.ini /tmp/xdebug-2.ini
+COPY ./config/php/xdebug-3.ini /tmp/xdebug-3.ini
+
+COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
+COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
+{% endblock %}
+
+{% block image_variables_main %}
+{{ parent() }}
+ENV XDEBUG_REMOTE_HOST "host.docker.internal"
+ENV XDEBUG_CONFIG "idekey=PHPSTORM"
+ENV PHP_IDE_CONFIG "serverName=localhost"
+ENV XDEBUG_ENABLED 0
+
+ENV TIDEWAYS_KEY not-set
+ENV TIDEWAYS_ENV production
+ENV TIDEWAYS_SERVICE web
+{% endblock %}
+
+{% block image_variables_export %}
+&& echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
+ && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
+ && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
+ && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
+
+  && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile \
+{% endblock %}
+
+{%  block additional %}
+
+##install xdebug
+{% include 'template/components/xdebug/base.sh.twig' %}
+
+##install tideways
+&& sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
+    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
+    && sudo apt-get -y update  \
+    && sudo apt-get -y install tideways-php tideways-daemon  \
+    {% for key,value in php.versions %}
+    {%  if value.active == true %}
+    && cat /tmp/20-tideways.ini >| /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini \
+    && cat /tmp/20-tideways.ini >| /etc/php/{{ key }}/cli/conf.d/20-tideways.ini \
+    {% endif %}
+    {% endfor %}
+    #clean up layer
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && sudo chmod 0755 /etc/init.d/tideways-daemon \
+
+{% endblock %}

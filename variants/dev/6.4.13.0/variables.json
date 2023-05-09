@@ -1,8 +1,0 @@
-{
-  "base_image": "dockware/essentials:latest",
-  "shopware": {
-    "env": "dev",
-    "version": "6.4.13.0",
-    "download_url": "https://releases.shopware.com/sw6/install_v6.4.13.0_103dc0188e0f33fb5fd77796488284b56c7073bb.zip"
-  }
-}

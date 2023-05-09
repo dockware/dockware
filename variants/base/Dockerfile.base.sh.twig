@@ -10,7 +10,7 @@ ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
 
 
 
-COPY ./config/tideways/tideways.ini /tmp/20-tideways.ini
+
 COPY ./config/php/xdebug-2.ini /tmp/xdebug-2.ini
 COPY ./config/php/xdebug-3.ini /tmp/xdebug-3.ini
 
@@ -20,9 +20,6 @@ COPY ./config/apache/sites.conf /tmp/sites.conf
 
 COPY ./config/php/general.ini /tmp/general.ini
 COPY ./config/php/cli.ini /tmp/cli.ini
-
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
-COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
@@ -34,25 +31,7 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 {% block image_variables_main %}
-ENV TZ Europe/Berlin
-ENV PHP_VERSION {{php.default_version}}
-ENV APACHE_DOCROOT {{ apache.docroot }}
-ENV SW_TASKS_ENABLED 0
-ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION {{ node.version }}
-ENV SSH_USER not-set
-ENV SSH_PWD not-set
-ENV XDEBUG_REMOTE_HOST "host.docker.internal"
-ENV XDEBUG_CONFIG "idekey=PHPSTORM"
-ENV PHP_IDE_CONFIG "serverName=localhost"
-ENV XDEBUG_ENABLED 0
-ENV FILEBEAT_ENABLED 0
-ENV TIDEWAYS_KEY not-set
-ENV TIDEWAYS_ENV production
-ENV TIDEWAYS_SERVICE web
-ENV BASH_ENV /var/www/.bashrc
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+
 {% endblock %}
 {% endblock %}
 
@@ -67,15 +46,9 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
  && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile \
  && echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
- && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
- && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
- && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
- && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
+
  #do we need this any longer?
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
- && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
- && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
- && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile \
 {% endblock %}
 
 
@@ -264,23 +237,7 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 {% endblock %}
 
 
-{% block components_packagers %}
-{% block components_packagers_composer %}
-{% if composer.version == 1 %}
-{% include 'template/components/composer/v1/install.sh.twig' %}
-{% else %}
 {% include 'template/components/composer/v2/install.sh.twig' %}
-{% endif %}
-{% endblock %}
-
-
-
-{% endblock %}
-
-
-{% block components_xdebug %}
-{% include 'template/components/xdebug/base.sh.twig' %}
-{% endblock %}
 
 {% block components_nvm %}
 && ls -la \
@@ -292,17 +249,17 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
-    && nvm install 16 \
-    && nvm install 14 \
-    && nvm install 12 \
+
+    {% for version in node.versions %}
+    && nvm install {{ version }} \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
-    && nvm use 14 && npm install -g yarn \
-    && nvm use 16 && npm install -g yarn \
+    && nvm use {{version}} && npm install -g yarn \
+    {% endfor %}
     # -----------------------------------------------------------------------------------------
-    && nvm use {{ node.version }} \
-    && nvm alias default {{ node.version }}  \
+    && nvm use {{ node.default_version }} \
+    && nvm alias default {{ node.default_version }}  \
     # -----------------------------------------------------------------------------------------
 {% endblock %}
 
@@ -312,7 +269,7 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
     && export NVM_DIR="/var/www/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use {{ node.version }} \
+    && nvm use {{ node.default_version }} \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -330,21 +287,7 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
     && chown -R www-data:www-data /var/www/.composer \
 {% endblock %}
 
-{% block components_tideways %}
-&& sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
-    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
-    && sudo apt-get -y update  \
-    && sudo apt-get -y install tideways-php tideways-daemon  \
-    {% for key,value in php.versions %}
-    {%  if value.active == true %}
-    && cat /tmp/20-tideways.ini >| /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini \
-    && cat /tmp/20-tideways.ini >| /etc/php/{{ key }}/cli/conf.d/20-tideways.ini \
-    {% endif %}
-    {% endfor %}
-    #clean up layer
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sudo chmod 0755 /etc/init.d/tideways-daemon \
-{% endblock %}
+{% block additional %}{% endblock %}
 
 && chown www-data:www-data -R /var/www/scripts \
 &&  chmod 755 /*.sh \

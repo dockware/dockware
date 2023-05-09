@@ -1,0 +1,16 @@
+{
+  "base_image": "dockware/base_play:2.0",
+  "shopware": {
+    "version": "",
+    "env": "dev"
+  },
+  "php": {
+    "default_version": "8.2"
+  },
+  "node": {
+    "default_version": 18,
+    "versions": [
+      18
+    ]
+  }
+}

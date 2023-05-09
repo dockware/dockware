@@ -1,0 +1,16 @@
+{
+  "base_image":"dockware/essentials:2.0",
+  "node": {
+    "default_version": 18
+  },
+  "shopware": {
+    "env": "dev",
+    "version": "6.5.0.0"
+  },
+  "db": {
+    "host": "127.0.0.1"
+  },
+  "php": {
+    "default_version": "8.2"
+  }
+}
