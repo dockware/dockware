@@ -27,7 +27,8 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
     && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
     {% include 'template/components/shopware/shopware6/install_flex.sh.twig' with { 'pwd' : db.pwd } %}
 
-
+    #make adminer available
+    && echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf \
 {% endblock %}
 
 

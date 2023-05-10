@@ -4,6 +4,9 @@
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
+#to make sure we have he mailcatcher rules setc ...
+COPY ./config/apache/sites.conf /tmp/sites.conf
+
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
@@ -25,18 +28,12 @@ ENV MYSQL_PWD not-set
 {% endblock %}
 
 {% block image_components %}
+ && cat /tmp/sites.conf >| /etc/apache2/sites-enabled/000-default.conf \
  && sudo rm -rf /build-data.text \
  && apt-get update \
  #make sure everything runs in the correct php version
  && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
  && cd /var/www && make switch-php version={{php.default_version}} \
-
-{% if node.default_version is defined %}
-  && echo "DOCKWARE: switching to NODE {{node.default_version}}..." \
-  && nvm use {{ node.default_version }} \
-    && nvm alias default {{ node.default_version }}  \
-{% endif %}
-
 
 {% block components_adminer %}
 {% include 'template/components/adminer/install.sh.twig' %}

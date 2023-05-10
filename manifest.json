@@ -5,23 +5,19 @@
       "production/php8.1:php8.1-v1.0"
     ],
     "base_dev": [
-      "base_dev/2.0:2.0",
-      "base_dev/18.04:18.04"
+      "base_dev/2.0:2.0"
     ],
     "base_play": [
       "base_play/2.0:2.0"
     ],
     "flex": [
-      "flex/2.0:2.0",
-      "flex/18.04:18.04"
+      "flex/2.0:2.0"
     ],
     "essentials": [
-      "essentials/2.0:2.0",
-      "essentials/1.0:1.0"
+      "essentials/2.0:2.0"
     ],
     "essentials_play": [
-      "essentials_play/2.0:2.0",
-      "essentials_play/1.0:1.0"
+      "essentials_play/2.0:2.0"
     ],
     "dev": [
       "dev/6.5.0.0:6.5.0.0",

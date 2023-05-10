@@ -8,9 +8,6 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 #this conf is needed for enconf command ...
 ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
 
-
-
-
 COPY ./config/php/xdebug-2.ini /tmp/xdebug-2.ini
 COPY ./config/php/xdebug-3.ini /tmp/xdebug-3.ini
 
