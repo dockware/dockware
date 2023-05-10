@@ -35,7 +35,7 @@ workflows:
           imageTag: << pipeline.parameters.imageTag >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: build-ard
+          name: build-amd
           imageName: << pipeline.parameters.imageName >>
           imageTag: << pipeline.parameters.imageTag >>
       # ------------------------------------------------------------------------------------
@@ -46,7 +46,49 @@ workflows:
           setLatest: << pipeline.parameters.setLatest >>
           requires:
             - build-arm
-            - build-ard
+            - build-amd
+
+  release-base:
+    when:
+      and:
+        equal: ["base", << pipeline.parameters.imageName >> ]
+    jobs:
+      # ------------------------------------------------------------------------------------
+      - job-build-arm64:
+          name: base-<< pipeline.parameters.imageTag >>-dev-arm64
+          imageName: "base_dev"
+          imageTag: << pipeline.parameters.imageTag >>
+      # ------------------------------------------------------------------------------------
+      - job-build-arm64:
+          name: base-<< pipeline.parameters.imageTag >>-play-arm64
+          imageName: "base_play"
+          imageTag: << pipeline.parameters.imageTag >>
+      # ------------------------------------------------------------------------------------
+      - job-build-amd64:
+          name: base-<< pipeline.parameters.imageTag >>-dev-amd64
+          imageName: "base_dev"
+          imageTag: << pipeline.parameters.imageTag >>
+      # ------------------------------------------------------------------------------------
+      - job-build-amd64:
+          name: base-<< pipeline.parameters.imageTag >>-play-amd64
+          imageName: "base_play"
+          imageTag: << pipeline.parameters.imageTag >>
+      # ------------------------------------------------------------------------------------
+      - job-update-manifest:
+          name: update-manifest-dev
+          imageName: "base_dev"
+          imageTag: << pipeline.parameters.imageTag >>
+          requires:
+            - base-<< pipeline.parameters.imageTag >>-dev-amd64
+            - base-<< pipeline.parameters.imageTag >>-dev-arm64
+      # ------------------------------------------------------------------------------------
+      - job-update-manifest:
+          name: update-manifest-play
+          imageName: "base_play"
+          imageTag: << pipeline.parameters.imageTag >>
+          requires:
+            - base-<< pipeline.parameters.imageTag >>-play-amd64
+            - base-<< pipeline.parameters.imageTag >>-play-arm64
 
   release-shopware:
     when:
