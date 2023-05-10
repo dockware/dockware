@@ -18,9 +18,9 @@ generate: ## Generates all artifacts for this image. You can use the local PHAR 
 ifndef phar
 	docker run -v ${PWD}:/opt/project orcabuilder/orca:latest
 else
-	#curl -O https://orca-build.io/downloads/orca.zip
-	#unzip -o orca.zip
-	#rm -f orca.zip
+	curl -O https://orca-build.io/downloads/orca.zip
+	unzip -o orca.zip
+	rm -f orca.zip
 	php ../orca/build/orca.phar --directory=. --debug
 endif
 
