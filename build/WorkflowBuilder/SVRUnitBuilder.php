@@ -1,6 +1,6 @@
 <?php
 
-class TestPipelineBuilder
+class SVRUnitBuilder
 {
     /**
      * @param $jobKey
@@ -14,10 +14,11 @@ class TestPipelineBuilder
             return '';
         }
 
-        $imageFull = 'dockware/'.$image.':'.$tag;
+        $imageFull = 'dockware/' . $image . ':' . $tag;
         $isDev = ($image === 'dev');
 
         $defaultPHP = '8';
+        $php82 = true;
         $php81 = true;
         $php8 = true;
         $php74 = true;
@@ -31,7 +32,32 @@ class TestPipelineBuilder
         $node = '12';
         $composer = '2';
 
-        if ($tag === 'latest' || version_compare($tag, '6.0') >= 0) {
+        if (version_compare($tag, '6.5') >= 0) {
+            # SHOPWARE 6
+            $php81 = true;
+            $php8 = false;
+            $php74 = false;
+            $php73 = false;
+            $php72 = false;
+            $php71 = false;
+            $php7 = false;
+            $php56 = false;
+
+            $node = '18';
+        }
+        if (str_contains($tag, '6.5')) {
+            # SHOPWARE 6
+            $php81 = true;
+            $php8 = false;
+            $php74 = false;
+            $php73 = false;
+            $php72 = false;
+            $php71 = false;
+            $php7 = false;
+            $php56 = false;
+            $node = '18';
+
+        } else if ($tag === 'latest' || version_compare($tag, '6.0') >= 0) {
             # SHOPWARE 6
             $php73 = false;
             $php72 = false;
@@ -39,13 +65,14 @@ class TestPipelineBuilder
             $php7 = false;
             $php56 = false;
         } else {
+
             if (version_compare($tag, '6.0') >= 0) {
                 # SHOPWARE 6
                 $php56 = false;
             } else {
                 if (version_compare($tag, '5.7') >= 0) {
                     # SHOPWARE >= 5.7
-                    $defaultPHP = '7';
+                    $defaultPHP = '8';
 
                     $php72 = true;
                     $php71 = false;
@@ -56,6 +83,7 @@ class TestPipelineBuilder
                     $composer = '1';
 
                     $defaultPHP = '5';
+                    $php82 = false;
                     $php81 = false;
                     $php8 = false;
                     $php74 = false;
@@ -74,11 +102,11 @@ class TestPipelineBuilder
     ';
 
         $xml .= '
-        <testsuite name="'.$imageFull.', Command Runner" dockerImage="'.$imageFull.'" dockerCommandRunner="true">'.PHP_EOL;
+        <testsuite name="' . $imageFull . ', Command Runner" group="command-runner" dockerImage="' . $imageFull . '" dockerCommandRunner="true">' . PHP_EOL;
         if ($isDev) {
-            $xml .= '            <directory>./../../tests/shared/command-runner/dev</directory>'.PHP_EOL;
+            $xml .= '            <directory>./../../tests/shared/command-runner/dev</directory>' . PHP_EOL;
         } else {
-            $xml .= '            <directory>./../../tests/shared/command-runner/play</directory>'.PHP_EOL;
+            $xml .= '            <directory>./../../tests/shared/command-runner/play</directory>' . PHP_EOL;
         }
         $xml .= '        </testsuite>
         ';
@@ -88,16 +116,24 @@ class TestPipelineBuilder
         $devPart = '
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/dev</directory>
-            <directory>./../../tests/packages/node/v'.$node.'</directory>
-            <directory>./../../tests/packages/composer/v'.$composer.'</directory>';
+            <directory>./../../tests/packages/node/v' . $node . '</directory>
+            <directory>./../../tests/packages/composer/v' . $composer . '</directory>';
+
+        $sharedBaseSW = './../../tests/shared/base-6.0';
+
+        if (str_contains($tag, '6.5')) {
+            $sharedBaseSW = './../../tests/shared/base-6.5';
+        }
+
         if (!$isDev) {
             $devPart = '';
         }
 
         $xml .= '
-        <testsuite name="'.$imageFull.', Basic Checks" dockerImage="'.$imageFull.'">
-            <directory>./../../tests/shared/base</directory>'.$devPart.'
-            <directory>./../../tests/packages/php/php'.$defaultPHP.'</directory>
+        <testsuite name="' . $imageFull . ', Core Checks" group="core" dockerImage="' . $imageFull . '">
+            <directory>./../../tests/shared/base</directory>
+            <directory>' . $sharedBaseSW . '</directory>' . $devPart . '
+            <directory>./../../tests/packages/php/php' . $defaultPHP . '</directory>
         </testsuite>
          ';
 
@@ -105,14 +141,23 @@ class TestPipelineBuilder
 
         if ($isDev) {
             $xml .= '
-        <testsuite name="'.$imageFull.', ENV Node Version Switch" dockerImage="'.$imageFull.'" dockerEnv="NODE_VERSION=16">
-            <directory>./../../tests/packages/node/v16</directory>
+        <testsuite name="' . $imageFull . ', ENV Node Version Switch" dockerImage="' . $imageFull . '" dockerEnv="NODE_VERSION=' . $node . '">
+            <directory>./../../tests/packages/node/v' . $node . '</directory>
         </testsuite>
             ';
         }
 
         # -------------------------------------------------------------------------------------------------------------------------------
-        $testXdebugOff = true;
+        $testXdebugOff = $isDev; // only test for dev images where XDebug exists
+
+        if ($php82) {
+            $xdebug = ($isDev) ? '3.2.0' : '';
+            $xml .= $this->buildVersion($imageFull, '8.2', '8.2', $xdebug, $sodium, $testXdebugOff);
+            $testXdebugOff = false;
+        }
+
+        # -------------------------------------------------------------------------------------------------------------------------------
+
         if ($php81) {
             $xdebug = ($isDev) ? '3' : '';
             $xml .= $this->buildVersion($imageFull, '8.1', '8.1', $xdebug, $sodium, $testXdebugOff);
@@ -163,7 +208,7 @@ class TestPipelineBuilder
 
         if ($php7) {
             $xdebug = ($isDev) ? '2' : '';
-            $xml .= $this->buildVersion($imageFull, '7.0', '7', $xdebug, $sodium, $testXdebugOff);
+            $xml .= $this->buildVersion($imageFull, '7.0', '7.0', $xdebug, $sodium, $testXdebugOff);
             $testXdebugOff = false;
         }
 
@@ -192,26 +237,26 @@ class TestPipelineBuilder
      */
     private function buildVersion($imageFull, $fullPHP, $php, $xDebug, $sodium, bool $testXdebugOff)
     {
-        $xml = PHP_EOL;
-        $xml .= '        <testsuite name="'.$imageFull.', PHP '.$fullPHP.', XDebug ON" dockerImage="'.$imageFull.'" dockerEnv="PHP_VERSION='.$fullPHP.',XDEBUG_ENABLED=1">'.PHP_EOL;
-        $xml .= '            <directory>./../../tests/packages/php/php'.$php.'</directory>'.PHP_EOL;
+        $xml = '';
 
         if (!empty($xDebug)) {
-            $xml .= '            <directory>./../../tests/packages/xdebug/xdebug'.$xDebug.'</directory>'.PHP_EOL;
+            $xml = PHP_EOL;
+            $xml .= '        <testsuite name="' . $imageFull . ', PHP ' . $fullPHP . ', XDebug ON" dockerImage="' . $imageFull . '" dockerEnv="PHP_VERSION=' . $fullPHP . ',XDEBUG_ENABLED=1">' . PHP_EOL;
+            $xml .= '            <directory>./../../tests/packages/php/php' . $php . '</directory>' . PHP_EOL;
+            $xml .= '            <directory>./../../tests/packages/xdebug/xdebug' . $xDebug . '</directory>' . PHP_EOL;
+            if ($sodium) {
+                $xml .= '            <directory>./../../tests/packages/sodium</directory>' . PHP_EOL;
+            }
+            $xml .= '        </testsuite>' . PHP_EOL;
         }
-
-        if ($sodium) {
-            $xml .= '            <directory>./../../tests/packages/sodium</directory>'.PHP_EOL;
-        }
-
-        $xml .= '        </testsuite>'.PHP_EOL;
 
         if ($testXdebugOff) {
             //disabled xdebug
-            $xml .= '        <testsuite name="'.$imageFull.', PHP '.$fullPHP.', XDebug OFF" dockerImage="'.$imageFull.'" dockerEnv="PHP_VERSION='.$fullPHP.',XDEBUG_ENABLED=0">'.PHP_EOL;
-            $xml .= '            <directory>./../../tests/packages/xdebug/xdebug-off</directory>'.PHP_EOL;
-
-            $xml .= '        </testsuite>'.PHP_EOL;
+            $xml = PHP_EOL;
+            $xml .= '        <testsuite name="' . $imageFull . ', PHP ' . $fullPHP . ', XDebug OFF" dockerImage="' . $imageFull . '" dockerEnv="PHP_VERSION=' . $fullPHP . ',XDEBUG_ENABLED=0">' . PHP_EOL;
+            $xml .= '            <directory>./../../tests/packages/php/php' . $php . '</directory>' . PHP_EOL;
+            $xml .= '            <directory>./../../tests/packages/xdebug/xdebug-off</directory>' . PHP_EOL;
+            $xml .= '        </testsuite>' . PHP_EOL;
         }
 
         return $xml;

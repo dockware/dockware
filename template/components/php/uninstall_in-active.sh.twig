@@ -1,8 +1,0 @@
-{% for key,value in php.versions %}
-{% if value.active == false %}
-    && echo "uninstall php version {{ version }}" \
-    && sudo apt-get purge php{{version}}.* \
-    && sudo apt-get autoclean \
-    && sudo apt-get autoremove \
-{% endif %}
-{% endfor %}

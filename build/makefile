@@ -27,3 +27,6 @@ endif
 
 generate-tests: ## Generates the SVRUnit Tests
 	php build-tests.php
+
+docker-generate-tests: ## Generates the SVRUnit Tests in Docker, if you have no PHP
+	docker run --rm -v ${PWD}/../:/var/www/html dockware/flex:latest bash -c 'cd build && make generate-tests'

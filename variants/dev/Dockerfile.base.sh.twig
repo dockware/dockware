@@ -1,34 +1,9 @@
-{% extends "template/Dockerfile.global.sh.twig" %}
+{% extends "/variants/base_shopware/Dockerfile.base.sh.twig" %}
 
-{% block image_variables %}
-{{ parent() }}
-ENV SW_CURRENCY 'not-set'
-ENV SW_API_ACCESS_KEY 'not-set'
-{% endblock %}
-
-{% block assets_install %}
-COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
-COPY ./assets/shopware6/files /var/www/scripts/shopware6
-
-COPY ./assets/scripts/cron /var/www/scripts/cron
-{% endblock %}
-
-{% block image_variables_export %}
-{{ parent() }}
-&& echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile \
-&& echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile \
-{% endblock %}
 
 {% block image_components %}
-    #make sure for the whole installation xdebug is off for performance
-    && sh /var/www/scripts/bin/xdebug_disable.sh \
-    #make sure the installation runs also in default php version
-    && echo "DOCKWARE: switching to PHP {{php.default_version}}..." \
-    && cd /var/www && make switch-php version={{php.default_version}}  && cd /var/www/html \
-    {% include 'template/components/shopware/shopware6/install_flex.sh.twig' with { 'pwd' : db.pwd } %}
-
-    #make adminer available
-    && echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf \
+    {{ parent() }}
+    && composer req --dev shopware/dev-tools \
 {% endblock %}
 
 

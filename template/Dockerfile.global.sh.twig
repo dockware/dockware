@@ -41,10 +41,9 @@ RUN date >/build-date.txt \
     && echo "" \
 {% endblock %}
 
-#make sure we uninstall all unneeded stuff
-{% block uninstall_components %}
-    && echo "" \
-{% endblock %}
+#cleaning up
+&& apt-get clean all \
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 
 && chown 33:33 -R /var/www/html && \
     # this is necessary so that our user can
