@@ -50,7 +50,6 @@ workflows:
 
   release-base:
     when:
-      and:
         equal: ["base", << pipeline.parameters.imageName >> ]
     jobs:
       # ------------------------------------------------------------------------------------
