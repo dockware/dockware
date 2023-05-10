@@ -1,0 +1,4 @@
+commands:
+  - name: "MySQL SERVER is installed"
+    command: "dpkg -l | grep mysql-server"
+    expected: "mysql-server"

@@ -1,0 +1,4 @@
+commands:
+  - name: "no other php versions installed"
+    command: "ls /etc/php | wc -l"
+    expected: "1"

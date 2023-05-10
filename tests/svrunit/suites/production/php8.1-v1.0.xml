@@ -1,0 +1,15 @@
+<svrunit setupTime="30">
+
+    <testsuites>
+
+        <testsuite name="production:php8.1, PHP 8.1"
+                   dockerImage="dockware/production:php8.1-v1.0">
+            <directory>./../../tests/php/is-version/php8.1</directory>
+            <directory>./../../tests/php/modules-installed</directory>
+            <directory>./../../tests/php/no-other-version-installed</directory>
+            <directory>./../../tests/mysql/server/is-not-installed</directory>
+        </testsuite>
+
+    </testsuites>
+
+</svrunit>

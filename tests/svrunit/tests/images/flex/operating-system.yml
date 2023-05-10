@@ -1,4 +1,0 @@
-commands:
-  - name: "Check Ubuntu 20.04"
-    command: "lsb_release -a"
-    expected: "Ubuntu 20.04"

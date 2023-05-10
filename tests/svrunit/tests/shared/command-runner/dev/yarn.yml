@@ -1,7 +1,0 @@
-commands:
-  - name: "Yarn is installed and loaded"
-    command: "yarn -v"
-    expected: "1.22.19"
-  - name: "Yarn is installed and loaded after NVM switch"
-    command: "nvm use 14 && yarn -v"
-    expected: "1.22.19"

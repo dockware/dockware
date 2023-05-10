@@ -1,0 +1,4 @@
+commands:
+  - name: "MySQL SERVER is not installed"
+    command: "dpkg -l | grep mysql-server"
+    not_expected: "mysql-server"

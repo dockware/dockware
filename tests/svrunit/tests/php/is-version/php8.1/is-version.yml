@@ -1,0 +1,8 @@
+commands:
+  - name: "php 8.1 cli is running"
+    command: "php -v"
+    expected: "PHP 8.1"
+
+  - name: "php 8.1-fpm is running"
+    command: "service php8.1-fpm status"
+    expected: "php-fpm8.1 is running"

@@ -1,7 +1,0 @@
-commands:
-  - name: "NODE Version 12"
-    command: "node -v"
-    expected: "v12."
-  - name: "NODE Version 12 as SUDO user"
-    command: "sudo node -v"
-    not_expected: "command not found" # sudo version switch does not always work, but it needs to be at least found!!!

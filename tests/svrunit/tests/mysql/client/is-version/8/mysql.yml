@@ -1,0 +1,4 @@
+commands:
+  - name: "MySQL CLIENT is installed"
+    command: "dpkg -l | grep mysql-client"
+    expected: "mysql-client"
