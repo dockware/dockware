@@ -77,6 +77,7 @@ workflows:
           name: update-manifest-dev
           imageName: "base_dev"
           imageTag: << pipeline.parameters.imageTag >>
+          setLatest: false
           requires:
             - base-<< pipeline.parameters.imageTag >>-dev-amd64
             - base-<< pipeline.parameters.imageTag >>-dev-arm64
@@ -85,6 +86,7 @@ workflows:
           name: update-manifest-play
           imageName: "base_play"
           imageTag: << pipeline.parameters.imageTag >>
+          setLatest: false
           requires:
             - base-<< pipeline.parameters.imageTag >>-play-amd64
             - base-<< pipeline.parameters.imageTag >>-play-arm64
