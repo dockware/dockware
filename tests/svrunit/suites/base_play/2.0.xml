@@ -2,11 +2,13 @@
 
     <testsuites>
 
-        <testsuite name="flex:latest, Command Runner" dockerImage="dockware/base_dev:2.0" dockerCommandRunner="true">
-            <directory>./../../tests/shared/command-runner/dev</directory>
+        <testsuite name="base_play, Command Runner" dockerImage="dockware/base_play:2.0" dockerCommandRunner="true">
+            <directory>./../../tests/users/workdir</directory>
+            <directory>./../../tests/devutils/nvm</directory>
+            <directory>./../../tests/devutils/default</directory>
         </testsuite>
 
-        <testsuite name="Basic Checks" dockerImage="dockware/base_dev:2.0">
+        <testsuite name="Basic Checks" dockerImage="dockware/base_play:2.0">
             <directory>./../../tests/os/ubuntu22</directory>
             <directory>./../../tests/os/required-packages</directory>
             <directory>./../../tests/users/required</directory>
@@ -14,30 +16,35 @@
             <directory>./../../tests/changelog/exists</directory>
             <directory>./../../tests/keys/ssh</directory>
             <directory>./../../tests/keys/ssl</directory>
-            <directory>./../../tests/devutils/default</directory>
-            <directory>./../../tests/devutils/nvm</directory>
-            <directory>./../../tests/devutils/node/version/18</directory>
+
+            <!-- special aginast dev -->
+            <directory>./../../tests/not-installed/nvm</directory>
+            <directory>./../../tests/not-installed/node</directory>
+            <!-- /special aginast dev -->
             <directory>./../../tests/mysql/client/is-version/8</directory>
             <directory>./../../tests/mysql/server/is-not-installed</directory>
         </testsuite>
 
 
-        <testsuite name="ENV Node Version Switch" dockerImage="dockware/base_dev:2.0" dockerEnv="NODE_VERSION=18">
-            <directory>./../../tests/packages/node/v18</directory>
-            <directory>./../../tests/wiese/components/php/modules</directory>
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
+        <testsuite name="ENV Node Version Switch" dockerImage="dockware/base_play:2.0" dockerEnv="NODE_VERSION=18">
+            <directory>./../../tests/node/is-version/v18</directory>
+            <directory>./../../tests/php/modules-installed/default</directory>
+            <directory>./../../tests/xdebug/xdebug-off</directory>
         </testsuite>
 
-        <testsuite name="PHP 8.2, XDebug OFF" dockerImage="dockware/base_dev:2.0" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
-            <directory>./../../tests/php/modules</directory>
+        <testsuite name="PHP 8.2, XDebug OFF" dockerImage="dockware/base_play:2.0" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
+            <directory>./../../tests/php/modules-installed/default</directory>
+            <directory>./../../tests/php/modules-not-installed/xdebug</directory>
             <directory>./../../tests/php/is-version/8.2</directory>
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
+            <directory>./../../tests/xdebug/xdebug-off</directory>
         </testsuite>
 
-        <testsuite name="PHP 8.1, XDebug ON" dockerImage="dockware/base_dev:2.0" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
-            <directory>./../../tests/wiese/components/php/modules</directory>
+        <testsuite name="PHP 8.1, XDebug ON" dockerImage="dockware/base_play:2.0" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+            <directory>./../../tests/php/modules-installed/default</directory>
+            <directory>./../../tests/php/modules-not-installed/xdebug</directory>
             <directory>./../../tests/php/is-version/8.1</directory>
-            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <!-- should always be off,also if enabled -->
+            <directory>./../../tests/xdebug/xdebug-off</directory>
         </testsuite>
 
 

@@ -8,9 +8,6 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 #this conf is needed for enconf command ...
 ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
 
-COPY ./config/php/xdebug-2.ini /tmp/xdebug-2.ini
-COPY ./config/php/xdebug-3.ini /tmp/xdebug-3.ini
-
 COPY ./config/apache/apache2.conf /tmp/apache2.conf
 COPY ./config/apache/ports.conf /tmp/ports.conf
 COPY ./config/apache/sites.conf /tmp/sites.conf
@@ -43,6 +40,7 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
  && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile \
  && echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
+ && echo "export VERBOSE=${VERBOSE}" >> /etc/profile \
 
  #do we need this any longer?
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
@@ -56,37 +54,37 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 ## ***********************************************************************
 && apt-get update \
     {% block base %}
-    && apt-get install -y gosu \
-    && apt-get install -y sudo \
-    && apt-get install -y wget \
-    && apt-get install -y curl \
-    && apt-get install -y unzip \
-    && apt-get install -y bzip2 \
-    && apt-get install -y ssmtp \
-    && apt-get install -y lsof \
-    && apt-get install -y openssh-server \
-    && apt-get install -y cron \
-    && apt-get install -y vim \
-    && apt-get install -y nano \
-    && apt-get install -y jq \
-    && apt-get install -y gnupg2 \
-    && apt-get install -y gpg-agent \
-    && apt-get install -y chromium-browser \
+    && apt-get install -y --no-install-recommends gosu \
+    && apt-get install -y --no-install-recommends sudo \
+    && apt-get install -y --no-install-recommends wget \
+    && apt-get install -y --no-install-recommends curl \
+    && apt-get install -y --no-install-recommends unzip \
+    && apt-get install -y --no-install-recommends bzip2 \
+    && apt-get install -y --no-install-recommends ssmtp \
+    && apt-get install -y --no-install-recommends lsof \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && apt-get install -y --no-install-recommends cron \
+    && apt-get install -y --no-install-recommends vim \
+    && apt-get install -y --no-install-recommends nano \
+    && apt-get install -y --no-install-recommends jq \
+    && apt-get install -y --no-install-recommends gnupg2 \
+    && apt-get install -y --no-install-recommends gpg-agent \
+    && apt-get install -y --no-install-recommends chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
     && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
     {% block base_tzdata %}
-    && apt-get install -y tzdata \
+    && apt-get install -y --no-install-recommends tzdata \
     && dpkg-reconfigure --frontend noninteractive tzdata  \
     {% endblock %} \
     {% block base_xdg %}
-    && apt-get install -y xdg-utils \
+    && apt-get install -y --no-install-recommends xdg-utils \
     {% endblock %}
     {% block base_sodium %}
-    && apt-get install -y libsodium-dev \
-    && apt-get install -y php-dev \
-    && apt-get install -y php-pear \
+    && apt-get install -y --no-install-recommends libsodium-dev \
+    && apt-get install -y --no-install-recommends php-dev \
+    && apt-get install -y --no-install-recommends php-pear \
     && pecl install -f libsodium \
     && apt-get remove -y php-pear \
     && apt-get remove -y php-dev \
@@ -125,7 +123,12 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 {% endblock %}
 
 {% block users_bashrc %}
-&& echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
+    # add bashrc for www-data
+    #make sure the directory exists always
+    && echo "" >> /var/www/.bashrc \
+    {% block nvm_bash_rc %}
+    && echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
+    {% endblock %}
     # -------------------------------------------------
     && chown 33:33 /var/www/.bashrc \
     # -------------------------------------------------
@@ -212,7 +215,7 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 ##  MOD_SSL
 ##  create SSL certificate
 ## ***********************************************************************
-    && apt-get install -y openssl \
+    && apt-get install -y --no-install-recommends openssl \
     && a2enmod ssl \
     && mkdir /etc/apache2/ssl \
     && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
@@ -221,71 +224,25 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 
 
 {% block components_dev_tools %}
-    && apt-get install -y rsync \
-    && apt-get install -y sshpass \
-    && apt-get install -y jpegoptim \
-    && apt-get install -y screen \
-    && apt-get install -y mysql-client \
-    && apt-get install -y daemon \
+    && apt-get install -y --no-install-recommends rsync \
+    && apt-get install -y --no-install-recommends sshpass \
+    && apt-get install -y --no-install-recommends jpegoptim \
+    && apt-get install -y --no-install-recommends screen \
+    && apt-get install -y --no-install-recommends mysql-client \
+    && apt-get install -y --no-install-recommends daemon \
 {% endblock %}
 
 {% block components_git %}
-    && apt-get install -y git \
+    && apt-get install -y --no-install-recommends git \
 {% endblock %}
 
 
 {% include 'template/components/composer/v2/install.sh.twig' %}
 
-{% block components_nvm %}
-&& ls -la \
-    && mkdir "/var/www/.nvm" \
-    && export NVM_DIR="/var/www/.nvm" \
-    # -----------------------------------------------------------------------------------------
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    # -----------------------------------------------------------------------------------------
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    # -----------------------------------------------------------------------------------------
-
-    {% for version in node.versions %}
-    && nvm install {{ version }} \
-    # -----------------------------------------------------------------------------------------
-    # we have to install yarn in additional node versions
-    # otherwise it won't be found after a nvm switch
-    && nvm use {{version}} && npm install -g yarn \
-    {% endfor %}
-    # -----------------------------------------------------------------------------------------
-    && nvm use {{ node.default_version }} \
-    && nvm alias default {{ node.default_version }}  \
-    # -----------------------------------------------------------------------------------------
-{% endblock %}
-
-{% block components_node %}
-    # -----------------------------------------------------------
-    # we have to reload the correct nvm version otherwise this would destroy it
-    && export NVM_DIR="/var/www/.nvm" \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use {{ node.default_version }} \
-    # -----------------------------------------------------------
-    && mkdir /var/www/.npm \
-    && npm config set cache /var/www/.npm \
-    && chown 33:33 /var/www/.npm \
-{% endblock %}
-
-{% block components_grunt %}
-    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
-    && cd /var/www && npm install -g grunt-cli \
-    && cd /var/www && npm install grunt --save-dev \
-{% endblock %}
-
-{% block components_packagers_yarn %}
-    && npm install -g --no-install-recommends yarn \
-    && chown -R www-data:www-data /var/www/.composer \
-{% endblock %}
 
 {% block additional %}{% endblock %}
 
 && chown www-data:www-data -R /var/www/scripts \
-&&  chmod 755 /*.sh \
+#not needed in base_play as there are no sh files ...
+#&&  chmod 755 /*.sh \
 {% endblock %}

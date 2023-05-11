@@ -35,6 +35,55 @@ ENV TIDEWAYS_SERVICE web
 
 {%  block additional %}
 
+
+{% block components_nvm %}
+&& ls -la \
+    && mkdir "/var/www/.nvm" \
+    && export NVM_DIR="/var/www/.nvm" \
+    # -----------------------------------------------------------------------------------------
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    # -----------------------------------------------------------------------------------------
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    # -----------------------------------------------------------------------------------------
+
+    {% for version in node.versions %}
+    && nvm install {{ version }} \
+    # -----------------------------------------------------------------------------------------
+    # we have to install yarn in additional node versions
+    # otherwise it won't be found after a nvm switch
+    && nvm use {{version}} && npm install -g yarn \
+    {% endfor %}
+    # -----------------------------------------------------------------------------------------
+    && nvm use {{ node.default_version }} \
+    && nvm alias default {{ node.default_version }}  \
+    # -----------------------------------------------------------------------------------------
+{% endblock %}
+
+{% block components_node %}
+    # -----------------------------------------------------------
+    # we have to reload the correct nvm version otherwise this would destroy it
+    && export NVM_DIR="/var/www/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
+    && nvm use {{ node.default_version }} \
+    # -----------------------------------------------------------
+    && mkdir /var/www/.npm \
+    && npm config set cache /var/www/.npm \
+    && chown 33:33 /var/www/.npm \
+{% endblock %}
+
+{% block components_grunt %}
+    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
+    && cd /var/www && npm install -g grunt-cli \
+    && cd /var/www && npm install grunt --save-dev \
+{% endblock %}
+
+{% block components_packagers_yarn %}
+    && npm install -g --no-install-recommends yarn \
+    && chown -R www-data:www-data /var/www/.composer \
+{% endblock %}
+
 ##install xdebug
 {% include 'template/components/xdebug/base.sh.twig' %}
 

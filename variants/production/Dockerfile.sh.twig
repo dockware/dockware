@@ -46,20 +46,20 @@ RUN date >/build-date.txt \
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
 && apt-get update \
-    && apt-get install -y gosu \
-    && apt-get install -y wget \
-    && apt-get install -y curl \
-    && apt-get install -y unzip \
-    && apt-get install -y bzip2 \
-    && apt-get install -y ssmtp \
-    && apt-get install -y lsof \
-    && apt-get install -y vim \
-    && apt-get install -y nano \
-    && apt-get install -y jq \
-    && apt-get install -y gnupg2 \
-    && apt-get install -y gpg-agent \
-    && apt-get install -y make \
-    && apt-get install -y sudo \
+    && apt-get install -y --no-install-recommends gosu \
+    && apt-get install -y --no-install-recommends wget \
+    && apt-get install -y --no-install-recommends curl \
+    && apt-get install -y --no-install-recommends unzip \
+    && apt-get install -y --no-install-recommends bzip2 \
+    && apt-get install -y --no-install-recommends ssmtp \
+    && apt-get install -y --no-install-recommends lsof \
+    && apt-get install -y --no-install-recommends vim \
+    && apt-get install -y --no-install-recommends nano \
+    && apt-get install -y --no-install-recommends jq \
+    && apt-get install -y --no-install-recommends gnupg2 \
+    && apt-get install -y --no-install-recommends gpg-agent \
+    && apt-get install -y --no-install-recommends make \
+    && apt-get install -y --no-install-recommends sudo \
 
 
 
@@ -67,7 +67,7 @@ RUN date >/build-date.txt \
     # otherwise we would have an interactive input dialog
     && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
 
-    && apt-get install -y tzdata \
+    && apt-get install -y --no-install-recommends tzdata \
     && dpkg-reconfigure --frontend noninteractive tzdata  \
 
 ## ***********************************************************************
@@ -150,11 +150,11 @@ RUN date >/build-date.txt \
 
 # make sure the configured log folder exists and is writeable
 && chmod -R 0777 /var/www \
-    && apt-get install -y rsync \
-    && apt-get install -y jpegoptim \
-    && apt-get install -y screen \
-    && apt-get install -y mysql-client \
-    && apt-get install -y daemon
+    && apt-get install -y --no-install-recommends rsync \
+    && apt-get install -y --no-install-recommends jpegoptim \
+    && apt-get install -y --no-install-recommends screen \
+    && apt-get install -y --no-install-recommends mysql-client \
+    && apt-get install -y --no-install-recommends daemon
 
 
 ADD entrypoint.sh /entrypoint.sh

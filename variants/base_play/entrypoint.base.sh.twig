@@ -1,11 +1,21 @@
 {% extends "template/entrypoint.global.sh.twig" %}
 
-
+{% block node_version %}{% endblock %}
 {% block components_filebeat %}{% endblock %}
+{% block components_tideways %}{% endblock %}
+{% block components_xdebug %}{% endblock %}
 
 {% block components_mysql %}{% endblock %}
-
 {% block components_mailcatcher %}{% endblock %}
-
 {% block setup_shopware %}{% endblock %}
-{% block instructions_shopware %}{% endblock %}
+{% block instructions_adminer %}{% endblock %}
+{% block instructions_mailcatcher %}{% endblock %}
+{% block instructions_pimpmylog %}{% endblock %}
+{% block instructions_shopware %}
+echo ""
+echo "ATTENTION, THIS IMAGE COMES WITHOUT SHOPWARE!"
+echo "IT OFFERS A FULL ENVIRONMENT FOR YOUR PERSONAL SHOPWARE 6 SETUP"
+echo ""
+{% endblock %}
+
+

@@ -11,6 +11,13 @@ COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
+COPY /config/pimpmylog/config.user.d /tmp/pimpmylog-config.user.d
+COPY /config/pimpmylog/config.user.json /tmp/pimpmylog-config.user.json
+
+# apply our custom file with fixes for PHP 8
+# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
+COPY /config/pimpmylog/global.inc.php /tmp/pimpmylog-global.inc.php
+
 
 {% endblock %}
 
@@ -19,12 +26,14 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 {% block image_variables_mysql %}
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set
+ENV MYSQL_DISABLED not-set
 {% endblock %}
 {% endblock %}
 
 {% block image_variables_export %}
     && echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
     && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile \
+    && echo "export MYSQL_DISABLED=${MYSQL_DISABLED}" >> /etc/profile \
 {% endblock %}
 
 {% block image_components %}
@@ -59,18 +68,25 @@ ENV MYSQL_PWD not-set
 {% endblock %}
 
 {% block components_pimpmylog %}
+
 && rm -rf /var/www/pimpmylog ||true \
-&& mkdir /var/www/pimpmylog \
-    && cd /var/www/pimpmylog \
+&& mkdir -p /var/www/pimpmylog \
     && wget -O - https://github.com/potsky/PimpMyLog/tarball/master | tar xzf - \
+    && mv potsky-PimpMyLog-* /var/www/pimpmylog \
     && mv /var/www/pimpmylog/potsky-PimpMyLog-2fed8c1/* /var/www/pimpmylog \
     && rm -rf /var/www/pimpmylog/potsky-PimpMyLog-* \
-&& chown -R www-data:www-data /var/www/pimpmylog/ \
+
+&& cp -r /tmp/pimpmylog-config.user.d /var/www/pimpmylog/ \
+&& cat /tmp/pimpmylog-config.user.json >| /var/www/pimpmylog/config.user.json \
+# apply our custom file with fixes for PHP 8
+# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
+&& cat /tmp/pimpmylog-global.inc.php >| /var/www/pimpmylog/inc/global.inc.php \
+&&  chown -R www-data:www-data /var/www/pimpmylog/ \
 {% endblock %}
 
 {% block components_filebeat %}
     && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
-    &&  apt-get install -y apt-transport-https \
+    &&  apt-get install -y --no-install-recommends apt-transport-https \
     &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
     &&  apt-get update \
     && apt-get install filebeat \
@@ -87,19 +103,4 @@ ENV MYSQL_PWD not-set
 && chmod 755 /*.sh \
 
 {% endblock %}
-
-
-
-
-{% block assets_install_pimpmylog %}
-
-COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
-COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
-
-# apply our custom file with fixes for PHP 8
-# its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
-COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
-RUN echo "" \
-{% endblock %}
-
 

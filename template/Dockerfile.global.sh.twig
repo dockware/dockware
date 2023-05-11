@@ -9,8 +9,6 @@ LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
 
 USER root
 
-ADD entrypoint.sh /entrypoint.sh
-
 
 {% block assets_install %}{% endblock %}
 
@@ -29,6 +27,7 @@ ENV COMPOSER_VERSION not-set
 ENV SSH_USER not-set
 ENV SSH_PWD not-set
 ENV FILEBEAT_ENABLED 0
+ENV VERBOSE 0
 ENV BASH_ENV /var/www/.bashrc
 
 
@@ -45,11 +44,13 @@ RUN date >/build-date.txt \
 && apt-get clean all \
 && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 
-&& chown 33:33 -R /var/www/html && \
+&& chown 33:33 -R /var/www/html \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    chown 33:33 /var/www/.nvm -R \
+    {% block chown_nvm %}
+      && chown 33:33 /var/www/.nvm -R \
+    {% endblock %}
     && rm -rf /tmp/*
 
 
@@ -70,4 +71,6 @@ WORKDIR /var/www/html
 ##  POST BUILD
 ## ***********************************************************************
 
+#keep the entrypoint as last command so that a change in it does not trigger a full rebuild
+ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

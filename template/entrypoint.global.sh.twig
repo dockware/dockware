@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo ""
 echo "     _            _                              ____  "
 echo "  __| | ___   ___| | ____      ____ _ _ __ ___  |___ \ "
@@ -33,6 +34,17 @@ source /var/www/.bashrc
 export BASH_ENV=/var/www/.bashrc
 
 
+redirect() {
+    # write your test however you want; this just tests if SILENT is non-empty
+    if [ $VERBOSE == 1 ]; then
+      "$@"
+    else
+        "$@" >> /dev/null
+    fi
+}
+
+
+
 CONTAINER_STARTUP_DIR=$(pwd)
 
 
@@ -41,8 +53,12 @@ CONTAINER_STARTUP_DIR=$(pwd)
 # so we test if it exists and just execute it
 file="/var/www/boot_start.sh"
 if [ -f "$file" ] ; then
+    echo "DOCKWARE: executing custom boot script..."
     sh $file
+else
+    redirect echo "DOCKWARE: no custom boot script found, launching without..."
 fi
+echo "-----------------------------------------------------------"
 
 
 
@@ -50,7 +66,7 @@ fi
 echo "DOCKWARE: setting timezone to ${TZ}..."
 sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
 sudo dpkg-reconfigure -f noninteractive tzdata
-echo "-----------------------------------------------------------"
+redirect echo "-----------------------------------------------------------"
 {% endblock %}
 
 
@@ -59,25 +75,16 @@ echo "-----------------------------------------------------------"
 
 
 {% block components_filebeat %}
-if [ $FILEBEAT_ENABLED = 1 ]; then
+if [ $FILEBEAT_ENABLED == 1 ]; then
    echo "DOCKWARE: activating Filebeat..."
    sudo service filebeat start --strict.perms=false
-   echo "-----------------------------------------------------------"
+   redirect echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
 {% block components_composer %}
-if [ $COMPOSER_VERSION = 1 ]; then
-   echo "DOCKWARE: switching to composer 1..."
-   sudo composer self-update --1
-   echo "-----------------------------------------------------------"
-fi
-if [ $COMPOSER_VERSION = 2 ]; then
-   echo "DOCKWARE: switching to composer 2..."
-   sudo composer self-update --stable
-   echo "-----------------------------------------------------------"
-fi
-
+   echo "DOCKWARE: $(composer --version)"
+   redirect echo "-----------------------------------------------------------"
 # somehow we (once) had the problem that composer does not find a HOME directory
 # this was the solution
 export COMPOSER_HOME=/var/www
@@ -94,7 +101,7 @@ if [ $TIDEWAYS_KEY != "not-set" ]; then
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
     sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_SERVICE__/'${TIDEWAYS_SERVICE}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
     sudo service tideways-daemon start
-    echo "-----------------------------------------------------------"
+    redirect echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
@@ -117,18 +124,17 @@ if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
     sudo usermod -s /bin/false {{ ssh.user.name }}
     # allow ssh in sshd_config
     sudo sed -i "s/AllowUsers {{ ssh.user.name }}/AllowUsers ${SSH_USER}/g" /etc/ssh/sshd_config
-    echo "-----------------------------------------------------------"
+    redirect echo "-----------------------------------------------------------"
 fi
 
 # start the SSH service with the latest setup
-echo "DOCKWARE: restarting SSH service...."
-sudo service ssh restart
-echo "-----------------------------------------------------------"
+redirect sudo service ssh restart
 {% endblock %}
 
 
 
 {% block components_mysql %}
+if [ $MYSQL_DISABLED != "1" ]; then
 echo "DOCKWARE: starting MySQL...."
 # somehow its necessary to set permissions, because
 # sometimes they get lost :)
@@ -139,7 +145,7 @@ if [ -f "$file" ] ; then
 fi
 
 sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
-sudo service mysql start;
+redirect sudo service mysql start;
 
 {% block components_mysql_credentials %}
 if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
@@ -163,22 +169,25 @@ if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     # -----------------------------------
     # apply and flush privileges
     sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "FLUSH PRIVILEGES;";
-    echo "-----------------------------------------------------------"
-fi
+    redirect echo "-----------------------------------------------------------"
+ fi
 {% endblock %}
-echo "-----------------------------------------------------------"
+else
+  echo "DOCKWARE: MYSQL is disabled by env, boot without MYSQL..."
+fi
+redirect echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_mailcatcher %}
 echo "DOCKWARE: starting mailcatcher...."
-sudo /usr/bin/env $(which mailcatcher)
-echo "-----------------------------------------------------------"
+redirect sudo /usr/bin/env $(which mailcatcher)
+redirect echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_cron %}
 echo "DOCKWARE: starting cron service...."
-sudo service cron start
-echo "-----------------------------------------------------------"
+redirect sudo service cron start
+redirect echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% endblock %}
@@ -187,16 +196,16 @@ echo "-----------------------------------------------------------"
 # --------------------------------------------------
 # APACHE
 # first set the correct doc root, because we need it for the php switch below
-sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
+redirect sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
 # --------------------------------------------------
 
 
 
 {% block php_version %}
 echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-cd /var/www && make switch-php version=${PHP_VERSION}
-sudo service apache2 stop
-echo "-----------------------------------------------------------"
+cd /var/www && redirect make switch-php version=${PHP_VERSION}
+redirect sudo service apache2 stop
+redirect echo "-----------------------------------------------------------"
 {% endblock %}
 
 {% block components_xdebug %}
@@ -219,7 +228,7 @@ if [[ ! -z "$NODE_VERSION" ]]; then
    sudo rm -f /usr/local/bin/npm
    sudo ln -s "$(which node)" "/usr/local/bin/node"
    sudo ln -s "$(which npm)" "/usr/local/bin/npm"
-   echo "-----------------------------------------------------------"
+   redirect echo "-----------------------------------------------------------"
 fi
 {% endblock %}
 
@@ -229,8 +238,8 @@ fi
 
 if [ $SW_CURRENCY != "not-set" ]; then
   echo "DOCKWARE: Switching Shopware default currency..."
-  php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
-  echo "-----------------------------------------------------------"
+  redirect php /var/www/scripts/shopware6/set_currency.php $SW_CURRENCY
+  redirect echo "-----------------------------------------------------------"
 fi
 
 # The access key needs SWSC as a prefix, otherwise shopware
@@ -243,13 +252,13 @@ fi
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
   echo "DOCKWARE: Set Shopware API access key..."
   ACTUAL_API_ACCESS_KEY=$(php /var/www/scripts/shopware6/set_api_access_key.php $SW_API_ACCESS_KEY)
-  echo "-----------------------------------------------------------"
+  redirect echo "-----------------------------------------------------------"
 fi
 
 if [ $SW_TASKS_ENABLED = 1 ]; then
   echo "DOCKWARE: creating CRONs for scheduled tasks..."
 	crontab /var/www/scripts/cron/crontab.txt && sudo service cron restart
-  echo "-----------------------------------------------------------"
+  redirect echo "-----------------------------------------------------------"
 fi
 
 {% endblock %}
@@ -267,24 +276,28 @@ fi
 sudo rm -f /var/run/apache2/apache2.pid
 # start test and start apache
 echo "DOCKWARE: testing and starting Apache..."
-sudo apache2ctl configtest
-sudo service apache2 restart
-echo "-----------------------------------------------------------"
+redirect sudo apache2ctl configtest
+redirect sudo service apache2 restart
+redirect echo "-----------------------------------------------------------"
 # --------------------------------------------------
 
 
 # before starting any commands
 # we always need to ensure we are back in our
 # configured WORKDIR of the container
-echo "-----------------------------------------------------"
+redirect echo "-----------------------------------------------------"
 cd $CONTAINER_STARTUP_DIR
+
 
 
 # now let's check if we have a custom boot script that
 # should run after our other startup scripts.
 file="/var/www/boot_end.sh"
 if [ -f "$file" ] ; then
-    sh $file
+  echo "DOCKWARE: custom boot_end script found, launching..."
+   sh $file
+else
+  redirect echo "DOCKWARE: no custom boot_end script found, launching without..."
 fi
 
 
@@ -294,34 +307,37 @@ fi
 # ------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------
 
+ formatInfo(){
+  printf "%-20s: %s\n" "$1" "$2"
+}
+
 {% block instructions %}
 echo ""
 echo "WOHOOO, dockware/{{ orca.image }}:{{ orca.tag }} IS READY :) - let's get started"
 echo "-----------------------------------------------------"
-echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
-echo "PHP: $(php -v | grep cli)"
-echo "Apache DocRoot: ${APACHE_DOCROOT}"
-
+formatInfo "DOCKWARE CHANGELOG" "/var/www/CHANGELOG.md"
+formatInfo  "PHP" "$(php -v | grep cli)"
+formatInfo  "Apache DocRoot" ${APACHE_DOCROOT}
 {% block instructions_adminer %}
-echo "ADMINER URL: {{ shopware.url }}/adminer.php"
+formatInfo  "ADMINER URL" "{{ shopware.url }}/adminer.php"
 {% endblock %}
 
 {% block instructions_mailcatcher %}
-echo "MAILCATCHER URL: {{ shopware.url }}/mailcatcher"
+formatInfo "MAILCATCHER URL" "{{ shopware.url }}/mailcatcher"
 {% endblock %}
 
 {% block instructions_pimpmylog %}
-echo "PIMPMYLOG URL: {{ shopware.url }}/logs"
+formatInfo  "PIMPMYLOG URL" "{{ shopware.url }}/logs"
 {% endblock %}
 
 {% block instructions_shopware %}
-echo "SHOP URL: {{ shopware.url }}"
+formatInfo  "SHOP URL" {{ shopware.url }}
 {% block instructions_shopware_admin %}
-echo "ADMIN URL: {{ shopware.url }}/admin"
+formatInfo  "ADMIN URL" "{{ shopware.url }}/admin"
 {% endblock %}
 {% block instructions_shopware_api_access_key %}
 if [ $SW_API_ACCESS_KEY != "not-set" ]; then
-    echo "ACCESS KEY: ${ACTUAL_API_ACCESS_KEY}"
+    formatInfo "ACCESS KEY" ${ACTUAL_API_ACCESS_KEY}
 fi
 {% endblock %}
 
@@ -365,4 +381,6 @@ else
     tail -f /dev/null
 fi
 {% endblock%}
+
+
 

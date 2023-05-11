@@ -1,9 +1,10 @@
 {% extends "template/entrypoint.global.sh.twig" %}
 
 
-{% block setup_shopware %}
-{% endblock %}
-
+{% block components_filebeat %}{% endblock %}
+{% block components_tideways %}{% endblock %}
+{% block components_xdebug %}{% endblock %}
+{% block setup_shopware %}{% endblock %}
 
 {% block instructions_shopware %}
 echo ""
@@ -11,3 +12,6 @@ echo "ATTENTION, THIS IMAGE COMES WITHOUT SHOPWARE!"
 echo "IT OFFERS A FULL ENVIRONMENT FOR YOUR PERSONAL SHOPWARE 6 SETUP"
 echo ""
 {% endblock %}
+
+
+{% block node_version %}{% endblock %}

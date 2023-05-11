@@ -1,10 +1,7 @@
 {
   "base_image":"dockware/essentials_play:2.0",
-  "node": {
-    "default_version": 18
-  },
   "shopware": {
-    "env": "dev",
+    "env": "prod",
     "version": "6.5.0.0"
   },
   "db": {
