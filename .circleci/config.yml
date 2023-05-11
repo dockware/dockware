@@ -27,9 +27,9 @@ workflows:
     when:
       and:
         - not:
-            equal: [ "", << pipeline.parameters.imageName >> ]
+            equal: ["", << pipeline.parameters.imageName >>]
         - not:
-            equal: [ "base", << pipeline.parameters.imageName >> ]
+            equal: ["base", << pipeline.parameters.imageName >>]
     jobs:
       - job-build-arm64:
           name: build-arm
@@ -52,7 +52,7 @@ workflows:
 
   release-base:
     when:
-        equal: ["base", << pipeline.parameters.imageName >> ]
+      equal: ["base", << pipeline.parameters.imageName >>]
     jobs:
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
@@ -93,11 +93,54 @@ workflows:
             - base-<< pipeline.parameters.imageTag >>-play-amd64
             - base-<< pipeline.parameters.imageTag >>-play-arm64
 
+release-essentials:
+  when:
+    equal: ["essentials", << pipeline.parameters.imageName >>]
+  jobs:
+    # ------------------------------------------------------------------------------------
+    - job-build-arm64:
+        name: base-<< pipeline.parameters.imageTag >>-dev-arm64
+        imageName: "essentials"
+        imageTag: << pipeline.parameters.imageTag >>
+    # ------------------------------------------------------------------------------------
+    - job-build-arm64:
+        name: base-<< pipeline.parameters.imageTag >>-play-arm64
+        imageName: "essentials_play"
+        imageTag: << pipeline.parameters.imageTag >>
+    # ------------------------------------------------------------------------------------
+    - job-build-amd64:
+        name: base-<< pipeline.parameters.imageTag >>-dev-amd64
+        imageName: "essentials"
+        imageTag: << pipeline.parameters.imageTag >>
+    # ------------------------------------------------------------------------------------
+    - job-build-amd64:
+        name: base-<< pipeline.parameters.imageTag >>-play-amd64
+        imageName: "essentials_play"
+        imageTag: << pipeline.parameters.imageTag >>
+    # ------------------------------------------------------------------------------------
+    - job-update-manifest:
+        name: update-manifest-dev
+        imageName: "essentials"
+        imageTag: << pipeline.parameters.imageTag >>
+        setLatest: false
+        requires:
+          - base-<< pipeline.parameters.imageTag >>-dev-amd64
+          - base-<< pipeline.parameters.imageTag >>-dev-arm64
+    # ------------------------------------------------------------------------------------
+    - job-update-manifest:
+        name: update-manifest-play
+        imageName: "essentials_play"
+        imageTag: << pipeline.parameters.imageTag >>
+        setLatest: false
+        requires:
+          - base-<< pipeline.parameters.imageTag >>-play-amd64
+          - base-<< pipeline.parameters.imageTag >>-play-arm64
+
   release-shopware:
     when:
       and:
         - not:
-            equal: [ "", << pipeline.parameters.shopwareVersion >> ]
+            equal: ["", << pipeline.parameters.shopwareVersion >>]
     jobs:
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
@@ -241,7 +284,7 @@ commands:
       - save_cache:
           key: vendor-cache
           paths:
-           - vendor
+            - vendor
       # ------------------------------------------------------------------------------------
       # ORCA generate command
       - run: make generate phar=1 -B

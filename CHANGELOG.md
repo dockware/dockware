@@ -9,7 +9,6 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 - reduced the image sizes by 30-400 % (depending on the image)
 - the images essentials and flex will be versioned from now on
-
 - only essentials, flex, shopware play and dev 6.5+ will have dockware 2
 - only new shopware 5 versions will have dockware 2
 - from now on we use inheritance by docker images and not by dockerfiles, this will reduce the maintenance effort, and we will be faster in shipping new versions
@@ -23,13 +22,17 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - removed the old shopware 5 images
 - composer v.1
 
-### New features
-- disable mysql with the env MYSQL_DISABLED=1 if you wan't to bring your own container
-- 
 
 ### Added
 - production image (especially for kubernetes) [no free support]
 - shopware-cli
+- env
+  - MYSQL_DISABLED
+    - disable mysql with the env MYSQL_DISABLED=1 if you wan't to bring your own database container
+  - VERBOSE
+    - we cleand the boot script and added a verbose mode if you want to debug somethign or see everything that is happening
+- symfony dev tools for dockware dev images
+- 
 
 ## [UNRELEASED]
 

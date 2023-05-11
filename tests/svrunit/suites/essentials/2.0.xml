@@ -1,0 +1,49 @@
+<svrunit setupTime="60">
+
+    <testsuites>
+
+        <testsuite name="essentials, Command Runner" dockerImage="dockware/essentials:2.0" dockerCommandRunner="true">
+            <directory>./../../tests/users/workdir</directory>
+            <directory>./../../tests/devutils/nvm</directory>
+            <directory>./../../tests/devutils/default</directory>
+        </testsuite>
+
+        <testsuite name="Basic Checks" dockerImage="dockware/essentials:2.0">
+            <directory>./../../tests/os/ubuntu22</directory>
+            <directory>./../../tests/os/required-packages</directory>
+            <directory>./../../tests/users/required</directory>
+            <directory>./../../tests/users/workdir</directory>
+            <directory>./../../tests/changelog/exists</directory>
+            <directory>./../../tests/keys/ssh</directory>
+            <directory>./../../tests/keys/ssl</directory>
+            <directory>./../../tests/devutils/default</directory>
+            <directory>./../../tests/devutils/nvm</directory>
+            <directory>./../../tests/devutils/node/version/18</directory>
+            <directory>./../../tests/mysql/client/is-version/8</directory>
+
+            <directory>./../../tests/mysql/server/is-version/8</directory>
+        </testsuite>
+
+
+        <testsuite name="ENV Node Version Switch" dockerImage="dockware/essentials:2.0" dockerEnv="NODE_VERSION=18">
+            <directory>./../../tests/node/is-version/v18</directory>
+            <directory>./../../tests/php/modules-installed/default</directory>
+            <directory>./../../tests/xdebug/xdebug-off</directory>
+        </testsuite>
+
+        <testsuite name="PHP 8.2, XDebug OFF" dockerImage="dockware/essentials:2.0" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
+            <directory>./../../tests/php/modules-installed/default</directory>
+            <directory>./../../tests/php/is-version/8.2</directory>
+            <directory>./../../tests/xdebug/xdebug-off</directory>
+        </testsuite>
+
+        <testsuite name="PHP 8.1, XDebug ON" dockerImage="dockware/essentials:2.0" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+            <directory>./../../tests/php/modules-installed/default</directory>
+            <directory>./../../tests/php/is-version/8.1</directory>
+            <directory>./../../tests/xdebug/xdebug3</directory>
+        </testsuite>
+
+
+    </testsuites>
+
+</svrunit>
