@@ -30,6 +30,8 @@ workflows:
             equal: ["", << pipeline.parameters.imageName >>]
         - not:
             equal: ["base", << pipeline.parameters.imageName >>]
+        - not:
+            equal: ["essentials", << pipeline.parameters.imageName >>]
     jobs:
       - job-build-arm64:
           name: build-arm
