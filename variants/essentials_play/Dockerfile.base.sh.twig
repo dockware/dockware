@@ -5,3 +5,6 @@
 {#  is needed as otherwise w get a error as the dir does not exist #}
 {% block chown_nvm %}{% endblock %}
 {% block nvm_bash_rc %}{% endblock %}
+
+{#filebeat needs 125 MB od RAM we don't need this in play #}
+{% block components_filebeat %}{% endblock %}
