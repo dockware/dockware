@@ -41,9 +41,6 @@ RUN date >/build-date.txt \
 {% endblock %}
 
 # unsinstall
-# we don't use snapd manager and it uses 100MB of image space
-&& apt-get remove -y  snapd \
-&& apt-get remove -y python3* \
 # remove everythign which is no longer needed
 && apt-get autoremove -y --purge \
 

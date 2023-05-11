@@ -221,7 +221,7 @@ fi
 {% block node_version %}
 if [[ ! -z "$NODE_VERSION" ]]; then
    echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
-   nvm alias default ${NODE_VERSION}
+   redirect nvm alias default ${NODE_VERSION}
    # now make sure to at least have node and npm as sudo
    # nvm itself is not possible by design
    sudo rm -f /usr/local/bin/node
@@ -317,6 +317,9 @@ echo "WOHOOO, dockware/{{ orca.image }}:{{ orca.tag }} IS READY :) - let's get s
 echo "-----------------------------------------------------"
 formatInfo "DOCKWARE CHANGELOG" "/var/www/CHANGELOG.md"
 formatInfo  "PHP" "$(php -v | grep cli)"
+{%  block instructions_node %}
+formatInfo  "NODE" "${NODE_VERSION}"
+{% endblock %}
 formatInfo  "Apache DocRoot" ${APACHE_DOCROOT}
 {% block instructions_adminer %}
 formatInfo  "ADMINER URL" "{{ shopware.url }}/adminer.php"
@@ -348,6 +351,9 @@ echo ""
 {% endblock %}
 
 {% endblock %}
+
+echo ""
+echo "DOCKWARE: all done, have fun :)"
 
 
 # ------------------------------------------------------------------------------------------------------------------------------

@@ -246,4 +246,16 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 && chown www-data:www-data -R /var/www/scripts \
 #not needed in base_play as there are no sh files ...
 #&&  chmod 755 /*.sh \
+# unsinstall
+# we don't use snapd manager and it uses 100MB of image space
+
+#uninstall all not needed packages
+&& apt-get remove --purge --assume-yes snapd \
+# Remove user snap directory.
+&& rm -rf ~/snap/ \
+# Remove cache directory for snapd
+&& rm -rf /var/cache/snapd/ \
+
+&& apt-get remove --purge --assume-yes python3* \
+
 {% endblock %}

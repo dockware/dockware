@@ -3,21 +3,49 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [2.0]
+
+### Summary
+
+- reduced the image sizes by 30-400 % (depending on the image)
+- the images essentials and flex will be versioned from now on
+
+- only essentials, flex, shopware play and dev 6.5+ will have dockware 2
+- only new shopware 5 versions will have dockware 2
+- from now on we use inheritance by docker images and not by dockerfiles, this will reduce the maintenance effort, and we will be faster in shipping new versions
+- rediced the image layers from 100+ to 10-20
+- we use .env.local and don't manipulate the .env file anymore
+
+### Removed
+- mysql 5.7 => mysql 8
+- php < 8.1 for dev and play as this is the min requirement for shopware 6.5
+- filebeat for shopware dev image
+- removed the old shopware 5 images
+- composer v.1
+
+### New features
+- disable mysql with the env MYSQL_DISABLED=1 if you wan't to bring your own container
+- 
+
+### Added
+- production image (especially for kubernetes) [no free support]
+- shopware-cli
 
 ## [UNRELEASED]
 
 ### Added
+
 - Add PHP 8.2 to all images
 - Added missing PHP extension "apc" in all PHP versions
 - Add new "make restart-php" command to restart FPM + Apache.
 - Add new ENV variable "SHOP_DOMAIN" to automatically change Sales Channel domains on startup.
 
 ### Fixed
+
 - Fixed broken with Apache in Entrypoint. Sometimes Apache cannot start because port 80 is blocked.
 - Fixed wrong installation of PHP extensions "geoip" and "amqp". These were accidentally only installed for the current PHP version.
 - Fix broken Tideways service
 - Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version.
-
 
 ## [1.5.4]
 
@@ -28,6 +56,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - Add PCOV for code coverage to PHP version starting vom 7.1
 
 ### Fixed
+
 - Fixed broken Mailcatcher
 - Fixed node and yarn problems in combination with NVM
 - Fix problem with npm, node and yarn for sudo users
