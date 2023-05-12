@@ -14,17 +14,7 @@
 
 
 // promisified fs module
-const fs = require('fs-extra')
-const path = require('path')
-
-function getConfigurationByFile(file) {
-    const pathToConfigFile = path.resolve('cypress', 'config', `${file}.json`)
-    return fs.readJson(pathToConfigFile)
-}
-
-
 const webpack = require('@cypress/webpack-preprocessor')
-
 
 module.exports = (on, config) => {
 
@@ -33,8 +23,12 @@ module.exports = (on, config) => {
         watchOptions: {},
     }))
 
-    // accept a configFile value or use development by default
-    return getConfigurationByFile(config.env.conf || 'dev')
+    on('before:browser:launch', (browser = {}, launchOptions) => {
+        if (browser.name === 'chrome' || browser.name === 'edge') {
+            launchOptions.args.push('--disable-features=SameSiteByDefaultCookies')
+            return launchOptions
+        }
+    })
+
+    return config
 }
-
-
