@@ -10,7 +10,7 @@
             <directory>./../../tests/os/ubuntu22</directory>
             <directory>./../../tests/os/required-packages</directory>
             <directory>./../../tests/users/required</directory>
-            <directory>./../../tests/users/workdir</directory>
+            <directory>./../../tests/users/workingdir</directory>
             <directory>./../../tests/changelog/exists</directory>
             <directory>./../../tests/keys/ssh</directory>
             <directory>./../../tests/keys/ssl</directory>

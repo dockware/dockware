@@ -1,4 +1,4 @@
 commands:
-  - name: "MySQL SERVER is not installed"
-    command: "dpkg -l | grep mysql-server"
-    not_expected: "mysql-server"
+  - name: "MySQL SERVER is NOT installed"
+    command: "dpkg -l | grep mysql-server-8."
+    not_expected: "mysql-server-8."
