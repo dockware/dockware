@@ -101,22 +101,22 @@ workflows:
     jobs:
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
-          name: base-<< pipeline.parameters.imageTag >>-dev-arm64
+          name: essentials-<< pipeline.parameters.imageTag >>-dev-arm64
           imageName: "essentials"
           imageTag: << pipeline.parameters.imageTag >>
       # ------------------------------------------------------------------------------------
       - job-build-arm64:
-          name: base-<< pipeline.parameters.imageTag >>-play-arm64
+          name: essentials-<< pipeline.parameters.imageTag >>-play-arm64
           imageName: "essentials_play"
           imageTag: << pipeline.parameters.imageTag >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: base-<< pipeline.parameters.imageTag >>-dev-amd64
+          name: essentials-<< pipeline.parameters.imageTag >>-dev-amd64
           imageName: "essentials"
           imageTag: << pipeline.parameters.imageTag >>
       # ------------------------------------------------------------------------------------
       - job-build-amd64:
-          name: base-<< pipeline.parameters.imageTag >>-play-amd64
+          name: essentials-<< pipeline.parameters.imageTag >>-play-amd64
           imageName: "essentials_play"
           imageTag: << pipeline.parameters.imageTag >>
       # ------------------------------------------------------------------------------------
@@ -126,8 +126,8 @@ workflows:
           imageTag: << pipeline.parameters.imageTag >>
           setLatest: false
           requires:
-            - base-<< pipeline.parameters.imageTag >>-dev-amd64
-            - base-<< pipeline.parameters.imageTag >>-dev-arm64
+            - essentials-<< pipeline.parameters.imageTag >>-dev-amd64
+            - essentials-<< pipeline.parameters.imageTag >>-dev-arm64
       # ------------------------------------------------------------------------------------
       - job-update-manifest:
           name: update-manifest-play
@@ -135,8 +135,8 @@ workflows:
           imageTag: << pipeline.parameters.imageTag >>
           setLatest: false
           requires:
-            - base-<< pipeline.parameters.imageTag >>-play-amd64
-            - base-<< pipeline.parameters.imageTag >>-play-arm64
+            - essentials-<< pipeline.parameters.imageTag >>-play-amd64
+            - essentials-<< pipeline.parameters.imageTag >>-play-arm64
 
   release-shopware:
     when:
