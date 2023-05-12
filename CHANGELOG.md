@@ -25,14 +25,15 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ### Added
 - production image (especially for kubernetes) [no free support]
-- shopware-cli
+- shopware-cli (https://github.com/FriendsOfShopware/shopware-cli)
 - env
   - MYSQL_DISABLED
     - disable mysql with the env MYSQL_DISABLED=1 if you wan't to bring your own database container
   - VERBOSE
     - we cleand the boot script and added a verbose mode if you want to debug somethign or see everything that is happening
 - symfony dev tools for dockware dev images
-- 
+- php
+  - mongodb extension
 
 ## [UNRELEASED]
 
