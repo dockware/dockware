@@ -320,6 +320,11 @@ formatInfo  "PHP" "$(php -v | grep cli)"
 {%  block instructions_node %}
 formatInfo  "NODE" "${NODE_VERSION}"
 {% endblock %}
+{%  block instructions_mysql %}
+formatInfo  "MYSQL" "$(mysql --version)"
+{% endblock %}
+{%  block instructions_mariadb %}
+{% endblock %}
 formatInfo  "Apache DocRoot" ${APACHE_DOCROOT}
 {% block instructions_adminer %}
 formatInfo  "ADMINER URL" "{{ shopware.url }}/adminer.php"

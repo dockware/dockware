@@ -55,6 +55,7 @@ COPY ./assets/scripts/bin /var/www/scripts/bin
 && apt-get update \
     {% block base %}
     && apt-get install -y --no-install-recommends gosu \
+    && apt-get install -y --no-install-recommends apt-utils \
     && apt-get install -y --no-install-recommends sudo \
     && apt-get install -y --no-install-recommends wget \
     && apt-get install -y --no-install-recommends curl \

@@ -12,7 +12,8 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - only essentials, flex, shopware play and dev 6.5+ will have dockware 2
 - only new shopware 5 versions will have dockware 2
 - from now on we use inheritance by docker images and not by dockerfiles, this will reduce the maintenance effort, and we will be faster in shipping new versions
-- rediced the image layers from 100+ to 10-20
+  - save you a lot of diskspace if you use more than one dockware image on the same machine
+- reduced the image layers from 100+ to 80+
 - we use .env.local and don't manipulate the .env file anymore
 
 ### Removed

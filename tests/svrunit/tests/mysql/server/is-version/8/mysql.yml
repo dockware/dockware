@@ -1,4 +1,0 @@
-commands:
-  - name: "MySQL SERVER is installed"
-    command: "dpkg --list | grep -E 'mysql-server-8.'"
-    expected: "mysql-server-8."
