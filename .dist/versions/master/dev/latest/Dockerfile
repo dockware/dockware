@@ -589,7 +589,7 @@ RUN chown www-data:www-data -R /var/www/scripts && \
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN cd /var/www && \
-    composer create-project shopware/production:6.5.0.0 --no-interaction && \
+    composer create-project shopware/production:6.5.1.0 --no-interaction && \
     cp -a /var/www/production/. /var/www/html && \
     rm -rf /var/www/production && \
     sed -i "/APP_ENV=/g" /var/www/html/.env && \
