@@ -438,74 +438,6 @@ COPY ./config/php/general.ini /etc/php/7.1/fpm/conf.d/01-general.ini
 COPY ./config/php/general.ini /etc/php/7.1/cli/conf.d/01-general.ini
 COPY ./config/php/cli.ini /etc/php/7.1/cli/conf.d/01-general-cli.ini
 
-RUN apt-get update \
-    && apt-get install -y php7.0-fpm \
-    && apt-get install -y php7.0-apc \
-    && apt-get install -y php7.0-apcu \
-    && apt-get install -y php7.0-curl \
-    && apt-get install -y php7.0-cli \
-    && apt-get install -y php7.0-gd \
-    && apt-get install -y php7.0-json \
-    && apt-get install -y php7.0-ldap \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-pgsql \
-    && apt-get install -y php7.0-gettext \
-    && apt-get install -y php7.0-intl \
-    && apt-get install -y php7.0-xml \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-mbstring \
-    && apt-get install -y php7.0-zip \
-    && apt-get install -y php7.0-soap \
-    && apt-get install -y php7.0-memcached \
-    && apt-get install -y php7.0-redis \
-    && apt-get install -y php7.0-bcmath \
-    && apt-get install -y php7.0-imap \
-    && apt-get install -y php7.0-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.0-geoip \
-    && apt-get install -y php7.0-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
-    && apt-get install -y php5.6-fpm \
-    && apt-get install -y php5.6-apc \
-    && apt-get install -y php5.6-apcu \
-    && apt-get install -y php5.6-curl \
-    && apt-get install -y php5.6-cli \
-    && apt-get install -y php5.6-gd \
-    && apt-get install -y php5.6-json \
-    && apt-get install -y php5.6-ldap \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-pgsql \
-    && apt-get install -y php5.6-gettext \
-    && apt-get install -y php5.6-intl \
-    && apt-get install -y php5.6-xml \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-mbstring \
-    && apt-get install -y php5.6-zip \
-    && apt-get install -y php5.6-soap \
-    && apt-get install -y php5.6-memcached \
-    && apt-get install -y php5.6-redis \
-    && apt-get install -y php5.6-bcmath \
-    && apt-get install -y php5.6-imap \
-    && apt-get install -y php5.6-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php5.6-geoip \
-    && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/5.6/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/5.6/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/5.6/cli/conf.d/01-general-cli.ini
-
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
@@ -559,9 +491,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-RUN  mv /tmp/composer.phar /usr/local/bin/composer
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && mv /tmp/composer.phar /usr/local/bin/composer
 
 RUN cd /var/www \
     && apt-get update \
@@ -691,42 +622,6 @@ RUN cd /var/www \
     && make distclean \
     && sudo phpize7.1 --clean \
     && sudo apt-get remove -y php7.1-dev \
-    # install xdebug for php 7.0
-    && sudo apt-get install -y php7.0-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
-    && unzip 2.7.2.zip \
-    && rm -rf 2.7.2.zip \
-    && mv xdebug-2.7.2 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize7.0 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config7.0 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20151012/xdebug_7.0.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize7.0 --clean \
-    && sudo apt-get remove -y php7.0-dev \
-    # install xdebug for php 5.6
-    && sudo apt-get install -y php5.6-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/XDEBUG_2_5_5.zip \
-    && unzip XDEBUG_2_5_5.zip \
-    && rm -rf XDEBUG_2_5_5.zip \
-    && mv xdebug-XDEBUG_2_5_5 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize5.6 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20131226/xdebug_5.6.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize5.6 --clean \
-    && sudo apt-get remove -y php5.6-dev \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
@@ -753,12 +648,6 @@ COPY ./config/php/xdebug-3.ini /etc/php/7.2/cli/conf.d/20-xdebug.ini
 
 COPY ./config/php/xdebug-2.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-2.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
 
@@ -796,16 +685,6 @@ RUN cd /var/www \
     && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP__FOLDER__ID/20160303/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
 
  && cd /var/www
 
@@ -868,8 +747,6 @@ echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /e
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.3/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.1/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.0/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/5.6/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -1181,68 +1058,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 COPY ./config/tideways/tideways.ini /etc/php/7.1/fpm/conf.d/20-tideways.ini
 COPY ./config/tideways/tideways.ini /etc/php/7.1/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php7.0-fpm \
-    && apt-get install -y php7.0-apc \
-    && apt-get install -y php7.0-apcu \
-    && apt-get install -y php7.0-curl \
-    && apt-get install -y php7.0-cli \
-    && apt-get install -y php7.0-gd \
-    && apt-get install -y php7.0-json \
-    && apt-get install -y php7.0-ldap \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-pgsql \
-    && apt-get install -y php7.0-gettext \
-    && apt-get install -y php7.0-intl \
-    && apt-get install -y php7.0-xml \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-mbstring \
-    && apt-get install -y php7.0-zip \
-    && apt-get install -y php7.0-soap \
-    && apt-get install -y php7.0-memcached \
-    && apt-get install -y php7.0-redis \
-    && apt-get install -y php7.0-bcmath \
-    && apt-get install -y php7.0-imap \
-    && apt-get install -y php7.0-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.0-geoip \
-    && apt-get install -y php7.0-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php5.6-fpm \
-    && apt-get install -y php5.6-apc \
-    && apt-get install -y php5.6-apcu \
-    && apt-get install -y php5.6-curl \
-    && apt-get install -y php5.6-cli \
-    && apt-get install -y php5.6-gd \
-    && apt-get install -y php5.6-json \
-    && apt-get install -y php5.6-ldap \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-pgsql \
-    && apt-get install -y php5.6-gettext \
-    && apt-get install -y php5.6-intl \
-    && apt-get install -y php5.6-xml \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-mbstring \
-    && apt-get install -y php5.6-zip \
-    && apt-get install -y php5.6-soap \
-    && apt-get install -y php5.6-memcached \
-    && apt-get install -y php5.6-redis \
-    && apt-get install -y php5.6-bcmath \
-    && apt-get install -y php5.6-imap \
-    && apt-get install -y php5.6-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php5.6-geoip \
-    && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
@@ -1250,19 +1065,22 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 
 COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
-RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
 
-RUN chown 33:33 -R /var/www/html && \
+RUN chown www-data:www-data -R /var/www/scripts && \
+    #make sure for the whole installation xdebug is off for performance
+    sh /var/www/scripts/bin/xdebug_disable.sh && \
+    chmod 755 /*.sh
+
+RUN echo "" && \
+    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shopware-cli && \
+    chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
+    echo ""
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

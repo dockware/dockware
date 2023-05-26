@@ -453,9 +453,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-RUN mv /tmp/composer.phar /usr/local/bin/composer \
+    && mv /tmp/composer.phar /usr/local/bin/composer \
     # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
     && cd /var/www/.composer && composer require hirak/prestissimo \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
@@ -970,12 +968,12 @@ COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
-RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+
+RUN chown www-data:www-data -R /var/www/scripts && \
+    #make sure for the whole installation xdebug is off for performance
+    sh /var/www/scripts/bin/xdebug_disable.sh && \
+    chmod 755 /*.sh
 
 RUN rm -rf /var/www/html/* \
     && wget http://releases.s3.shopware.com.s3.amazonaws.com/install_5.7.0_rc2_2cd884d69f1b6ef497c2fd986ffc05bef4919959.zip -qq -O /var/www/shopware.zip \
@@ -1005,12 +1003,14 @@ COPY ./assets/shopware5/config.php /var/www/html/
 
 RUN sudo chown 33:33 /var/www/html/config.php
 
-RUN chown 33:33 -R /var/www/html && \
+RUN echo "" && \
+    chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
+    echo ""
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
