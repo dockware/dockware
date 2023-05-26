@@ -311,9 +311,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-RUN  mv /tmp/composer.phar /usr/local/bin/composer
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && mv /tmp/composer.phar /usr/local/bin/composer
 
 RUN cd /var/www \
     && apt-get update \
@@ -383,32 +382,29 @@ RUN cd /var/www \
 ##  MYSQL INSTALL
 ## ***********************************************************************
 
+# copy our custom configuration to the image
+ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
+
 # prepare environment variables to allow a
 # quiet install of the mysql server
 # this sets the root password to root without user prompts
-RUN echo debconf mysql-server/root_password password root | debconf-set-selections
-RUN echo debconf mysql-server/root_password_again password root | debconf-set-selections
-
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN echo debconf mysql-server/root_password password root | debconf-set-selections \
+    && echo debconf mysql-server/root_password_again password root | debconf-set-selections \
+    && DEBIAN_FRONTEND=noninteractive \
     # install mysql server
     && apt-get update \
     && apt-get install -y -q mysql-server-8.0 \
     # set requires permissions
     && usermod -d /var/lib/mysql/ mysql \
     # cleanup download folders
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-# copy our custom configuration to the image
-ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
-
-# i dont know why, but this is suddenly required
-RUN chmod 0444 /etc/mysql/my.cnf \
-&& service mysql start \
-#creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
-&& sudo mysql --user=root --password=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
-&& sudo mysql --user=root --password=root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
-
-&& service mysql restart
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    # i dont know why, but this is suddenly required
+    && chmod 0444 /etc/mysql/my.cnf \
+    && service mysql start \
+    #creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
+    && sudo mysql --user=root --password=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
+    && sudo mysql --user=root --password=root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
+    && service mysql restart
 
 ## ***********************************************************************
 ##  ADMINER
@@ -583,12 +579,12 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 
 COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
-RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+
+RUN chown www-data:www-data -R /var/www/scripts && \
+    #make sure for the whole installation xdebug is off for performance
+    sh /var/www/scripts/bin/xdebug_disable.sh && \
+    chmod 755 /*.sh
 
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
@@ -635,12 +631,15 @@ RUN sudo service mysql start && \
     # -------------------------------------------------------------------------------------------
     sudo service mysql stop
 
-RUN chown 33:33 -R /var/www/html && \
+RUN echo "" && \
+    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shopware-cli && \
+    chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
+    echo ""
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

@@ -348,9 +348,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-RUN  mv /tmp/composer.phar /usr/local/bin/composer
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && mv /tmp/composer.phar /usr/local/bin/composer
 
 RUN cd /var/www \
     && apt-get update \
@@ -682,12 +681,12 @@ COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
 COPY ./assets/scripts/cron /var/www/scripts/cron
 
-RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+
+RUN chown www-data:www-data -R /var/www/scripts && \
+    #make sure for the whole installation xdebug is off for performance
+    sh /var/www/scripts/bin/xdebug_disable.sh && \
+    chmod 755 /*.sh
 
 RUN rm -rf /var/www/html/* \
     && wget http://releases.s3.shopware.com.s3.amazonaws.com/install_5.6.7_8cec71ed6df4804610664944e3f67e5d3a61adea.zip -qq -O /var/www/shopware.zip \
@@ -712,12 +711,14 @@ RUN sudo service mysql start && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
     sudo service mysql stop
 
-RUN chown 33:33 -R /var/www/html && \
+RUN echo "" && \
+    chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
+    echo ""
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

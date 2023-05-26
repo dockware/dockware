@@ -423,9 +423,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-RUN  mv /tmp/composer.phar /usr/local/bin/composer
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && mv /tmp/composer.phar /usr/local/bin/composer
 
 ## ***********************************************************************
 ##  MYSQL INSTALL
@@ -539,12 +538,12 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 
 COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
-RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+
+RUN chown www-data:www-data -R /var/www/scripts && \
+    #make sure for the whole installation xdebug is off for performance
+    sh /var/www/scripts/bin/xdebug_disable.sh && \
+    chmod 755 /*.sh
 
 ## ***********************************************************************
 ##  INSTALL SHOPWARE
@@ -587,12 +586,14 @@ RUN sudo service mysql start && \
     mysql --user=root --password=root -e "use shopware; INSERT INTO system_config (id, configuration_key, configuration_value, sales_channel_id, created_at, updated_at) VALUES (X'b3ae4d7111114377af9480c4a0911111', 'core.frw.completedAt', '{\"_value\": \"2019-10-07T10:46:23+00:00\"}', NULL, '2019-10-07 10:46:23.169', NULL);" && \
     sudo service mysql stop
 
-RUN chown 33:33 -R /var/www/html && \
+RUN echo "" && \
+    chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
+    echo ""
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)

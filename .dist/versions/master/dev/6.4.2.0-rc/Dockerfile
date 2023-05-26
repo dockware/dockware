@@ -386,9 +386,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-RUN  mv /tmp/composer.phar /usr/local/bin/composer
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && mv /tmp/composer.phar /usr/local/bin/composer
 
 RUN cd /var/www \
     && apt-get update \
@@ -784,12 +783,12 @@ COPY ./assets/scripts/cron /var/www/scripts/cron
 
 COPY ./assets/shopware6/files /var/www/scripts/shopware6
 
-RUN chown www-data:www-data -R /var/www/scripts
-#make sure for the whole installation xdebug is off for performance
-RUN sh /var/www/scripts/bin/xdebug_disable.sh
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod 755 /*.sh
+
+RUN chown www-data:www-data -R /var/www/scripts && \
+    #make sure for the whole installation xdebug is off for performance
+    sh /var/www/scripts/bin/xdebug_disable.sh && \
+    chmod 755 /*.sh
 
 ## ***********************************************************************
 ##  INSTALL SHOPWARE
@@ -829,12 +828,15 @@ RUN service mysql start && \
     export COMPOSER_HOME="/var/www/.composer" && \
     ./psh.phar install
 
-RUN chown 33:33 -R /var/www/html && \
+RUN echo "" && \
+    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shopware-cli && \
+    chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
     # change the default nvm node version
     # otherwise the persisted node version switch would not work!
-    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R
+    mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
+    echo ""
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
