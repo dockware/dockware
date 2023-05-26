@@ -3,31 +3,37 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-
 ## [UNRELEASED]
 
 ### Added
-- Add PHP 8.2 to all images 
-- Added missing PHP extension "apc" in all PHP versions 
-- Add new "make restart-php" command to restart FPM + Apache. 
+
+- Add PHP 8.2 to all images
+- Added missing PHP extension "apc" in all PHP versions
+- Add new "make restart-php" command to restart FPM + Apache.
 - Add new ENV variable "SHOP_DOMAIN" to automatically change Sales Channel domains on startup.
+- Add shopware-cli to dev (SW6.x) and essentials
 
 ### Fixed
+
 - Fixed broken with Apache in Entrypoint. Sometimes Apache cannot start because port 80 is blocked.
 - Fixed wrong installation of PHP extensions "geoip" and "amqp". These were accidentally only installed for the current PHP version.
-- Fix broken Tideways service 
-- Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version. 
+- Fix broken Tideways service
+- Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version.
 
+### Removed
+
+- Removed PHP 5.6 from essentials.
 
 ## [1.5.4]
 
 ### Added
 
 - Add the storefront watcher, admin watcher, and build admin commands to the essentials image
-- Add SSH2 PHP extension 
+- Add SSH2 PHP extension
 - Add PCOV for code coverage to PHP version starting vom 7.1
 
 ### Fixed
+
 - Fixed broken Mailcatcher
 - Fixed node and yarn problems in combination with NVM
 - Fix problem with npm, node and yarn for sudo users

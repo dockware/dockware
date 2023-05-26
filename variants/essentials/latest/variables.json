@@ -6,7 +6,10 @@
   "php": {
     "versions": {
       "5.6": {
-        "active": true
+        "active": false
+      },
+      "7.0": {
+        "active": false
       }
     }
   }

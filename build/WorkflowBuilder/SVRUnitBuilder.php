@@ -120,6 +120,7 @@ class SVRUnitBuilder
             <directory>./../../tests/packages/composer/v' . $composer . '</directory>';
 
         $sharedBaseSW = './../../tests/shared/base-6.0';
+        $shopwareCLI = '';
 
         if (str_contains($tag, '6.5')) {
             $sharedBaseSW = './../../tests/shared/base-6.5';
@@ -129,10 +130,15 @@ class SVRUnitBuilder
             $devPart = '';
         }
 
+        if ($isDev && str_starts_with($tag, '6.')) {
+            $shopwareCLI = '
+            <directory>./../../tests/packages/shopware-cli/</directory>';
+        }
+
         $xml .= '
         <testsuite name="' . $imageFull . ', Core Checks" group="core" dockerImage="' . $imageFull . '">
             <directory>./../../tests/shared/base</directory>
-            <directory>' . $sharedBaseSW . '</directory>' . $devPart . '
+            <directory>' . $sharedBaseSW . '</directory>' . $devPart . $shopwareCLI . '
             <directory>./../../tests/packages/php/php' . $defaultPHP . '</directory>
         </testsuite>
          ';

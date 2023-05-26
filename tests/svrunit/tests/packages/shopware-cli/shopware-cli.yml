@@ -1,0 +1,4 @@
+commands:
+  - name: "shopware-cli available"
+    command: "shopware-cli --version"
+    expected: "shopware-cli version"
