@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: 6.5.1.0
+# Tag: 6.5.1.1
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware play:6.5.1.0" \
+LABEL title="Dockware play:6.5.1.1" \
       version="1.6.0" \
       maintainer="dasistweb GmbH"
 
@@ -395,7 +395,7 @@ RUN chown www-data:www-data -R /var/www/scripts && \
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN cd /var/www && \
-    composer create-project shopware/production:6.5.1.0 --no-interaction && \
+    composer create-project shopware/production:6.5.1.1 --no-interaction && \
     cp -a /var/www/production/. /var/www/html && \
     rm -rf /var/www/production && \
     sed -i "/APP_ENV=/g" /var/www/html/.env && \
