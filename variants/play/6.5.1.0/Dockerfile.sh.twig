@@ -5,7 +5,7 @@
 COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/DockwareSamplePlugin
 
 RUN cd /var/www && \
-    composer create-project shopware/production:6.5.1.0 --no-interaction && \
+    composer create-project shopware/production --no-interaction && \
     cp -a /var/www/production/. /var/www/html && \
     rm -rf /var/www/production && \
     sed -i "/APP_ENV=/g" /var/www/html/.env && \
