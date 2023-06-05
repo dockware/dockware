@@ -285,9 +285,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
 ##  MYSQL INSTALL
 ## ***********************************************************************
 
-# copy our custom configuration to the image
-ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
-
 # prepare environment variables to allow a
 # quiet install of the mysql server
 # this sets the root password to root without user prompts
@@ -308,6 +305,9 @@ RUN echo debconf mysql-server/root_password password root | debconf-set-selectio
     && sudo mysql --user=root --password=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
     && sudo mysql --user=root --password=root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
     && service mysql restart
+
+# copy our custom configuration to the image
+ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
 
 ## ***********************************************************************
 ##  ADMINER
