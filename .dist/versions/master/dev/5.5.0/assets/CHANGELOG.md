@@ -19,6 +19,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - Fixed wrong installation of PHP extensions "geoip" and "amqp". These were accidentally only installed for the current PHP version.
 - Fix broken Tideways service
 - Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version.
+- Fix problem with broken MySQL8 remote connection
 
 ### Removed
 
