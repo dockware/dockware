@@ -17,3 +17,5 @@ php_module:
     module: "redis"
   - name: "PHP Module: AMQP"
     module: "amqp"
+  - name: "PHP Module: APCU"
+    module: "apcu"
