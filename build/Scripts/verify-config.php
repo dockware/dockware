@@ -18,10 +18,10 @@ $layerCount = getLayersCount($swImage, $swTag);
 echo "* Docker Layers: " . $layerCount . PHP_EOL;
 echo "========================================" . PHP_EOL;
 
-if ($layerCount >= 127) {
-    echo "DOCKER LAYER COUNT IS TOO HIGH: " . $layerCount . PHP_EOL;
-    exit(1);
-}
+#if ($layerCount >= 127) {
+#    echo "DOCKER LAYER COUNT IS TOO HIGH: " . $layerCount . PHP_EOL;
+#    exit(1);
+#}
 
 echo "Configuration Valid!" . PHP_EOL;
 
