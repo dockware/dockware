@@ -1187,10 +1187,17 @@ RUN sudo service mysql start && \
     cp -a /var/www/tmp/. /var/www/html && \
     rm -rf /var/www/tmp && \
     # -------------------------------------------------------------------------------------------
-    echo "APP_ENV=dev" >> /var/www/html/.env.local && \
-    echo "APP_URL=http://localhost" >> /var/www/html/.env.local && \
-    echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware" >> /var/www/html/.env.local && \
-    echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env.local && \
+    # ALWAYS UPDATE .env itself
+    # if we would use .env.local, then these things could happen....our 127.0.0.1 instead of localhost for MySQL might not exist in a users custom .env.local
+    # which would use Shopware default with localhost, which breaks the DB connection in MySQL 8
+    sed -i "/APP_ENV=/g" /var/www/html/.env && \
+    sed -i "/APP_URL=/g" /var/www/html/.env && \
+    sed -i "/DATABASE_URL=/g" /var/www/html/.env && \
+    sed -i "/MAILER_URL=/g" /var/www/html/.env && \
+    echo "APP_ENV=dev" >> /var/www/html/.env && \
+    echo "APP_URL=http://localhost" >> /var/www/html/.env && \
+    echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware" >> /var/www/html/.env && \
+    echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
     # -------------------------------------------------------------------------------------------
     # install the correct Shopware version
     cd /var/www/html && composer req shopware/core:6.5.2.1 shopware/administration:6.5.2.1 shopware/elasticsearch:6.5.2.1 shopware/storefront:6.5.2.1 -W && \
