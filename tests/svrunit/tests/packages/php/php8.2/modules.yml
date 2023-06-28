@@ -19,3 +19,5 @@ php_module:
     module: "amqp"
   - name: "PHP Module: APCU"
     module: "apcu"
+  - name: "PHP Module: pcov"
+    module: "pcov"
