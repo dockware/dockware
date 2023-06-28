@@ -13,6 +13,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - Add new ENV variable "SHOP_DOMAIN" to automatically change Sales Channel domains on startup.
 - Add shopware-cli to dev (SW6.x) and essentials
 - Add PHP module "apcu" to PHP 8.2
+- Add PHP module "pcov" to PHP 8.2
 
 ### Fixed
 
