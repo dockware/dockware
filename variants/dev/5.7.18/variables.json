@@ -25,6 +25,9 @@
             }
         }
     },
+    "mysql": {
+        "version" : "8.0"
+    },
     "pimpmylog": {
         "paths": {
             "shopware_prod": "/var/www/html/var/log/*production*.log",
