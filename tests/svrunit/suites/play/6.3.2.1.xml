@@ -7,10 +7,11 @@
         
         <testsuite name="dockware/play:6.3.2.1, Core Checks" group="core" dockerImage="dockware/play:6.3.2.1">
             <directory>./../../tests/shared/base</directory>
-            <directory>./../../tests/shared/base-6.0</directory>
-            <directory>./../../tests/packages/php/php8</directory>
-        </testsuite>
-         
+            <directory>"./../../tests/packages/ubuntu/22"</directory>
+            <directory > ./../../tests/shared/base-6.0</directory> 
+            <directory >./../../tests/packages/php/php8 </directory>
+        </testsuite >
+    
     </testsuites >
 </svrunit >
     
