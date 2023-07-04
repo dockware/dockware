@@ -7,14 +7,15 @@
         
         <testsuite name="dockware/dev:5.7.16, Core Checks" group="core" dockerImage="dockware/dev:5.7.16">
             <directory>./../../tests/shared/base</directory>
-            <directory>./../../tests/shared/base-6.0</directory>
+            <directory>"./../../tests/packages/ubuntu/22"</directory>
+            <directory > ./../../tests/shared/base-6.0</directory> 
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/node/v12</directory>
             <directory>./../../tests/packages/composer/v2</directory>
-            <directory>./../../tests/packages/php/php8</directory>
-        </testsuite>
-         
+            <directory >./../../tests/packages/php/php8 </directory>
+        </testsuite >
+    
         <testsuite name="dockware/dev:5.7.16, ENV Node Version Switch" dockerImage="dockware/dev:5.7.16" dockerEnv="NODE_VERSION=12">
             <directory>./../../tests/packages/node/v12</directory>
         </testsuite>
