@@ -7,3 +7,4 @@ dist
 /docker-compose.yml
 /.reports
 /vendor
+/.circleci/body.json

@@ -21,8 +21,5 @@ runs:
 
     - name: Trigger CircleCI
       shell: bash
-      run: |
-          export CIRCLECI_KEY=$CIRCLECI_KEY
-          export SW_VERSION=$SW_VERSION
-          export SET_LATEST=$SET_LATEST
-          cd .circleci && bash run.sh
+      run: | 
+          cd .circleci && sh run.sh $CIRCLECI_KEY $SW_VERSION $SET_LATEST
