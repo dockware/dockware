@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - shopware: '6.5.3.0'
-            latest: true
+            latest: 'true'
     steps:
 
       - name: Clone Code

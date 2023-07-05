@@ -4,15 +4,16 @@ description: "Triggers the CircleCI pipeline"
 inputs:
   # ------------------------------------------------------------------------------------
   # ENVIRONMENT SETTINGS
+  CIRCLECI_KEY:
+    description: "CircleCI token"
+    required: true
   SW_VERSION:
     description: "The Shopware version that should be released"
     required: true
   SET_LATEST:
     description: "Whether its the latest or not"
-    required: true
-  CIRCLECI_KEY:
-    description: "CircleCI token"
-    required: true
+    default: 'false'
+    required: false
 
 runs:
   using: "composite"
