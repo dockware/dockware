@@ -988,7 +988,7 @@ RUN sudo service mysql start && \
     # ------------------------------------------------------------------------------------------------------------
     mysql --user=root --password=root -e "CREATE DATABASE shopware CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
     # ------------------------------------------------------------------------------------------------------------
-    cd /var/www/html && php recovery/install/index.php --no-interaction --no-skip-import --db-host="localhost" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
+    cd /var/www/html && php recovery/install/index.php --no-interaction --no-skip-import --db-host="127.0.0.1" --db-user="root" --db-password="root" --db-name="shopware" --shop-locale="de_DE" --shop-host="localhost" --shop-name="Dockware" --shop-email="EMAIL" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="ADMIN-EMAIL" --admin-name="Dockware Admin" --admin-locale="de_DE" && \
     cd /var/www/html &&  php bin/console sw:firstrunwizard:disable && \
     # ------------------------------------------------------------------------------------------------------------
         cd /var/www/html && php bin/console sw:store:download SwagDemoDataEN && \
@@ -999,6 +999,11 @@ RUN sudo service mysql start && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"smtp\";' WHERE name='mailer_mailer';" && \
     mysql --user=root --password=root shopware -e "UPDATE s_core_config_elements SET value='s:4:\"1025\";' WHERE name='mailer_port';" && \
     sudo service mysql stop
+
+# we need the prepared config with the "127.0.0.1 IP address" to make it work with MySQL 8
+RUN rm -rf /var/www/html/config.php
+COPY ./assets/shopware5/config.php /var/www/html/
+RUN sudo chown 33:33 /var/www/html/config.php
 
 RUN echo "" && \
     chown 33:33 -R /var/www/html && \
