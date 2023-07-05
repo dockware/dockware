@@ -22,4 +22,4 @@ runs:
     - name: Trigger CircleCI
       shell: bash
       run: | 
-          cd .circleci && sh run.sh $CIRCLECI_KEY $SW_VERSION $SET_LATEST
+          cd .circleci && sh run.sh $(CIRCLECI_KEY) $(SW_VERSION) $(SET_LATEST)
