@@ -1,4 +1,4 @@
-name: Release Shopware 6.5.*
+name: Release Shopware 5.6.*
 
 on:
   workflow_dispatch:
@@ -11,18 +11,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - shopware: '6.5.3.0'
-            latest: true
-          - shopware: '6.5.2.1'
-            latest: false
-          - shopware: '6.5.2.0'
-            latest: false
-          - shopware: '6.5.1.1'
-            latest: false
-          - shopware: '6.5.1.0'
-            latest: false
-          - shopware: '6.5.0.0'
-            latest: false
+          - shopware: '5.6.10'
+          - shopware: '5.6.9'
+          - shopware: '5.6.8'
+          - shopware: '5.6.7'
+          - shopware: '5.6.6'
+          - shopware: '5.6.5'
+          - shopware: '5.6.4'
+          - shopware: '5.6.3'
     steps:
 
       - name: Clone Code
@@ -33,7 +29,7 @@ jobs:
         with:
           # -------------------------------------------
           SW_VERSION: ${{ matrix.shopware }}
-          SET_LATEST: ${{ matrix.latest }}
+          SET_LATEST: 'false'
           # -------------------------------------------
           CIRCLECI_KEY: ${{ secrets.CIRCLE_CI_TOKEN }}
           # -------------------------------------------

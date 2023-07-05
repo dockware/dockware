@@ -12,6 +12,23 @@ jobs:
       matrix:
         include:
           - shopware: '5.7.18'
+          - shopware: '5.7.17'
+          - shopware: '5.7.16'
+          - shopware: '5.7.15'
+          - shopware: '5.7.14'
+          - shopware: '5.7.13'
+          - shopware: '5.7.12'
+          - shopware: '5.7.11'
+          - shopware: '5.7.10'
+          - shopware: '5.7.9'
+          - shopware: '5.7.8'
+          - shopware: '5.7.7'
+          - shopware: '5.7.6'
+          - shopware: '5.7.5'
+          - shopware: '5.7.4'
+          - shopware: '5.7.3'
+          - shopware: '5.7.2'
+          - shopware: '5.7.1'
     steps:
 
       - name: Clone Code
