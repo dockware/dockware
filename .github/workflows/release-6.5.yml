@@ -1,0 +1,30 @@
+name: Release Shopware 6.5.*
+
+on:
+  workflow_dispatch:
+
+jobs:
+  on-push:
+    name: Release
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shopware: '6.5.3.0'
+            latest: true
+    steps:
+
+      - name: Clone Code
+        uses: actions/checkout@v3
+
+      - name: Release, Shopware ${{ matrix.shopware }}
+        uses: ./.github/actions/circleci
+        with:
+          # -------------------------------------------
+          SW_VERSION: ${{ matrix.shopware }}
+          SET_LATEST: ${{ matrix.latest }}
+          # -------------------------------------------
+          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
+          # -------------------------------------------
+
