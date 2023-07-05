@@ -7,6 +7,9 @@
         "version": "5.7.18",
         "download_url": "https://releases.shopware.com/install_5.7.18_f5172574955007876a6d9f53575ac624c69cbc3f.zip"
     },
+    "db": {
+        "host": "127.0.0.1"
+    },
     "php": {
         "default_version": "8.0",
         "versions": {
