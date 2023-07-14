@@ -22,6 +22,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 - Fix broken Tideways service
 - Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version.
 - Fix problem with broken MySQL8 remote connection
+- Fix cronjobs for Shopware 6.5.x (thx @btxtiger)
 
 ### Removed
 
