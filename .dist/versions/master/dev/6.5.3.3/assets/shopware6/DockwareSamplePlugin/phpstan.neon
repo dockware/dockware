@@ -1,0 +1,8 @@
+parameters:
+    level: 5
+    autoload_files:
+        - %rootDir%/../../../vendor/autoload.php
+    autoload_directories:
+    	- %rootDir%/../../../src
+    excludes_analyse:
+        - %rootDir%/../../../vendor/*
