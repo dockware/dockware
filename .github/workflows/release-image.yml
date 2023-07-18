@@ -1,0 +1,31 @@
+name: Release Single Image
+run-name: Shopware ${{ github.event.inputs.swVersion }}, PHP ${{ github.event.inputs.setLatest }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      swVersion:
+        description: 'Shopware Version'
+        required: true
+      setLatest:
+        description: 'Set Latest Tag'
+        type: boolean
+        required: true
+
+jobs:
+  on-push:
+    name: Release Image
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Clone Code
+        uses: actions/checkout@v3
+
+      - name: Release, Shopware ${{ github.event.inputs.swVersion }}
+        uses: ./.github/actions/circleci
+        with:
+          # -------------------------------------------
+          SW_VERSION: ${{ github.event.inputs.swVersion }}
+          SET_LATEST: ${{ github.event.inputs.setLatest }}
+          # -------------------------------------------
+          CIRCLECI_KEY: ${{ secrets.CIRCLE_CI_TOKEN }}
