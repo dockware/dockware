@@ -1,5 +1,5 @@
 name: Release Single Image
-run-name: Shopware ${{ github.event.inputs.swVersion }}, PHP ${{ github.event.inputs.setLatest }}
+run-name: Shopware ${{ github.event.inputs.swVersion }}, setLatest ${{ github.event.inputs.setLatest }}
 
 on:
   workflow_dispatch:
