@@ -1,0 +1,37 @@
+<svrunit setupTime="30">
+    <testsuites>
+    
+        <testsuite name="dockware/dev:6.5.4.0, Command Runner" group="command-runner" dockerImage="dockware/dev:6.5.4.0" dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner/dev</directory>
+        </testsuite>
+        
+        <testsuite name="dockware/dev:6.5.4.0, Core Checks" group="core" dockerImage="dockware/dev:6.5.4.0">
+            <directory>./../../tests/shared/base</directory>
+            <directory>"./../../tests/packages/ubuntu/22"</directory>
+            <directory > ./../../tests/shared/base-6.5</directory> 
+            <directory>./../../tests/images/dev</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/node/v18</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
+            <directory>./../../tests/packages/shopware-cli/</directory>
+            <directory >./../../tests/packages/php/php8 </directory>
+        </testsuite >
+    
+        <testsuite name="dockware/dev:6.5.4.0, ENV Node Version Switch" dockerImage="dockware/dev:6.5.4.0" dockerEnv="NODE_VERSION=18">
+            <directory>./../../tests/packages/node/v18</directory>
+        </testsuite>
+            
+        <testsuite name="dockware/dev:6.5.4.0, PHP 8.2, XDebug OFF" dockerImage="dockware/dev:6.5.4.0" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/php/php8.2</directory>
+            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
+        </testsuite>
+
+        <testsuite name="dockware/dev:6.5.4.0, PHP 8.1, XDebug ON" dockerImage="dockware/dev:6.5.4.0" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8.1</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+
+    </testsuites >
+</svrunit >
+    
