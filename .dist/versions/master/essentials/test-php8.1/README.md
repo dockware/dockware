@@ -102,19 +102,21 @@ This is a full template with everything that can be done using dockware.
 Please note that not all of these settings might be necessary.
 
 ```ruby
-shopware:
-    image: dockware/essentials:test-php8.1
-    container_name: shopware
-    ports:
-        - "80:80"
-        - "22:22"
-        # Admin Watcher Port
-        - "8888:8888"
-        # Storefront Watcher Port
-        - "9999:9999"
-    environment:
-        - PHP_VERSION=8.2
-        - XDEBUG_ENABLED=1
+version: "3"
+services:
+    shopware:
+        image: dockware/essentials:test-php8.1
+        container_name: shopware
+        ports:
+          - "80:80"
+          - "22:22"
+          # Admin Watcher Port
+          - "8888:8888"
+          # Storefront Watcher Port
+          - "9999:9999"
+        environment:
+          - PHP_VERSION=8.2
+          - XDEBUG_ENABLED=1
 ```
 
 ## Configuration Options
