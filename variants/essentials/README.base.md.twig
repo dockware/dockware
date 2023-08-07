@@ -4,17 +4,19 @@
 
 
 {% block compose_template %}
-shopware:
-    image: dockware/{{ orca.image }}:{{ orca.tag }}
-    container_name: shopware
-    ports:
-        - "80:80"
-        - "22:22"
-        # Admin Watcher Port
-        - "8888:8888"
-        # Storefront Watcher Port
-        - "9999:9999"
-    environment:
-        - PHP_VERSION={{ php.versions | keys | first }}
-        - XDEBUG_ENABLED=1
+version: "3"
+services:
+    shopware:
+        image: dockware/{{ orca.image }}:{{ orca.tag }}
+        container_name: shopware
+        ports:
+          - "80:80"
+          - "22:22"
+          # Admin Watcher Port
+          - "8888:8888"
+          # Storefront Watcher Port
+          - "9999:9999"
+        environment:
+          - PHP_VERSION={{ php.versions | keys | first }}
+          - XDEBUG_ENABLED=1
 {% endblock %}
