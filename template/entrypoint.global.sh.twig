@@ -124,12 +124,12 @@ if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     sudo rm -rf /tmp/triggers.sql
     # -----------------------------------
     # block remote access for {{ db.user }} user
-    sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "UPDATE mysql.user SET Host='localhost' WHERE User='{{ db.user }}' AND Host='%';";
+    sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "DELETE FROM mysql.user WHERE User='{{ db.user }}' AND Host='%';";
     # -----------------------------------
     # add new user and grant privileges
     sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "CREATE USER IF NOT EXISTS '"$MYSQL_USER"'@'%' IDENTIFIED BY '"$MYSQL_PWD"';";
     sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "use mysql; update user set host='%' where user='$MYSQL_USER';";
-    sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "GRANT ALL PRIVILEGES ON *.* TO '"$MYSQL_USER"'@'%' IDENTIFIED BY '$MYSQL_PWD';";
+    sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "GRANT ALL PRIVILEGES ON *.* TO '"$MYSQL_USER"'@'%'";
     # -----------------------------------
     # apply and flush privileges
     sudo mysql --user={{ db.user }} --password={{ db.pwd }} -e "FLUSH PRIVILEGES;";
