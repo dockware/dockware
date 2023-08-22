@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.5.4.1
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware play:latest" \
+LABEL title="Dockware play:6.5.4.1" \
       version="1.6.0" \
       maintainer="dasistweb GmbH"
 
@@ -395,11 +395,11 @@ RUN chown www-data:www-data -R /var/www/scripts && \
     chmod 755 /*.sh
 
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.5.4.1
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware play:latest" \
+LABEL title="Dockware play:6.5.4.1" \
       version="1.6.0" \
       maintainer="dasistweb GmbH"
 
