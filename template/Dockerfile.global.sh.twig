@@ -49,8 +49,6 @@ ENV XDEBUG_ENABLED 0
 ENV FILEBEAT_ENABLED 0
 ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
-ENV TIDEWAYS_SERVICE web
-
 
 RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
@@ -61,7 +59,6 @@ RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
  && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
  && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
- && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_mysql %}
