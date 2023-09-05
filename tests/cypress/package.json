@@ -2,7 +2,7 @@
   "devDependencies": {
     "@cucumber/tag-expressions": "^4.1.0",
     "@cypress/webpack-preprocessor": "^5.17.0",
-    "cypress": "12.6.0",
+    "cypress": "13.1.0",
     "webpack": "^5.75.0"
   }
 }
