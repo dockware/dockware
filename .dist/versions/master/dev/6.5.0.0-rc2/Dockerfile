@@ -195,33 +195,6 @@ RUN mkdir -p /var/www/.ssh \
 ##  PHP INSTALLATION
 ## ***********************************************************************
 RUN apt-get update \
-    && apt-get install -y php8.3-fpm \
-    && apt-get install -y php8.3-gd \
-    && apt-get install -y php8.3-iconv \
-    && apt-get install -y php8.3-intl \
-    && apt-get install -y php8.3-xml \
-    && apt-get install -y php8.3-mbstring \
-    && apt-get install -y php8.3-pdo \
-    && apt-get install -y php8.3-mysql \
-    && apt-get install -y php8.3-curl \
-    && apt-get install -y php8.3-cli \
-    && apt-get install -y php8.3-ldap \
-    && apt-get install -y php8.3-pgsql \
-    && apt-get install -y php8.3-gettext \
-    && apt-get install -y php8.3-zip \
-    && apt-get install -y php8.3-soap \
-    && apt-get install -y php8.3-bcmath \
-    && apt-get install -y php8.3-imap \
-    #&& apt-get install -y php8.3-redis \ NOT YET HERE
-    #&& apt-get install -y php8.3-amqp \ NOT YET HERE
-    #&& apt-get install -y php8.3-apcu \ NOT YET HERE
-    #&& apt-get install -y php8.3-pcov \ NOT YET HERE
-    && apt-get install -y dh-php \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-&& cat /tmp/general.ini >| /etc/php/8.3/fpm/conf.d/01-general.ini \
-&& cat /tmp/general.ini >| /etc/php/8.3/cli/conf.d/01-general.ini \
-&& cat /tmp/cli.ini >| /etc/php/8.3/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.2-fpm \
     && apt-get install -y php8.2-gd \
     && apt-get install -y php8.2-iconv \
@@ -342,24 +315,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
 
 RUN cd /var/www \
     && apt-get update \
-    # install xdebug for php 8.3
-    && sudo apt-get install -y php8.3-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.3.0.zip \
-    && unzip 3.3.0.zip \
-    && rm -rf 3.3.0.zip \
-    && mv xdebug-3.3.0 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize8.3 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.3 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20230831/xdebug_8.3.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.3 --clean \
-    && sudo apt-get remove -y php8.3-dev \
     # install xdebug for php 8.2
     && sudo apt-get install -y php8.2-dev \
     && cd /var/www \
@@ -401,9 +356,6 @@ RUN cd /var/www \
 && sudo rm -rf /var/www/xdebug
 #generate xdebug ini files
 
-COPY ./config/php/xdebug-3.ini /etc/php/8.3/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.3/cli/conf.d/20-xdebug.ini
-
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
 
@@ -411,11 +363,6 @@ COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
-
-&& sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
 
 && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
@@ -481,8 +428,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
-RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.3/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
+RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
     echo ""
 
@@ -560,8 +506,6 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
-&& cat /tmp/tideways.ini >| /etc/php/8.3/fpm/conf.d/20-tideways.ini \
-&& cat /tmp/tideways.ini >| /etc/php/8.3/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.1/fpm/conf.d/20-tideways.ini \
