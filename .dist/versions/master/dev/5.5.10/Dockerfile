@@ -44,6 +44,10 @@ ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
 ENV TIDEWAYS_SERVICE web
 
+COPY ./config/php/general.ini /tmp/general.ini
+COPY ./config/php/cli.ini /tmp/cli.ini
+COPY ./config/tideways/tideways.ini /tmp/tideways.ini
+
 RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
  && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
@@ -188,6 +192,33 @@ RUN mkdir -p /var/www/.ssh \
 ##  PHP INSTALLATION
 ## ***********************************************************************
 RUN apt-get update \
+    && apt-get install -y php8.3-fpm \
+    && apt-get install -y php8.3-gd \
+    && apt-get install -y php8.3-iconv \
+    && apt-get install -y php8.3-intl \
+    && apt-get install -y php8.3-xml \
+    && apt-get install -y php8.3-mbstring \
+    && apt-get install -y php8.3-pdo \
+    && apt-get install -y php8.3-mysql \
+    && apt-get install -y php8.3-curl \
+    && apt-get install -y php8.3-cli \
+    && apt-get install -y php8.3-ldap \
+    && apt-get install -y php8.3-pgsql \
+    && apt-get install -y php8.3-gettext \
+    && apt-get install -y php8.3-zip \
+    && apt-get install -y php8.3-soap \
+    && apt-get install -y php8.3-bcmath \
+    && apt-get install -y php8.3-imap \
+    #&& apt-get install -y php8.3-redis \ NOT YET HERE
+    #&& apt-get install -y php8.3-amqp \ NOT YET HERE
+    #&& apt-get install -y php8.3-apcu \ NOT YET HERE
+    #&& apt-get install -y php8.3-pcov \ NOT YET HERE
+    && apt-get install -y dh-php \
+    # shopware required pcre
+    && apt-get install -y libpcre3 libpcre3-dev \
+&& cat /tmp/general.ini >| /etc/php/8.3/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.3/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.3/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.2-fpm \
     && apt-get install -y php8.2-gd \
     && apt-get install -y php8.2-iconv \
@@ -212,15 +243,9 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/8.2/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.2/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.2/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
+&& cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.2/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.2/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.1-fpm \
     && apt-get install -y php8.1-gd \
     && apt-get install -y php8.1-iconv \
@@ -249,15 +274,10 @@ RUN apt-get update \
     && apt-get install -y php8.1-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+&& cat /tmp/general.ini >| /etc/php/8.1/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.1/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.1/cli/conf.d/01-general-cli.ini \
 
-COPY ./config/php/general.ini /etc/php/8.1/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.1/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.1/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
     && apt-get install -y php7.2-fpm \
     && apt-get install -y php7.2-apc \
     && apt-get install -y php7.2-apcu \
@@ -284,15 +304,11 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.2-geoip \
     && apt-get install -y php7.2-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-COPY ./config/php/general.ini /etc/php/7.2/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.2/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.2/cli/conf.d/01-general-cli.ini
+&& cat /tmp/general.ini >| /etc/php/7.2/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.2/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.2/cli/conf.d/01-general-cli.ini \
 
-RUN apt-get update \
     && apt-get install -y php7.1-fpm \
     && apt-get install -y php7.1-apc \
     && apt-get install -y php7.1-apcu \
@@ -319,15 +335,11 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.1-geoip \
     && apt-get install -y php7.1-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-COPY ./config/php/general.ini /etc/php/7.1/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.1/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.1/cli/conf.d/01-general-cli.ini
+&& cat /tmp/general.ini >| /etc/php/7.1/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.1/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.1/cli/conf.d/01-general-cli.ini \
 
-RUN apt-get update \
     && apt-get install -y php7.0-fpm \
     && apt-get install -y php7.0-apc \
     && apt-get install -y php7.0-apcu \
@@ -353,15 +365,10 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.0-geoip \
     && apt-get install -y php7.0-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+&& cat /tmp/general.ini >| /etc/php/7.0/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.0/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.0/cli/conf.d/01-general-cli.ini \
 
-COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
     && apt-get install -y php5.6-fpm \
     && apt-get install -y php5.6-apc \
     && apt-get install -y php5.6-apcu \
@@ -387,23 +394,22 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php5.6-geoip \
     && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/5.6/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/5.6/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/5.6/cli/conf.d/01-general-cli.ini
+&& cat /tmp/general.ini >| /etc/php/5.6/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/5.6/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/5.6/cli/conf.d/01-general-cli.ini \
+# remove pecl again
+&& apt-get remove -y dh-php \
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
 RUN service php7.0-fpm stop > /dev/null 2>&1 && \
     service php7.0-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1
+    sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
-RUN chown www-data:www-data -R /var/lib/php/sessions
+&& chown www-data:www-data -R /var/lib/php/sessions
 
 # remove the standard apache index file
 RUN mkdir -p /var/www/html \
@@ -455,6 +461,24 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
 
 RUN cd /var/www \
     && apt-get update \
+    # install xdebug for php 8.3
+    && sudo apt-get install -y php8.3-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.3.0.zip \
+    && unzip 3.3.0.zip \
+    && rm -rf 3.3.0.zip \
+    && mv xdebug-3.3.0 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize8.3 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config8.3 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20230831/xdebug_8.3.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize8.3 --clean \
+    && sudo apt-get remove -y php8.3-dev \
     # install xdebug for php 8.2
     && sudo apt-get install -y php8.2-dev \
     && cd /var/www \
@@ -566,8 +590,10 @@ RUN cd /var/www \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
-
 #generate xdebug ini files
+
+COPY ./config/php/xdebug-3.ini /etc/php/8.3/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/8.3/cli/conf.d/20-xdebug.ini
 
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
@@ -588,6 +614,11 @@ COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
+
+&& sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
 
 && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
@@ -673,7 +704,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
-RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
+RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.3/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.1/mods-available/mailcatcher.ini && \
@@ -757,200 +789,23 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sudo chmod 0755 /etc/init.d/tideways-daemon
+    && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
-RUN apt-get update \
-    && apt-get install -y php8.2-fpm \
-    && apt-get install -y php8.2-gd \
-    && apt-get install -y php8.2-iconv \
-    && apt-get install -y php8.2-intl \
-    && apt-get install -y php8.2-xml \
-    && apt-get install -y php8.2-mbstring \
-    && apt-get install -y php8.2-pdo \
-    && apt-get install -y php8.2-mysql \
-    && apt-get install -y php8.2-curl \
-    && apt-get install -y php8.2-cli \
-    && apt-get install -y php8.2-ldap \
-    && apt-get install -y php8.2-pgsql \
-    && apt-get install -y php8.2-gettext \
-    && apt-get install -y php8.2-zip \
-    && apt-get install -y php8.2-soap \
-    && apt-get install -y php8.2-bcmath \
-    && apt-get install -y php8.2-imap \
-    && apt-get install -y php8.2-redis \
-    && apt-get install -y php8.2-amqp \
-    && apt-get install -y php8.2-apcu \
-    && apt-get install -y php8.2-pcov \
-    && apt-get install -y dh-php \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways.ini /etc/php/8.2/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.2/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php8.1-fpm \
-    && apt-get install -y php8.1-gd \
-    && apt-get install -y php8.1-iconv \
-    && apt-get install -y php8.1-intl \
-    #&& apt-get install -y php8.1-json \
-    && apt-get install -y php8.1-xml \
-    && apt-get install -y php8.1-mbstring \
-    && apt-get install -y php8.1-pdo \
-    && apt-get install -y php8.1-mysql \
-    && apt-get install -y php8.1-apc \
-    && apt-get install -y php8.1-apcu \
-    && apt-get install -y php8.1-curl \
-    && apt-get install -y php8.1-cli \
-    && apt-get install -y php8.1-ldap \
-    && apt-get install -y php8.1-pgsql \
-    && apt-get install -y php8.1-gettext \
-    && apt-get install -y php8.1-zip \
-    && apt-get install -y php8.1-soap \
-    && apt-get install -y php8.1-bcmath \
-    && apt-get install -y php8.1-redis \
-    && apt-get install -y php8.1-imap \
-    && apt-get install -y php8.1-ssh2 \
-    && apt-get install -y php8.1-pcov \
-    && apt-get install -y dh-php \
-    #&& apt-get install -y php8.1-geoip \ not available for 8.1
-    && apt-get install -y php8.1-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/tideways/tideways.ini /etc/php/8.1/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/8.1/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php7.2-fpm \
-    && apt-get install -y php7.2-apc \
-    && apt-get install -y php7.2-apcu \
-    && apt-get install -y php7.2-curl \
-    && apt-get install -y php7.2-cli \
-    && apt-get install -y php7.2-gd \
-    && apt-get install -y php7.2-json \
-    && apt-get install -y php7.2-ldap \
-    && apt-get install -y php7.2-mysql \
-    && apt-get install -y php7.2-pgsql \
-    && apt-get install -y php7.2-gettext \
-    && apt-get install -y php7.2-intl \
-    && apt-get install -y php7.2-xml \
-    && apt-get install -y php7.2-mysql \
-    && apt-get install -y php7.2-mbstring \
-    && apt-get install -y php7.2-zip \
-    && apt-get install -y php7.2-soap \
-    && apt-get install -y php7.2-memcached \
-    && apt-get install -y php7.2-redis \
-    && apt-get install -y php7.2-bcmath \
-    && apt-get install -y php7.2-imap \
-    && apt-get install -y php7.2-ssh2 \
-    && apt-get install -y php7.2-pcov \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.2-geoip \
-    && apt-get install -y php7.2-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/7.2/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.2/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php7.1-fpm \
-    && apt-get install -y php7.1-apc \
-    && apt-get install -y php7.1-apcu \
-    && apt-get install -y php7.1-curl \
-    && apt-get install -y php7.1-cli \
-    && apt-get install -y php7.1-gd \
-    && apt-get install -y php7.1-json \
-    && apt-get install -y php7.1-ldap \
-    && apt-get install -y php7.1-mysql \
-    && apt-get install -y php7.1-pgsql \
-    && apt-get install -y php7.1-gettext \
-    && apt-get install -y php7.1-intl \
-    && apt-get install -y php7.1-xml \
-    && apt-get install -y php7.1-mysql \
-    && apt-get install -y php7.1-mbstring \
-    && apt-get install -y php7.1-zip \
-    && apt-get install -y php7.1-soap \
-    && apt-get install -y php7.1-memcached \
-    && apt-get install -y php7.1-redis \
-    && apt-get install -y php7.1-bcmath \
-    && apt-get install -y php7.1-imap \
-    && apt-get install -y php7.1-ssh2 \
-    && apt-get install -y php7.1-pcov \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.1-geoip \
-    && apt-get install -y php7.1-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/7.1/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.1/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php7.0-fpm \
-    && apt-get install -y php7.0-apc \
-    && apt-get install -y php7.0-apcu \
-    && apt-get install -y php7.0-curl \
-    && apt-get install -y php7.0-cli \
-    && apt-get install -y php7.0-gd \
-    && apt-get install -y php7.0-json \
-    && apt-get install -y php7.0-ldap \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-pgsql \
-    && apt-get install -y php7.0-gettext \
-    && apt-get install -y php7.0-intl \
-    && apt-get install -y php7.0-xml \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-mbstring \
-    && apt-get install -y php7.0-zip \
-    && apt-get install -y php7.0-soap \
-    && apt-get install -y php7.0-memcached \
-    && apt-get install -y php7.0-redis \
-    && apt-get install -y php7.0-bcmath \
-    && apt-get install -y php7.0-imap \
-    && apt-get install -y php7.0-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.0-geoip \
-    && apt-get install -y php7.0-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php5.6-fpm \
-    && apt-get install -y php5.6-apc \
-    && apt-get install -y php5.6-apcu \
-    && apt-get install -y php5.6-curl \
-    && apt-get install -y php5.6-cli \
-    && apt-get install -y php5.6-gd \
-    && apt-get install -y php5.6-json \
-    && apt-get install -y php5.6-ldap \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-pgsql \
-    && apt-get install -y php5.6-gettext \
-    && apt-get install -y php5.6-intl \
-    && apt-get install -y php5.6-xml \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-mbstring \
-    && apt-get install -y php5.6-zip \
-    && apt-get install -y php5.6-soap \
-    && apt-get install -y php5.6-memcached \
-    && apt-get install -y php5.6-redis \
-    && apt-get install -y php5.6-bcmath \
-    && apt-get install -y php5.6-imap \
-    && apt-get install -y php5.6-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php5.6-geoip \
-    && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
+&& cat /tmp/tideways.ini >| /etc/php/8.3/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.3/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.2/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.1/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.1/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.2/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.2/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.1/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.1/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.0/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.0/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/5.6/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/5.6/cli/conf.d/20-tideways.ini \
+    && rm -rf /tmp/tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin
