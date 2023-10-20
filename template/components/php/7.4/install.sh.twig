@@ -1,4 +1,3 @@
-RUN apt-get update \
     && apt-get install -y php7.4-fpm \
     && apt-get install -y php7.4-gd \
     #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
@@ -18,7 +17,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-gettext \
     && apt-get install -y php7.4-zip \
     && apt-get install -y php7.4-soap \
-    && apt-get install -y php7.4-bcmath \ 
+    && apt-get install -y php7.4-bcmath \
     && apt-get install -y php7.4-redis \
     && apt-get install -y php7.4-imap \
     && apt-get install -y php7.4-ssh2 \
@@ -28,7 +27,3 @@ RUN apt-get update \
     && apt-get install -y php7.4-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-

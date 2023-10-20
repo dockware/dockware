@@ -17,6 +17,12 @@
     "php": {
         "default_version": "7.4",
         "versions": {
+            "8.3": {
+                "active": true,
+                "folder_id": "20230831",
+                "xdebug_version": "3",
+                "xdebug_tag": "3.3.0"
+            },
             "8.2": {
                 "active": true,
                 "folder_id": "20220829",

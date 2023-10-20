@@ -1,4 +1,3 @@
-RUN apt-get update \
     && apt-get install -y php8.2-fpm \
     && apt-get install -y php8.2-gd \
     && apt-get install -y php8.2-iconv \
@@ -23,7 +22,3 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
