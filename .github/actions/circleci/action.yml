@@ -35,4 +35,4 @@ runs:
       if: ${{ inputs.IMAGE != '' }}
       shell: bash
       run: |
-        cd .circleci && sh run-img.sh ${{ inputs.CIRCLECI_KEY }} ${{ inputs.IMAGE }} {{ inputs.TAG }} ${{ inputs.SET_LATEST }}
+        cd .circleci && sh run-img.sh ${{ inputs.CIRCLECI_KEY }} ${{ inputs.IMAGE }} ${{ inputs.TAG }} ${{ inputs.SET_LATEST }}
