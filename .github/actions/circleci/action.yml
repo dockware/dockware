@@ -9,7 +9,13 @@ inputs:
     required: true
   SW_VERSION:
     description: "The Shopware version that should be released"
-    required: true
+    required: false
+  IMAGE:
+    description: "The Shopware version that should be released"
+    required: false
+  TAG:
+    description: "The Shopware version that should be released"
+    required: false
   SET_LATEST:
     description: "Whether its the latest or not"
     default: 'false'
@@ -19,7 +25,14 @@ runs:
   using: "composite"
   steps:
 
-    - name: Trigger CircleCI
+    - name: Trigger CircleCI (Shopware)
+      if: ${{ inputs.SW_VERSION != '' }}
       shell: bash
       run: | 
-          cd .circleci && sh run.sh ${{ inputs.CIRCLECI_KEY }} ${{ inputs.SW_VERSION }} ${{ inputs.SET_LATEST }}
+          cd .circleci && sh run-sw.sh ${{ inputs.CIRCLECI_KEY }} ${{ inputs.SW_VERSION }} ${{ inputs.SET_LATEST }}
+
+    - name: Trigger CircleCI (Single Image)
+      if: ${{ inputs.IMAGE != '' }}
+      shell: bash
+      run: |
+        cd .circleci && sh run-img.sh ${{ inputs.CIRCLECI_KEY }} ${{ inputs.IMAGE }} {{ inputs.TAG }} ${{ inputs.SET_LATEST }}
