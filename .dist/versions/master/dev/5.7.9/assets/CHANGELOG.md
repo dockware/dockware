@@ -9,6 +9,11 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 - Add PHP 8.2 to latest Shopware and flex image.
 
+### Changed
+
+- When the Apache DocRoot is changed to be something else than "/var/www/html", then the Apache configuration did not
+  use this setting (thx @jonas-resch)
+
 ### Removed
 
 - Removed custom "TIDEWAYS_SERVICE" because it's already handled in the Tideways service (thx @beberlei)
