@@ -55,7 +55,7 @@ RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
  && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
- && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set
@@ -610,7 +610,7 @@ RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
  && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
- && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set

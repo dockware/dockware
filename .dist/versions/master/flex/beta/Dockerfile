@@ -55,7 +55,7 @@ RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
  && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
- && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
+ && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
 
 ENV SW_API_ACCESS_KEY 'not-set'
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
