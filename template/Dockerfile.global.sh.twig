@@ -50,6 +50,11 @@ ENV FILEBEAT_ENABLED 0
 ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
 
+COPY ./config/php/general.ini /tmp/general.ini
+COPY ./config/php/cli.ini /tmp/cli.ini
+COPY ./config/tideways/tideways.ini /tmp/tideways.ini
+
+
 RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
  && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
@@ -195,27 +200,28 @@ ADD ./config/apache/sites.conf /etc/apache2/sites-enabled/000-default.conf
 ## ***********************************************************************
 ##  PHP INSTALLATION
 ## ***********************************************************************
+RUN apt-get update \
 {% for key,value in php.versions %}
 {% if value.active == true %}
 {% include "template/components/php/#{ key }/install.sh.twig" %}
-
-COPY ./config/php/general.ini /etc/php/{{ key }}/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/{{ key }}/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini
-
-
+&& cat /tmp/general.ini >| /etc/php/{{ key }}/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/{{ key }}/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/{{ key }}/cli/conf.d/01-general-cli.ini \
 {% endif %}
 {% endfor %}
+# remove pecl again
+&& apt-get remove -y dh-php \
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
 RUN service php{{ php.default_version }}-fpm stop > /dev/null 2>&1 && \
     service php{{ php.default_version }}-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1
-
+    sudo update-alternatives --set php /usr/bin/php{{ php.default_version }} > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
-RUN chown www-data:www-data -R /var/lib/php/sessions
+&& chown www-data:www-data -R /var/lib/php/sessions
 {% endblock %}
 
 # remove the standard apache index file
@@ -296,9 +302,6 @@ RUN cd /var/www \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
-
-
-
 #generate xdebug ini files
 {% for key, value in php.versions %}
 {% if value.active and value.xdebug_version != '' %}
@@ -435,20 +438,16 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sudo chmod 0755 /etc/init.d/tideways-daemon
-
-
+    && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
 {% for key,value in php.versions %}
 {% if value.active == true %}
-{% include "template/components/php/#{ key }/install.sh.twig" %}
-COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/{{ key }}/cli/conf.d/20-tideways.ini
+&& cat /tmp/tideways.ini >| /etc/php/{{ key }}/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/{{ key }}/cli/conf.d/20-tideways.ini \
 {% endif %}
 {% endfor %}
+    && rm -rf /tmp/tideways.ini
 {% endblock %}
-
-
 {% endblock %}
 
 

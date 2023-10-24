@@ -1,4 +1,4 @@
-name: Release Single Image
+name: Release Shopware Image
 run-name: Shopware ${{ github.event.inputs.swVersion }}, setLatest ${{ github.event.inputs.setLatest }}
 
 on:

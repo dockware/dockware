@@ -44,6 +44,10 @@ ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
 ENV TIDEWAYS_SERVICE web
 
+COPY ./config/php/general.ini /tmp/general.ini
+COPY ./config/php/cli.ini /tmp/cli.ini
+COPY ./config/tideways/tideways.ini /tmp/tideways.ini
+
 RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
  && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
@@ -188,6 +192,7 @@ RUN mkdir -p /var/www/.ssh \
 ##  PHP INSTALLATION
 ## ***********************************************************************
 RUN apt-get update \
+
     && apt-get install -y php7.0-fpm \
     && apt-get install -y php7.0-apc \
     && apt-get install -y php7.0-apcu \
@@ -213,15 +218,10 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.0-geoip \
     && apt-get install -y php7.0-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+&& cat /tmp/general.ini >| /etc/php/7.0/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.0/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.0/cli/conf.d/01-general-cli.ini \
 
-COPY ./config/php/general.ini /etc/php/7.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.0/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
     && apt-get install -y php5.6-fpm \
     && apt-get install -y php5.6-apc \
     && apt-get install -y php5.6-apcu \
@@ -247,23 +247,22 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php5.6-geoip \
     && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/5.6/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/5.6/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/5.6/cli/conf.d/01-general-cli.ini
+&& cat /tmp/general.ini >| /etc/php/5.6/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/5.6/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/5.6/cli/conf.d/01-general-cli.ini \
+# remove pecl again
+&& apt-get remove -y dh-php \
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
 RUN service php7.0-fpm stop > /dev/null 2>&1 && \
     service php7.0-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1
+    sudo update-alternatives --set php /usr/bin/php7.0 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
-RUN chown www-data:www-data -R /var/lib/php/sessions
+&& chown www-data:www-data -R /var/lib/php/sessions
 
 # remove the standard apache index file
 RUN mkdir -p /var/www/html \
@@ -352,7 +351,6 @@ RUN cd /var/www \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
-
 #generate xdebug ini files
 
 COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
@@ -507,70 +505,13 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && sudo apt-get -y update  \
     && sudo apt-get -y install tideways-php tideways-daemon  \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sudo chmod 0755 /etc/init.d/tideways-daemon
+    && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
-RUN apt-get update \
-    && apt-get install -y php7.0-fpm \
-    && apt-get install -y php7.0-apc \
-    && apt-get install -y php7.0-apcu \
-    && apt-get install -y php7.0-curl \
-    && apt-get install -y php7.0-cli \
-    && apt-get install -y php7.0-gd \
-    && apt-get install -y php7.0-json \
-    && apt-get install -y php7.0-ldap \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-pgsql \
-    && apt-get install -y php7.0-gettext \
-    && apt-get install -y php7.0-intl \
-    && apt-get install -y php7.0-xml \
-    && apt-get install -y php7.0-mysql \
-    && apt-get install -y php7.0-mbstring \
-    && apt-get install -y php7.0-zip \
-    && apt-get install -y php7.0-soap \
-    && apt-get install -y php7.0-memcached \
-    && apt-get install -y php7.0-redis \
-    && apt-get install -y php7.0-bcmath \
-    && apt-get install -y php7.0-imap \
-    && apt-get install -y php7.0-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.0-geoip \
-    && apt-get install -y php7.0-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/7.0/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/7.0/cli/conf.d/20-tideways.ini
-RUN apt-get update \
-    && apt-get install -y php5.6-fpm \
-    && apt-get install -y php5.6-apc \
-    && apt-get install -y php5.6-apcu \
-    && apt-get install -y php5.6-curl \
-    && apt-get install -y php5.6-cli \
-    && apt-get install -y php5.6-gd \
-    && apt-get install -y php5.6-json \
-    && apt-get install -y php5.6-ldap \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-pgsql \
-    && apt-get install -y php5.6-gettext \
-    && apt-get install -y php5.6-intl \
-    && apt-get install -y php5.6-xml \
-    && apt-get install -y php5.6-mysql \
-    && apt-get install -y php5.6-mbstring \
-    && apt-get install -y php5.6-zip \
-    && apt-get install -y php5.6-soap \
-    && apt-get install -y php5.6-memcached \
-    && apt-get install -y php5.6-redis \
-    && apt-get install -y php5.6-bcmath \
-    && apt-get install -y php5.6-imap \
-    && apt-get install -y php5.6-ssh2 \
-    && apt-get install -y dh-php \
-    && apt-get install -y php5.6-geoip \
-    && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-COPY ./config/tideways/tideways.ini /etc/php/5.6/fpm/conf.d/20-tideways.ini
-COPY ./config/tideways/tideways.ini /etc/php/5.6/cli/conf.d/20-tideways.ini
+&& cat /tmp/tideways.ini >| /etc/php/7.0/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.0/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/5.6/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/5.6/cli/conf.d/20-tideways.ini \
+    && rm -rf /tmp/tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin

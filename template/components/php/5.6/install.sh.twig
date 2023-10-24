@@ -1,4 +1,4 @@
-RUN apt-get update \
+
     && apt-get install -y php5.6-fpm \
     && apt-get install -y php5.6-apc \
     && apt-get install -y php5.6-apcu \
@@ -24,6 +24,3 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php5.6-geoip \
     && apt-get install -y php5.6-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*

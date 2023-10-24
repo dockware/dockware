@@ -188,15 +188,9 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/8.2/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.2/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.2/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
+&& cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.2/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.2/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.1-fpm \
     && apt-get install -y php8.1-gd \
     && apt-get install -y php8.1-iconv \
@@ -225,15 +219,9 @@ RUN apt-get update \
     && apt-get install -y php8.1-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/8.1/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.1/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.1/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
+&& cat /tmp/general.ini >| /etc/php/8.1/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.1/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.1/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.0-fpm \
     && apt-get install -y php8.0-gd \
     && apt-get install -y php8.0-iconv \
@@ -262,15 +250,9 @@ RUN apt-get update \
     && apt-get install -y php8.0-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-COPY ./config/php/general.ini /etc/php/8.0/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/8.0/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/8.0/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
+&& cat /tmp/general.ini >| /etc/php/8.0/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.0/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.0/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php7.4-fpm \
     && apt-get install -y php7.4-gd \
     #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
@@ -290,7 +272,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-gettext \
     && apt-get install -y php7.4-zip \
     && apt-get install -y php7.4-soap \
-    && apt-get install -y php7.4-bcmath \ 
+    && apt-get install -y php7.4-bcmath \
     && apt-get install -y php7.4-redis \
     && apt-get install -y php7.4-imap \
     && apt-get install -y php7.4-ssh2 \
@@ -300,15 +282,10 @@ RUN apt-get update \
     && apt-get install -y php7.4-amqp \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+&& cat /tmp/general.ini >| /etc/php/7.4/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.4/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.4/cli/conf.d/01-general-cli.ini \
 
-COPY ./config/php/general.ini /etc/php/7.4/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.4/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.4/cli/conf.d/01-general-cli.ini
-
-RUN apt-get update \
     && apt-get install -y php7.3-fpm \
     && apt-get install -y php7.3-apc \
     && apt-get install -y php7.3-apcu \
@@ -335,15 +312,11 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.3-geoip \
     && apt-get install -y php7.3-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-COPY ./config/php/general.ini /etc/php/7.3/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.3/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.3/cli/conf.d/01-general-cli.ini
+&& cat /tmp/general.ini >| /etc/php/7.3/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.3/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.3/cli/conf.d/01-general-cli.ini \
 
-RUN apt-get update \
     && apt-get install -y php7.2-fpm \
     && apt-get install -y php7.2-apc \
     && apt-get install -y php7.2-apcu \
@@ -370,23 +343,23 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.2-geoip \
     && apt-get install -y php7.2-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-COPY ./config/php/general.ini /etc/php/7.2/fpm/conf.d/01-general.ini
-COPY ./config/php/general.ini /etc/php/7.2/cli/conf.d/01-general.ini
-COPY ./config/php/cli.ini /etc/php/7.2/cli/conf.d/01-general-cli.ini
+&& cat /tmp/general.ini >| /etc/php/7.2/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.2/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.2/cli/conf.d/01-general-cli.ini \
+# remove pecl again
+&& apt-get remove -y dh-php \
+&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
 RUN service php7.4-fpm stop > /dev/null 2>&1 && \
     service php7.4-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1
+    sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
-RUN chown www-data:www-data -R /var/lib/php/sessions
+&& chown www-data:www-data -R /var/lib/php/sessions
 
 # remove the standard apache index file
 RUN mkdir -p /var/www/html \

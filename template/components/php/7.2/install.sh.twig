@@ -1,4 +1,4 @@
-RUN apt-get update \
+
     && apt-get install -y php7.2-fpm \
     && apt-get install -y php7.2-apc \
     && apt-get install -y php7.2-apcu \
@@ -25,6 +25,4 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.2-geoip \
     && apt-get install -y php7.2-amqp \
-    # remove pecl again
-    && apt-get remove -y dh-php \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
