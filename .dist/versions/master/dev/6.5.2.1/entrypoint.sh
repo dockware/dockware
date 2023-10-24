@@ -101,12 +101,12 @@ if [ $MYSQL_USER != "not-set" ] && [ $MYSQL_PWD != "not-set" ]; then
     sudo rm -rf /tmp/triggers.sql
     # -----------------------------------
     # block remote access for root user
-    sudo mysql --user=root --password=root -e "UPDATE mysql.user SET Host='localhost' WHERE User='root' AND Host='%';";
+    sudo mysql --user=root --password=root -e "DELETE FROM mysql.user WHERE User='root' AND Host='%';";
     # -----------------------------------
     # add new user and grant privileges
     sudo mysql --user=root --password=root -e "CREATE USER IF NOT EXISTS '"$MYSQL_USER"'@'%' IDENTIFIED BY '"$MYSQL_PWD"';";
     sudo mysql --user=root --password=root -e "use mysql; update user set host='%' where user='$MYSQL_USER';";
-    sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON *.* TO '"$MYSQL_USER"'@'%' IDENTIFIED BY '$MYSQL_PWD';";
+    sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON *.* TO '"$MYSQL_USER"'@'%'";
     # -----------------------------------
     # apply and flush privileges
     sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;";
