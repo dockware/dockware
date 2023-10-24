@@ -4,7 +4,7 @@
 #
 FROM ubuntu:18.04
 LABEL title="Dockware essentials:latest" \
-      version="1.6.0" \
+      version="1.7.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date

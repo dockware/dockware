@@ -3,7 +3,17 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [UNRELEASED]
+## [1.7.0]
+
+### Added
+
+- Add PHP 8.2 to latest Shopware and flex image.
+
+### Removed
+
+- Removed custom "TIDEWAYS_SERVICE" because it's already handled in the Tideways service (thx @beberlei)
+
+## [1.6.0]
 
 ### Added
 
@@ -18,9 +28,11 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 ### Fixed
 
 - Fixed broken with Apache in Entrypoint. Sometimes Apache cannot start because port 80 is blocked.
-- Fixed wrong installation of PHP extensions "geoip" and "amqp". These were accidentally only installed for the current PHP version.
+- Fixed wrong installation of PHP extensions "geoip" and "amqp". These were accidentally only installed for the current
+  PHP version.
 - Fix broken Tideways service
-- Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the required PHP version.
+- Fix rare problems with switching Composer versions. Composer is now only changed after a correct switch to the
+  required PHP version.
 - Fix problem with broken MySQL8 remote connection
 - Fix cronjobs for Shopware 6.5.x (thx @btxtiger)
 
@@ -59,7 +71,8 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 ### Fixed
 
-- Fix problem where it was not possible to provide a custom WORKDIR. The images will now switch back to this directory in the entrypoint before running custom commands.
+- Fix problem where it was not possible to provide a custom WORKDIR. The images will now switch back to this directory
+  in the entrypoint before running custom commands.
 
 ## [1.5.1]
 
@@ -67,27 +80,32 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 With 1.5.1 with changed the entrypoint to use the real ENTRYPOINT command instead of the CMD command in the Dockerfile.
 The previous version allowed you to provide a custom command (e.g. in your pipelines) to be executed within dockware.
-This worked, but did not use the original entrypoint, which means that neither the PHP_VERSION switch, launch of MySQL or other things worked.
+This worked, but did not use the original entrypoint, which means that neither the PHP_VERSION switch, launch of MySQL
+or other things worked.
 The new change does always load the original entrypoint along all its configured features of dockware.
 
 This however would lead to a blocking long-running container with Shopware.
 If you still want to just execute your single command in dockware within your pipeline,
-please provide the env variable DOCKWARE_CI=1 and the container will automatically quit as soon as your command has been executed
+please provide the env variable DOCKWARE_CI=1 and the container will automatically quit as soon as your command has been
+executed
 
 ### Added
 
-- Add new ENV variable DOCKWARE_CI to automatically stop the container, once your custom command in your pipeline has been executed with dockware.
+- Add new ENV variable DOCKWARE_CI to automatically stop the container, once your custom command in your pipeline has
+  been executed with dockware.
 - Add Node v16 to Shopware >= 6.4 and Shopware >= 5.7. All previous versions still have Node v12.
 
 ### Improved:
 
-- Shopware is now installed as www-data in a clean way. So all permissions of all files should be as clean as possible now when launching containers.
+- Shopware is now installed as www-data in a clean way. So all permissions of all files should be as clean as possible
+  now when launching containers.
 
 ### Fixed
 
 - Fixed broken XDebug scripts from previous releases
 - Fixed "Plugin Build" mode that did not find the bin/build-js.sh file correctly.
-- Fixed wrong warning outputs of Apache when starting the containers. This did not have any impact. It was just a weird warning output.
+- Fixed wrong warning outputs of Apache when starting the containers. This did not have any impact. It was just a weird
+  warning output.
 - Fixed problem with broken permissions after using the storefront watcher with our makefile
 
 ## [1.5] - 2022-04-01
@@ -102,7 +120,8 @@ please provide the env variable DOCKWARE_CI=1 and the container will automatical
 ### Changed
 
 - Updated to Composer v2.2.9
-- Removed watcher commands for essentials image, because there is no Shopware installed, and they commands are different across Shopware versions.
+- Removed watcher commands for essentials image, because there is no Shopware installed, and they commands are different
+  across Shopware versions.
 
 ## [1.4.3] - 2021-11-25
 

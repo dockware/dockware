@@ -4,7 +4,7 @@
 #
 FROM ubuntu:22.04
 LABEL title="Dockware dev:latest" \
-      version="1.6.0" \
+      version="1.7.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -559,7 +559,7 @@ RUN chown www-data:www-data -R /var/www/scripts && \
 #
 FROM ubuntu:22.04
 LABEL title="Dockware dev:latest" \
-      version="1.6.0" \
+      version="1.7.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
