@@ -431,7 +431,6 @@ ENV XDEBUG_ENABLED 0
 ENV FILEBEAT_ENABLED 0
 ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
-ENV TIDEWAYS_SERVICE web
 
 COPY ./config/php/general.ini /tmp/general.ini
 COPY ./config/php/cli.ini /tmp/cli.ini
@@ -446,7 +445,6 @@ RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
  && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
  && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
  && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile \
- && echo "export TIDEWAYS_SERVICE=${TIDEWAYS_SERVICE}" >> /etc/profile
 
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set
