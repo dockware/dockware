@@ -13,6 +13,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 - When the Apache DocRoot is changed to be something else than "/var/www/html", then the Apache configuration did not
   use this setting (thx @jonas-resch)
+- Fix problem with the creating custom MySQL users (thx @macster84)
 
 ### Removed
 
