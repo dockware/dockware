@@ -9,11 +9,13 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 - Add PHP 8.2 to latest Shopware and flex image.
 
-### Changed
+### Fixed
 
 - When the Apache DocRoot is changed to be something else than "/var/www/html", then the Apache configuration did not
   use this setting (thx @jonas-resch)
 - Fix problem with the creating custom MySQL users (thx @macster84)
+- Fix problem with wrong Mailcatcher setup in .env in Shopware 6.5. "MAILER_DSN" is now being used correctly. (thx
+  @FynnZW)
 
 ### Removed
 

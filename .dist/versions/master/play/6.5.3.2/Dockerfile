@@ -931,7 +931,7 @@ RUN sudo service mysql start && \
     echo "APP_ENV=dev" >> /var/www/html/.env && \
     echo "APP_URL=http://localhost" >> /var/www/html/.env && \
     echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware" >> /var/www/html/.env && \
-    echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
+    echo "MAILER_DSN=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
     # -------------------------------------------------------------------------------------------
     # install the correct Shopware version
     cd /var/www/html && composer req shopware/core:6.5.3.2 shopware/administration:6.5.3.2 shopware/elasticsearch:6.5.3.2 shopware/storefront:6.5.3.2 -W && \
