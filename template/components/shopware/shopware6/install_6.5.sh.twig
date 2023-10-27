@@ -20,7 +20,7 @@ RUN sudo service mysql start && \
     echo "APP_ENV=dev" >> /var/www/html/.env && \
     echo "APP_URL=http://localhost" >> /var/www/html/.env && \
     echo "DATABASE_URL=mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}" >> /var/www/html/.env && \
-    echo "MAILER_URL=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
+    echo "MAILER_DSN=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
     # -------------------------------------------------------------------------------------------
     # install the correct Shopware version
     cd /var/www/html && composer req shopware/core:{{ sw_version }} shopware/administration:{{ sw_version }} shopware/elasticsearch:{{ sw_version }} shopware/storefront:{{ sw_version }} -W && \
