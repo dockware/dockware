@@ -17,26 +17,21 @@ class SVRUnitBuilder
         $imageFull = 'dockware/' . $image . ':' . $tag;
         $isDev = ($image === 'dev');
 
-        $defaultPHP = '8';
-        $php82 = true;
-        $php81 = true;
-        $php8 = true;
-        $php74 = true;
-        $php73 = true;
-        $php72 = true;
-        $php71 = true;
-        $php7 = true;
-        $php56 = true;
         $sodium = true;
-
         $node = '12';
         $composer = '2';
 
         $ubuntuVersion = '22';
 
-        if (version_compare($tag, '6.5') >= 0) {
-            # SHOPWARE 6
+        if ($tag === 'latest' || (version_compare($tag, '6.5') >= 0) || str_contains($tag, '6.5')) {
+            # SHOPWARE >= 6.5
+            $defaultPHP = '8';
+
+            $php83 = true;
+            $php82 = true;
             $php81 = true;
+            $php8 = true;
+
             $php8 = false;
             $php74 = false;
             $php73 = false;
@@ -46,61 +41,61 @@ class SVRUnitBuilder
             $php56 = false;
 
             $node = '18';
-        }
-        if (str_contains($tag, '6.5')) {
-            # SHOPWARE 6
-            $php81 = true;
-            $php8 = false;
-            $php74 = false;
-            $php73 = false;
-            $php72 = false;
-            $php71 = false;
-            $php7 = false;
-            $php56 = false;
-            $node = '18';
 
-        } else if ($tag === 'latest' || version_compare($tag, '6.0') >= 0) {
-            # SHOPWARE 6
+        } else if (version_compare($tag, '6.0') >= 0) {
+            # SHOPWARE >= 6.0
+            $defaultPHP = '8';
+
+            $php83 = true;
+            $php82 = true;
+            $php81 = true;
+            $php8 = true;
+            $php74 = true;
+
             $php73 = false;
             $php72 = false;
             $php71 = false;
             $php7 = false;
             $php56 = false;
+
+        } else if (version_compare($tag, '5.7') >= 0) {
+            # SHOPWARE >= 5.7
+            $defaultPHP = '8';
+
+            $php83 = true;
+            $php82 = true;
+            $php81 = true;
+            $php8 = true;
+            $php74 = true;
+            $php73 = true;
+            $php72 = true;
+
+            $php71 = false;
+            $php7 = false;
+            $php56 = false;
+
         } else {
+            # SHOPWARE < 5.7
+            $composer = '1';
+            $defaultPHP = '5';
 
-            if (version_compare($tag, '6.0') >= 0) {
-                # SHOPWARE 6
-                $php56 = false;
-            } else {
-                if (version_compare($tag, '5.7') >= 0) {
-                    # SHOPWARE >= 5.7
-                    $defaultPHP = '8';
+            $php83 = false;
+            $php82 = false;
+            $php81 = false;
+            $php8 = false;
+            $php74 = false;
+            $php73 = false;
+            $php72 = false;
+            $php71 = false;
 
-                    $php72 = true;
-                    $php71 = false;
-                    $php7 = false;
-                    $php56 = false;
+            $php7 = true;
+            $php56 = true;
 
-                } else {
-                    # SHOPWARE < 5.7
-                    $composer = '1';
+            $sodium = false;
 
-                    $defaultPHP = '5';
-                    $php82 = false;
-                    $php81 = false;
-                    $php8 = false;
-                    $php74 = false;
-                    $php73 = false;
-                    $php72 = false;
-                    $php71 = false;
-                    $php7 = true;
-                    $php56 = true;
-                    $sodium = false;
-
-                    $ubuntuVersion = '18';
-                }
-            }
+            $ubuntuVersion = '18';
         }
+
 
         $xml = '<svrunit setupTime="30">
     <testsuites>
@@ -163,6 +158,12 @@ class SVRUnitBuilder
 
         # -------------------------------------------------------------------------------------------------------------------------------
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
+
+        if ($php83) {
+            $xdebug = ($isDev) ? '' : '';
+            $xml .= $this->buildVersion($imageFull, '8.3', '8.3', $xdebug, $sodium, $testXdebugOff);
+            $testXdebugOff = false;
+        }
 
         if ($php82) {
             $xdebug = ($isDev) ? '3.2.0' : '';

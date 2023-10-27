@@ -32,6 +32,9 @@
   "php": {
     "default_version": "8.1",
     "versions": {
+      "8.3": {
+        "active": true
+      },
       "8.0": {
         "active": false
       },
