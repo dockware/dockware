@@ -9,6 +9,7 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
 - Add PHP 8.2 to latest Shopware and flex image.
 - Add PHP 8.3 to images
+- Add command "make shopware version=x.y.z" in essentials image for faster installation 
 
 ### Changed
 
