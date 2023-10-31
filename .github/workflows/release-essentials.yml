@@ -1,0 +1,23 @@
+name: Release Essentials
+
+on:
+  workflow_dispatch:
+
+jobs:
+  on-push:
+    name: Release Image
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Clone Code
+        uses: actions/checkout@v3
+
+      - name: Release
+        uses: ./.github/actions/circleci
+        with:
+          # -------------------------------------------
+          IMAGE: 'essentials'
+          TAG: 'latest'
+          SET_LATEST: 'true'
+          # -------------------------------------------
+          CIRCLECI_KEY: ${{ secrets.CIRCLE_CI_TOKEN }}
