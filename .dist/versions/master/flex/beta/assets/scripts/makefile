@@ -5,30 +5,39 @@ PHP_VERSION_CURRENT=$(shell php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION
 XDEBUG_STATUS=$(shell php -r 'echo (int)extension_loaded("xdebug");')
 
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@echo "COMMANDS"
+	@echo "---------------------------------------------------------------------------------------------------------"
+	@printf "\033[33mInstallation:%-30s\033[0m %s\n"
+	@grep -E '^[a-zA-Z_-]+:.*?##1 .*$$' $(firstword $(MAKEFILE_LIST)) | awk 'BEGIN {FS = ":.*?##1 "}; {printf "\033[33m  - %-30s\033[0m %s\n", $$1, $$2}'
+	@echo "---------------------------------------------------------------------------------------------------------"
+	@printf "\033[36mDev:%-30s\033[0m %s\n"
+	@grep -E '^[a-zA-Z_-]+:.*?##2 .*$$' $(firstword $(MAKEFILE_LIST)) | awk 'BEGIN {FS = ":.*?##2 "}; {printf "\033[36m  - %-30s\033[0m %s\n", $$1, $$2}'
+	@echo "---------------------------------------------------------------------------------------------------------"
+	@printf "\033[35mDevOps:%-30s\033[0m %s\n"
+	@grep -E '^[a-zA-Z_-]+:.*?##3 .*$$' $(firstword $(MAKEFILE_LIST)) | awk 'BEGIN {FS = ":.*?##3 "}; {printf "\033[35m  - %-30s\033[0m %s\n", $$1, $$2}'
 
-status: ## status infos
+status: ##3 status infos
 	sh /var/www/scripts/bin/status.sh
 
-xdebug-on: ## enables xdebug
+xdebug-on: ##2 enables xdebug
 	sh /var/www/scripts/bin/xdebug_enable.sh
 
-xdebug-off: ## disables xdebug
+xdebug-off: ##2 disables xdebug
 	sh /var/www/scripts/bin/xdebug_disable.sh
 
-permission-repair: ## repairs the general file permissions
+permission-repair: ##3 repairs the general file permissions
 	sudo chown -R www-data:www-data /var/www/html/*
 	sudo chmod -R 775 /var/www/html
 	cd /var/www/scripts/shopware6 && php create_jwt.php
 	cd /var/www/html/config/jwt && sudo chown www-data:www-data *
 
-restart-php: ## Restarts FPM and Apache2
+restart-php: ##3 Restarts FPM and Apache2
 	sudo service php$(PHP_VERSION_CURRENT)-fpm stop
 	sudo service php$(PHP_VERSION_CURRENT)-fpm start
 	@# ------------------------------------------------------
 	sudo service apache2 restart
 
-switch-php: ## Switches to another supported PHP version, [make switch-php version=7.4]
+switch-php: ##3 Switches to another supported PHP version, [make switch-php version=7.4]
 ifndef version
 	$(warning Provide the required PHP version using "make switch-php version=x.y")
 	@exit 1;
