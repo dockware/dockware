@@ -12,4 +12,3 @@ sudo sed -i 's/__dockware_host__/'${XDEBUG_REMOTE_HOST}'/g' /etc/php/${PHP_VERSI
 wait
 
 sudo service php${PHP_VERSION}-fpm restart > /dev/null 2>&1 &
-echo "------------------------------------------------"

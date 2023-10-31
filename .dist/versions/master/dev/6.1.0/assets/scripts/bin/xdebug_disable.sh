@@ -8,4 +8,3 @@ sudo mv /etc/php/${PHP_VERSION_RUNNING}/cli/conf.d/20-xdebug.ini /etc/php/${PHP_
 wait
 
 sudo service php${PHP_VERSION_RUNNING}-fpm restart > /dev/null 2>&1 &
-echo "-----------------------------------------------------------"
