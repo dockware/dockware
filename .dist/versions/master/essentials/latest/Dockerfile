@@ -2,7 +2,7 @@
 # Tag: latest
 # Copyright 2022 dasistweb GmbH
 #
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 LABEL title="Dockware essentials:latest" \
       version="1.7.0" \
       maintainer="dasistweb GmbH"
@@ -19,11 +19,11 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV PHP_VERSION 7.4
+ENV PHP_VERSION 8.2
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION 12
+ENV NODE_VERSION 18
 ENV SHOP_DOMAIN localhost
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
@@ -193,6 +193,33 @@ RUN mkdir -p /var/www/.ssh \
 ##  PHP INSTALLATION
 ## ***********************************************************************
 RUN apt-get update \
+    && apt-get install -y php8.3-fpm \
+    && apt-get install -y php8.3-gd \
+    && apt-get install -y php8.3-iconv \
+    && apt-get install -y php8.3-intl \
+    && apt-get install -y php8.3-xml \
+    && apt-get install -y php8.3-mbstring \
+    && apt-get install -y php8.3-pdo \
+    && apt-get install -y php8.3-mysql \
+    && apt-get install -y php8.3-curl \
+    && apt-get install -y php8.3-cli \
+    && apt-get install -y php8.3-ldap \
+    && apt-get install -y php8.3-pgsql \
+    && apt-get install -y php8.3-gettext \
+    && apt-get install -y php8.3-zip \
+    && apt-get install -y php8.3-soap \
+    && apt-get install -y php8.3-bcmath \
+    && apt-get install -y php8.3-imap \
+    #&& apt-get install -y php8.3-redis \ NOT YET HERE
+    #&& apt-get install -y php8.3-amqp \ NOT YET HERE
+    #&& apt-get install -y php8.3-apcu \ NOT YET HERE
+    #&& apt-get install -y php8.3-pcov \ NOT YET HERE
+    && apt-get install -y dh-php \
+    # shopware required pcre
+    && apt-get install -y libpcre3 libpcre3-dev \
+&& cat /tmp/general.ini >| /etc/php/8.3/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.3/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.3/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.2-fpm \
     && apt-get install -y php8.2-gd \
     && apt-get install -y php8.2-iconv \
@@ -407,16 +434,74 @@ RUN apt-get update \
 && cat /tmp/general.ini >| /etc/php/7.1/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.1/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/7.1/cli/conf.d/01-general-cli.ini \
+
+    && apt-get install -y php7.0-fpm \
+    && apt-get install -y php7.0-apc \
+    && apt-get install -y php7.0-apcu \
+    && apt-get install -y php7.0-curl \
+    && apt-get install -y php7.0-cli \
+    && apt-get install -y php7.0-gd \
+    && apt-get install -y php7.0-json \
+    && apt-get install -y php7.0-ldap \
+    && apt-get install -y php7.0-mysql \
+    && apt-get install -y php7.0-pgsql \
+    && apt-get install -y php7.0-gettext \
+    && apt-get install -y php7.0-intl \
+    && apt-get install -y php7.0-xml \
+    && apt-get install -y php7.0-mysql \
+    && apt-get install -y php7.0-mbstring \
+    && apt-get install -y php7.0-zip \
+    && apt-get install -y php7.0-soap \
+    && apt-get install -y php7.0-memcached \
+    && apt-get install -y php7.0-redis \
+    && apt-get install -y php7.0-bcmath \
+    && apt-get install -y php7.0-imap \
+    && apt-get install -y php7.0-ssh2 \
+    && apt-get install -y dh-php \
+    && apt-get install -y php7.0-geoip \
+    && apt-get install -y php7.0-amqp \
+&& cat /tmp/general.ini >| /etc/php/7.0/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/7.0/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/7.0/cli/conf.d/01-general-cli.ini \
+
+    && apt-get install -y php5.6-fpm \
+    && apt-get install -y php5.6-apc \
+    && apt-get install -y php5.6-apcu \
+    && apt-get install -y php5.6-curl \
+    && apt-get install -y php5.6-cli \
+    && apt-get install -y php5.6-gd \
+    && apt-get install -y php5.6-json \
+    && apt-get install -y php5.6-ldap \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-pgsql \
+    && apt-get install -y php5.6-gettext \
+    && apt-get install -y php5.6-intl \
+    && apt-get install -y php5.6-xml \
+    && apt-get install -y php5.6-mysql \
+    && apt-get install -y php5.6-mbstring \
+    && apt-get install -y php5.6-zip \
+    && apt-get install -y php5.6-soap \
+    && apt-get install -y php5.6-memcached \
+    && apt-get install -y php5.6-redis \
+    && apt-get install -y php5.6-bcmath \
+    && apt-get install -y php5.6-imap \
+    && apt-get install -y php5.6-ssh2 \
+    && apt-get install -y dh-php \
+    && apt-get install -y php5.6-geoip \
+    && apt-get install -y php5.6-amqp \
+&& cat /tmp/general.ini >| /etc/php/5.6/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/5.6/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/5.6/cli/conf.d/01-general-cli.ini \
 # remove pecl again
 && apt-get remove -y dh-php \
 && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php8.2 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
-RUN service php7.4-fpm stop > /dev/null 2>&1 && \
-    service php7.4-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 \
+RUN service php8.2-fpm stop > /dev/null 2>&1 && \
+    service php8.2-fpm start && \
+    sudo update-alternatives --set php /usr/bin/php8.2 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
 && chown www-data:www-data -R /var/lib/php/sessions
@@ -595,6 +680,42 @@ RUN cd /var/www \
     && make distclean \
     && sudo phpize7.1 --clean \
     && sudo apt-get remove -y php7.1-dev \
+    # install xdebug for php 7.0
+    && sudo apt-get install -y php7.0-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/2.7.2.zip \
+    && unzip 2.7.2.zip \
+    && rm -rf 2.7.2.zip \
+    && mv xdebug-2.7.2 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize7.0 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config7.0 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20151012/xdebug_7.0.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize7.0 --clean \
+    && sudo apt-get remove -y php7.0-dev \
+    # install xdebug for php 5.6
+    && sudo apt-get install -y php5.6-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/XDEBUG_2_5_5.zip \
+    && unzip XDEBUG_2_5_5.zip \
+    && rm -rf XDEBUG_2_5_5.zip \
+    && mv xdebug-XDEBUG_2_5_5 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize5.6 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config5.6 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20131226/xdebug_5.6.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize5.6 --clean \
+    && sudo apt-get remove -y php5.6-dev \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
@@ -620,6 +741,12 @@ COPY ./config/php/xdebug-3.ini /etc/php/7.2/cli/conf.d/20-xdebug.ini
 
 COPY ./config/php/xdebug-2.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-2.ini /etc/php/7.1/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini
+
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-2.ini /etc/php/5.6/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
 
@@ -658,6 +785,16 @@ RUN cd /var/www \
     && sed -i 's/__PHP__FOLDER__ID/20160303/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/7.1/g' /etc/php/7.1/cli/conf.d/20-xdebug.ini \
 
+&& sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20151012/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/7.0/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini \
+
+&& sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20131226/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/5.6/g' /etc/php/5.6/cli/conf.d/20-xdebug.ini \
+
  && cd /var/www
 
 ## ***********************************************************************
@@ -667,26 +804,26 @@ RUN cd /var/www \
 # prepare environment variables to allow a
 # quiet install of the mysql server
 # this sets the root password to root without user prompts
-RUN echo debconf mysql-server/root_password password root | debconf-set-selections
-RUN echo debconf mysql-server/root_password_again password root | debconf-set-selections
-
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN echo debconf mysql-server/root_password password root | debconf-set-selections \
+    && echo debconf mysql-server/root_password_again password root | debconf-set-selections \
+    && DEBIAN_FRONTEND=noninteractive \
     # install mysql server
     && apt-get update \
-    && apt-get install -y -q mysql-server \
+    && apt-get install -y -q mysql-server-8.0 \
     # set requires permissions
     && usermod -d /var/lib/mysql/ mysql \
     # cleanup download folders
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    # i dont know why, but this is suddenly required
+    && chmod 0444 /etc/mysql/my.cnf \
+    && service mysql start \
+    #creat ethe user for % and also localhost as otherwise you qould have to connect to 127.0.0.1 and not localhost as mysql treats this different
+    && sudo mysql --user=root --password=root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;use mysql;select user from user;" \
+    && sudo mysql --user=root --password=root -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;FLUSH PRIVILEGES;use mysql;select user from user;" \
+    && service mysql restart
 
 # copy our custom configuration to the image
-ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
-
-# i dont know why, but this is suddenly required
-RUN chmod 0444 /etc/mysql/my.cnf \
-    && service mysql start \
-    && mysql --user=root --password=root -e "use mysql; update user set host='%' where host='localhost';" \
-    && service mysql restart
+ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
 
 ## ***********************************************************************
 ##  ADMINER
@@ -712,13 +849,16 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
-RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
+RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.3/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.4/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.3/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.1/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/7.0/mods-available/mailcatcher.ini && \
+echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/5.6/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -752,18 +892,20 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
+    && nvm install 18 \
     && nvm install 16 \
     && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
+    && nvm use 18 && npm install -g yarn \
     && nvm use 16 && npm install -g yarn \
     && nvm use 14 && npm install -g yarn \
     && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
-    && nvm use 12 \
-    && nvm alias default 12  \
+    && nvm use 18 \
+    && nvm alias default 18  \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
@@ -776,7 +918,7 @@ RUN echo "" \
     && export NVM_DIR="/var/www/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use 12 \
+    && nvm use 18 \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -799,6 +941,8 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
+&& cat /tmp/tideways.ini >| /etc/php/8.3/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.3/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.1/fpm/conf.d/20-tideways.ini \
@@ -813,6 +957,10 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
 && cat /tmp/tideways.ini >| /etc/php/7.2/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/7.1/fpm/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/7.1/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.0/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/7.0/cli/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/5.6/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/5.6/cli/conf.d/20-tideways.ini \
     && rm -rf /tmp/tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile

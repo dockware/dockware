@@ -8,6 +8,11 @@ using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 ### Added
 
 - Add PHP 8.2 to latest Shopware and flex image.
+- Add PHP 8.3 to images
+
+### Changed
+
+- Essentials image is now using Ubuntu 22.04 as OS.
 
 ### Fixed
 
