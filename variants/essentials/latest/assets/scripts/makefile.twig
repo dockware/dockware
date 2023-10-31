@@ -3,7 +3,7 @@
 
 {% block essentials_download %}
 # ---------------------------------------------------------------------------------------------
-shopware: ## Setup the provided Shopware version. Use: make setup version=6.5.6.0
+shopware: ##1 Setup the provided Shopware version. Use: make shopware version=6.5.6.0
 ifndef version
 	$(warning Please provide the version of Shopware!)
 	@exit 1
@@ -16,7 +16,7 @@ else
 	cd /var/www/html && composer req shopware/core:$(version) shopware/administration:$(version) shopware/elasticsearch:$(version) shopware/storefront:$(version) -W
 endif
 
-download: ## Downloads a provided ZIP URL, such as Shopware versions. Use: make download url=(https://......shopware6.zip)
+download: ##1 Downloads a provided ZIP URL, such as Shopware versions. Use: make download url=(https://......shopware6.zip)
 ifndef url
 	$(warning Please provide the URL to the Shopware ZIP file!)
 	@exit 1
