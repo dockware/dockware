@@ -22,6 +22,11 @@
             <directory>./../../tests/packages/shopware-cli</directory>
         </testsuite>
 
+        <testsuite name="essentials:latest, PHP 8.3" dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=8.3">
+            <directory>./../../tests/packages/php/php8.3</directory>
+            <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+
         <testsuite name="essentials:latest, PHP 8.2" dockerImage="dockware/essentials:latest" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8.2</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
