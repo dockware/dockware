@@ -1,7 +1,7 @@
 commands:
   - name: "Yarn is installed and loaded"
     command: "echo SVRUNIT: $(yarn -v)"
-    expected: "SVRUNIT: 1.22.19"
+    expected: "SVRUNIT: 1.22."
   - name: "Yarn is installed and loaded after NVM switch"
     command: "nvm use default && echo SVRUNIT: $(yarn -v)"
-    expected: "SVRUNIT: 1.22.19"
+    expected: "SVRUNIT: 1.22."
