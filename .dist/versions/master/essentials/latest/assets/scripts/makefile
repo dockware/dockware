@@ -69,20 +69,15 @@ endif
 endif
 
 # ---------------------------------------------------------------------------------------------
-shopware: ##1 Setup the provided Shopware version. Use: make shopware version=6.5.6.0
-ifndef version
-	$(warning Please provide the version of Shopware!)
-	@exit 1
-else
-	sudo rm -rf /var/www/html/*
-	sudo rm -rf /var/www/tmp
+
+setup: ## Setup a provided Shopware 6 version with argument version=6.5.6.0
 	cd /var/www && composer create-project shopware/production --no-interaction tmp
 	cp -a /var/www/tmp/. /var/www/html
 	rm -rf /var/www/tmp
+	# -------------------------------------------------------------------------------------------
 	cd /var/www/html && composer req shopware/core:$(version) shopware/administration:$(version) shopware/elasticsearch:$(version) shopware/storefront:$(version) -W
-endif
 
-download: ##1 Downloads a provided ZIP URL, such as Shopware versions. Use: make download url=(https://......shopware6.zip)
+download: ## Downloads a Shopware 6 from a provided ZIP URL. Use: make download url=(https://......shopware6.zip)
 ifndef url
 	$(warning Please provide the URL to the Shopware ZIP file!)
 	@exit 1

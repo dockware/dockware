@@ -3,14 +3,20 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [unreleased]
+
+### Added
+
+- Add new **make setup** command in /var/www/makefile of the essentials image to install a new Shopware 6 using the new system.
+
 ## [1.7.0]
 
 ### Added
 
 - Add PHP 8.2 to latest Shopware and flex image.
 - Add PHP 8.3 to images
-- Add command "make shopware version=x.y.z" in essentials image for faster installation 
-- Add colors to makefile command overview 
+- Add command "make shopware version=x.y.z" in essentials image for faster installation
+- Add colors to makefile command overview
 
 ### Changed
 
