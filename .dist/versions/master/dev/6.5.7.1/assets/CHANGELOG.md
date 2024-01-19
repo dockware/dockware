@@ -3,7 +3,13 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [unreleased]
+## [2024-01-19]
+
+### Added
+
+- Add new **RECOVERY_MODE** environment variable to disable the entrypoint and bootup things, in case something is broken (inspired by @SanderFlooris - thx a lot)
+
+## [2024-01-17]
 
 ### Added
 

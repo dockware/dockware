@@ -25,13 +25,15 @@ ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION 18
 ENV SHOP_DOMAIN localhost
+ENV RECOVERY_MODE 0
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
  && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
  && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile \
- && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile
+ && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile \
+ && echo "export RECOVERY_MODE=${RECOVERY_MODE}" >> /etc/profile
 
 ENV SSH_USER not-set
 ENV SSH_PWD not-set
@@ -580,13 +582,15 @@ ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION 18
 ENV SHOP_DOMAIN localhost
+ENV RECOVERY_MODE 0
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
  && echo "export SW_TASKS_ENABLED=${SW_TASKS_ENABLED}" >> /etc/profile \
  && echo "export COMPOSER_VERSION=${COMPOSER_VERSION}" >> /etc/profile \
  && echo "export NODE_VERSION=${NODE_VERSION}" >> /etc/profile \
- && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile
+ && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile \
+ && echo "export RECOVERY_MODE=${RECOVERY_MODE}" >> /etc/profile
 
 ENV SSH_USER not-set
 ENV SSH_PWD not-set

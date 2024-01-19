@@ -33,163 +33,196 @@ export BASH_ENV=/var/www/.bashrc
 
 CONTAINER_STARTUP_DIR=$(pwd)
 
-# it's possible to add a custom boot script on startup.
-# so we test if it exists and just execute it
-file="/var/www/boot_start.sh"
-if [ -f "$file" ] ; then
-    sh $file
-fi
+# only do all our stuff
+# if we are not in recovery mode
+if [ $RECOVERY_MODE = 0 ]; then
 
-echo "DOCKWARE: setting timezone to ${TZ}..."
-sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
-sudo dpkg-reconfigure -f noninteractive tzdata
-echo "-----------------------------------------------------------"
+    # it's possible to add a custom boot script on startup.
+    # so we test if it exists and just execute it
+    file="/var/www/boot_start.sh"
+    if [ -f "$file" ] ; then
+        sh $file
+    fi
 
-if [ $FILEBEAT_ENABLED = 1 ]; then
-   echo "DOCKWARE: activating Filebeat..."
-   sudo service filebeat start --strict.perms=false
-   echo "-----------------------------------------------------------"
-fi
-
-# checks if a different username is set in ENV and create if its not existing yet
-if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
-    echo "DOCKWARE: creating additional SSH user...."
-    # create a custom ssh user for our provided settings
-    sudo adduser --disabled-password --uid 8888 --gecos "" --ingroup www-data $SSH_USER
-    sudo usermod -a -G sudo $SSH_USER
-    sudo usermod -m -d /var/www $SSH_USER | true
-    sudo echo "${SSH_USER}:${SSH_PWD}" | sudo chpasswd
-    sudo sed -i "s/${SSH_USER}:x:8888:33:/${SSH_USER}:x:33:33:/g" /etc/passwd
-    # add sudo without password
-    # write user to file cause we loos the var as we executing as root and get a new shell
-    sudo echo "${SSH_USER}" >> /tmp/user.name
-    sudo -u root sh -c 'echo "Defaults:$(cat /tmp/user.name) !requiretty" >> /etc/sudoers'
-    sudo rm -rf /tmp/user.name
-    # disable original ssh access
-    sudo usermod -s /bin/false dockware
-    # allow ssh in sshd_config
-    sudo sed -i "s/AllowUsers dockware/AllowUsers ${SSH_USER}/g" /etc/ssh/sshd_config
+        echo "DOCKWARE: setting timezone to ${TZ}..."
+    sudo ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime
+    sudo dpkg-reconfigure -f noninteractive tzdata
     echo "-----------------------------------------------------------"
-fi
+    
+    
+        if [ $FILEBEAT_ENABLED = 1 ]; then
+       echo "DOCKWARE: activating Filebeat..."
+       sudo service filebeat start --strict.perms=false
+       echo "-----------------------------------------------------------"
+    fi
+    
+        # checks if a different username is set in ENV and create if its not existing yet
+    if [ $SSH_USER != "not-set" ] && (! id -u "${SSH_USER}" >/dev/null 2>&1 ); then
+        echo "DOCKWARE: creating additional SSH user...."
+        # create a custom ssh user for our provided settings
+        sudo adduser --disabled-password --uid 8888 --gecos "" --ingroup www-data $SSH_USER
+        sudo usermod -a -G sudo $SSH_USER
+        sudo usermod -m -d /var/www $SSH_USER | true
+        sudo echo "${SSH_USER}:${SSH_PWD}" | sudo chpasswd
+        sudo sed -i "s/${SSH_USER}:x:8888:33:/${SSH_USER}:x:33:33:/g" /etc/passwd
+        # add sudo without password
+        # write user to file cause we loos the var as we executing as root and get a new shell
+        sudo echo "${SSH_USER}" >> /tmp/user.name
+        sudo -u root sh -c 'echo "Defaults:$(cat /tmp/user.name) !requiretty" >> /etc/sudoers'
+        sudo rm -rf /tmp/user.name
+        # disable original ssh access
+        sudo usermod -s /bin/false dockware
+        # allow ssh in sshd_config
+        sudo sed -i "s/AllowUsers dockware/AllowUsers ${SSH_USER}/g" /etc/ssh/sshd_config
+        echo "-----------------------------------------------------------"
+    fi
 
-# start the SSH service with the latest setup
-echo "DOCKWARE: restarting SSH service...."
-sudo service ssh restart
-echo "-----------------------------------------------------------"
-
-echo "DOCKWARE: starting cron service...."
-sudo service cron start
-echo "-----------------------------------------------------------"
-
-# --------------------------------------------------
-# APACHE
-# first set the correct doc root, because we need it for the php switch below
-sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
-# --------------------------------------------------
-
-echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
-cd /var/www && make switch-php version=${PHP_VERSION}
-sudo service apache2 stop
-echo "-----------------------------------------------------------"
-
-if [ $COMPOSER_VERSION = 1 ]; then
-   echo "DOCKWARE: switching to composer 1..."
-   sudo composer self-update --1
-   echo "-----------------------------------------------------------"
-fi
-if [ $COMPOSER_VERSION = 2 ]; then
-   echo "DOCKWARE: switching to composer 2..."
-   sudo composer self-update --stable
-   echo "-----------------------------------------------------------"
-fi
-
-# somehow we (once) had the problem that composer does not find a HOME directory
-# this was the solution
-export COMPOSER_HOME=/var/www
-
-if [ $XDEBUG_ENABLED = 1 ]; then
-   sh /var/www/scripts/bin/xdebug_enable.sh
- else
-   sh /var/www/scripts/bin/xdebug_disable.sh
-fi
-
-if [ $TIDEWAYS_KEY != "not-set" ]; then
-    echo "DOCKWARE: activating Tideways...."
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
-    sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
-    sudo service tideways-daemon start
+    # start the SSH service with the latest setup
+    echo "DOCKWARE: restarting SSH service...."
+    sudo service ssh restart
     echo "-----------------------------------------------------------"
+    
+    
+    
+        echo "DOCKWARE: starting cron service...."
+    sudo service cron start
+    echo "-----------------------------------------------------------"
+    
+    
+
+    # --------------------------------------------------
+    # APACHE
+    # first set the correct doc root, because we need it for the php switch below
+    sudo sed -i 's#__dockware_apache_docroot__#'${APACHE_DOCROOT}'#g' /etc/apache2/sites-enabled/000-default.conf
+    # --------------------------------------------------
+
+        echo "DOCKWARE: switching to PHP ${PHP_VERSION}..."
+    cd /var/www && make switch-php version=${PHP_VERSION}
+    sudo service apache2 stop
+    echo "-----------------------------------------------------------"
+    
+
+        if [ $COMPOSER_VERSION = 1 ]; then
+       echo "DOCKWARE: switching to composer 1..."
+       sudo composer self-update --1
+       echo "-----------------------------------------------------------"
+    fi
+    if [ $COMPOSER_VERSION = 2 ]; then
+       echo "DOCKWARE: switching to composer 2..."
+       sudo composer self-update --stable
+       echo "-----------------------------------------------------------"
+    fi
+
+    # somehow we (once) had the problem that composer does not find a HOME directory
+    # this was the solution
+    export COMPOSER_HOME=/var/www
+    
+
+            if [ $XDEBUG_ENABLED = 1 ]; then
+       sh /var/www/scripts/bin/xdebug_enable.sh
+     else
+       sh /var/www/scripts/bin/xdebug_disable.sh
+    fi
+    
+
+        if [ $TIDEWAYS_KEY != "not-set" ]; then
+        echo "DOCKWARE: activating Tideways...."
+        sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_ENV__/'${TIDEWAYS_ENV}'/g' /etc/default/tideways-daemon
+        sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/fpm/conf.d/20-tideways.ini
+        sudo sed -i 's/__DOCKWARE_VAR_TIDEWAYS_API_KEY__/'${TIDEWAYS_KEY}'/g' /etc/php/$PHP_VERSION/cli/conf.d/20-tideways.ini
+        sudo service tideways-daemon start
+        echo "-----------------------------------------------------------"
+    fi
+    
+
+        if [[ ! -z "$NODE_VERSION" ]]; then
+       echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
+       nvm alias default ${NODE_VERSION}
+       # now make sure to at least have node and npm as sudo
+       # nvm itself is not possible by design
+       sudo rm -f /usr/local/bin/node
+       sudo rm -f /usr/local/bin/npm
+       sudo ln -s "$(which node)" "/usr/local/bin/node"
+       sudo ln -s "$(which npm)" "/usr/local/bin/npm"
+       echo "-----------------------------------------------------------"
+    fi
+    
+
+    
+
+    # --------------------------------------------------
+    # APACHE
+    # sometimes the internal docker structure leaves
+    # some pid files existing. the container will be recreated....but
+    # in reality it's not! thus there might be the problem
+    # that an older pid file exists, which leads to the following error:
+    #   - "httpd (pid 13) already running"
+    # to avoid this, we simple remove an existing file
+    sudo rm -f /var/run/apache2/apache2.pid
+    # also, sometimes port 80 is used? happens if you have lots of local containers i think
+    # so let's just kill that, otherwise the container won't start
+    sudo lsof -t -i tcp:80 | sudo xargs kill >/dev/null 2>&1 || true;
+
+    # start test and start apache
+    echo "DOCKWARE: testing and starting Apache..."
+    sudo apache2ctl configtest
+    sudo service apache2 restart
+    echo "-----------------------------------------------------------"
+    # --------------------------------------------------
+
+    # before starting any commands
+    # we always need to ensure we are back in our
+    # configured WORKDIR of the container
+    echo "-----------------------------------------------------"
+    cd $CONTAINER_STARTUP_DIR
+
+    # now let's check if we have a custom boot script that
+    # should run after our other startup scripts.
+    file="/var/www/boot_end.sh"
+    if [ -f "$file" ] ; then
+        sh $file
+    fi
+
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+
+        echo ""
+    echo "WOHOOO, dockware/flex:beta IS READY :) - let's get started"
+    echo "-----------------------------------------------------"
+    echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
+    echo "PHP: $(php -v | grep cli)"
+    echo "Apache DocRoot: ${APACHE_DOCROOT}"
+
+    echo "URLs (if you are using a custom domain, make sure its available using /etc/hosts or other approaches)"
+    
+    
+    
+    
+    
+
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------------------
+
+        # used to inject the custom build script of
+    # plugins in dockware/dev
+    
+else
+
+    echo ""
+    echo "Dockware has been started in RECOVERY_MODE."
+    echo "Nothing has been executed or initialized..."
+    echo ""
+
+    # build the recovery mode file (for SVRUnit Tests
+    echo "enabled" > /var/www/recovery.txt
+
 fi
-
-if [[ ! -z "$NODE_VERSION" ]]; then
-   echo "DOCKWARE: switching to Node ${NODE_VERSION}..."
-   nvm alias default ${NODE_VERSION}
-   # now make sure to at least have node and npm as sudo
-   # nvm itself is not possible by design
-   sudo rm -f /usr/local/bin/node
-   sudo rm -f /usr/local/bin/npm
-   sudo ln -s "$(which node)" "/usr/local/bin/node"
-   sudo ln -s "$(which npm)" "/usr/local/bin/npm"
-   echo "-----------------------------------------------------------"
-fi
-
-# --------------------------------------------------
-# APACHE
-# sometimes the internal docker structure leaves
-# some pid files existing. the container will be recreated....but
-# in reality it's not! thus there might be the problem
-# that an older pid file exists, which leads to the following error:
-#   - "httpd (pid 13) already running"
-# to avoid this, we simple remove an existing file
-sudo rm -f /var/run/apache2/apache2.pid
-# also, sometimes port 80 is used? happens if you have lots of local containers i think
-# so let's just kill that, otherwise the container won't start
-sudo lsof -t -i tcp:80 | sudo xargs kill >/dev/null 2>&1 || true;
-
-# start test and start apache
-echo "DOCKWARE: testing and starting Apache..."
-sudo apache2ctl configtest
-sudo service apache2 restart
-echo "-----------------------------------------------------------"
-# --------------------------------------------------
-
-# before starting any commands
-# we always need to ensure we are back in our
-# configured WORKDIR of the container
-echo "-----------------------------------------------------"
-cd $CONTAINER_STARTUP_DIR
-
-# now let's check if we have a custom boot script that
-# should run after our other startup scripts.
-file="/var/www/boot_end.sh"
-if [ -f "$file" ] ; then
-    sh $file
-fi
-
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-
-echo ""
-echo "WOHOOO, dockware/flex:beta IS READY :) - let's get started"
-echo "-----------------------------------------------------"
-echo "DOCKWARE CHANGELOG: /var/www/CHANGELOG.md"
-echo "PHP: $(php -v | grep cli)"
-echo "Apache DocRoot: ${APACHE_DOCROOT}"
-
-echo "URLs (if you are using a custom domain, make sure its available using /etc/hosts or other approaches)"
-
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------
-
-# used to inject the custom build script of
-# plugins in dockware/dev
 
 # always execute custom commands in here.
 # if a custom command is provided, then the container
