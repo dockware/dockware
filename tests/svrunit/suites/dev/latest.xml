@@ -20,6 +20,10 @@
             <directory>./../../tests/packages/node/v18</directory>
         </testsuite>
             
+        <testsuite name="dockware/dev:latest, Recovery Mode works" dockerImage="dockware/dev:latest" dockerEnv="RECOVERY_MODE=1">
+            <directory>./../../tests/shared/recovery_mode</directory>
+        </testsuite>
+            
         <testsuite name="dockware/dev:latest, PHP 8.3, XDebug OFF" dockerImage="dockware/dev:latest" dockerEnv="PHP_VERSION=8.3,XDEBUG_ENABLED=0">
             <directory>./../../tests/packages/php/php8.3</directory>
             <directory>./../../tests/packages/xdebug/xdebug-off</directory>

@@ -12,6 +12,10 @@
             <directory >./../../tests/packages/php/php8 </directory>
         </testsuite >
     
+        <testsuite name="dockware/play:5.7.8, Recovery Mode works" dockerImage="dockware/play:5.7.8" dockerEnv="RECOVERY_MODE=1">
+            <directory>./../../tests/shared/recovery_mode</directory>
+        </testsuite>
+            
     </testsuites >
 </svrunit >
     

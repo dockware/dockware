@@ -1,0 +1,4 @@
+commands:
+  - name: "Check for recovery mode file"
+    command: "cat /var/www/recovery.txt"
+    expected: "enabled"

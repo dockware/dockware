@@ -156,6 +156,12 @@ class SVRUnitBuilder
             ';
         }
 
+        $xml .= '
+        <testsuite name="' . $imageFull . ', Recovery Mode works" dockerImage="' . $imageFull . '" dockerEnv="RECOVERY_MODE=1">
+            <directory>./../../tests/shared/recovery_mode</directory>
+        </testsuite>
+            ';
+
         # -------------------------------------------------------------------------------------------------------------------------------
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
 
