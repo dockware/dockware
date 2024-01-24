@@ -1,0 +1,32 @@
+{
+    "base_image": "ubuntu:22.04",
+    "apache": {
+        "docroot": "/var/www/html"
+    },
+    "shopware": {
+        "version": "5.7.19",
+        "download_url": "https://github.com/shopware5/shopware/releases/download/v5.7.19/install_e75856b1d446ab80746b4db216e11875c4f8159a.zip"
+    },
+    "db": {
+        "host": "127.0.0.1"
+    },
+    "php": {
+        "default_version": "8.0",
+        "versions": {
+            "7.1": {
+                "active": false
+            },
+            "7.0": {
+                "active": false
+            },
+            "5.6": {
+                "active": false
+            }
+        }
+    },
+    "mysql": {
+        "version" : "8.0"
+    }
+}
+
+

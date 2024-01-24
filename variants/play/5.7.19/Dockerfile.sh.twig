@@ -1,0 +1,11 @@
+{% extends "variants/play/Dockerfile.sw5.sh.twig" %}
+
+{% block shopware %}
+
+{{ parent() }}
+# we need the prepared config with the "127.0.0.1 IP address" to make it work with MySQL 8
+RUN rm -rf /var/www/html/config.php
+COPY ./assets/shopware5/config.php /var/www/html/
+RUN sudo chown 33:33 /var/www/html/config.php
+{% endblock %}
+
