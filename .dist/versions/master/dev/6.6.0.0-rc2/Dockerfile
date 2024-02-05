@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: 6.6.0.0-rc1
+# Tag: 6.6.0.0-rc2
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware dev:6.6.0.0-rc1" \
+LABEL title="Dockware dev:6.6.0.0-rc2" \
       version="1.7.0" \
       maintainer="dasistweb GmbH"
 
@@ -502,11 +502,11 @@ RUN chown www-data:www-data -R /var/www/scripts && \
     chmod 755 /*.sh
 
 # Official Dockware Image
-# Tag: 6.6.0.0-rc1
+# Tag: 6.6.0.0-rc2
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware dev:6.6.0.0-rc1" \
+LABEL title="Dockware dev:6.6.0.0-rc2" \
       version="1.7.0" \
       maintainer="dasistweb GmbH"
 
@@ -1012,7 +1012,7 @@ RUN sudo service mysql start && \
     sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 && \
     # -------------------------------------------------------------------------------------------
     cd /var/www && \
-    composer create-project shopware/production:6.6.0.0-rc1 --no-interaction tmp && \
+    composer create-project shopware/production:6.6.0.0-rc2 --no-interaction tmp && \
     composer require --dev shopware/dev-tools && \
     cp -a /var/www/tmp/. /var/www/html && \
     rm -rf /var/www/tmp && \
