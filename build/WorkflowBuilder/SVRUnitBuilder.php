@@ -23,7 +23,26 @@ class SVRUnitBuilder
 
         $ubuntuVersion = '22';
 
-        if ($tag === 'latest' || (version_compare($tag, '6.5') >= 0) || str_contains($tag, '6.5')) {
+        if ($this->isVersionGTE($tag, '6.6')) {
+            # SHOPWARE >= 6.6
+            $defaultPHP = '8.3';
+
+
+            $php83 = true;
+            $php82 = true;
+
+            $php81 = false;
+            $php8 = false;
+            $php74 = false;
+            $php73 = false;
+            $php72 = false;
+            $php71 = false;
+            $php7 = false;
+            $php56 = false;
+
+            $node = '20';
+
+        } else if ($tag === 'latest' || $this->isVersionGTE($tag, '6.5')) {
             # SHOPWARE >= 6.5
             $defaultPHP = '8';
 
@@ -42,7 +61,7 @@ class SVRUnitBuilder
 
             $node = '18';
 
-        } else if (version_compare($tag, '6.0') >= 0) {
+        } else if ($this->isVersionGTE($tag, '6.0')) {
             # SHOPWARE >= 6.0
             $defaultPHP = '8';
 
@@ -58,7 +77,7 @@ class SVRUnitBuilder
             $php7 = false;
             $php56 = false;
 
-        } else if (version_compare($tag, '5.7') >= 0) {
+        } else if ($this->isVersionGTE($tag, '5.7')) {
             # SHOPWARE >= 5.7
             $defaultPHP = '8';
 
@@ -73,6 +92,8 @@ class SVRUnitBuilder
             $php71 = false;
             $php7 = false;
             $php56 = false;
+
+            $ubuntuVersion = '22';
 
         } else {
             # SHOPWARE < 5.7
@@ -166,15 +187,18 @@ class SVRUnitBuilder
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
 
         if ($php83) {
-            $xdebug = ($isDev) ? '' : '';
-            $xml .= $this->buildVersion($imageFull, '8.3', '8.3', $xdebug, $sodium, $testXdebugOff);
+            $xdebug = ($isDev) ? '3.2.0' : '';
             $testXdebugOff = false;
+
+            $xml .= $this->buildVersion($imageFull, '8.3', '8.3', $xdebug, $sodium, $testXdebugOff);
+
         }
 
         if ($php82) {
             $xdebug = ($isDev) ? '3.2.0' : '';
-            $xml .= $this->buildVersion($imageFull, '8.2', '8.2', $xdebug, $sodium, $testXdebugOff);
             $testXdebugOff = false;
+
+            $xml .= $this->buildVersion($imageFull, '8.2', '8.2', $xdebug, $sodium, $testXdebugOff);
         }
 
         # -------------------------------------------------------------------------------------------------------------------------------
@@ -282,4 +306,21 @@ class SVRUnitBuilder
 
         return $xml;
     }
+
+
+    /**
+     * @param $currentVersion
+     * @param $cmpVersion
+     * @return bool
+     */
+    private function isVersionGTE($currentVersion, $cmpVersion)
+    {
+        $currentVersion = str_replace('-rc1', '', $currentVersion);
+        $currentVersion = str_replace('-rc2', '', $currentVersion);
+        $currentVersion = str_replace('-rc3', '', $currentVersion);
+        $currentVersion = str_replace('-rc4', '', $currentVersion);
+
+        return (version_compare($currentVersion, $cmpVersion, '>='));
+    }
+
 }
