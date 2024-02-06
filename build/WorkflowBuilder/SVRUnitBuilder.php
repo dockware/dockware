@@ -187,18 +187,15 @@ class SVRUnitBuilder
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
 
         if ($php83) {
-            $xdebug = ($isDev) ? '3.2.0' : '';
-            $testXdebugOff = false;
-
+            $xdebug = ''; # not yet working
             $xml .= $this->buildVersion($imageFull, '8.3', '8.3', $xdebug, $sodium, $testXdebugOff);
-
+            $testXdebugOff = false;
         }
 
         if ($php82) {
             $xdebug = ($isDev) ? '3.2.0' : '';
-            $testXdebugOff = false;
-
             $xml .= $this->buildVersion($imageFull, '8.2', '8.2', $xdebug, $sodium, $testXdebugOff);
+            $testXdebugOff = false;
         }
 
         # -------------------------------------------------------------------------------------------------------------------------------

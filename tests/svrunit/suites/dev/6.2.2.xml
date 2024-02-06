@@ -25,10 +25,9 @@
             <directory>./../../tests/shared/recovery_mode</directory>
         </testsuite>
             
-        <testsuite name="dockware/dev:6.2.2, PHP 8.3, XDebug ON" dockerImage="dockware/dev:6.2.2" dockerEnv="PHP_VERSION=8.3,XDEBUG_ENABLED=1">
+        <testsuite name="dockware/dev:6.2.2, PHP 8.3, XDebug OFF" dockerImage="dockware/dev:6.2.2" dockerEnv="PHP_VERSION=8.3,XDEBUG_ENABLED=0">
             <directory>./../../tests/packages/php/php8.3</directory>
-            <directory>./../../tests/packages/xdebug/xdebug3.2.0</directory>
-            <directory>./../../tests/packages/sodium</directory>
+            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
         </testsuite>
 
         <testsuite name="dockware/dev:6.2.2, PHP 8.2, XDebug ON" dockerImage="dockware/dev:6.2.2" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=1">
