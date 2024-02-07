@@ -3,6 +3,12 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [2024-02-07]
+
+### Added
+
+- Add **Node v20** to flex:latest image
+ 
 ## [2024-01-19]
 
 ### Added
