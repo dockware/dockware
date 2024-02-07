@@ -16,8 +16,11 @@
             <directory>./../../tests/packages/node/v12</directory>
         </testsuite>
 
+        <testsuite name="ENV Node Version Switch to 18" dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=18">
+            <directory>./../../tests/packages/node/v18</directory>
+        </testsuite>
 
-        <testsuite name="ENV Node Version Switch" dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=16">
+        <testsuite name="ENV Node Version Switch to 16" dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=16">
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
 
@@ -30,9 +33,17 @@
             <directory>./../../tests/packages/xdebug/xdebug3.2.0</directory>
         </testsuite>
 
+        <testsuite name="PHP 8.2, XDebug OFF" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
+        </testsuite>
+
         <testsuite name="PHP 8.1, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8.1</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
+        <testsuite name="PHP 8.1, XDebug OFF" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
         </testsuite>
 
         <testsuite name="PHP 8.0, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.0,XDEBUG_ENABLED=1">
@@ -68,14 +79,6 @@
         <testsuite name="PHP 5.6, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=5.6,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php5</directory>
             <directory>./../../tests/packages/xdebug/xdebug2</directory>
-        </testsuite>
-
-        <testsuite name="PHP 8.2, XDebug OFF" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
-        </testsuite>
-
-        <testsuite name="PHP 8.1, XDebug OFF" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.1,XDEBUG_ENABLED=0">
-            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
         </testsuite>
 
     </testsuites>

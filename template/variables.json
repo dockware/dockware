@@ -90,8 +90,12 @@
         "version": 12,
         "packages": [
             {
+                "version": 20,
+                "active": true
+            },
+            {
                 "version": 18,
-                "active": false
+                "active": true
             },
             {
                 "version": 16,
