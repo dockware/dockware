@@ -387,10 +387,12 @@ RUN ls -la \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
     && nvm install 18 \
+    && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
     && nvm use 18 && npm install -g yarn \
+    && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
     && nvm use 18 \
     && nvm alias default 18  \
@@ -911,10 +913,12 @@ RUN ls -la \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
     && nvm install 18 \
+    && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
     && nvm use 18 && npm install -g yarn \
+    && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
     && nvm use 18 \
     && nvm alias default 18  \
