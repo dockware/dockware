@@ -185,9 +185,10 @@ class SVRUnitBuilder
 
         # -------------------------------------------------------------------------------------------------------------------------------
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
+        # and only the first one
 
         if ($php83) {
-            $xdebug = ''; # not yet working
+            $xdebug = ($isDev) ? '3' : '';
             $xml .= $this->buildVersion($imageFull, '8.3', '8.3', $xdebug, $sodium, $testXdebugOff);
             $testXdebugOff = false;
         }
@@ -294,7 +295,7 @@ class SVRUnitBuilder
 
         if ($testXdebugOff) {
             //disabled xdebug
-            $xml = PHP_EOL;
+            $xml .= PHP_EOL;
             $xml .= '        <testsuite name="' . $imageFull . ', PHP ' . $fullPHP . ', XDebug OFF" dockerImage="' . $imageFull . '" dockerEnv="PHP_VERSION=' . $fullPHP . ',XDEBUG_ENABLED=0">' . PHP_EOL;
             $xml .= '            <directory>./../../tests/packages/php/php' . $php . '</directory>' . PHP_EOL;
             $xml .= '            <directory>./../../tests/packages/xdebug/xdebug-off</directory>' . PHP_EOL;

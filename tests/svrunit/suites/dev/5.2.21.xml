@@ -24,6 +24,11 @@
             <directory>./../../tests/shared/recovery_mode</directory>
         </testsuite>
             
+        <testsuite name="dockware/dev:5.2.21, PHP 7.0, XDebug ON" dockerImage="dockware/dev:5.2.21" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php7.0</directory>
+            <directory>./../../tests/packages/xdebug/xdebug2</directory>
+        </testsuite>
+
         <testsuite name="dockware/dev:5.2.21, PHP 7.0, XDebug OFF" dockerImage="dockware/dev:5.2.21" dockerEnv="PHP_VERSION=7.0,XDEBUG_ENABLED=0">
             <directory>./../../tests/packages/php/php7.0</directory>
             <directory>./../../tests/packages/xdebug/xdebug-off</directory>
