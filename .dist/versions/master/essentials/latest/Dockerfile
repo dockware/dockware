@@ -212,6 +212,7 @@ RUN apt-get update \
     && apt-get install -y php8.3-soap \
     && apt-get install -y php8.3-bcmath \
     && apt-get install -y php8.3-imap \
+    && apt-get install -y php8.3-xdebug \
     #&& apt-get install -y php8.3-redis \ NOT YET HERE
     #&& apt-get install -y php8.3-amqp \ NOT YET HERE
     #&& apt-get install -y php8.3-apcu \ NOT YET HERE
