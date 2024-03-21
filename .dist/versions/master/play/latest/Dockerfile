@@ -19,11 +19,11 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV PHP_VERSION 8.1
+ENV PHP_VERSION 8.3
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION 18
+ENV NODE_VERSION 20
 ENV SHOP_DOMAIN localhost
 ENV RECOVERY_MODE 0
 RUN echo "export TZ=${TZ}" >> /etc/profile \
@@ -221,47 +221,16 @@ RUN apt-get update \
 && cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/8.2/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/8.2/cli/conf.d/01-general-cli.ini \
-    && apt-get install -y php8.1-fpm \
-    && apt-get install -y php8.1-gd \
-    && apt-get install -y php8.1-iconv \
-    && apt-get install -y php8.1-intl \
-    #&& apt-get install -y php8.1-json \
-    && apt-get install -y php8.1-xml \
-    && apt-get install -y php8.1-mbstring \
-    && apt-get install -y php8.1-pdo \
-    && apt-get install -y php8.1-mysql \
-    && apt-get install -y php8.1-apc \
-    && apt-get install -y php8.1-apcu \
-    && apt-get install -y php8.1-curl \
-    && apt-get install -y php8.1-cli \
-    && apt-get install -y php8.1-ldap \
-    && apt-get install -y php8.1-pgsql \
-    && apt-get install -y php8.1-gettext \
-    && apt-get install -y php8.1-zip \
-    && apt-get install -y php8.1-soap \
-    && apt-get install -y php8.1-bcmath \
-    && apt-get install -y php8.1-redis \
-    && apt-get install -y php8.1-imap \
-    && apt-get install -y php8.1-ssh2 \
-    && apt-get install -y php8.1-pcov \
-    && apt-get install -y dh-php \
-    #&& apt-get install -y php8.1-geoip \ not available for 8.1
-    && apt-get install -y php8.1-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-&& cat /tmp/general.ini >| /etc/php/8.1/fpm/conf.d/01-general.ini \
-&& cat /tmp/general.ini >| /etc/php/8.1/cli/conf.d/01-general.ini \
-&& cat /tmp/cli.ini >| /etc/php/8.1/cli/conf.d/01-general-cli.ini \
 # remove pecl again
 && apt-get remove -y dh-php \
 && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
-RUN service php8.1-fpm stop > /dev/null 2>&1 && \
-    service php8.1-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 \
+RUN service php8.3-fpm stop > /dev/null 2>&1 && \
+    service php8.3-fpm start && \
+    sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
 && chown www-data:www-data -R /var/lib/php/sessions
@@ -360,7 +329,6 @@ RUN apt-get update \
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.3/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -387,16 +355,22 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
+    && nvm install 20 \
     && nvm install 18 \
+    && nvm install 16 \
+    && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
+    && nvm use 20 && npm install -g yarn \
     && nvm use 18 && npm install -g yarn \
+    && nvm use 16 && npm install -g yarn \
+    && nvm use 14 && npm install -g yarn \
     && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
-    && nvm use 18 \
-    && nvm alias default 18  \
+    && nvm use 20 \
+    && nvm alias default 20  \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
@@ -441,11 +415,11 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV PHP_VERSION 8.1
+ENV PHP_VERSION 8.3
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION 18
+ENV NODE_VERSION 20
 ENV SHOP_DOMAIN localhost
 ENV RECOVERY_MODE 0
 RUN echo "export TZ=${TZ}" >> /etc/profile \
@@ -672,47 +646,16 @@ RUN apt-get update \
 && cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/8.2/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/8.2/cli/conf.d/01-general-cli.ini \
-    && apt-get install -y php8.1-fpm \
-    && apt-get install -y php8.1-gd \
-    && apt-get install -y php8.1-iconv \
-    && apt-get install -y php8.1-intl \
-    #&& apt-get install -y php8.1-json \
-    && apt-get install -y php8.1-xml \
-    && apt-get install -y php8.1-mbstring \
-    && apt-get install -y php8.1-pdo \
-    && apt-get install -y php8.1-mysql \
-    && apt-get install -y php8.1-apc \
-    && apt-get install -y php8.1-apcu \
-    && apt-get install -y php8.1-curl \
-    && apt-get install -y php8.1-cli \
-    && apt-get install -y php8.1-ldap \
-    && apt-get install -y php8.1-pgsql \
-    && apt-get install -y php8.1-gettext \
-    && apt-get install -y php8.1-zip \
-    && apt-get install -y php8.1-soap \
-    && apt-get install -y php8.1-bcmath \
-    && apt-get install -y php8.1-redis \
-    && apt-get install -y php8.1-imap \
-    && apt-get install -y php8.1-ssh2 \
-    && apt-get install -y php8.1-pcov \
-    && apt-get install -y dh-php \
-    #&& apt-get install -y php8.1-geoip \ not available for 8.1
-    && apt-get install -y php8.1-amqp \
-    # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
-&& cat /tmp/general.ini >| /etc/php/8.1/fpm/conf.d/01-general.ini \
-&& cat /tmp/general.ini >| /etc/php/8.1/cli/conf.d/01-general.ini \
-&& cat /tmp/cli.ini >| /etc/php/8.1/cli/conf.d/01-general-cli.ini \
 # remove pecl again
 && apt-get remove -y dh-php \
 && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
-RUN service php8.1-fpm stop > /dev/null 2>&1 && \
-    service php8.1-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 \
+RUN service php8.3-fpm stop > /dev/null 2>&1 && \
+    service php8.3-fpm start && \
+    sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
 && chown www-data:www-data -R /var/lib/php/sessions
@@ -783,24 +726,6 @@ RUN cd /var/www \
     && make distclean \
     && sudo phpize8.2 --clean \
     && sudo apt-get remove -y php8.2-dev \
-    # install xdebug for php 8.1
-    && sudo apt-get install -y php8.1-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.1.4.zip \
-    && unzip 3.1.4.zip \
-    && rm -rf 3.1.4.zip \
-    && mv xdebug-3.1.4 xdebug \
-    && cd /var/www/xdebug \
-    && sudo apt-get update \
-    && sudo phpize8.1 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20210902/xdebug_8.1.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.1 --clean \
-    && sudo apt-get remove -y php8.1-dev \
 && sudo apt-get install -y zlib1g-dev \
 && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
@@ -809,20 +734,12 @@ RUN cd /var/www \
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
 
-COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
-
 RUN cd /var/www \
 
 && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20210902/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.1/g' /etc/php/8.1/cli/conf.d/20-xdebug.ini \
 
  && cd /var/www
 
@@ -880,7 +797,6 @@ RUN apt-get update \
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.3/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
-echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
     echo ""
 
 RUN mkdir -p /var/www/pimpmylog && \
@@ -914,16 +830,22 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
+    && nvm install 20 \
     && nvm install 18 \
+    && nvm install 16 \
+    && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
+    && nvm use 20 && npm install -g yarn \
     && nvm use 18 && npm install -g yarn \
+    && nvm use 16 && npm install -g yarn \
+    && nvm use 14 && npm install -g yarn \
     && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
-    && nvm use 18 \
-    && nvm alias default 18  \
+    && nvm use 20 \
+    && nvm alias default 20  \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
@@ -936,7 +858,7 @@ RUN echo "" \
     && export NVM_DIR="/var/www/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use 18 \
+    && nvm use 20 \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -963,8 +885,6 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
 && cat /tmp/tideways.ini >| /etc/php/8.3/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/cli/conf.d/20-tideways.ini \
-&& cat /tmp/tideways.ini >| /etc/php/8.1/fpm/conf.d/20-tideways.ini \
-&& cat /tmp/tideways.ini >| /etc/php/8.1/cli/conf.d/20-tideways.ini \
     && rm -rf /tmp/tideways.ini
 
 COPY ./assets/scripts/makefile /var/www/makefile
@@ -984,8 +904,12 @@ COPY ./assets/shopware6/DockwareSamplePlugin /var/www/html/custom/plugins/Dockwa
 
 RUN sudo service mysql start && \
     # -------------------------------------------------------------------------------------------
+    # switch to default PHP before installing
+    sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 && \
+    # -------------------------------------------------------------------------------------------
     cd /var/www && \
-    composer create-project shopware/production --no-interaction tmp && \
+    composer create-project shopware/production:6.6.6.0 --no-interaction tmp && \
+    composer require --dev shopware/dev-tools && \
     cp -a /var/www/tmp/. /var/www/html && \
     rm -rf /var/www/tmp && \
     # -------------------------------------------------------------------------------------------
@@ -1001,18 +925,8 @@ RUN sudo service mysql start && \
     echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware" >> /var/www/html/.env && \
     echo "MAILER_DSN=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
     # -------------------------------------------------------------------------------------------
-    # install the correct Shopware version
-    cd /var/www/html && composer req shopware/core:6.5.8.7 shopware/administration:6.5.8.7 shopware/elasticsearch:6.5.8.7 shopware/storefront:6.5.8.7 -W && \
-    # -------------------------------------------------------------------------------------------
-    # switch to default PHP before installing
-    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 && \
-    # -------------------------------------------------------------------------------------------
     cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
-    # make sure assets like logos are ready
     cd /var/www/html && php bin/console assets:install && \
-    cd /var/www/html && composer require fakerphp/faker && \
-    cd /var/www/html && composer require mbezhanov/faker-provider-collection && \
-    cd /var/www/html && composer require maltyxx/images-generator && \
     # -------------------------------------------------------------------------------------------
     cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \

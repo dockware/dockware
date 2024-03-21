@@ -35,10 +35,10 @@ You can also switch to another PHP version by providing the ENV variable.
 
 ```ruby
 # quick run with latest PHP and Shopware
-$ docker run --rm -p 80:80 dockware/play:latest
+$ docker run --rm -p 80:80 dockware/play:6.6.0.0
 
 # use another php version
-$ docker run --rm -p 80:80 --env PHP_VERSION=7.2 dockware/play:latest
+$ docker run --rm -p 80:80 --env PHP_VERSION=7.2 dockware/play:6.6.0.0
 ```
 
 Please be aware that any modifications you make while Shopware is running, will be lost
@@ -92,7 +92,7 @@ Please note that not all of these settings might be necessary.
 
 ```ruby
 shopware:
-    image: dockware/play:latest
+    image: dockware/play:6.6.0.0
     container_name: shopware
     ports:
         - "80:80"
