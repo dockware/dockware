@@ -1,7 +1,8 @@
 {
   "base_image": "ubuntu:22.04",
   "shopware": {
-    "version": "6.6.0.0",
+    "env": "dev",
+    "version": "6.6.0.1",
     "download_url": "github-url"
   },
   "db": {
@@ -49,6 +50,6 @@
     }
   },
   "mysql": {
-    "version": "8.0"
+    "version" : "8.0"
   }
 }
