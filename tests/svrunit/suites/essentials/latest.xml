@@ -6,15 +6,15 @@
             <directory>./../../tests/shared/command-runner/dev</directory>
         </testsuite>
 
-        <testsuite name="ENV Node Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=20">
+        <testsuite name="ENV Node v20 Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=20">
             <directory>./../../tests/packages/node/v20</directory>
         </testsuite>
 
-        <testsuite name="ENV Node Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=18">
+        <testsuite name="ENV Node v18 Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=18">
             <directory>./../../tests/packages/node/v18</directory>
         </testsuite>
 
-        <testsuite name="ENV Node Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=16">
+        <testsuite name="ENV Node v16 Version Switch" dockerImage="dockware/essentials:latest" dockerEnv="NODE_VERSION=16">
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
 
