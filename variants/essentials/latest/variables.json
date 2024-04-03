@@ -8,6 +8,10 @@
     "version": 18,
     "packages": [
       {
+        "version": 20,
+        "active": true
+      },
+      {
         "version": 18,
         "active": true
       },
