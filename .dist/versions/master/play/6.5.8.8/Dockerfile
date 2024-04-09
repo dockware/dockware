@@ -19,11 +19,11 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV PHP_VERSION 8.1
+ENV PHP_VERSION 8.3
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION 18
+ENV NODE_VERSION 20
 ENV SHOP_DOMAIN localhost
 ENV RECOVERY_MODE 0
 RUN echo "export TZ=${TZ}" >> /etc/profile \
@@ -257,11 +257,11 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
-RUN service php8.1-fpm stop > /dev/null 2>&1 && \
-    service php8.1-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 \
+RUN service php8.3-fpm stop > /dev/null 2>&1 && \
+    service php8.3-fpm start && \
+    sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
 && chown www-data:www-data -R /var/lib/php/sessions
@@ -387,16 +387,22 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
+    && nvm install 20 \
     && nvm install 18 \
+    && nvm install 16 \
+    && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
+    && nvm use 20 && npm install -g yarn \
     && nvm use 18 && npm install -g yarn \
+    && nvm use 16 && npm install -g yarn \
+    && nvm use 14 && npm install -g yarn \
     && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
-    && nvm use 18 \
-    && nvm alias default 18  \
+    && nvm use 20 \
+    && nvm alias default 20  \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
@@ -441,11 +447,11 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 ENV TZ Europe/Berlin
-ENV PHP_VERSION 8.1
+ENV PHP_VERSION 8.3
 ENV APACHE_DOCROOT /var/www/html/public
 ENV SW_TASKS_ENABLED 0
 ENV COMPOSER_VERSION not-set
-ENV NODE_VERSION 18
+ENV NODE_VERSION 20
 ENV SHOP_DOMAIN localhost
 ENV RECOVERY_MODE 0
 RUN echo "export TZ=${TZ}" >> /etc/profile \
@@ -708,11 +714,11 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 #make sure the installation runs also in default php version
-RUN sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 &
+RUN sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 &
 # make sure the installation runs using our default php version
-RUN service php8.1-fpm stop > /dev/null 2>&1 && \
-    service php8.1-fpm start && \
-    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 \
+RUN service php8.3-fpm stop > /dev/null 2>&1 && \
+    service php8.3-fpm start && \
+    sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 \
 
 # make sure our php user has rights on the session
 && chown www-data:www-data -R /var/lib/php/sessions
@@ -914,16 +920,22 @@ RUN ls -la \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
     # -----------------------------------------------------------------------------------------
+    && nvm install 20 \
     && nvm install 18 \
+    && nvm install 16 \
+    && nvm install 14 \
     && nvm install 12 \
     # -----------------------------------------------------------------------------------------
     # we have to install yarn in additional node versions
     # otherwise it won't be found after a nvm switch
+    && nvm use 20 && npm install -g yarn \
     && nvm use 18 && npm install -g yarn \
+    && nvm use 16 && npm install -g yarn \
+    && nvm use 14 && npm install -g yarn \
     && nvm use 12 && npm install -g yarn \
     # -----------------------------------------------------------------------------------------
-    && nvm use 18 \
-    && nvm alias default 18  \
+    && nvm use 20 \
+    && nvm alias default 20  \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
@@ -936,7 +948,7 @@ RUN echo "" \
     && export NVM_DIR="/var/www/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
     && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use 18 \
+    && nvm use 20 \
     # -----------------------------------------------------------
     && mkdir /var/www/.npm \
     && npm config set cache /var/www/.npm \
@@ -1005,7 +1017,7 @@ RUN sudo service mysql start && \
     cd /var/www/html && composer req shopware/core:6.5.8.8 shopware/administration:6.5.8.8 shopware/elasticsearch:6.5.8.8 shopware/storefront:6.5.8.8 -W && \
     # -------------------------------------------------------------------------------------------
     # switch to default PHP before installing
-    sudo update-alternatives --set php /usr/bin/php8.1 > /dev/null 2>&1 && \
+    sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 && \
     # -------------------------------------------------------------------------------------------
     cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
     # make sure assets like logos are ready
