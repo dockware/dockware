@@ -23,8 +23,8 @@ class SVRUnitBuilder
 
         $ubuntuVersion = '22';
 
-        if ($this->isVersionGTE($tag, '6.6')) {
-            # SHOPWARE >= 6.6
+        if ($this->isVersionGTE($tag, '6.5.8.8')) {
+            # SHOPWARE >= 6.5.8.8
             $defaultPHP = '8.3';
 
 

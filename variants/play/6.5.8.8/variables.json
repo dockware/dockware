@@ -8,28 +8,16 @@
     "host": "127.0.0.1"
   },
   "node": {
-    "version": 18,
+    "version": 20,
     "packages": [
       {
-        "version": 18,
+        "version": 20,
         "active": true
-      },
-      {
-        "version": 16,
-        "active": false
-      },
-      {
-        "version": 14,
-        "active": false
-      },
-      {
-        "version": 12,
-        "active": false
       }
     ]
   },
   "php": {
-    "default_version": "8.1",
+    "default_version": "8.3",
     "versions": {
       "8.3": {
         "active": true
