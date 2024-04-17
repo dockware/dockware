@@ -20,8 +20,8 @@
             "8.3": {
                 "active": false,
                 "folder_id": "20230831",
-                "xdebug_version": "",
-                "xdebug_tag": "3.3.0alpha3"
+                "xdebug_version": "3",
+                "xdebug_tag": "3.3.2"
             },
             "8.2": {
                 "active": true,
