@@ -1,4 +1,4 @@
-name: Release Shopware 6.5.*
+name: Release Shopware 6.6.*
 
 on:
   workflow_dispatch:
