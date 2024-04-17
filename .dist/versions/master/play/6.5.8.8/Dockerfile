@@ -184,10 +184,10 @@ RUN apt-get update \
     && apt-get install -y php8.3-bcmath \
     && apt-get install -y php8.3-imap \
     && apt-get install -y php8.3-xdebug \
-    #&& apt-get install -y php8.3-redis \ NOT YET HERE
-    #&& apt-get install -y php8.3-amqp \ NOT YET HERE
-    #&& apt-get install -y php8.3-apcu \ NOT YET HERE
-    #&& apt-get install -y php8.3-pcov \ NOT YET HERE
+    && apt-get install -y php8.3-redis \
+    && apt-get install -y php8.3-amqp \
+    && apt-get install -y php8.3-apcu \
+    && apt-get install -y php8.3-pcov \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -641,10 +641,10 @@ RUN apt-get update \
     && apt-get install -y php8.3-bcmath \
     && apt-get install -y php8.3-imap \
     && apt-get install -y php8.3-xdebug \
-    #&& apt-get install -y php8.3-redis \ NOT YET HERE
-    #&& apt-get install -y php8.3-amqp \ NOT YET HERE
-    #&& apt-get install -y php8.3-apcu \ NOT YET HERE
-    #&& apt-get install -y php8.3-pcov \ NOT YET HERE
+    && apt-get install -y php8.3-redis \
+    && apt-get install -y php8.3-amqp \
+    && apt-get install -y php8.3-apcu \
+    && apt-get install -y php8.3-pcov \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -771,6 +771,24 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
 
 RUN cd /var/www \
     && apt-get update \
+    # install xdebug for php 8.3
+    && sudo apt-get install -y php8.3-dev \
+    && cd /var/www \
+    && rm -rf xdebug \
+    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.3.2.zip \
+    && unzip 3.3.2.zip \
+    && rm -rf 3.3.2.zip \
+    && mv xdebug-3.3.2 xdebug \
+    && cd /var/www/xdebug \
+    && sudo apt-get update \
+    && sudo phpize8.3 \
+    && sudo ./configure --with-php-config=/usr/bin/php-config8.3 \
+    && sudo make \
+    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20230831/xdebug_8.3.so \
+    && make clean \
+    && make distclean \
+    && sudo phpize8.3 --clean \
+    && sudo apt-get remove -y php8.3-dev \
     # install xdebug for php 8.2
     && sudo apt-get install -y php8.2-dev \
     && cd /var/www \
@@ -812,6 +830,9 @@ RUN cd /var/www \
 && sudo rm -rf /var/www/xdebug
 #generate xdebug ini files
 
+COPY ./config/php/xdebug-3.ini /etc/php/8.3/fpm/conf.d/20-xdebug.ini
+COPY ./config/php/xdebug-3.ini /etc/php/8.3/cli/conf.d/20-xdebug.ini
+
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
 
@@ -819,6 +840,11 @@ COPY ./config/php/xdebug-3.ini /etc/php/8.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/php/xdebug-3.ini /etc/php/8.1/cli/conf.d/20-xdebug.ini
 
 RUN cd /var/www \
+
+&& sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
+    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
 
 && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
     && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
