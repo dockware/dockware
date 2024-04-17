@@ -11,8 +11,28 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - shopware: '6.5.8.9'
+            latest: false
+          - shopware: '6.5.8.8'
+            latest: false
+          - shopware: '6.5.8.7'
+            latest: false
+          - shopware: '6.5.8.6'
+            latest: false
+          - shopware: '6.5.8.5'
+            latest: false
+          - shopware: '6.5.8.4'
+            latest: false
+          - shopware: '6.5.8.3'
+            latest: false
+          - shopware: '6.5.8.2'
+            latest: false
+          - shopware: '6.5.8.1'
+            latest: false
+          - shopware: '6.5.8.0'
+            latest: false
           - shopware: '6.5.7.4'
-            latest: true
+            latest: false
           - shopware: '6.5.7.3'
             latest: false
           - shopware: '6.5.7.2'
