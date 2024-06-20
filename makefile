@@ -12,6 +12,7 @@ help:
 # ----------------------------------------------------------------------------------------------------------------
 
 install: ## Installs all dependencies
+	npm install
 	composer install
 
 generate: ## Generates all artifacts for this image. You can use the local PHAR with: make generate phar=1
@@ -43,6 +44,7 @@ ifndef tag
 	$(warning Provide the required image tag using "make build image=play tag=6.1.6")
 	@exit 1;
 else
+	#@./node_modules/.bin/dockerfilelint ./dist/images/$(image)/$(tag)/Dockerfile
 	@cd ./dist/images/$(image)/$(tag) && DOCKER_BUILDKIT=1 docker build -t dockware/$(image):$(tag) .
 endif
 

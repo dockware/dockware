@@ -8,3 +8,4 @@ dist
 /.reports
 /vendor
 /.circleci/body.json
+/node_modules
