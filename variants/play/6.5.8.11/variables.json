@@ -1,0 +1,48 @@
+{
+  "base_image": "ubuntu:22.04",
+  "shopware": {
+    "version": "6.5.8.11",
+    "download_url": "github-url"
+  },
+  "db": {
+    "host": "127.0.0.1"
+  },
+  "node": {
+    "version": 20,
+    "packages": [
+      {
+        "version": 20,
+        "active": true
+      }
+    ]
+  },
+  "php": {
+    "default_version": "8.3",
+    "versions": {
+      "8.3": {
+        "active": true
+      },
+      "8.0": {
+        "active": false
+      },
+      "7.4": {
+        "active": false
+      },
+      "7.3": {
+        "active": false
+      },
+      "7.2": {
+        "active": false
+      },
+      "7.1": {
+        "active": false
+      },
+      "7.0": {
+        "active": false
+      }
+    }
+  },
+  "mysql": {
+    "version" : "8.0"
+  }
+}

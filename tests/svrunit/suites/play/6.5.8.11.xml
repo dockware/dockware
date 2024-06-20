@@ -1,0 +1,21 @@
+<svrunit setupTime="30">
+    <testsuites>
+    
+        <testsuite name="dockware/play:6.5.8.11, Command Runner" group="command-runner" dockerImage="dockware/play:6.5.8.11" dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner/play</directory>
+        </testsuite>
+        
+        <testsuite name="dockware/play:6.5.8.11, Core Checks" group="core" dockerImage="dockware/play:6.5.8.11">
+            <directory>./../../tests/shared/base</directory>
+            <directory>"./../../tests/packages/ubuntu/22"</directory>
+            <directory > ./../../tests/shared/base-6.5</directory> 
+            <directory >./../../tests/packages/php/php8.3 </directory>
+        </testsuite >
+    
+        <testsuite name="dockware/play:6.5.8.11, Recovery Mode works" dockerImage="dockware/play:6.5.8.11" dockerEnv="RECOVERY_MODE=1">
+            <directory>./../../tests/shared/recovery_mode</directory>
+        </testsuite>
+            
+    </testsuites >
+</svrunit >
+    
