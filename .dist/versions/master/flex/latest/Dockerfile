@@ -208,6 +208,7 @@ RUN apt-get update \
     && apt-get install -y php8.3-amqp \
     && apt-get install -y php8.3-apcu \
     && apt-get install -y php8.3-pcov \
+    && apt-get install -y php8.3-mongo \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -235,6 +236,7 @@ RUN apt-get update \
     && apt-get install -y php8.2-amqp \
     && apt-get install -y php8.2-apcu \
     && apt-get install -y php8.2-pcov \
+    && apt-get install -y php8.2-mongo \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -264,6 +266,7 @@ RUN apt-get update \
     && apt-get install -y php8.1-imap \
     && apt-get install -y php8.1-ssh2 \
     && apt-get install -y php8.1-pcov \
+    && apt-get install -y php8.1-mongo \
     && apt-get install -y dh-php \
     #&& apt-get install -y php8.1-geoip \ not available for 8.1
     && apt-get install -y php8.1-amqp \
@@ -295,6 +298,7 @@ RUN apt-get update \
     && apt-get install -y php8.0-imap \
     && apt-get install -y php8.0-ssh2 \
     && apt-get install -y php8.0-pcov \
+    && apt-get install -y php8.0-mongo \
     && apt-get install -y dh-php \
 #    && apt-get install -y php8.0-geoip \ not available for 8.0
     && apt-get install -y php8.0-amqp \
@@ -327,6 +331,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-imap \
     && apt-get install -y php7.4-ssh2 \
     && apt-get install -y php7.4-pcov \
+    && apt-get install -y php7.4-mongo \
     && apt-get install -y dh-php \
     && apt-get install -y php7.4-geoip \
     && apt-get install -y php7.4-amqp \
@@ -362,6 +367,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.3-geoip \
     && apt-get install -y php7.3-amqp \
+    && apt-get install -y php7.3-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.3/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.3/cli/conf.d/01-general.ini \
@@ -393,6 +399,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.2-geoip \
     && apt-get install -y php7.2-amqp \
+    && apt-get install -y php7.2-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.2/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.2/cli/conf.d/01-general.ini \
@@ -424,6 +431,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.1-geoip \
     && apt-get install -y php7.1-amqp \
+    && apt-get install -y php7.1-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.1/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.1/cli/conf.d/01-general.ini \
@@ -454,6 +462,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.0-geoip \
     && apt-get install -y php7.0-amqp \
+    && apt-get install -y php7.0-mongo \
 && cat /tmp/general.ini >| /etc/php/7.0/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.0/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/7.0/cli/conf.d/01-general-cli.ini \
@@ -483,6 +492,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php5.6-geoip \
     && apt-get install -y php5.6-amqp \
+    && apt-get install -y php5.6-mongo \
 && cat /tmp/general.ini >| /etc/php/5.6/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/5.6/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/5.6/cli/conf.d/01-general-cli.ini \

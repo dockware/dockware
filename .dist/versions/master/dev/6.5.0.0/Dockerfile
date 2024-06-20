@@ -217,6 +217,7 @@ RUN apt-get update \
     && apt-get install -y php8.3-amqp \
     && apt-get install -y php8.3-apcu \
     && apt-get install -y php8.3-pcov \
+    && apt-get install -y php8.3-mongo \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -244,6 +245,7 @@ RUN apt-get update \
     && apt-get install -y php8.2-amqp \
     && apt-get install -y php8.2-apcu \
     && apt-get install -y php8.2-pcov \
+    && apt-get install -y php8.2-mongo \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -273,6 +275,7 @@ RUN apt-get update \
     && apt-get install -y php8.1-imap \
     && apt-get install -y php8.1-ssh2 \
     && apt-get install -y php8.1-pcov \
+    && apt-get install -y php8.1-mongo \
     && apt-get install -y dh-php \
     #&& apt-get install -y php8.1-geoip \ not available for 8.1
     && apt-get install -y php8.1-amqp \
@@ -803,6 +806,7 @@ RUN apt-get update \
     && apt-get install -y php8.3-amqp \
     && apt-get install -y php8.3-apcu \
     && apt-get install -y php8.3-pcov \
+    && apt-get install -y php8.3-mongo \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -830,6 +834,7 @@ RUN apt-get update \
     && apt-get install -y php8.2-amqp \
     && apt-get install -y php8.2-apcu \
     && apt-get install -y php8.2-pcov \
+    && apt-get install -y php8.2-mongo \
     && apt-get install -y dh-php \
     # shopware required pcre
     && apt-get install -y libpcre3 libpcre3-dev \
@@ -859,6 +864,7 @@ RUN apt-get update \
     && apt-get install -y php8.1-imap \
     && apt-get install -y php8.1-ssh2 \
     && apt-get install -y php8.1-pcov \
+    && apt-get install -y php8.1-mongo \
     && apt-get install -y dh-php \
     #&& apt-get install -y php8.1-geoip \ not available for 8.1
     && apt-get install -y php8.1-amqp \

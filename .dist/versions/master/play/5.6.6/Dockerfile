@@ -216,6 +216,7 @@ RUN apt-get update \
     && apt-get install -y php7.4-imap \
     && apt-get install -y php7.4-ssh2 \
     && apt-get install -y php7.4-pcov \
+    && apt-get install -y php7.4-mongo \
     && apt-get install -y dh-php \
     && apt-get install -y php7.4-geoip \
     && apt-get install -y php7.4-amqp \
@@ -251,6 +252,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.3-geoip \
     && apt-get install -y php7.3-amqp \
+    && apt-get install -y php7.3-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.3/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.3/cli/conf.d/01-general.ini \
@@ -282,6 +284,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.2-geoip \
     && apt-get install -y php7.2-amqp \
+    && apt-get install -y php7.2-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.2/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.2/cli/conf.d/01-general.ini \

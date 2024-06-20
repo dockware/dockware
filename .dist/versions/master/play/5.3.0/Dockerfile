@@ -218,6 +218,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php7.0-geoip \
     && apt-get install -y php7.0-amqp \
+    && apt-get install -y php7.0-mongo \
 && cat /tmp/general.ini >| /etc/php/7.0/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.0/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/7.0/cli/conf.d/01-general-cli.ini \
@@ -247,6 +248,7 @@ RUN apt-get update \
     && apt-get install -y dh-php \
     && apt-get install -y php5.6-geoip \
     && apt-get install -y php5.6-amqp \
+    && apt-get install -y php5.6-mongo \
 && cat /tmp/general.ini >| /etc/php/5.6/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/5.6/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/5.6/cli/conf.d/01-general-cli.ini \
