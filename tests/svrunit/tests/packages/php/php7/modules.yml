@@ -45,3 +45,5 @@ php_module:
     module: "amqp"
   - name: "PHP Module: geoip"
     module: "geoip"
+  - name: "PHP Module: mongo"
+    module: "mongo"

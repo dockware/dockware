@@ -21,3 +21,5 @@ php_module:
     module: "apcu"
   - name: "PHP Module: pcov"
     module: "pcov"
+  - name: "PHP Module: mongo"
+    module: "mongo"

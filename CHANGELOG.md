@@ -3,6 +3,13 @@
 All notable changes of Dockware releases are documented in this file
 using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+
+## [2024-06-20]
+
+### Added
+
+- Add **Mongo** PHP extension
+
 ## [2024-02-13]
 
 ### Added

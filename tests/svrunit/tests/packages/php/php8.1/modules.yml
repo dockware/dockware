@@ -25,3 +25,5 @@ php_module:
     module: "pcov"
   - name: "PHP Module: amqp"
     module: "amqp"
+  - name: "PHP Module: mongo"
+    module: "mongo"
