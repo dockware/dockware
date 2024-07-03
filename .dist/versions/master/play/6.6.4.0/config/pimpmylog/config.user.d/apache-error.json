@@ -1,0 +1,21 @@
+{
+    "apache-error": {
+        "display": "Apache Error Log",
+        "path": "\/var\/log\/php\/*_errors.log",
+        "refresh": 5,
+        "max": 10,
+        "notify": false,
+        "format"    : {
+            "multiline": "",
+            "regex"    :  "@\\[(.*?) (.*?) (.*?)\\] (.*)$@",
+            "match"    : {
+                "Date"     : [1, 2],
+                "Error"    : 4
+            },
+            "types"    : {
+                "Date"     : "date:d-M-Y H:i:s",
+                "Error"    : "pre"
+            }
+        }
+    }
+}
