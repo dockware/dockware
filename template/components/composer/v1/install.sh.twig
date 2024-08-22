@@ -5,5 +5,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && chmod 755 /tmp/composer.phar \
     && mv /tmp/composer.phar /usr/local/bin/composer \
     # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
-    && cd /var/www/.composer && composer require hirak/prestissimo \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && cd /var/www/.composer && composer require hirak/prestissimo
