@@ -23,7 +23,6 @@ function buildTests()
             $tag = explode(':', $variant)[1];
 
             $yml = $builder->buildJob(
-                $image . '-' . str_replace('.', '-', $tag),
                 $image,
                 $tag);
 

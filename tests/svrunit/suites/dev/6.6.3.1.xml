@@ -8,7 +8,7 @@
         <testsuite name="dockware/dev:6.6.3.1, Core Checks" group="core" dockerImage="dockware/dev:6.6.3.1">
             <directory>./../../tests/shared/base</directory>
             <directory>"./../../tests/packages/ubuntu/22"</directory>
-            <directory > ./../../tests/shared/base-6.0</directory> 
+            <directory > ./../../tests/shared/base-6.5</directory> 
             <directory>./../../tests/images/dev</directory>
             <directory>./../../tests/shared/dev</directory>
             <directory>./../../tests/packages/node/v20</directory>
@@ -44,4 +44,3 @@
 
     </testsuites >
 </svrunit >
-    
