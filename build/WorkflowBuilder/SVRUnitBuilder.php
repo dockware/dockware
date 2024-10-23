@@ -3,12 +3,11 @@
 class SVRUnitBuilder
 {
     /**
-     * @param $jobKey
      * @param $image
      * @param $tag
      * @return string
      */
-    public function buildJob($jobKey, $image, $tag)
+    public function buildJob($image, $tag)
     {
         if ($image !== 'play' && $image !== 'dev') {
             return '';
@@ -49,7 +48,6 @@ class SVRUnitBuilder
             $php83 = true;
             $php82 = true;
             $php81 = true;
-            $php8 = true;
 
             $php8 = false;
             $php74 = false;
@@ -143,7 +141,7 @@ class SVRUnitBuilder
         $sharedBaseSW = './../../tests/shared/base-6.0';
         $shopwareCLI = '';
 
-        if (str_contains($tag, '6.5')) {
+        if ($this->isVersionGTE($tag, '6.5')) {
             $sharedBaseSW = './../../tests/shared/base-6.5';
         }
 
@@ -151,7 +149,7 @@ class SVRUnitBuilder
             $devPart = '';
         }
 
-        if ($isDev && str_starts_with($tag, '6.')) {
+        if ($isDev && $this->isVersionGTE($tag, '6.0')) {
             $shopwareCLI = '
             <directory>./../../tests/packages/shopware-cli/</directory>';
         }
@@ -266,16 +264,18 @@ class SVRUnitBuilder
 
         $xml .= '
     </testsuites >
-</svrunit >
-    ';
+</svrunit >' . PHP_EOL;
 
         return $xml;
     }
 
     /**
      * @param $imageFull
+     * @param $fullPHP
      * @param $php
      * @param $xDebug
+     * @param $sodium
+     * @param bool $testXdebugOff
      * @return string
      */
     private function buildVersion($imageFull, $fullPHP, $php, $xDebug, $sodium, bool $testXdebugOff)
@@ -313,10 +313,7 @@ class SVRUnitBuilder
      */
     private function isVersionGTE($currentVersion, $cmpVersion)
     {
-        $currentVersion = str_replace('-rc1', '', $currentVersion);
-        $currentVersion = str_replace('-rc2', '', $currentVersion);
-        $currentVersion = str_replace('-rc3', '', $currentVersion);
-        $currentVersion = str_replace('-rc4', '', $currentVersion);
+        $currentVersion = preg_replace('/-rc\d+$/', '', $currentVersion);
 
         return (version_compare($currentVersion, $cmpVersion, '>='));
     }
