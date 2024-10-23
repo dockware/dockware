@@ -3,5 +3,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && mkdir -p /var/www/.composer \
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && mv /tmp/composer.phar /usr/local/bin/composer
