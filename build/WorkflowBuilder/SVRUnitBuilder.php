@@ -143,7 +143,7 @@ class SVRUnitBuilder
         $sharedBaseSW = './../../tests/shared/base-6.0';
         $shopwareCLI = '';
 
-        if (str_contains($tag, '6.5')) {
+        if (version_compare($tag, '6.5.0.0', '>=')) {
             $sharedBaseSW = './../../tests/shared/base-6.5';
         }
 
