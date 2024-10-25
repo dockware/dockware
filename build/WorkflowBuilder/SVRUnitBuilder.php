@@ -141,6 +141,7 @@ class SVRUnitBuilder
         $sharedBaseSW = './../../tests/shared/base-6.0';
         $shopwareCLI = '';
 
+
         if ($this->isVersionGTE($tag, '6.5')) {
             $sharedBaseSW = './../../tests/shared/base-6.5';
         }
