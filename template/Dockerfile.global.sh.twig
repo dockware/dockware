@@ -120,10 +120,7 @@ RUN echo "" \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
     && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-    {% block base_tzdata %}
-    && apt-get install -y tzdata \
-    && dpkg-reconfigure --frontend noninteractive tzdata  \
-    {% endblock %} \
+    && echo "Europe/Berlin" > /etc/timezone \
     {% block base_xdg %}
     && apt-get install -y xdg-utils \
     {% endblock %}
