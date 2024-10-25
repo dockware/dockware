@@ -35,6 +35,9 @@ RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export SHOP_DOMAIN=${SHOP_DOMAIN}" >> /etc/profile \
  && echo "export RECOVERY_MODE=${RECOVERY_MODE}" >> /etc/profile
 
+COPY ./config/php/general.ini /tmp/general.ini
+COPY ./config/php/cli.ini /tmp/cli.ini
+
 ENV SSH_USER not-set
 ENV SSH_PWD not-set
 ENV XDEBUG_REMOTE_HOST "host.docker.internal"
@@ -45,8 +48,6 @@ ENV FILEBEAT_ENABLED 0
 ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
 
-COPY ./config/php/general.ini /tmp/general.ini
-COPY ./config/php/cli.ini /tmp/cli.ini
 COPY ./config/tideways/tideways.ini /tmp/tideways.ini
 
 RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
@@ -71,22 +72,29 @@ RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
 RUN apt-get update \
+    && apt-get install -y wget gnupg2 sudo \
+    && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
+    && apt-get install -y apt-transport-https \
+    && echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
+    && sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
+    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add
+
+RUN apt-get update
+
+RUN echo "" \
         && apt-get install -y gosu \
-    && apt-get install -y sudo \
-    && apt-get install -y wget \
-    && apt-get install -y curl \
-    && apt-get install -y unzip \
-    && apt-get install -y bzip2 \
-    && apt-get install -y ssmtp \
-    && apt-get install -y lsof \
-    && apt-get install -y openssh-server \
-    && apt-get install -y cron \
-    && apt-get install -y vim \
-    && apt-get install -y nano \
-    && apt-get install -y jq \
-    && apt-get install -y gnupg2 \
-    && apt-get install -y gpg-agent \
-    && apt-get install -y chromium-browser \
+                            curl \
+                            unzip \
+                            bzip2 \
+                            ssmtp \
+                            lsof \
+                            openssh-server \
+                            cron \
+                            vim \
+                            nano \
+                            jq \
+                            gpg-agent \
+                            chromium-browser \
     && mkdir /var/run/sshd \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
@@ -96,12 +104,12 @@ RUN apt-get update \
      \
         && apt-get install -y xdg-utils \
             && apt-get install -y libsodium-dev \
-    && apt-get install -y php-dev \
-    && apt-get install -y php-pear \
+                            php-dev \
+                            php-pear \
     && pecl install -f libsodium \
     && apt-get remove -y php-pear \
     && apt-get remove -y php-dev \
-            && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+            && echo ""
 
 ## ***********************************************************************
 ##  USER MANAGEMENT
@@ -153,10 +161,9 @@ RUN echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
 #this conf is needed for enconf command ...
 ADD ./config/apache/http2.conf /etc/apache2/conf-available/http2.conf
 
-RUN apt-get update \
-    && apt-get install -y apache2 \
-    && apt-get install -y libapache2-mod-fcgid \
-    && apt-get install -y software-properties-common \
+RUN apt-get install -y apache2 \
+                            libapache2-mod-fcgid \
+                            software-properties-common \
     && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
     && a2enmod headers \
     && a2enmod rewrite \
@@ -171,8 +178,7 @@ RUN apt-get update \
     && a2enmod http2 \
     && sudo a2enconf http2 \
     && sudo a2dismod mpm_prefork > /dev/null 2>&1 \
-    && sudo a2enmod mpm_event > /dev/null 2>&1 \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && sudo a2enmod mpm_event > /dev/null 2>&1
 
 ADD ./config/apache/apache2.conf /etc/apache2/apache2.conf
 ADD ./config/apache/ports.conf /etc/apache2/ports.conf
@@ -191,199 +197,196 @@ RUN mkdir -p /var/www/.ssh \
 ## ***********************************************************************
 ##  PHP INSTALLATION
 ## ***********************************************************************
-RUN apt-get update \
+RUN echo "" \
     && apt-get install -y php8.2-fpm \
-    && apt-get install -y php8.2-gd \
-    && apt-get install -y php8.2-iconv \
-    && apt-get install -y php8.2-intl \
-    && apt-get install -y php8.2-xml \
-    && apt-get install -y php8.2-mbstring \
-    && apt-get install -y php8.2-pdo \
-    && apt-get install -y php8.2-mysql \
-    && apt-get install -y php8.2-curl \
-    && apt-get install -y php8.2-cli \
-    && apt-get install -y php8.2-ldap \
-    && apt-get install -y php8.2-pgsql \
-    && apt-get install -y php8.2-gettext \
-    && apt-get install -y php8.2-zip \
-    && apt-get install -y php8.2-soap \
-    && apt-get install -y php8.2-bcmath \
-    && apt-get install -y php8.2-imap \
-    && apt-get install -y php8.2-redis \
-    && apt-get install -y php8.2-amqp \
-    && apt-get install -y php8.2-apcu \
-    && apt-get install -y php8.2-pcov \
-    && apt-get install -y php8.2-mongo \
-    && apt-get install -y dh-php \
+                            php8.2-gd \
+                            php8.2-iconv \
+                            php8.2-intl \
+                            php8.2-xml \
+                            php8.2-mbstring \
+                            php8.2-pdo \
+                            php8.2-mysql \
+                            php8.2-curl \
+                            php8.2-cli \
+                            php8.2-ldap \
+                            php8.2-pgsql \
+                            php8.2-gettext \
+                            php8.2-zip \
+                            php8.2-soap \
+                            php8.2-bcmath \
+                            php8.2-imap \
+                            php8.2-redis \
+                            php8.2-amqp \
+                            php8.2-apcu \
+                            php8.2-pcov \
+                            php8.2-mongo \
+                            dh-php \
     # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
+                            libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/8.2/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/8.2/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.1-fpm \
-    && apt-get install -y php8.1-gd \
-    && apt-get install -y php8.1-iconv \
-    && apt-get install -y php8.1-intl \
+                            php8.1-gd \
+                            php8.1-iconv \
+                            php8.1-intl \
     #&& apt-get install -y php8.1-json \
-    && apt-get install -y php8.1-xml \
-    && apt-get install -y php8.1-mbstring \
-    && apt-get install -y php8.1-pdo \
-    && apt-get install -y php8.1-mysql \
-    && apt-get install -y php8.1-apc \
-    && apt-get install -y php8.1-apcu \
-    && apt-get install -y php8.1-curl \
-    && apt-get install -y php8.1-cli \
-    && apt-get install -y php8.1-ldap \
-    && apt-get install -y php8.1-pgsql \
-    && apt-get install -y php8.1-gettext \
-    && apt-get install -y php8.1-zip \
-    && apt-get install -y php8.1-soap \
-    && apt-get install -y php8.1-bcmath \
-    && apt-get install -y php8.1-redis \
-    && apt-get install -y php8.1-imap \
-    && apt-get install -y php8.1-ssh2 \
-    && apt-get install -y php8.1-pcov \
-    && apt-get install -y php8.1-mongo \
-    && apt-get install -y dh-php \
+                            php8.1-xml \
+                            php8.1-mbstring \
+                            php8.1-pdo \
+                            php8.1-mysql \
+                            php8.1-apc \
+                            php8.1-apcu \
+                            php8.1-curl \
+                            php8.1-cli \
+                            php8.1-ldap \
+                            php8.1-pgsql \
+                            php8.1-gettext \
+                            php8.1-zip \
+                            php8.1-soap \
+                            php8.1-bcmath \
+                            php8.1-redis \
+                            php8.1-imap \
+                            php8.1-ssh2 \
+                            php8.1-pcov \
+                            php8.1-mongo \
+                            dh-php \
     #&& apt-get install -y php8.1-geoip \ not available for 8.1
-    && apt-get install -y php8.1-amqp \
+                            php8.1-amqp \
     # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
+                            libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.1/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/8.1/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/8.1/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.0-fpm \
-    && apt-get install -y php8.0-gd \
-    && apt-get install -y php8.0-iconv \
-    && apt-get install -y php8.0-intl \
+                            php8.0-gd \
+                            php8.0-iconv \
+                            php8.0-intl \
     #&& apt-get install -y php8.0-json \
-    && apt-get install -y php8.0-xml \
-    && apt-get install -y php8.0-mbstring \
-    && apt-get install -y php8.0-pdo \
-    && apt-get install -y php8.0-mysql \
-    && apt-get install -y php8.0-apc \
-    && apt-get install -y php8.0-apcu \
-    && apt-get install -y php8.0-curl \
-    && apt-get install -y php8.0-cli \
-    && apt-get install -y php8.0-ldap \
-    && apt-get install -y php8.0-pgsql \
-    && apt-get install -y php8.0-gettext \
-    && apt-get install -y php8.0-zip \
-    && apt-get install -y php8.0-soap \
-    && apt-get install -y php8.0-bcmath \
-    && apt-get install -y php8.0-redis \
-    && apt-get install -y php8.0-imap \
-    && apt-get install -y php8.0-ssh2 \
-    && apt-get install -y php8.0-pcov \
-    && apt-get install -y php8.0-mongo \
-    && apt-get install -y dh-php \
-#    && apt-get install -y php8.0-geoip \ not available for 8.0
-    && apt-get install -y php8.0-amqp \
+                            php8.0-xml \
+                            php8.0-mbstring \
+                            php8.0-pdo \
+                            php8.0-mysql \
+                            php8.0-apc \
+                            php8.0-apcu \
+                            php8.0-curl \
+                            php8.0-cli \
+                            php8.0-ldap \
+                            php8.0-pgsql \
+                            php8.0-gettext \
+                            php8.0-zip \
+                            php8.0-soap \
+                            php8.0-bcmath \
+                            php8.0-redis \
+                            php8.0-imap \
+                            php8.0-ssh2 \
+                            php8.0-pcov \
+                            php8.0-mongo \
+                            dh-php \
+#                            php8.0-geoip \ not available for 8.0
+                            php8.0-amqp \
     # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
+                            libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.0/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/8.0/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/8.0/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php7.4-fpm \
-    && apt-get install -y php7.4-gd \
+                            php7.4-gd \
     #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
-    && apt-get install -y php7.4-mbstring \
-    && apt-get install -y php7.4-iconv \
-    && apt-get install -y php7.4-intl \
-    && apt-get install -y php7.4-json \
-    && apt-get install -y php7.4-xml \
-    && apt-get install -y php7.4-pdo \
-    && apt-get install -y php7.4-mysql \
-    && apt-get install -y php7.4-apcu \
-    && apt-get install -y php7.4-apc \
-    && apt-get install -y php7.4-curl \
-    && apt-get install -y php7.4-cli \
-    && apt-get install -y php7.4-ldap \
-    && apt-get install -y php7.4-pgsql \
-    && apt-get install -y php7.4-gettext \
-    && apt-get install -y php7.4-zip \
-    && apt-get install -y php7.4-soap \
-    && apt-get install -y php7.4-bcmath \
-    && apt-get install -y php7.4-redis \
-    && apt-get install -y php7.4-imap \
-    && apt-get install -y php7.4-ssh2 \
-    && apt-get install -y php7.4-pcov \
-    && apt-get install -y php7.4-mongo \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.4-geoip \
-    && apt-get install -y php7.4-amqp \
+                            php7.4-mbstring \
+                            php7.4-iconv \
+                            php7.4-intl \
+                            php7.4-json \
+                            php7.4-xml \
+                            php7.4-pdo \
+                            php7.4-mysql \
+                            php7.4-apcu \
+                            php7.4-apc \
+                            php7.4-curl \
+                            php7.4-cli \
+                            php7.4-ldap \
+                            php7.4-pgsql \
+                            php7.4-gettext \
+                            php7.4-zip \
+                            php7.4-soap \
+                            php7.4-bcmath \
+                            php7.4-redis \
+                            php7.4-imap \
+                            php7.4-ssh2 \
+                            php7.4-pcov \
+                            php7.4-mongo \
+                            dh-php \
+                            php7.4-geoip \
+                            php7.4-amqp \
     # shopware required pcre
-    && apt-get install -y libpcre3 libpcre3-dev \
+                            libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/7.4/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.4/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/7.4/cli/conf.d/01-general-cli.ini \
-
     && apt-get install -y php7.3-fpm \
-    && apt-get install -y php7.3-apc \
-    && apt-get install -y php7.3-apcu \
-    && apt-get install -y php7.3-curl \
-    && apt-get install -y php7.3-cli \
-    && apt-get install -y php7.3-gd \
-    && apt-get install -y php7.3-json \
-    && apt-get install -y php7.3-ldap \
-    && apt-get install -y php7.3-mysql \
-    && apt-get install -y php7.3-pgsql \
-    && apt-get install -y php7.3-gettext \
-    && apt-get install -y php7.3-intl \
-    && apt-get install -y php7.3-xml \
-    && apt-get install -y php7.3-mysql \
-    && apt-get install -y php7.3-mbstring \
-    && apt-get install -y php7.3-zip \
-    && apt-get install -y php7.3-soap \
-    && apt-get install -y php7.3-memcached \
-    && apt-get install -y php7.3-redis \
-    && apt-get install -y php7.3-bcmath \
-    && apt-get install -y php7.3-imap \
-    && apt-get install -y php7.3-ssh2 \
-    && apt-get install -y php7.3-pcov \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.3-geoip \
-    && apt-get install -y php7.3-amqp \
-    && apt-get install -y php7.3-mongo \
+                            php7.3-apc \
+                            php7.3-apcu \
+                            php7.3-curl \
+                            php7.3-cli \
+                            php7.3-gd \
+                            php7.3-json \
+                            php7.3-ldap \
+                            php7.3-mysql \
+                            php7.3-pgsql \
+                            php7.3-gettext \
+                            php7.3-intl \
+                            php7.3-xml \
+                            php7.3-mysql \
+                            php7.3-mbstring \
+                            php7.3-zip \
+                            php7.3-soap \
+                            php7.3-memcached \
+                            php7.3-redis \
+                            php7.3-bcmath \
+                            php7.3-imap \
+                            php7.3-ssh2 \
+                            php7.3-pcov \
+                            dh-php \
+                            php7.3-geoip \
+                            php7.3-amqp \
+                            php7.3-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.3/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.3/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/7.3/cli/conf.d/01-general-cli.ini \
-
     && apt-get install -y php7.2-fpm \
-    && apt-get install -y php7.2-apc \
-    && apt-get install -y php7.2-apcu \
-    && apt-get install -y php7.2-curl \
-    && apt-get install -y php7.2-cli \
-    && apt-get install -y php7.2-gd \
-    && apt-get install -y php7.2-json \
-    && apt-get install -y php7.2-ldap \
-    && apt-get install -y php7.2-mysql \
-    && apt-get install -y php7.2-pgsql \
-    && apt-get install -y php7.2-gettext \
-    && apt-get install -y php7.2-intl \
-    && apt-get install -y php7.2-xml \
-    && apt-get install -y php7.2-mysql \
-    && apt-get install -y php7.2-mbstring \
-    && apt-get install -y php7.2-zip \
-    && apt-get install -y php7.2-soap \
-    && apt-get install -y php7.2-memcached \
-    && apt-get install -y php7.2-redis \
-    && apt-get install -y php7.2-bcmath \
-    && apt-get install -y php7.2-imap \
-    && apt-get install -y php7.2-ssh2 \
-    && apt-get install -y php7.2-pcov \
-    && apt-get install -y dh-php \
-    && apt-get install -y php7.2-geoip \
-    && apt-get install -y php7.2-amqp \
-    && apt-get install -y php7.2-mongo \
+                            php7.2-apc \
+                            php7.2-apcu \
+                            php7.2-curl \
+                            php7.2-cli \
+                            php7.2-gd \
+                            php7.2-json \
+                            php7.2-ldap \
+                            php7.2-mysql \
+                            php7.2-pgsql \
+                            php7.2-gettext \
+                            php7.2-intl \
+                            php7.2-xml \
+                            php7.2-mysql \
+                            php7.2-mbstring \
+                            php7.2-zip \
+                            php7.2-soap \
+                            php7.2-memcached \
+                            php7.2-redis \
+                            php7.2-bcmath \
+                            php7.2-imap \
+                            php7.2-ssh2 \
+                            php7.2-pcov \
+                            dh-php \
+                            php7.2-geoip \
+                            php7.2-amqp \
+                            php7.2-mongo \
 
 && cat /tmp/general.ini >| /etc/php/7.2/fpm/conf.d/01-general.ini \
 && cat /tmp/general.ini >| /etc/php/7.2/cli/conf.d/01-general.ini \
 && cat /tmp/cli.ini >| /etc/php/7.2/cli/conf.d/01-general-cli.ini \
 # remove pecl again
-&& apt-get remove -y dh-php \
-&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+&& apt-get remove -y dh-php
 
 #make sure the installation runs also in default php version
 RUN sudo update-alternatives --set php /usr/bin/php7.4 > /dev/null 2>&1 &
@@ -416,20 +419,18 @@ RUN chmod -R 0777 /var/www \
 ##  MOD_SSL
 ##  create SSL certificate
 ## ***********************************************************************
-RUN apt-get update \
-    && apt-get install -y openssl \
+RUN apt-get install -y openssl \
     && a2enmod ssl \
     && mkdir /etc/apache2/ssl \
-    && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost' \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost'
 
-RUN apt-get update \
+RUN echo "" \
 
     && apt-get install -y rsync \
-    && apt-get install -y sshpass \
-    && apt-get install -y jpegoptim \
-    && apt-get install -y screen \
-    && apt-get install -y mysql-client \
+                            sshpass \
+                            jpegoptim \
+                            screen \
+                            mysql-client \
 
     && apt-get install -y git
 
@@ -440,11 +441,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && chmod 755 /tmp/composer.phar \
     && mv /tmp/composer.phar /usr/local/bin/composer \
     # install prestissimo for parallel dependency installation (https://github.com/hirak/prestissimo)
-    && cd /var/www/.composer && composer require hirak/prestissimo \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && cd /var/www/.composer && composer require hirak/prestissimo
 
 RUN cd /var/www \
-    && apt-get update \
     # install xdebug for php 8.2
     && sudo apt-get install -y php8.2-dev \
     && cd /var/www \
@@ -454,7 +453,6 @@ RUN cd /var/www \
     && rm -rf 3.2.0.zip \
     && mv xdebug-3.2.0 xdebug \
     && cd /var/www/xdebug \
-    && sudo apt-get update \
     && sudo phpize8.2 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.2 \
     && sudo make \
@@ -472,7 +470,6 @@ RUN cd /var/www \
     && rm -rf 3.1.4.zip \
     && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
-    && sudo apt-get update \
     && sudo phpize8.1 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.1 \
     && sudo make \
@@ -490,7 +487,6 @@ RUN cd /var/www \
     && rm -rf 3.1.4.zip \
     && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
-    && sudo apt-get update \
     && sudo phpize8.0 \
     && sudo ./configure --with-php-config=/usr/bin/php-config8.0 \
     && sudo make \
@@ -508,7 +504,6 @@ RUN cd /var/www \
     && rm -rf 3.1.4.zip \
     && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
-    && sudo apt-get update \
     && sudo phpize7.4 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.4 \
     && sudo make \
@@ -526,7 +521,6 @@ RUN cd /var/www \
     && rm -rf 3.1.4.zip \
     && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
-    && sudo apt-get update \
     && sudo phpize7.3 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.3 \
     && sudo make \
@@ -544,7 +538,6 @@ RUN cd /var/www \
     && rm -rf 3.1.4.zip \
     && mv xdebug-3.1.4 xdebug \
     && cd /var/www/xdebug \
-    && sudo apt-get update \
     && sudo phpize7.2 \
     && sudo ./configure --with-php-config=/usr/bin/php-config7.2 \
     && sudo make \
@@ -554,7 +547,6 @@ RUN cd /var/www \
     && sudo phpize7.2 --clean \
     && sudo apt-get remove -y php7.2-dev \
 && sudo apt-get install -y zlib1g-dev \
-&& sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
 && sudo rm -rf /var/www/xdebug
 #generate xdebug ini files
 
@@ -622,12 +614,9 @@ RUN echo debconf mysql-server/root_password_again password root | debconf-set-se
 
 RUN DEBIAN_FRONTEND=noninteractive \
     # install mysql server
-    && apt-get update \
     && apt-get install -y -q mysql-server \
     # set requires permissions
-    && usermod -d /var/lib/mysql/ mysql \
-    # cleanup download folders
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && usermod -d /var/lib/mysql/ mysql
 
 # copy our custom configuration to the image
 ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
@@ -648,20 +637,19 @@ RUN mkdir /usr/share/adminer \
     && echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf \
     && a2enconf adminer.conf
 
-RUN apt-get update \
-    && apt-get install -y build-essential \
-    && apt-get install -y libsqlite3-dev \
-    && apt-get install -y rubygems \
-    && apt-get install -y ruby-dev \
+RUN apt-get install -y build-essential \
+                            libsqlite3-dev \
+                            rubygems \
+                            ruby-dev \
     && gem install net-protocol -v 0.1.2 \
     && gem install net-smtp -v 0.3.0 \
     && gem install net-imap -v 0.2.2 \
     && gem install sqlite3 -v 1.3.4 \
     && gem install mailcatcher \
-    && phpenmod mailcatcher \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && phpenmod mailcatcher
 
 COPY ./config/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
+
 RUN echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.2/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.1/mods-available/mailcatcher.ini && \
 echo "sendmail_path = /usr/bin/env $(which catchmail) -f 'local@dockware'" >> /etc/php/8.0/mods-available/mailcatcher.ini && \
@@ -677,7 +665,6 @@ RUN mkdir -p /var/www/pimpmylog && \
     rm -rf /var/www/pimpmylog/potsky-PimpMyLog-*
 
 COPY /config/pimpmylog/config.user.d /var/www/pimpmylog/config.user.d
-COPY /config/pimpmylog/config.user.json /var/www/pimpmylog/config.user.json
 
 # apply our custom file with fixes for PHP 8
 # its used from here: https://github.com/potsky/PimpMyLog/pull/149/files
@@ -685,12 +672,7 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
-RUN apt-get update \
-    && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
-    &&  apt-get install -y apt-transport-https \
-    &&  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
-    &&  apt-get update && apt-get install filebeat \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+RUN apt-get install -y filebeat
 
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
@@ -741,15 +723,11 @@ RUN echo "" \
 
     && npm install -g --no-install-recommends yarn \
     && chown -R www-data:www-data /var/www/.composer \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && echo ""
 
 COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
 COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
-RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
-    && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add - \
-    && sudo apt-get -y update  \
-    && sudo apt-get -y install tideways-php tideways-daemon  \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+RUN sudo apt-get -y install tideways-php tideways-daemon  \
     && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
 && cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
@@ -765,6 +743,8 @@ RUN sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version m
 && cat /tmp/tideways.ini >| /etc/php/7.2/fpm/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/7.2/cli/conf.d/20-tideways.ini \
     && rm -rf /tmp/tideways.ini
+
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 COPY ./assets/scripts/makefile /var/www/makefile
 COPY ./assets/scripts/bin /var/www/scripts/bin

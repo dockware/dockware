@@ -9,12 +9,10 @@ RUN echo debconf mysql-server/root_password password {{ pwd }} | debconf-set-sel
     && echo debconf mysql-server/root_password_again password {{ pwd }} | debconf-set-selections \
     && DEBIAN_FRONTEND=noninteractive \
     # install mysql server
-    && apt-get update \
     && apt-get install -y -q mysql-server-8.0 \
     # set requires permissions
     && usermod -d /var/lib/mysql/ mysql \
     # cleanup download folders
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     # i dont know why, but this is suddenly required
     && chmod 0444 /etc/mysql/my.cnf \
     && service mysql start \

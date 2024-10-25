@@ -10,12 +10,9 @@ RUN echo debconf mysql-server/root_password_again password {{ pwd }} | debconf-s
 
 RUN DEBIAN_FRONTEND=noninteractive \
     # install mysql server
-    && apt-get update \
     && apt-get install -y -q mysql-server \
     # set requires permissions
-    && usermod -d /var/lib/mysql/ mysql \
-    # cleanup download folders
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+    && usermod -d /var/lib/mysql/ mysql
 
 # copy our custom configuration to the image
 ADD ./config/mysql/my.cnf /etc/mysql/my.cnf
