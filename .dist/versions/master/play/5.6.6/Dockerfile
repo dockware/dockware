@@ -99,9 +99,7 @@ RUN echo "" \
     # TIMEZONE SETTINGS
     # otherwise we would have an interactive input dialog
     && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
-        && apt-get install -y tzdata \
-    && dpkg-reconfigure --frontend noninteractive tzdata  \
-     \
+    && echo "Europe/Berlin" > /etc/timezone \
         && apt-get install -y xdg-utils \
             && apt-get install -y libsodium-dev \
                             php-dev \
