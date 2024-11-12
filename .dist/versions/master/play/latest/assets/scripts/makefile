@@ -81,7 +81,7 @@ stop-watch-storefront: ## Reverts everything back to normal operation
 
 # ---------------------------------------------------------------------------------------------
 
-watch-admin: ##2 starts watcher for Shopware 6.6.7.1 Admin at http://localhost:8888
+watch-admin: ##2 starts watcher for Shopware 6.6.8.2 Admin at http://localhost:8888
 	cd /var/www/html && ./bin/build-administration.sh
 	cd /var/www/html && php bin/console bundle:dump
 	cd /var/www/html && php bin/console feature:dump

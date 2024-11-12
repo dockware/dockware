@@ -404,7 +404,7 @@ RUN sudo service mysql start && \
     sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 && \
     # -------------------------------------------------------------------------------------------
     cd /var/www && \
-    composer create-project shopware/production:6.6.7.1 --no-interaction tmp && \
+    composer create-project shopware/production:6.6.8.2 --no-interaction tmp && \
     composer require --dev shopware/dev-tools && \
     cp -a /var/www/tmp/. /var/www/html && \
     rm -rf /var/www/tmp && \

@@ -1,0 +1,36 @@
+{
+    "globals": {
+        "EXPORT": true,
+        "FOOTER": "Thank you for using dockware.io",
+        "NAV_TITLE": "Dockware Logs (dev:6.6.8.2)",
+        "NOTIFICATION": true,
+        "NOTIFICATION_TITLE": "New Shopware Logs (dockware) [%f]",
+        "PULL_TO_REFRESH": true,
+        "SORT_LOG_FILES": "default",
+        "TITLE": "Dockware Logs",
+        "USER_CONFIGURATION_DIR": "config.user.d",
+        "USER_TIME_ZONE": "Europe\/Berlin"
+    },
+    "badges": {
+        "severity": {
+            "debug": "success",
+            "info": "success",
+            "notice": "default",
+            "warn": "warning",
+            "error": "danger",
+            "crit": "danger",
+            "alert": "danger",
+            "emerg": "danger",
+            "fatal error": "danger",
+            "parse error": "danger",
+            "Warning": "warning"
+        },
+        "http": {
+            "1": "info",
+            "2": "success",
+            "3": "default",
+            "4": "warning",
+            "5": "danger"
+        }
+    }
+}
