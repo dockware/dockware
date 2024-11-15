@@ -39,6 +39,13 @@ else
 	@php ./build/Scripts/verify-config.php $(image) $(tag)
 endif
 
+test-image: ## Builds the latest tag
+	cd latest && DOCKER_BUILDKIT=1 docker build -t dockware/dev:latest .
+	docker tag dockware/dev:latest dockware/dev:test
+	docker save dockware/dev:test | gzip > dockware-dev-test.tar.gz
+	ls -lh dockware-dev-test.tar.gz
+	rm -f dockware-dev-test.tar.gz
+
 build: ## Builds the provided tag [image=play tag=6.1.6]
 ifndef tag
 	$(warning Provide the required image tag using "make build image=play tag=6.1.6")

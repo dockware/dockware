@@ -9,3 +9,4 @@ dist
 /vendor
 /.circleci/body.json
 /node_modules
+/dockware-dev-test.tar.gz
