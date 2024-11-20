@@ -4,7 +4,7 @@
 #
 FROM ubuntu:22.04
 LABEL title="Dockware dev:latest" \
-      version="1.7.0" \
+      version="1.8.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date

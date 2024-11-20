@@ -4,7 +4,7 @@
 #
 FROM ubuntu:20.04
 LABEL title="Dockware flex:latest" \
-      version="1.7.0" \
+      version="1.8.0" \
       maintainer="dasistweb GmbH"
 
 # remember build-date
@@ -190,6 +190,35 @@ RUN mkdir -p /var/www/.ssh \
 ##  PHP INSTALLATION
 ## ***********************************************************************
 RUN echo "" \
+    && apt-get install -y php8.4-fpm \
+                            php8.4-gd \
+                            php8.4-iconv \
+                            php8.4-intl \
+                            php8.4-xml \
+                            php8.4-mbstring \
+                            php8.4-pdo \
+                            php8.4-mysql \
+                            php8.4-curl \
+                            php8.4-cli \
+                            php8.4-ldap \
+                            php8.4-pgsql \
+                            php8.4-gettext \
+                            php8.4-zip \
+                            php8.4-soap \
+                            php8.4-bcmath \
+                            php8.4-imap \
+                            php8.4-xdebug \
+                            php8.4-redis \
+                            php8.4-amqp \
+                            php8.4-apcu \
+                            php8.4-pcov \
+                            php8.4-mongo \
+                            dh-php \
+    # shopware required pcre
+                            libpcre3 libpcre3-dev \
+&& cat /tmp/general.ini >| /etc/php/8.4/fpm/conf.d/01-general.ini \
+&& cat /tmp/general.ini >| /etc/php/8.4/cli/conf.d/01-general.ini \
+&& cat /tmp/cli.ini >| /etc/php/8.4/cli/conf.d/01-general-cli.ini \
     && apt-get install -y php8.3-fpm \
                             php8.3-gd \
                             php8.3-iconv \
@@ -868,6 +897,8 @@ COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
 RUN sudo apt-get -y install tideways-php tideways-daemon  \
     && sudo chmod 0755 /etc/init.d/tideways-daemon \
 
+&& cat /tmp/tideways.ini >| /etc/php/8.4/fpm/conf.d/20-tideways.ini \
+&& cat /tmp/tideways.ini >| /etc/php/8.4/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.3/fpm/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.3/cli/conf.d/20-tideways.ini \
 && cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
