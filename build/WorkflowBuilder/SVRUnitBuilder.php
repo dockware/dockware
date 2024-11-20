@@ -26,7 +26,7 @@ class SVRUnitBuilder
             # SHOPWARE >= 6.5.8.8
             $defaultPHP = '8.3';
 
-
+            $php84 = false;
             $php83 = true;
             $php82 = true;
 
@@ -45,6 +45,7 @@ class SVRUnitBuilder
             # SHOPWARE >= 6.5
             $defaultPHP = '8';
 
+            $php84 = false;
             $php83 = true;
             $php82 = true;
             $php81 = true;
@@ -63,6 +64,7 @@ class SVRUnitBuilder
             # SHOPWARE >= 6.0
             $defaultPHP = '8';
 
+            $php84 = false;
             $php83 = true;
             $php82 = true;
             $php81 = true;
@@ -79,6 +81,7 @@ class SVRUnitBuilder
             # SHOPWARE >= 5.7
             $defaultPHP = '8';
 
+            $php84 = false;
             $php83 = true;
             $php82 = true;
             $php81 = true;
@@ -98,6 +101,7 @@ class SVRUnitBuilder
             $composer = '1';
             $defaultPHP = '5';
 
+            $php84 = false;
             $php83 = false;
             $php82 = false;
             $php81 = false;
@@ -185,6 +189,12 @@ class SVRUnitBuilder
         # -------------------------------------------------------------------------------------------------------------------------------
         $testXdebugOff = $isDev; // only test for dev images where XDebug exists
         # and only the first one
+
+        if ($php84) {
+            $xdebug = ($isDev) ? '3' : '';
+            $xml .= $this->buildVersion($imageFull, '8.4', '8.4', $xdebug, $sodium, $testXdebugOff);
+            $testXdebugOff = false;
+        }
 
         if ($php83) {
             $xdebug = ($isDev) ? '3' : '';

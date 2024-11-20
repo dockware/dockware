@@ -24,6 +24,11 @@
             <directory>./../../tests/packages/node/v16</directory>
         </testsuite>
 
+        <testsuite name="PHP 8.4, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.4,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8.4</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+        </testsuite>
+
         <testsuite name="PHP 8.3, XDebug ON" dockerImage="dockware/flex:latest" dockerEnv="PHP_VERSION=8.3,XDEBUG_ENABLED=1">
             <directory>./../../tests/packages/php/php8.3</directory>
             <directory>./../../tests/packages/xdebug/xdebug3</directory>
