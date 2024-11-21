@@ -1,12 +1,8 @@
-<svrunit setupTime="60">
+<svrunit setupTime="10">
 
     <testsuites>
 
-        <testsuite name="flex:latest, Command Runner" group="command-runner" dockerImage="dockware/flex:latest" dockerCommandRunner="true">
-            <directory>./../../tests/shared/command-runner/dev</directory>
-        </testsuite>
-
-        <testsuite name="Core Checks" group="core" dockerImage="dockware/flex:latest">
+        <testsuite name="Defaults + Core Checks" group="core" dockerImage="dockware/flex:latest">
             <directory>./../../tests/images/flex</directory>
             <directory>./../../tests/shared/base</directory>
             <directory>./../../tests/shared/dev</directory>
@@ -14,6 +10,14 @@
             <directory>./../../tests/packages/sodium</directory>
             <directory>./../../tests/packages/composer/v2</directory>
             <directory>./../../tests/packages/node/v12</directory>
+        </testsuite>
+
+        <testsuite name="flex:latest, Command Runner" group="command-runner" dockerImage="dockware/flex:latest" dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner/dev</directory>
+        </testsuite>
+
+        <testsuite name="ENV Node Version Switch to 20" dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=20">
+            <directory>./../../tests/packages/node/v20</directory>
         </testsuite>
 
         <testsuite name="ENV Node Version Switch to 18" dockerImage="dockware/flex:latest" dockerEnv="NODE_VERSION=18">
