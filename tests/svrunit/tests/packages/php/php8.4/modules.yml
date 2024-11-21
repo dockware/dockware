@@ -1,3 +1,11 @@
+commands:
+  - name: "PHP version is 8.4"
+    command: "php -v"
+    expected: "8.4"
+  - name: "PHP version is not RC"
+    command: "php -v"
+    not_expected: "RC"
+
 php_module:
   - name: "PHP Module: intl"
     module: "intl"
