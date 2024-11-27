@@ -402,7 +402,7 @@ ADD ./config/mysql/my8.cnf /etc/mysql/my.cnf
 ## ***********************************************************************
 
 RUN mkdir /usr/share/adminer \
-    && wget "https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php" -O /usr/share/adminer/latest.php \
+    && wget "https://github.com/adminerevo/adminerevo/releases/download/v4.8.4/adminer-4.8.4.php" -O /usr/share/adminer/latest.php \
     && ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php \
     && echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf \
     && a2enconf adminer.conf
