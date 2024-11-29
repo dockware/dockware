@@ -1,0 +1,46 @@
+<svrunit setupTime="30">
+    <testsuites>
+    
+        <testsuite name="dockware/dev:6.5.8.14, Command Runner" group="command-runner" dockerImage="dockware/dev:6.5.8.14" dockerCommandRunner="true">
+            <directory>./../../tests/shared/command-runner/dev</directory>
+        </testsuite>
+        
+        <testsuite name="dockware/dev:6.5.8.14, Core Checks" group="core" dockerImage="dockware/dev:6.5.8.14">
+            <directory>./../../tests/shared/base</directory>
+            <directory>"./../../tests/packages/ubuntu/22"</directory>
+            <directory > ./../../tests/shared/base-6.5</directory> 
+            <directory>./../../tests/images/dev</directory>
+            <directory>./../../tests/shared/dev</directory>
+            <directory>./../../tests/packages/node/v20</directory>
+            <directory>./../../tests/packages/composer/v2</directory>
+            <directory>./../../tests/packages/shopware-cli/</directory>
+            <directory >./../../tests/packages/php/php8.3 </directory>
+        </testsuite >
+    
+        <testsuite name="dockware/dev:6.5.8.14, ENV Node Version Switch" dockerImage="dockware/dev:6.5.8.14" dockerEnv="NODE_VERSION=20">
+            <directory>./../../tests/packages/node/v20</directory>
+        </testsuite>
+            
+        <testsuite name="dockware/dev:6.5.8.14, Recovery Mode works" dockerImage="dockware/dev:6.5.8.14" dockerEnv="RECOVERY_MODE=1">
+            <directory>./../../tests/shared/recovery_mode</directory>
+        </testsuite>
+            
+        <testsuite name="dockware/dev:6.5.8.14, PHP 8.3, XDebug ON" dockerImage="dockware/dev:6.5.8.14" dockerEnv="PHP_VERSION=8.3,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8.3</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3</directory>
+            <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+
+        <testsuite name="dockware/dev:6.5.8.14, PHP 8.3, XDebug OFF" dockerImage="dockware/dev:6.5.8.14" dockerEnv="PHP_VERSION=8.3,XDEBUG_ENABLED=0">
+            <directory>./../../tests/packages/php/php8.3</directory>
+            <directory>./../../tests/packages/xdebug/xdebug-off</directory>
+        </testsuite>
+
+        <testsuite name="dockware/dev:6.5.8.14, PHP 8.2, XDebug ON" dockerImage="dockware/dev:6.5.8.14" dockerEnv="PHP_VERSION=8.2,XDEBUG_ENABLED=1">
+            <directory>./../../tests/packages/php/php8.2</directory>
+            <directory>./../../tests/packages/xdebug/xdebug3.2.0</directory>
+            <directory>./../../tests/packages/sodium</directory>
+        </testsuite>
+
+    </testsuites >
+</svrunit >
