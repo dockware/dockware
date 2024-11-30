@@ -27,6 +27,8 @@ jobs:
             latest: false
           - shopware: '6.6.1.0'
             latest: false
+          - shopware: '6.6.0.3'
+            latest: false
           - shopware: '6.6.0.2'
             latest: false
           - shopware: '6.6.0.1'
