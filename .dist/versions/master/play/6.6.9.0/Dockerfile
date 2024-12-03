@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.6.9.0
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware dev:latest" \
+LABEL title="Dockware play:6.6.9.0" \
       version="1.8.0" \
       maintainer="dasistweb GmbH"
 
@@ -37,33 +37,6 @@ RUN echo "export TZ=${TZ}" >> /etc/profile \
 
 COPY ./config/php/general.ini /tmp/general.ini
 COPY ./config/php/cli.ini /tmp/cli.ini
-
-ENV SSH_USER not-set
-ENV SSH_PWD not-set
-ENV XDEBUG_REMOTE_HOST "host.docker.internal"
-ENV XDEBUG_CONFIG "idekey=PHPSTORM"
-ENV PHP_IDE_CONFIG "serverName=localhost"
-ENV XDEBUG_ENABLED 0
-ENV FILEBEAT_ENABLED 0
-ENV TIDEWAYS_KEY not-set
-ENV TIDEWAYS_ENV production
-
-COPY ./config/tideways/tideways.ini /tmp/tideways.ini
-
-RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
- && echo "export SSH_PWD=${SSH_PWD}" >> /etc/profile \
- && echo "export XDEBUG_ENABLED=${XDEBUG_ENABLED}" >> /etc/profile \
- && echo "export XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}" >> /etc/profile \
- && echo "export XDEBUG_CONFIG=${XDEBUG_CONFIG}" >> /etc/profile \
- && echo "export PHP_IDE_CONFIG=${PHP_IDE_CONFIG}" >> /etc/profile \
- && echo "export FILEBEAT_ENABLED=${FILEBEAT_ENABLED}" >> /etc/profile \
- && echo "export TIDEWAYS_KEY=${TIDEWAYS_KEY}" >> /etc/profile \
- && echo "export TIDEWAYS_ENV=${TIDEWAYS_ENV}" >> /etc/profile
-
-ENV MYSQL_USER not-set
-ENV MYSQL_PWD not-set
-RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
-    && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 
 ENV SW_CURRENCY 'not-set'
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
@@ -297,12 +270,6 @@ RUN apt-get install -y openssl \
 
 RUN echo "" \
 
-    && apt-get install -y rsync \
-                            sshpass \
-                            jpegoptim \
-                            screen \
-                            mysql-client \
-
     && apt-get install -y git
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --version=2.2.9 --quiet \
@@ -311,65 +278,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp --ver
     && export COMPOSER_HOME="/var/www/.composer" \
     && chmod 755 /tmp/composer.phar \
     && mv /tmp/composer.phar /usr/local/bin/composer
-
-RUN cd /var/www \
-    # install xdebug for php 8.3
-    && sudo apt-get install -y php8.3-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.3.2.zip \
-    && unzip 3.3.2.zip \
-    && rm -rf 3.3.2.zip \
-    && mv xdebug-3.3.2 xdebug \
-    && cd /var/www/xdebug \
-    && sudo phpize8.3 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.3 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20230831/xdebug_8.3.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.3 --clean \
-    && sudo apt-get remove -y php8.3-dev \
-    # install xdebug for php 8.2
-    && sudo apt-get install -y php8.2-dev \
-    && cd /var/www \
-    && rm -rf xdebug \
-    && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.2.0.zip \
-    && unzip 3.2.0.zip \
-    && rm -rf 3.2.0.zip \
-    && mv xdebug-3.2.0 xdebug \
-    && cd /var/www/xdebug \
-    && sudo phpize8.2 \
-    && sudo ./configure --with-php-config=/usr/bin/php-config8.2 \
-    && sudo make \
-    && sudo cp /var/www/xdebug/modules/xdebug.so /usr/lib/php/20220829/xdebug_8.2.so \
-    && make clean \
-    && make distclean \
-    && sudo phpize8.2 --clean \
-    && sudo apt-get remove -y php8.2-dev \
-&& sudo apt-get install -y zlib1g-dev \
-&& sudo rm -rf /var/www/xdebug
-#generate xdebug ini files
-
-COPY ./config/php/xdebug-3.ini /etc/php/8.3/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.3/cli/conf.d/20-xdebug.ini
-
-COPY ./config/php/xdebug-3.ini /etc/php/8.2/fpm/conf.d/20-xdebug.ini
-COPY ./config/php/xdebug-3.ini /etc/php/8.2/cli/conf.d/20-xdebug.ini
-
-RUN cd /var/www \
-
-&& sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini \
-
-&& sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/fpm/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP__FOLDER__ID/20220829/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
-    && sed -i 's/__PHP_VERSION__/8.2/g' /etc/php/8.2/cli/conf.d/20-xdebug.ini \
-
- && cd /var/www
 
 ## ***********************************************************************
 ##  MYSQL INSTALL
@@ -438,8 +346,6 @@ COPY /config/pimpmylog/global.inc.php /var/www/pimpmylog/inc/global.inc.php
 
 RUN chown -R www-data:www-data /var/www/pimpmylog/
 
-RUN apt-get install -y filebeat
-
 RUN ls -la \
     && mkdir "/var/www/.nvm" \
     && export NVM_DIR="/var/www/.nvm" \
@@ -472,35 +378,8 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 RUN echo "" \
-    # -----------------------------------------------------------
-    # we have to reload the correct nvm version otherwise this would destroy it
-    && export NVM_DIR="/var/www/.nvm" \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  \
-    && nvm use 20 \
-    # -----------------------------------------------------------
-    && mkdir /var/www/.npm \
-    && npm config set cache /var/www/.npm \
-    && chown 33:33 /var/www/.npm \
 
-    # navigate to another folder outside shopware to avoid this error: npm ERR! Tracker "idealTree" already exists
-    && cd /var/www && npm install -g grunt-cli \
-    && cd /var/www && npm install grunt --save-dev \
-
-    && npm install -g --no-install-recommends yarn \
-    && chown -R www-data:www-data /var/www/.composer \
     && echo ""
-
-COPY ./assets/tideways/tideways-daemon /etc/init.d/tideways-daemon
-COPY ./config/tideways/tideways-daemon /etc/default/tideways-daemon
-RUN sudo apt-get -y install tideways-php tideways-daemon  \
-    && sudo chmod 0755 /etc/init.d/tideways-daemon \
-
-&& cat /tmp/tideways.ini >| /etc/php/8.3/fpm/conf.d/20-tideways.ini \
-&& cat /tmp/tideways.ini >| /etc/php/8.3/cli/conf.d/20-tideways.ini \
-&& cat /tmp/tideways.ini >| /etc/php/8.2/fpm/conf.d/20-tideways.ini \
-&& cat /tmp/tideways.ini >| /etc/php/8.2/cli/conf.d/20-tideways.ini \
-    && rm -rf /tmp/tideways.ini
 
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
@@ -565,7 +444,6 @@ RUN sudo service mysql start && \
     sudo service mysql stop
 
 RUN echo "" && \
-    curl -1sLf 'https://dl.cloudsmith.io/public/friendsofshopware/stable/setup.deb.sh' | sudo -E bash && sudo apt install shopware-cli && \
     chown 33:33 -R /var/www/html && \
     mkdir -p /var/www/.npm && chown 33:33 /var/www/.npm -R && \
     # this is necessary so that our user can
