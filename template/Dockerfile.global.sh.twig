@@ -2,10 +2,7 @@
 # Tag: {{ orca.tag }}
 # Copyright 2022 dasistweb GmbH
 #
-FROM {{ base_image }}
-LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
-      version="{{version}}" \
-      maintainer="dasistweb GmbH"
+FROM {{ base_image }} AS base
 
 # remember build-date
 RUN date >/build-date.txt && \
@@ -22,6 +19,7 @@ ADD ./assets/CHANGELOG.md /var/www/CHANGELOG.md
 ##  IMAGE VARIABLES
 ## ***********************************************************************
 {% block image_variables_main %}
+{% block image_variables_main_docker_env %}
 ENV TZ Europe/Berlin
 ENV PHP_VERSION {{php.default_version}}
 ENV APACHE_DOCROOT {{ apache.docroot }}
@@ -30,6 +28,7 @@ ENV COMPOSER_VERSION not-set
 ENV NODE_VERSION {{ node.version }}
 ENV SHOP_DOMAIN localhost
 ENV RECOVERY_MODE 0
+{% endblock %}
 RUN echo "export TZ=${TZ}" >> /etc/profile \
  && echo "export PHP_VERSION=${PHP_VERSION}" >> /etc/profile \
  && echo "export APACHE_DOCROOT=${APACHE_DOCROOT}" >> /etc/profile \
@@ -44,6 +43,7 @@ COPY ./config/php/cli.ini /tmp/cli.ini
 {% endblock %}
 
 {% block image_variables_dev %}
+{% block image_variables_dev_docker_env %}
 ENV SSH_USER not-set
 ENV SSH_PWD not-set
 ENV XDEBUG_REMOTE_HOST "host.docker.internal"
@@ -53,6 +53,7 @@ ENV XDEBUG_ENABLED 0
 ENV FILEBEAT_ENABLED 0
 ENV TIDEWAYS_KEY not-set
 ENV TIDEWAYS_ENV production
+{% endblock %}
 
 COPY ./config/tideways/tideways.ini /tmp/tideways.ini
 
@@ -69,19 +70,25 @@ RUN echo "export SSH_USER=${SSH_USER}" >> /etc/profile \
 {% endblock %}
 
 {% block image_variables_mysql %}
+{% block image_variables_mysql_docker_env %}
 ENV MYSQL_USER not-set
 ENV MYSQL_PWD not-set
+{% endblock %}
 RUN echo "export MYSQL_USER=${MYSQL_USER}" >> /etc/profile \
     && echo "export MYSQL_PWD=${MYSQL_PWD}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_sw_currency %}
+{% block image_variables_sw_currency_docker_env %}
 ENV SW_CURRENCY 'not-set'
+{% endblock %}
 RUN echo "export SW_CURRENCY=${SW_CURRENCY}" >> /etc/profile
 {% endblock %}
 
 {% block image_variables_sw_api_access_key %}
+{% block image_variables_sw_api_docker_env %}
 ENV SW_API_ACCESS_KEY 'not-set'
+{% endblock %}
 RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 {% endblock %}
 
@@ -122,10 +129,10 @@ RUN echo "" \
     && ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
     && echo "Europe/Berlin" > /etc/timezone \
     {% block base_xdg %}
-    && apt-get install -y xdg-utils \
+    && apt-get install --no-install-recommends -y xdg-utils \
     {% endblock %}
     {% block base_sodium %}
-    && apt-get install -y libsodium-dev \
+    && apt-get install --no-install-recommends -y libsodium-dev \
                             php-dev \
                             php-pear \
     && pecl install -f libsodium \
@@ -166,7 +173,9 @@ RUN echo 'AllowUsers {{ ssh.user.name }}' >> /etc/ssh/sshd_config
 {% endblock %}
 
 {% block users_bashrc %}
+{% block users_bashrc_docker_env %}
 ENV BASH_ENV /var/www/.bashrc
+{% endblock %}
 
 RUN echo "source /var/www/.nvm/nvm.sh" >> /var/www/.bashrc \
     # -------------------------------------------------
@@ -274,7 +283,7 @@ RUN echo "" \
 {% endblock %}
 
 {% block components_git %}
-    && apt-get install -y git
+    && apt-get install --no-install-recommends -y git
 {% endblock %}
 
 
@@ -322,7 +331,6 @@ RUN cd /var/www \
 
 {% block components_mysql %}
 {% include 'template/components/mysql/' ~ mysql.version ~ '/install.sh.twig' with { 'pwd' : db.pwd } %}
-
 {% endblock %}
 
 
@@ -391,8 +399,10 @@ RUN ls -la \
     # -----------------------------------------------------------------------------------------
     && echo ""
 
+{% block components_nvm_docker_env %}
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+{% endblock %}
 {% endblock %}
 
 RUN echo "" \
@@ -567,6 +577,26 @@ RUN echo "" && \
     # otherwise the persisted node version switch would not work!
     mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
     echo ""
+
+## ***********************************************************************
+## Squash all steps into one
+## ***********************************************************************
+FROM {{ base_image }}
+
+LABEL title="Dockware {{ orca.image }}:{{ orca.tag }}" \
+      version="{{version}}" \
+      maintainer="dasistweb GmbH"
+
+# We still have to copy all ENV Dockerfile statements
+{{ block('image_variables_main_docker_env') }}
+{{ block('image_variables_dev_docker_env') }}
+{{ block('image_variables_mysql_docker_env') }}
+{{ block('image_variables_sw_currency_docker_env') }}
+{{ block('image_variables_sw_api_docker_env') }}
+{{ block('users_bashrc_docker_env') }}
+{{ block('components_nvm_docker_env') }}
+
+COPY --from=base / /
 
 ## ***********************************************************************
 ## SWITCH TO NORMAL USER (NOT ROOT ANYMORE!)
