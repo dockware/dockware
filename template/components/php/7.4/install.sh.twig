@@ -1,4 +1,4 @@
-    && apt-get install -y php7.4-fpm \
+    && apt-get install --no-install-recommends -y php7.4-fpm \
                             php7.4-gd \
     #make sure mbstring is installed BEFORE iconv see: https://github.com/dockware/dockware/issues/36 => https://github.com/docker-library/php/issues/240#issuecomment-355489551
                             php7.4-mbstring \

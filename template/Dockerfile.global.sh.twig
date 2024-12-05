@@ -99,9 +99,9 @@ RUN echo "export SW_API_ACCESS_KEY=${SW_API_ACCESS_KEY}" >> /etc/profile
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
 RUN apt-get update \
-    && apt-get install -y wget gnupg2 sudo \
+    && apt-get install -y wget gnupg2 sudo openssl ca-certificates \
     && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - \
-    && apt-get install -y apt-transport-https \
+    && apt-get install --no-install-recommends -y apt-transport-https \
     && echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list \
     && sudo echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | sudo tee /etc/apt/sources.list.d/tideways.list \
     && sudo wget -qO - https://packages.tideways.com/key.gpg | sudo apt-key add
@@ -110,8 +110,9 @@ RUN apt-get update
 
 RUN echo "" \
     {% block base %}
-    && apt-get install -y gosu \
+    && apt-get install --no-install-recommends -y gosu \
                             curl \
+                            make \
                             unzip \
                             bzip2 \
                             ssmtp \
@@ -262,7 +263,7 @@ RUN chmod -R 0777 /var/www \
 ##  MOD_SSL
 ##  create SSL certificate
 ## ***********************************************************************
-RUN apt-get install -y openssl \
+RUN apt-get install --no-install-recommends -y openssl \
     && a2enmod ssl \
     && mkdir /etc/apache2/ssl \
     && openssl req -new -x509 -days 365 -sha1 -newkey rsa:2048 -nodes -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj '/O=Company/OU=Department/CN=localhost'
@@ -275,7 +276,7 @@ RUN apt-get install -y openssl \
 RUN echo "" \
 
 {% block components_dev_tools %}
-    && apt-get install -y rsync \
+    && apt-get install --no-install-recommends -y rsync \
                             sshpass \
                             jpegoptim \
                             screen \
@@ -309,7 +310,7 @@ RUN cd /var/www \
 {% include 'template/components/xdebug/install.sh.twig' with { "php_version" : key,"folder_id" : value.folder_id, "xdebug_tag":value.xdebug_tag} %}
 {% endif %}
 {% endfor %}
-&& sudo apt-get install -y zlib1g-dev \
+&& sudo apt-get --no-install-recommends install -y zlib1g-dev \
 && sudo rm -rf /var/www/xdebug
 #generate xdebug ini files
 {% for key, value in php.versions %}
@@ -367,7 +368,7 @@ RUN chown -R www-data:www-data /var/www/pimpmylog/
 {% endblock %}
 
 {% block components_filebeat %}
-RUN apt-get install -y filebeat
+RUN apt-get install --no-install-recommends -y filebeat
 {% endblock %}
 
 {% block components_nvm %}
@@ -577,6 +578,9 @@ RUN echo "" && \
     # otherwise the persisted node version switch would not work!
     mkdir -p /var/www/.nvm && chown 33:33 /var/www/.nvm -R && \
     echo ""
+
+## Cleanup Image
+RUN rm -rf /var/lib/apt/lists/* && rm -rf /root/.cache
 
 ## ***********************************************************************
 ## Squash all steps into one
