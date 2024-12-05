@@ -1,8 +1,8 @@
-    && apt-get install -y php8.1-fpm \
+    && apt-get install --no-install-recommends -y php8.1-fpm \
                             php8.1-gd \
                             php8.1-iconv \
                             php8.1-intl \
-    #&& apt-get install -y php8.1-json \
+    #&& apt-get install --no-install-recommends -y php8.1-json \
                             php8.1-xml \
                             php8.1-mbstring \
                             php8.1-pdo \
@@ -22,8 +22,9 @@
                             php8.1-ssh2 \
                             php8.1-pcov \
                             php8.1-mongo \
+                            php8.1-opentelemetry \
                             dh-php \
-    #&& apt-get install -y php8.1-geoip \ not available for 8.1
+    #&& apt-get install --no-install-recommends -y php8.1-geoip \ not available for 8.1
                             php8.1-amqp \
     # shopware required pcre
                             libpcre3 libpcre3-dev \

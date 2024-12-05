@@ -1,5 +1,5 @@
     # install xdebug for php {{ php_version }}
-    && sudo apt-get install -y php{{ php_version }}-dev \
+    && sudo apt-get install --no-install-recommends -y php{{ php_version }}-dev \
     && cd /var/www \
     && rm -rf xdebug \
     && wget https://github.com/xdebug/xdebug/archive/refs/tags/{{xdebug_tag}}.zip \
