@@ -10,7 +10,7 @@ RUN echo debconf mysql-server/root_password_again password {{ pwd }} | debconf-s
 
 RUN DEBIAN_FRONTEND=noninteractive \
     # install mysql server
-    && apt-get install -y -q mysql-server \
+    && apt-get install --no-install-recommends -y -q mysql-server \
     # set requires permissions
     && usermod -d /var/lib/mysql/ mysql
 
