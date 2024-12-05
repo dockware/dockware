@@ -26,7 +26,7 @@ if [ -f "$DEFAULTFILE" ]; then
     . "$DEFAULTFILE"
 fi
 
-DAEMON_OPTS="--log=$TIDEWAYS_DAEMON_LOGFILE --pidfile=$PIDFILE"
+DAEMON_OPTS="--log=$TIDEWAYS_DAEMON_LOGFILE"
 
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
@@ -49,7 +49,7 @@ case "$1" in
         echo -n "Starting daemon: "$NAME
         mkdir $PIDDIR -p
         chown tideways.tideways $PIDDIR -R
-        start-stop-daemon -S --background --pidfile $PIDFILE -c tideways --user tideways --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS $TIDEWAYS_DAEMON_EXTRA 2>> /var/log/tideways/daemon.log"
+        start-stop-daemon -S --background --pidfile $PIDFILE --make-pidfile -c tideways --user tideways --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS $TIDEWAYS_DAEMON_EXTRA 2>> /var/log/tideways/daemon.log"
         echo "."
     ;;
   stop)
@@ -62,7 +62,7 @@ case "$1" in
         mkdir $PIDDIR -p
         chown tideways.tideways $PIDDIR -R
         start-stop-daemon --stop --quiet --retry 30 --pidfile $PIDFILE
-        start-stop-daemon -S --background --pidfile $PIDFILE -c tideways --user tideways --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS $TIDEWAYS_DAEMON_EXTRA 2>> /var/log/tideways/daemon.log"
+        start-stop-daemon -S --background --pidfile $PIDFILE --make-pidfile -c tideways --user tideways --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS $TIDEWAYS_DAEMON_EXTRA 2>> /var/log/tideways/daemon.log"
         echo "."
     ;;
   status)
