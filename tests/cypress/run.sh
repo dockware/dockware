@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $IMG == "flex" ]]; then
+if [[ $IMG == "flex" || $IMG == "production" ]]; then
   make run-flex url=$URL
 elif [[ $IMG == "base_play" || $IMG == "base_dev" ]]; then
   make run-flex url=$URL
