@@ -19,7 +19,7 @@ set -e
 
 source /etc/apache2/envvars
 
-#the SVR_UNIT variable is needed to make tests on this image, donät use it to skip the root pwd generation!
+#the SVR_UNIT variable is needed to make tests on this image, don't use it to skip the root pwd generation!
 if [ ! -f /var/www/.pwdset ] && [ $SVR_UNIT = 0 ] ; then
     echo "exit bootup, you have to set a root password other then default!"
     #this fil will be created ba the dockerfile maintainer of your project Dockerfile, so we know we donät have to create a new password for root
