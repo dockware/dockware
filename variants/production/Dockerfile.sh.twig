@@ -116,7 +116,6 @@ RUN date >/build-date.txt \
 ## ***********************************************************************
 #first remove all existing stuff
 && apt-get remove -y php* \
-&& sudo apt-get autoremove -y --purge \
 {% include "template/components/php/#{ php.default_version }/install.sh.twig" %}
 
 && echo 'deb https://packages.tideways.com/apt-packages-main any-version main' | tee /etc/apt/sources.list.d/tideways.list \
