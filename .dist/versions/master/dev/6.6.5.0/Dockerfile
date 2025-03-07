@@ -223,6 +223,7 @@ RUN echo "" \
                             php8.3-pcov \
                             php8.3-mongo \
                             dh-php \
+                            php8.3-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.3/fpm/conf.d/01-general.ini \
@@ -251,6 +252,7 @@ RUN echo "" \
                             php8.2-pcov \
                             php8.2-mongo \
                             dh-php \
+                            php8.2-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \

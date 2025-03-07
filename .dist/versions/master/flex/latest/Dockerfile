@@ -214,6 +214,7 @@ RUN echo "" \
                             php8.4-pcov \
                             php8.4-mongo \
                             dh-php \
+                            php8.4-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.4/fpm/conf.d/01-general.ini \
@@ -243,6 +244,7 @@ RUN echo "" \
                             php8.3-pcov \
                             php8.3-mongo \
                             dh-php \
+                            php8.3-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.3/fpm/conf.d/01-general.ini \
@@ -271,6 +273,7 @@ RUN echo "" \
                             php8.2-pcov \
                             php8.2-mongo \
                             dh-php \
+                            php8.2-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.2/fpm/conf.d/01-general.ini \
@@ -280,7 +283,6 @@ RUN echo "" \
                             php8.1-gd \
                             php8.1-iconv \
                             php8.1-intl \
-    #&& apt-get install -y php8.1-json \
                             php8.1-xml \
                             php8.1-mbstring \
                             php8.1-pdo \
@@ -301,8 +303,8 @@ RUN echo "" \
                             php8.1-pcov \
                             php8.1-mongo \
                             dh-php \
-    #&& apt-get install -y php8.1-geoip \ not available for 8.1
                             php8.1-amqp \
+                            php8.1-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.1/fpm/conf.d/01-general.ini \
@@ -312,7 +314,6 @@ RUN echo "" \
                             php8.0-gd \
                             php8.0-iconv \
                             php8.0-intl \
-    #&& apt-get install -y php8.0-json \
                             php8.0-xml \
                             php8.0-mbstring \
                             php8.0-pdo \
@@ -333,8 +334,8 @@ RUN echo "" \
                             php8.0-pcov \
                             php8.0-mongo \
                             dh-php \
-#                            php8.0-geoip \ not available for 8.0
                             php8.0-amqp \
+                            php8.0-zstd \
     # shopware required pcre
                             libpcre3 libpcre3-dev \
 && cat /tmp/general.ini >| /etc/php/8.0/fpm/conf.d/01-general.ini \
