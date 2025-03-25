@@ -15,6 +15,7 @@ $connString = "mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{
 $dsnParser = new DsnParser(['mysql' => 'pdo_mysql']);
 $connectionParams = $dsnParser->parse($connString);
 $connectionParams['charset'] = 'utf8mb4';
+$connection = DriverManager::getConnection($connectionParams);
 
 $connection->executeQuery('USE `{{ db.database }}`');
 # ----------------------------------------------------------------------------
