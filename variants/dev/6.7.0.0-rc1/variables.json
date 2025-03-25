@@ -2,7 +2,7 @@
   "base_image": "ubuntu:22.04",
   "shopware": {
     "env": "dev",
-    "version": "6.7.0.0-rc",
+    "version": "6.7.0.0-rc1",
     "download_url": "github-url"
   },
   "db": {
