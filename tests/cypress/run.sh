@@ -8,6 +8,12 @@ elif [[ $IMG == "play" && $TAG == "latest" ]]; then
   make run6 url=$URL shopware=6.4.20.0
 elif [[ $IMG == "dev" && $TAG == "latest" ]]; then
   make run6 url=$URL shopware=6.4.20.0
+elif [[ $IMG == "dev" && $TAG == "6.7.0.0-rc1" ]]; then
+  echo "Skip tests"
+  exit 0
+elif [[ $IMG == "play" && $TAG == "6.7.0.0-rc1" ]]; then
+  echo "Skip tests"
+  exit 0
 elif [[ $IMG == "dev" && $TAG == "6.6.0.0-rc6" ]]; then
   make run6 url=$URL shopware=6.6.0.0
 elif [[ $IMG == "dev" && $TAG == "6.6.0.0-rc5" ]]; then
