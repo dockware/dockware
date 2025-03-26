@@ -9,12 +9,16 @@ use Doctrine\DBAL\FetchMode;
 $newCurrency = $argv[1];
 
 # ----------------------------------------------------------------------------
-$connString = "mysql://root:root@localhost:3306/shopware";
-
-$connection = DriverManager::getConnection([
-    'url' => $connString,
-    'charset' => 'utf8mb4',
-], new Configuration()
+$connection = DriverManager::getConnection(
+[
+    "driver" => "pdo_mysql",
+    "host" => "localhost",
+    "port" => 3306,
+    "user" => "root",
+    "password" => "root",
+    "dbname" => "shopware",
+    "charset" => "utf8mb4"
+]
 );
 
 $connection->executeQuery('USE `shopware`');
