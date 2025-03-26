@@ -12,7 +12,7 @@ $newCurrency = $argv[1];
 $connection = DriverManager::getConnection(
 [
     "driver" => "pdo_mysql"
-    "host" => "{ db.host }}"
+    "host" => "{{ db.host }}"
     "port" => {{ db.port }}
     "user" => "{{ db.user }}"
     "password" => "{{ db.pwd }}"
