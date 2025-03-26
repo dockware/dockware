@@ -5,17 +5,21 @@ require_once '/var/www/html/vendor/autoload.php';
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Tools\DsnParser;
 
 $newCurrency = $argv[1];
 
 # ----------------------------------------------------------------------------
-$connString = "mysql://{{ db.user }}:{{ db.pwd }}@{{ db.host }}:{{ db.port }}/{{ db.database }}";
-
-$dsnParser = new DsnParser(['mysql' => 'pdo_mysql']);
-$connectionParams = $dsnParser->parse($connString);
-$connectionParams['charset'] = 'utf8mb4';
-$connection = DriverManager::getConnection($connectionParams);
+$connection = DriverManager::getConnection(
+[
+    "driver" => "pdo_mysql"
+    "host" => "{ db.host }}"
+    "port" => {{ db.port }}
+    "user" => "{{ db.user }}"
+    "password" => "{{ db.pwd }}"
+    "dbname" => "{{ db.database }}"
+    "charset" => "utf8mb4"
+]
+);
 
 $connection->executeQuery('USE `{{ db.database }}`');
 # ----------------------------------------------------------------------------
