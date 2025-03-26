@@ -22,12 +22,12 @@ if ($identifier != 'SWSC')
 
 $connection = DriverManager::getConnection(
 [
-    "driver" => "pdo_mysql"
-    "host" => "{{ db.host }}"
-    "port" => {{ db.port }}
-    "user" => "{{ db.user }}"
-    "password" => "{{ db.pwd }}"
-    "dbname" => "{{ db.database }}"
+    "driver" => "pdo_mysql",
+    "host" => "{{ db.host }}",
+    "port" => {{ db.port }},
+    "user" => "{{ db.user }}",
+    "password" => "{{ db.pwd }}",
+    "dbname" => "{{ db.database }}",
     "charset" => "utf8mb4"
 ]
 );
