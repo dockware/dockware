@@ -426,6 +426,9 @@ RUN sudo service mysql start && \
     cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
     cd /var/www/html && php bin/console assets:install && \
     # -------------------------------------------------------------------------------------------
+    cd /var/www/html && git clone --depth=1 https://github.com/shopware/SwagPlatformDemoData.git custom/plugins/SwagPlatformDemoData && \
+    cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
+    cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
     cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
     cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
     # -------------------------------------------------------------------------------------------
