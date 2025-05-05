@@ -600,7 +600,7 @@ RUN sudo service mysql start && \
     echo "MAILER_DSN=smtp://127.0.0.1:1025" >> /var/www/html/.env && \
     # -------------------------------------------------------------------------------------------
     # install the correct Shopware version
-    cd /var/www/html && composer req shopware/core:6.5.8.16 shopware/administration:6.5.8.16 shopware/elasticsearch:6.5.8.16 shopware/storefront:6.5.8.16 -W && \
+    cd /var/www/html && composer req shopware/core:6.5.8.17 shopware/administration:6.5.8.17 shopware/elasticsearch:6.5.8.17 shopware/storefront:6.5.8.17 -W && \
     # -------------------------------------------------------------------------------------------
     # switch to default PHP before installing
     sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 && \
