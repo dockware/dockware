@@ -6,6 +6,7 @@
         ],
         "essentials": [
             "essentials/latest:latest",
+            "essentials/shopware-6.6:shopware-6.6",
             "essentials/test-php8.1:test-php8.1"
         ],
         "contribute": [
