@@ -19,8 +19,10 @@ jobs:
             latest: false
           - shopware: '6.7.0.0-rc1'
             latest: false
-          - shopware: '6.6.10.4'
+          - shopware: '6.6.10.5'
             latest: true
+          - shopware: '6.6.10.4'
+            latest: false
           - shopware: '6.6.10.2'
             latest: false
           - shopware: '6.6.8.2'
