@@ -85,7 +85,7 @@ watch-admin: ##2 starts watcher for Shopware 6.7.0.0-rc5 Admin at http://localho
 	cd /var/www/html && ./bin/build-administration.sh
 	cd /var/www/html && php bin/console bundle:dump
 	cd /var/www/html && php bin/console feature:dump
-	cd /var/www/html && APP_URL=http://0.0.0.0 PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ./bin/watch-administration.sh
+	cd /var/www/html && ADMIN_PORT=8888 APP_URL=http://0.0.0.0 PROJECT_ROOT=/var/www/html APP_ENV=dev PORT=8888 HOST=0.0.0.0 ENV_FILE=/var/www/html/.env ./bin/watch-administration.sh
 
 # ---------------------------------------------------------------------------------------------
 build-admin: ##2 builds the admin
