@@ -1,3 +1,8 @@
+import Shopware from "Services/Shopware";
+
+const shopware = new Shopware();
+
+
 class RegisterRepository {
 
     /**
@@ -13,6 +18,11 @@ class RegisterRepository {
      * @returns {*}
      */
     getFirstname() {
+
+        if (shopware.isVersionGreaterEqual('6.7')) {
+            return cy.get('#billingAddress-personalFirstName');
+        }
+
         return cy.get('#personalFirstName');
     }
 
@@ -21,6 +31,11 @@ class RegisterRepository {
      * @returns {*}
      */
     getLastname() {
+
+        if (shopware.isVersionGreaterEqual('6.7')) {
+            return cy.get('#billingAddress-personalLastName');
+        }
+
         return cy.get('#personalLastName');
     }
 
@@ -29,6 +44,7 @@ class RegisterRepository {
      * @returns {*}
      */
     getEmail() {
+
         return cy.get('#personalMail');
     }
 
@@ -37,6 +53,7 @@ class RegisterRepository {
      * @returns {*}
      */
     getPassword() {
+
         return cy.get('#personalPassword');
     }
 
@@ -45,6 +62,11 @@ class RegisterRepository {
      * @returns {*}
      */
     getStreet() {
+
+        if (shopware.isVersionGreaterEqual('6.7')) {
+            return cy.get('#billingAddress-AddressStreet');
+        }
+
         return cy.get('#billingAddressAddressStreet');
     }
 
@@ -53,6 +75,7 @@ class RegisterRepository {
      * @returns {*}
      */
     getZipcode() {
+
         return cy.get('#billingAddressAddressZipcode');
     }
 
@@ -61,6 +84,7 @@ class RegisterRepository {
      * @returns {*}
      */
     getCity() {
+
         return cy.get('#billingAddressAddressCity');
     }
 
@@ -69,6 +93,7 @@ class RegisterRepository {
      * @returns {*}
      */
     getCountry() {
+
         return cy.get('#billingAddressAddressCountry');
     }
 
