@@ -74,7 +74,7 @@ watch-storefront: ##2 starts watcher for storefront at http://localhost
 	"RequestHeader add hot-reload-port 9999" > /var/www/html/.htaccess.watch
 	cd /var/www/html && ./bin/build-storefront.sh
 	cd /var/www/html && php bin/console theme:dump
-	cd /var/www/html && ./bin/watch-storefront.sh
+	cd /var/www/html && STOREFRONT_SKIP_SSL_CERT=true ./bin/watch-storefront.sh
 
 stop-watch-storefront: ## Reverts everything back to normal operation
 	@rm -rf /var/www/html/.htaccess.watch
