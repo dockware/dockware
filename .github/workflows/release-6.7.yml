@@ -1,4 +1,4 @@
-name: Release Shopware 6.6.*
+name: Release Shopware 6.7.*
 
 on:
   workflow_dispatch:
@@ -11,33 +11,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - shopware: '6.6.10.4'
+          - shopware: '6.7.0.0'
+            latest: true
+          - shopware: '6.7.0.0-rc5'
             latest: false
-          - shopware: '6.6.10.2'
+          - shopware: '6.7.0.0-rc4'
             latest: false
-          - shopware: '6.6.8.2'
+          - shopware: '6.7.0.0-rc3'
             latest: false
-          - shopware: '6.6.8.1'
+          - shopware: '6.7.0.0-rc2'
             latest: false
-          - shopware: '6.6.8.0'
-            latest: false
-          - shopware: '6.6.7.1'
-            latest: false
-          - shopware: '6.6.6.1'
-            latest: false
-          - shopware: '6.6.6.0'
-            latest: false
-          - shopware: '6.6.5.0'
-            latest: false
-          - shopware: '6.6.1.0'
-            latest: false
-          - shopware: '6.6.0.3'
-            latest: false
-          - shopware: '6.6.0.2'
-            latest: false
-          - shopware: '6.6.0.1'
-            latest: false
-          - shopware: '6.6.0.0'
+          - shopware: '6.7.0.0-rc1'
             latest: false
     steps:
 
