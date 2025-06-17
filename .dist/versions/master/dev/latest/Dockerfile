@@ -527,7 +527,7 @@ RUN sudo service mysql start && \
     sudo update-alternatives --set php /usr/bin/php8.3 > /dev/null 2>&1 && \
     # -------------------------------------------------------------------------------------------
     cd /var/www && \
-    composer create-project shopware/production:6.6.10.5 --no-interaction tmp && \
+    composer create-project shopware/production:6.7.0.0 --no-interaction tmp && \
     composer require --dev shopware/dev-tools && \
     cp -a /var/www/tmp/. /var/www/html && \
     rm -rf /var/www/tmp && \
@@ -547,10 +547,9 @@ RUN sudo service mysql start && \
     cd /var/www/html && php bin/console system:install --create-database --basic-setup && \
     cd /var/www/html && php bin/console assets:install && \
     # -------------------------------------------------------------------------------------------
-    cd /var/www/html && APP_ENV=prod php bin/console store:download -p SwagPlatformDemoData && \
+    cd /var/www/html && git clone --depth=1 https://github.com/shopware/SwagPlatformDemoData.git custom/plugins/SwagPlatformDemoData && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:refresh && \
     cd /var/www/html && APP_ENV=prod php bin/console plugin:install --activate SwagPlatformDemoData && \
-    # -------------------------------------------------------------------------------------------
     cd /var/www/html && php bin/console plugin:install DockwareSamplePlugin && \
     cd /var/www/html && php bin/console plugin:activate DockwareSamplePlugin && \
     # -------------------------------------------------------------------------------------------
