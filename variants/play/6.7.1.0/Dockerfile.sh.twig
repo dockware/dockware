@@ -1,0 +1,14 @@
+{% extends "variants/play/Dockerfile.base.sh.twig" %}
+
+{% block shopware %}
+
+{% include 'template/components/shopware/shopware6/install_6.7.sh.twig' with {
+'sw_version': shopware.version,
+'php_version' : php.default_version,
+'db_user' : db.user, 'db_database' : db.database, 'db_pwd' : db.pwd
+ } %}
+
+{% endblock %}
+
+
+
