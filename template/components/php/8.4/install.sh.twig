@@ -1,4 +1,4 @@
-    && apt-get install -y php8.4-fpm \
+    && apt-get install --no-install-recommends -y php8.4-fpm \
                             php8.4-gd \
                             php8.4-iconv \
                             php8.4-intl \
@@ -21,6 +21,7 @@
                             php8.4-apcu \
                             php8.4-pcov \
                             php8.4-mongo \
+                            php8.4-opentelemetry \
                             dh-php \
                             php8.4-zstd \
     # shopware required pcre
