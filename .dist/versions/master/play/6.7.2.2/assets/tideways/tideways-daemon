@@ -1,0 +1,82 @@
+#! /bin/sh
+# NOTE:
+# Copy this to /etc/init.d/tideways-daemon
+# Remember to `chmod +x /etc/init.d/tideways-daemon` after copying the script
+# `service tideways-daemon start` should work now
+
+### BEGIN INIT INFO
+# Provides:          tideways-daemon
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Tideways Daemon
+# Description:       TCP Server that accepts profiling data to submit to Tideways Profiler
+### END INIT INFO
+
+NAME=tideways-daemon
+PIDFILE=/var/run/tideways/$NAME.pid
+PIDDIR=`dirname $PIDFILE`
+DAEMON=/usr/bin/tideways-daemon
+
+TIDEWAYS_DAEMON_LOGFILE=/var/log/tideways/daemon.log
+TIDEWAYS_DAEMON_EXTRA=
+DEFAULTFILE=/etc/default/tideways-daemon
+if [ -f "$DEFAULTFILE" ]; then
+    . "$DEFAULTFILE"
+fi
+
+DAEMON_OPTS="--log=$TIDEWAYS_DAEMON_LOGFILE"
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+[ -x "$DAEMON" ] || { echo "$DAEMON is not executable"; exit 0; }
+
+if [ -f "/lib/lsb/init-functions" ]; then
+    . /lib/lsb/init-functions
+fi
+
+get_pid() {
+    cat "$PIDFILE"
+}
+
+is_running() {
+    [ -f "$PIDFILE" ] && ps `get_pid` > /dev/null 2>&1
+}
+
+case "$1" in
+  start)
+        echo -n "Starting daemon: "$NAME
+        mkdir $PIDDIR -p
+        chown tideways.tideways $PIDDIR -R
+        start-stop-daemon -S --background --pidfile $PIDFILE --make-pidfile -c tideways --user tideways --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS $TIDEWAYS_DAEMON_EXTRA 2>> /var/log/tideways/daemon.log"
+        echo "."
+    ;;
+  stop)
+        echo -n "Stopping daemon: "$NAME
+        start-stop-daemon --stop --quiet --retry 30 --pidfile $PIDFILE
+        echo "."
+    ;;
+  restart)
+        echo -n "Restarting daemon: "$NAME
+        mkdir $PIDDIR -p
+        chown tideways.tideways $PIDDIR -R
+        start-stop-daemon --stop --quiet --retry 30 --pidfile $PIDFILE
+        start-stop-daemon -S --background --pidfile $PIDFILE --make-pidfile -c tideways --user tideways --startas /bin/bash -- -c "exec $DAEMON $DAEMON_OPTS $TIDEWAYS_DAEMON_EXTRA 2>> /var/log/tideways/daemon.log"
+        echo "."
+    ;;
+  status)
+    if is_running; then
+        echo "Running"
+    else
+        echo "Stopped"
+        exit 1
+    fi
+    ;;
+
+  *)
+    echo "Usage: "$1" [start|stop|restart|status]"
+    exit 1
+esac
+
+exit 0
