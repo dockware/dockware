@@ -1,9 +1,9 @@
 # Official Dockware Image
-# Tag: latest
+# Tag: 6.7.2.1
 # Copyright 2022 dasistweb GmbH
 #
 FROM ubuntu:22.04
-LABEL title="Dockware play:latest" \
+LABEL title="Dockware play:6.7.2.1" \
       version="1.8.0" \
       maintainer="dasistweb GmbH"
 
