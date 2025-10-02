@@ -1,3 +1,17 @@
+# ATTENTION
+
+We have rebuilt our images from scratch to give you an even better experience.
+Please see our website and the video (on the website) for more.
+
+https://dockware.io/
+
+The new images are
+
+* https://github.com/dockware/shopware
+* https://github.com/dockware/web
+
+
+
 ## Dockware
 
 [![MIT licensed](https://img.shields.io/github/license/dockware/dockware.svg?style=flat-square)](https://github.com/dockware/dockware/blob/master/LICENSE)
