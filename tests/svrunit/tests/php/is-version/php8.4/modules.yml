@@ -1,0 +1,12 @@
+commands:
+  - name: "php 8.4 cli is running"
+    command: "php -v"
+    expected: "PHP 8.4"
+
+  - name: "php 8.4-fpm is running"
+    command: "service php8.4-fpm status"
+    expected: "php-fpm8.4 is running"
+
+  - name: "no other php versions installed"
+    command: "ls /etc/php | wc -l"
+    expected: "1"

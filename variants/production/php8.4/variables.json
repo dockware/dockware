@@ -1,0 +1,16 @@
+{
+  "version": "production-1.0",
+  "base_image": "ubuntu:24.04",
+  "php": {
+    "default_version": "8.4",
+    "versions": {
+
+    }
+  },
+  "shopware": {
+    "version": "",
+    "url": ""
+  }
+}
+
+

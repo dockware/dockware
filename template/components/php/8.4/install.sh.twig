@@ -1,0 +1,28 @@
+    && apt-get install -y php8.4-fpm \
+    && apt-get install -y php8.4-gd \
+    && apt-get install -y php8.4-iconv \
+    && apt-get install -y php8.4-intl \
+    && apt-get install -y php8.4-xml \
+    && apt-get install -y php8.4-mbstring \
+    && apt-get install -y php8.4-pdo \
+    && apt-get install -y php8.4-mysql \
+    && apt-get install -y php8.4-apc \
+    && apt-get install -y php8.4-apcu \
+    && apt-get install -y php8.4-curl \
+    && apt-get install -y php8.4-cli \
+    && apt-get install -y php8.4-ldap \
+    && apt-get install -y php8.4-pgsql \
+    && apt-get install -y php8.4-gettext \
+    && apt-get install -y php8.4-zip \
+    && apt-get install -y php8.4-soap \
+    && apt-get install -y php8.4-bcmath \
+    && apt-get install -y php8.4-imap \
+    && apt-get install -y php8.4-redis \
+    && apt-get install -y php8.4-amqp \
+    && apt-get install -y php8.4-mongodb \
+    && apt-get install -y dh-php \
+
+    # shopware required pcre
+    && apt-get install -y libpcre3 libpcre3-dev \
+    # remove pecl again
+    && apt-get remove -y dh-php \
