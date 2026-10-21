@@ -46,7 +46,7 @@ RUN date >/build-date.txt \
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
 # launchpad (ondrej ppa) often answers with 503, so let apt retry
-&& echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/80-retries \
+&& echo 'Acquire::Retries "30";' > /etc/apt/apt.conf.d/80-retries \
 && apt-get update \
     && apt-get install -y --no-install-recommends gosu \
     && apt-get install -y --no-install-recommends wget \
