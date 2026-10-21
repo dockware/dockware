@@ -1,0 +1,36 @@
+    # ponytail: the PPA packages above stay installed for layout, init scripts, PECL extensions and tideways.
+    # we only replace the cli/fpm binaries and the bundled extensions with a build of php {{ php.source_version }}.
+    # PECL extensions keep working because the extension API does not change within a minor version.
+    && PHP_BUILD_DEPS="build-essential pkg-config xz-utils libxml2-dev libssl-dev zlib1g-dev libcurl4-openssl-dev libonig-dev libzip-dev libgd-dev libicu-dev libldap-dev libpq-dev libxslt1-dev libsodium-dev libedit-dev libffi-dev libargon2-dev libpcre2-dev" \
+    && PHP_EXT_DIR=$(php{{ php.default_version }} -r 'echo ini_get("extension_dir");') \
+    && apt-get install -y --no-install-recommends $PHP_BUILD_DEPS \
+    && cd /tmp \
+    && curl -fsSL --retry 5 -o php-src.tar.xz https://www.php.net/distributions/php-{{ php.source_version }}.tar.xz \
+    && echo "{{ php.source_sha256 }}  php-src.tar.xz" | sha256sum -c - \
+    && mkdir php-src && tar -xf php-src.tar.xz -C php-src --strip-components=1 \
+    && cd php-src \
+    && EXTENSION_DIR=$PHP_EXT_DIR ./configure \
+        --prefix=/usr --sysconfdir=/etc/php/{{ php.default_version }}/fpm --localstatedir=/var \
+        --with-config-file-path=/etc/php/{{ php.default_version }}/cli --with-config-file-scan-dir=/etc/php/{{ php.default_version }}/cli/conf.d \
+        --disable-cgi --disable-phpdbg --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data \
+        --without-pear --without-sqlite3 --without-pdo-sqlite \
+        --with-openssl --with-zlib --with-sodium --with-password-argon2 --with-external-pcre --enable-pcntl \
+        --enable-bcmath=shared --enable-calendar=shared --enable-ctype=shared --with-curl=shared \
+        --enable-dom=shared --enable-exif=shared --with-ffi=shared --enable-fileinfo=shared --enable-ftp=shared \
+        --enable-gd=shared --with-external-gd --with-gettext=shared --with-iconv=shared --enable-intl=shared \
+        --with-ldap=shared --enable-mbstring=shared --enable-mysqlnd=shared --with-mysqli=shared,mysqlnd \
+        --enable-pdo=shared --with-pdo-mysql=shared,mysqlnd --with-pdo-pgsql=shared --with-pgsql=shared \
+        --enable-phar=shared --enable-posix=shared --with-libedit=shared --enable-shmop=shared \
+        --enable-simplexml=shared --enable-soap=shared --enable-sockets=shared --enable-sysvmsg=shared \
+        --enable-sysvsem=shared --enable-sysvshm=shared --enable-tokenizer=shared --enable-xml=shared \
+        --enable-xmlreader=shared --enable-xmlwriter=shared --with-xsl=shared --with-zip=shared \
+    && make -j"$(nproc)" \
+    && install -m755 sapi/cli/php /usr/bin/php{{ php.default_version }} \
+    && for so in modules/*.so; do install -m644 "$so" "$PHP_EXT_DIR/"; done \
+    # cli and fpm read different php.ini folders (like the debian packages).
+    # the path is compiled in, so we switch it and rebuild for fpm.
+    && sed -i "s#/etc/php/{{ php.default_version }}/cli#/etc/php/{{ php.default_version }}/fpm#g" main/build-defs.h \
+    && make -j"$(nproc)" sapi/fpm/php-fpm \
+    && install -m755 sapi/fpm/php-fpm /usr/sbin/php-fpm{{ php.default_version }} \
+    && cd / && rm -rf /tmp/php-src /tmp/php-src.tar.xz \
+    && apt-get purge -y --auto-remove $PHP_BUILD_DEPS \

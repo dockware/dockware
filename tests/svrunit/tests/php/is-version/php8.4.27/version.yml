@@ -1,0 +1,16 @@
+commands:
+  - name: "php cli is 8.4.27"
+    command: "php -v"
+    expected: "PHP 8.4.27"
+
+  - name: "php-fpm is 8.4.27"
+    command: "php-fpm8.4 -v"
+    expected: "PHP 8.4.27"
+
+  - name: "php-fpm loads the fpm php.ini"
+    command: "php-fpm8.4 -i | grep 'Loaded Configuration File'"
+    expected: "/etc/php/8.4/fpm/php.ini"
+
+  - name: "php cli loads the cli php.ini"
+    command: "php --ini | grep 'Loaded Configuration File'"
+    expected: "/etc/php/8.4/cli/php.ini"

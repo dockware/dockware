@@ -45,6 +45,8 @@ RUN date >/build-date.txt \
 ## ***********************************************************************
 ##  BASE REQUIREMENTS
 ## ***********************************************************************
+# launchpad (ondrej ppa) often answers with 503, so let apt retry
+&& echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/80-retries \
 && apt-get update \
     && apt-get install -y --no-install-recommends gosu \
     && apt-get install -y --no-install-recommends wget \
@@ -122,6 +124,10 @@ RUN date >/build-date.txt \
 && wget -qO - https://packages.tideways.com/key.gpg | apt-key add - \
 && apt-get -y update  \
 && apt-get -y install tideways-php  \
+
+{% if php.source_version is defined and php.source_version %}
+{% include 'template/components/php/source/install.sh.twig' %}
+{% endif %}
 
 && cat /tmp/general.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/99-dockware.ini \
 && cat /tmp/99-shopware-performance.ini >| /etc/php/{{ php.default_version }}/fpm/conf.d/99-shopware-performance.ini \

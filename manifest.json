@@ -1,7 +1,7 @@
 {
   "images": {
     "production": [
-      "production/php8.4:php8.4-v1.0.1",
+      "production/php8.4:php8.4-v1.0.2",
       "production/php8.2:php8.2-v1.0",
       "production/php8.1:php8.1-v1.0"
     ],

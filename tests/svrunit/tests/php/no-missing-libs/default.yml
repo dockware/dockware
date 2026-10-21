@@ -1,0 +1,8 @@
+commands:
+  - name: "php binaries and extensions have no missing shared libraries"
+    command: "ldd /usr/bin/php* /usr/sbin/php-fpm* /usr/lib/php/2*/*.so"
+    not_expected: "not found"
+
+  - name: "ldd actually checked the php binary"
+    command: "ldd /usr/bin/php8.4"
+    expected: "libc.so"

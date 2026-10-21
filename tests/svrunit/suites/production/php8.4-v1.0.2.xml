@@ -3,9 +3,11 @@
     <testsuites>
 
         <testsuite name="production:php8.4, PHP 8.4" dockerEnv="SVR_UNIT=1"
-                   dockerImage="dockware/production:php8.4-v1.0.1">
+                   dockerImage="dockware/production:php8.4-v1.0.2">
             <directory>./../../tests/php/is-version/php8.4</directory>
-            <directory>./../../tests/php/modules-installed</directory>
+            <directory>./../../tests/php/is-version/php8.4.27</directory>
+            <directory>./../../tests/php/no-missing-libs</directory>
+            <directory>./../../tests/php/modules-installed/default</directory>
             <directory>./../../tests/php/no-other-version-installed</directory>
             <directory>./../../tests/mysql/server/is-not-installed</directory>
         </testsuite>
