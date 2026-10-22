@@ -3,7 +3,7 @@
     <testsuites>
 
         <testsuite name="production:php8.4, PHP 8.4" dockerEnv="SVR_UNIT=1"
-                   dockerImage="dockware/production:php8.4-v1.0.2">
+                   dockerImage="dockware/production:php8.4-v1.0.3">
             <directory>./../../tests/php/is-version/php8.4</directory>
             <directory>./../../tests/php/is-version/php8.4.27</directory>
             <directory>./../../tests/php/no-missing-libs</directory>

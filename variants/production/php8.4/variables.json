@@ -3,8 +3,6 @@
   "base_image": "ubuntu:24.04",
   "php": {
     "default_version": "8.4",
-    "source_version": "8.4.27",
-    "source_sha256": "dcf93923b0e38e0d5252b25b796520b5a47761a08b3488b6d0b5d1115764d3f0",
     "versions": {
 
     }
